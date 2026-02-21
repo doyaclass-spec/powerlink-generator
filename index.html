@@ -378,6 +378,22 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
 @keyframes _spin{to{transform:rotate(360deg)}}
 .spin-sm{width:12px;height:12px;border-width:2px;border-color:rgba(26,115,232,.3);border-top-color:var(--blue);border-radius:50%;animation:_spin .6s linear infinite;display:inline-block}
 
+
+/* 비용 안내 */
+.cost-info{margin-top:10px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:9px;padding:10px 12px;font-size:12px}
+.cost-tip{color:var(--gray-700);margin-bottom:8px;line-height:1.5}
+.cost-tip b{color:var(--green-dark)}
+.cost-row{display:grid;grid-template-columns:1fr auto 1fr auto;gap:4px 10px;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--gray-200)}
+.cost-label{color:var(--gray-400);font-size:11px;align-self:center}
+.cost-val{color:var(--gray-700);font-size:11px;font-weight:600;text-align:right;align-self:center}
+.cost-current{
+  background:#fff;border:1px solid var(--green);border-radius:6px;
+  padding:6px 10px;color:var(--gray-700);text-align:center;
+  animation:fadeIn .2s ease;
+}
+.cost-current b{color:var(--green-dark)}
+.cost-current .c-over{color:var(--orange)}
+
 /* 반응형 */
 @media(max-width:1100px){.main{grid-template-columns:320px 1fr}.preview-panel{display:none}}
 @media(max-width:720px){.main{grid-template-columns:1fr}.hero h2{font-size:20px}}
@@ -497,6 +513,18 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
             <div class="upl-count" id="uplCount" style="display:none"></div>
           </div>
           <div class="img-grid" id="imgGrid"></div>
+          <div class="cost-info" id="costInfo">
+            <div class="cost-tip">💡 <b>100원 이하</b>로 쓰려면 <b>5~10장</b>이 적당해요</div>
+            <div class="cost-row">
+              <span class="cost-label">이미지 없음</span><span class="cost-val">약 7원</span>
+              <span class="cost-label">5장</span><span class="cost-val">약 63원</span>
+              <span class="cost-label">10장</span><span class="cost-val">약 119원</span>
+              <span class="cost-label">20장</span><span class="cost-val">약 231원</span>
+            </div>
+            <div class="cost-current" id="costCurrent" style="display:none">
+              현재 <b id="costImgCnt">0</b>장 선택 → 예상 비용 <b id="costAmt">-</b>
+            </div>
+          </div>
         </div>
 
         <button class="gen-btn" id="genBtn" onclick="generate()">
@@ -669,6 +697,21 @@ function onFile(e) {
   // input 초기화 (같은 파일 재선택 가능하게)
   e.target.value = '';
 }
+function updateCost() {
+  const n = S.imgs.length;
+  const el = document.getElementById('costCurrent');
+  if (n === 0) { el.style.display='none'; return; }
+  // 기본 1000토큰 + 이미지당 1700토큰 평균, 입력$3/1M 출력$15/1M (sonnet 기준)
+  const inputTokens  = 1000 + n * 1700;
+  const outputTokens = 1000;
+  const usd = (inputTokens * 3 + outputTokens * 15) / 1_000_000;
+  const krw = Math.round(usd * 1400);
+  const over = n > 10;
+  el.style.display = 'block';
+  document.getElementById('costImgCnt').textContent = n;
+  document.getElementById('costAmt').innerHTML = `<span class="${over?'c-over':''}">${krw}원${over?' (100원 초과)':''}</span>`;
+}
+
 function removeImg(i) {
   S.imgs.splice(i, 1);
   renderImgGrid();
@@ -681,11 +724,13 @@ function renderImgGrid() {
     grid.innerHTML = '';
     cnt.style.display = 'none';
     zone.classList.remove('filled');
+    updateCost();
     return;
   }
   zone.classList.add('filled');
   cnt.style.display = 'block';
   cnt.textContent = `✓ ${S.imgs.length}장 선택됨 (최대 ${MAX_IMGS}장)`;
+  updateCost();
   grid.innerHTML = S.imgs.map((img, i) => `
     <div class="img-thumb">
       <img src="${img.url}" alt="${img.name}" />
