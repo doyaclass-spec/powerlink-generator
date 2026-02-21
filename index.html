@@ -159,34 +159,15 @@ body{
   padding:3px 12px;margin-bottom:8px;
   animation:fadeSlideUp .6s ease .1s both;
 }
-/* 제품명 */
-.hero-brand{
-  display:flex;align-items:center;gap:10px;
-  margin-bottom:6px;
-  animation:fadeSlideUp .6s ease .15s both;
-}
-.hero-brand-name{
-  font-family:'Pretendard',-apple-system,sans-serif;
-  font-size:28px;font-weight:900;letter-spacing:-1.5px;
-  background:linear-gradient(135deg,#fff 30%,var(--g));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-  line-height:1;
-}
-.hero-brand-badge{
-  font-size:10px;font-weight:800;letter-spacing:.5px;
-  background:var(--g-dim);border:1px solid rgba(3,199,90,.3);color:var(--g);
-  border-radius:5px;padding:2px 7px;margin-top:2px;
-}
 .hero h1{
-  font-family:'Pretendard',-apple-system,sans-serif;font-size:14px;font-weight:500;
-  color:var(--text3);line-height:1.5;margin-bottom:4px;letter-spacing:0px;
+  font-family:'Pretendard',-apple-system,sans-serif;font-size:22px;font-weight:900;
+  color:#fff;line-height:1.3;margin-bottom:5px;letter-spacing:-0.8px;
   max-width:100%;
   animation:fadeSlideUp .6s ease .2s both;
 }
 .hero h1 em{
   color:var(--g);font-style:normal;
-  text-shadow:0 0 20px var(--g-glow);font-weight:700;
+  text-shadow:0 0 30px var(--g-glow);
 }
 .hero-sub{
   font-size:12px;color:var(--text3);margin-bottom:0;line-height:1.5;
@@ -266,8 +247,32 @@ body{
 .col-lbl:not(:last-child){border-right:1px solid var(--border)}
 .col-lbl-dot{width:5px;height:5px;border-radius:50%;background:var(--g);opacity:.5}
 
-/* ══ 메인 레이아웃: 좌(입력) + 우(분석) ══ */
-.main-input-wrapper{
+/* ══ 옵션B: 3컬럼+패널 2행 그리드 ══ */
+.input-grid-b{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr 260px;
+  grid-template-rows:auto auto;
+  gap:8px;
+  padding:8px 12px 0;
+}
+/* enhance-col도 input-col과 동일 카드 스타일 */
+.input-grid-b .enhance-col{
+  background:rgba(5,12,22,.7);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:border-color .2s;
+}
+.input-grid-b .enhance-col:hover{border-color:rgba(255,255,255,.18)}
+.input-grid-b .enhance-head{
+  display:flex;align-items:center;gap:6px;
+  padding:10px 12px 4px;
+}
+.input-grid-b .enhance-inner{
+  padding:4px 12px 10px;
+  display:flex;flex-direction:column;
+  gap:6px;flex:1;
+}
   display:grid;
   grid-template-columns:1fr 260px;
   gap:8px;
@@ -1346,7 +1351,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v4.3</span>
+    <span class="h-version">v4.7</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -1366,11 +1371,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 <!-- 히어로 -->
 <section class="hero">
   <div class="hero-eyebrow">✦ Naver Powerlink · AI Copy Generator · Powered by Gemini</div>
-  <div class="hero-brand">
-    <span class="hero-brand-name">카피파일럿</span>
-    <span class="hero-brand-badge">AI BETA</span>
-  </div>
-  <h1><em>AI가 클릭률을 올려주는 파워링크 소재</em>를 바로 만들어 드립니다</h1>
+  <h1>상품명만 입력하면 <em>AI가 클릭률 높은 파워링크 소재</em>를 자동으로 만들어 드립니다</h1>
   <p class="hero-sub"><strong>제목 30개 · 설명 12개</strong> 자동 생성 &nbsp;·&nbsp; 마케터 AI 분석 리포트 &nbsp;·&nbsp; 실시간 네이버 미리보기</p>
 </section>
 
@@ -1411,144 +1412,142 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 
       
 
-      <!-- 메인 입력 레이아웃: 좌(4컬럼+보조3칸) + 우(05 분석 패널) -->
-      <div class="main-input-wrapper">
+      <!-- 메인 입력 레이아웃: 옵션B 3+1 그리드 -->
+      <div>
 
-        <!-- 좌측 섹션 -->
-        <div class="left-input-section">
+          <!-- 옵션B 레이아웃: 3컬럼 + 05패널(2행 span) -->
+          <div class="input-grid-b">
 
-          <!-- 4컬럼 입력 -->
-          <div class="input-grid">
-
-            <!-- 상품명 + 타겟 -->
-            <div class="input-col">
+            <!-- 01+02: 상품명 + 타겟 -->
+            <div class="input-col" style="border-top:2px solid rgba(3,199,90,.55)">
               <div class="icol-head"><span class="icol-num icol-num-1">01</span><div><div class="icol-title">상품명 <span class="badge-req">필수</span></div><div class="icol-desc">네이버 검색에 노출되는 핵심 키워드를 포함하세요</div></div></div>
-              <textarea class="inp inp-ta" id="productName" rows="3" oninput="this.classList.remove('empty-req');this.closest('.input-col')?.classList.remove('req-error')" placeholder="예: 소상공인 지원 스타리온 간냉식 1등급 업소용 냉장고 냉동고"></textarea>
-              <div class="icol-head" style="margin-top:10px"><span class="icol-num icol-num-2">02</span><div><div class="icol-title">타겟 고객 <span class="badge-opt">선택</span></div><div class="icol-desc">광고를 보여줄 주요 고객층</div></div></div>
-              <input type="text" class="inp" id="target" placeholder="예: 30대 소상공인, 카페 사장님" />
+              <textarea class="inp inp-ta" id="productName" rows="3" oninput="this.classList.remove('empty-req');this.closest('.input-col')?.classList.remove('req-error')" placeholder=""></textarea>
+              <div class="icol-head" style="margin-top:8px"><span class="icol-num icol-num-2">02</span><div><div class="icol-title">타겟 고객 <span class="badge-opt">선택</span></div><div class="icol-desc">광고를 보여줄 주요 고객층</div></div></div>
+              <input type="text" class="inp" id="target" placeholder="" />
             </div>
-            <!-- 광고 내용 -->
-            <div class="input-col">
+
+            <!-- 03: 광고 내용 -->
+            <div class="input-col" style="border-top:2px solid rgba(180,60,255,.55)">
               <div class="icol-head"><span class="icol-num icol-num-3">03</span><div><div class="icol-title">광고에 넣고 싶은 내용 <span class="badge-req">필수</span></div><div class="req-hint" id="featReqHint">최소 2개 입력 필요</div><div class="icol-desc">강조하고 싶은 특징·혜택·가격 포인트</div></div></div>
-          <div id="featSuggestWrap" style="display:none">
-            <div class="feat-suggest-lbl" id="featSuggestLbl">💡 AI 추천</div>
-            <div class="feat-suggest" id="featSuggest"></div>
-          </div>
-          <div class="feat-slots" id="featSlots">
-            <div class="feat-slot"><span class="feat-slot-num">1</span><input type="text" placeholder="예: 천연 에센셜오일 100% 사용" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
-            <div class="feat-slot"><span class="feat-slot-num">2</span><input type="text" placeholder="예: 12시간 은은하게 지속" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
-          </div>
-          <button class="feat-add-btn" id="featAddBtn" onclick="addSlot()">+ 항목 추가</button>
-        </div>
-
-
-
-        <!-- 이미지 -->
-        <div class="input-col">
-          <div class="icol-head"><span class="icol-num icol-num-4">04</span><div><div class="icol-title">상세페이지 이미지 <span class="badge-opt">선택</span></div><div class="icol-desc">AI가 이미지를 직접 보고 광고 소재를 최적화해요</div></div></div>
-          <div class="upload-zone" id="uploadZone">
-            <input type="file" id="fileInput" accept="image/*" multiple onchange="onFile(event)" />
-            <div class="upl-icon">🖼️</div>
-            <div class="upl-text">드래그 또는 클릭</div>
-            <div class="upl-count" id="uplCount" style="display:none"></div>
-          </div>
-          <div class="img-grid" id="imgGrid"></div>
-          <div id="costCurrent" style="display:none;font-size:9px;color:var(--text3);margin-top:3px">
-            현재 <b id="costImgCnt" style="color:var(--g)">0</b>장 → 약 <b id="costAmt" style="color:var(--g)">-</b>
-          </div>
-        </div>
-
-          </div><!-- input-grid -->
-
-          <!-- 보조 3칸: 금지어/시즌/어조 -->
-          <div class="enhance-row">
-            <div class="enhance-col">
-              <div class="enhance-head"><span class="enhance-icon">🚫</span><div><div class="enhance-title">금지어 설정 <span class="badge-opt">선택</span></div><div class="enhance-desc">쓰지 말아야 할 단어를 입력하면 AI가 제외해요</div></div></div>
-              <div id="denyList" class="deny-list"></div>
-              <div class="deny-input-row"><input type="text" class="inp" id="denyInput" placeholder="금지어 입력 후 Enter" onkeydown="addDeny(event)" /></div>
+              <div id="featSuggestWrap" style="display:none">
+                <div class="feat-suggest-lbl" id="featSuggestLbl">💡 AI 추천</div>
+                <div class="feat-suggest" id="featSuggest"></div>
+              </div>
+              <div class="feat-slots" id="featSlots">
+                <div class="feat-slot"><span class="feat-slot-num">1</span><input type="text" placeholder="" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
+                <div class="feat-slot"><span class="feat-slot-num">2</span><input type="text" placeholder="" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
+              </div>
+              <button class="feat-add-btn" id="featAddBtn" onclick="addSlot()">+ 항목 추가</button>
             </div>
-            <div class="enhance-col">
+
+            <!-- 04: 이미지 -->
+            <div class="input-col" style="border-top:2px solid rgba(255,150,0,.55)">
+              <div class="icol-head"><span class="icol-num icol-num-4">04</span><div><div class="icol-title">상세페이지 이미지 <span class="badge-opt">선택</span></div><div class="icol-desc">AI가 이미지를 직접 보고 광고 소재를 최적화해요</div></div></div>
+              <div class="upload-zone" id="uploadZone">
+                <input type="file" id="fileInput" accept="image/*" multiple onchange="onFile(event)" />
+                <div class="upl-icon">🖼️</div>
+                <div class="upl-text">드래그 또는 클릭</div>
+                <div class="upl-count" id="uplCount" style="display:none"></div>
+              </div>
+              <div class="img-grid" id="imgGrid"></div>
+              <div id="costCurrent" style="display:none;font-size:9px;color:var(--text3);margin-top:3px">
+                현재 <b id="costImgCnt" style="color:var(--g)">0</b>장 → 약 <b id="costAmt" style="color:var(--g)">-</b>
+              </div>
+            </div>
+
+            <!-- 05: 분석 패널 (2행 span) -->
+            <div class="input-col col-analysis analysis-panel-tall" style="grid-row:span 2">
+              <div class="icol-head"><span class="icol-num icol-num-5">05</span><div><div class="icol-title">마케터 분석 리포트 <span class="badge-auto">자동</span></div><div class="icol-desc">Gemini AI가 광고 소재 전략을 깊이 분석해드려요</div></div></div>
+              <div class="analysis-status" id="analysisSideStatus">소재 생성 후 자동 분석됩니다</div>
+              <div id="analysisProgress" style="display:none">
+                <div class="ap-field-row pending" id="apf-name">
+                  <span class="ap-f-icon">📦</span><div class="ap-f-content"><span class="ap-f-label">상품명</span><span class="ap-f-value" id="apf-name-val">—</span></div>
+                  <span class="ap-f-status" id="apf-name-st">⏳</span>
+                </div>
+                <div class="ap-field-row pending" id="apf-feat">
+                  <span class="ap-f-icon">✏️</span><div class="ap-f-content"><span class="ap-f-label">광고 내용</span><span class="ap-f-value" id="apf-feat-val">—</span></div>
+                  <span class="ap-f-status" id="apf-feat-st">⏳</span>
+                </div>
+                <div class="ap-field-row pending" id="apf-img">
+                  <span class="ap-f-icon">🖼️</span><div class="ap-f-content"><span class="ap-f-label">이미지</span><span class="ap-f-value" id="apf-img-val">없음</span></div>
+                  <span class="ap-f-status" id="apf-img-st">⏳</span>
+                </div>
+                <div class="ap-field-row pending" id="apf-deny">
+                  <span class="ap-f-icon">🚫</span><div class="ap-f-content"><span class="ap-f-label">금지어</span><span class="ap-f-value" id="apf-deny-val">없음</span></div>
+                  <span class="ap-f-status" id="apf-deny-st">⏳</span>
+                </div>
+                <div class="ap-field-row pending" id="apf-season">
+                  <span class="ap-f-icon">📅</span><div class="ap-f-content"><span class="ap-f-label">시즌·이벤트</span><span class="ap-f-value" id="apf-season-val">없음</span></div>
+                  <span class="ap-f-status" id="apf-season-st">⏳</span>
+                </div>
+                <div class="ap-field-row pending" id="apf-tone">
+                  <span class="ap-f-icon">🎯</span><div class="ap-f-content"><span class="ap-f-label">광고 어조</span><span class="ap-f-value" id="apf-tone-val">없음</span></div>
+                  <span class="ap-f-status" id="apf-tone-st">⏳</span>
+                </div>
+                <!-- Gemini 심사숙고 -->
+                <div id="apThinking" style="display:none;margin-top:10px">
+                  <div class="ap-thinking-box">
+                    <div class="ap-thinking-icon">✦</div>
+                    <div class="ap-thinking-text" id="apThinkingText">Gemini가 심사숙고 중...</div>
+                  </div>
+                  <div class="ap-thinking-dots"><span></span><span></span><span></span><span></span><span></span></div>
+                </div>
+                <!-- 실시간 분석 로그 -->
+                <div id="apLiveLog" style="display:none" class="ap-live-log">
+                  <div class="ap-log-item" id="alog-1"><div class="ap-log-dot" id="alog-dot-1"></div><span class="ap-log-icon">📦</span><span class="ap-log-text" id="alog-text-1">상품명에서 핵심 키워드 추출 중...</span></div>
+                  <div class="ap-log-item" id="alog-2"><div class="ap-log-dot" id="alog-dot-2"></div><span class="ap-log-icon">🎯</span><span class="ap-log-text" id="alog-text-2">타겟 고객 심리·구매 동기 분석 중...</span></div>
+                  <div class="ap-log-item" id="alog-3"><div class="ap-log-dot" id="alog-dot-3"></div><span class="ap-log-icon">📝</span><span class="ap-log-text" id="alog-text-3">30개 제목 구성 전략 검토 중...</span></div>
+                  <div class="ap-log-item" id="alog-4"><div class="ap-log-dot" id="alog-dot-4"></div><span class="ap-log-icon">💬</span><span class="ap-log-text" id="alog-text-4">12개 설명 메시지 효과 분석 중...</span></div>
+                  <div class="ap-log-item" id="alog-5"><div class="ap-log-dot" id="alog-dot-5"></div><span class="ap-log-icon">⚡</span><span class="ap-log-text" id="alog-text-5">클릭률 개선 포인트 도출 중...</span></div>
+                  <div class="ap-log-item" id="alog-6"><div class="ap-log-dot" id="alog-dot-6"></div><span class="ap-log-icon">📊</span><span class="ap-log-text" id="alog-text-6">어조·시즌 세팅 반영 여부 검증 중...</span></div>
+                  <div class="ap-log-item" id="alog-7"><div class="ap-log-dot" id="alog-dot-7"></div><span class="ap-log-icon">✍️</span><span class="ap-log-text" id="alog-text-7">리포트 작성 및 인사이트 정리 중...</span></div>
+                </div>
+                <div class="ap-timer" style="margin-top:8px">예상 완료까지: <b id="apTimerVal">--</b></div>
+              </div>
+              <div class="analysis-preview" id="analysisSidePreview" style="display:none"></div>
+              <button class="analysis-btn" id="analysisOpenBtn" onclick="openAnalysisModal()" disabled>📄 전체 리포트 보기</button>
+            </div>
+
+            <!-- 하단 Row2: 금지어 / 시즌 / 어조 -->
+            <div class="enhance-col" style="border-top:2px solid rgba(255,77,109,.4)">
+              <div class="enhance-head"><span class="enhance-icon">🚫</span><div><div class="enhance-title">금지어 설정 <span class="badge-opt">선택</span></div><div class="enhance-desc">쉼표(,)로 여러 개 입력 가능</div></div></div>
+              <div class="enhance-inner">
+                <input type="text" class="inp" id="denyInput" placeholder="예: 최저가, 무조건, 특가" oninput="syncDenyFromInput()" />
+                <div id="denyList" class="deny-list"></div>
+              </div>
+            </div>
+            <div class="enhance-col" style="border-top:2px solid rgba(51,200,170,.4)">
               <div class="enhance-head"><span class="enhance-icon">📅</span><div><div class="enhance-title">시즌 · 이벤트 <span class="badge-opt">선택</span></div><div class="enhance-desc">시즌에 맞는 문구를 자동 반영해요</div></div></div>
-              <div class="season-chips" id="seasonChips">
-                <button class="schip" onclick="toggleSeason(this)">봄 시즌</button>
-                <button class="schip" onclick="toggleSeason(this)">여름 세일</button>
-                <button class="schip" onclick="toggleSeason(this)">추석</button>
-                <button class="schip" onclick="toggleSeason(this)">연말</button>
-                <button class="schip" onclick="toggleSeason(this)">설날</button>
-                <button class="schip" onclick="toggleSeason(this)">밸런타인</button>
-                <button class="schip" onclick="toggleSeason(this)">어버이날</button>
+              <div class="enhance-inner">
+                <div class="season-chips" id="seasonChips">
+                  <button class="schip" onclick="toggleSeason(this)">봄 시즌</button>
+                  <button class="schip" onclick="toggleSeason(this)">여름 세일</button>
+                  <button class="schip" onclick="toggleSeason(this)">추석</button>
+                  <button class="schip" onclick="toggleSeason(this)">연말</button>
+                  <button class="schip" onclick="toggleSeason(this)">설날</button>
+                  <button class="schip" onclick="toggleSeason(this)">밸런타인</button>
+                  <button class="schip" onclick="toggleSeason(this)">어버이날</button>
+                </div>
+                <input type="text" class="inp" id="eventInput" placeholder="" style="margin-top:5px" />
               </div>
-              <input type="text" class="inp" id="eventInput" placeholder="이벤트 직접 입력 (예: 5월 가정의 달 특가)" style="margin-top:7px" />
             </div>
-            <div class="enhance-col">
+            <div class="enhance-col" style="border-top:2px solid rgba(150,100,255,.4)">
               <div class="enhance-head"><span class="enhance-icon">🎯</span><div><div class="enhance-title">광고 어조 <span class="badge-opt">선택</span></div><div class="enhance-desc">최대 2개 선택 · 타겟에 맞는 어조로 효과↑</div></div></div>
-              <div class="tone-grid" id="toneGrid">
-                <button class="tone-btn" onclick="toggleTone(this)" data-tone="urgency">⚡ 긴급·희소성</button>
-                <button class="tone-btn" onclick="toggleTone(this)" data-tone="trust">🏆 신뢰·전문성</button>
-                <button class="tone-btn" onclick="toggleTone(this)" data-tone="benefit">💰 혜택·절약</button>
-                <button class="tone-btn" onclick="toggleTone(this)" data-tone="emotion">💝 감성·공감</button>
-                <button class="tone-btn" onclick="toggleTone(this)" data-tone="proof">📊 수치·증거</button>
-                <button class="tone-btn" onclick="toggleTone(this)" data-tone="action">🎯 행동유도·직접</button>
+              <div class="enhance-inner">
+                <div class="tone-grid" id="toneGrid">
+                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="urgency">⚡ 긴급·희소성</button>
+                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="trust">🏆 신뢰·전문성</button>
+                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="benefit">💰 혜택·절약</button>
+                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="emotion">💝 감성·공감</button>
+                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="proof">📊 수치·증거</button>
+                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="action">🎯 행동유도·직접</button>
+                </div>
               </div>
             </div>
-          </div><!-- enhance-row -->
 
-        </div><!-- left-input-section -->
+          </div><!-- input-grid-b -->
 
-        <!-- 우측: 05 마케터 분석 리포트 tall 패널 -->
-        <div class="input-col col-analysis analysis-panel-tall">
-          <div class="icol-head"><span class="icol-num icol-num-5">05</span><div><div class="icol-title">마케터 분석 리포트 <span class="badge-auto">자동</span></div><div class="icol-desc">Gemini AI가 광고 소재 전략을 깊이 분석해드려요</div></div></div>
-          <div class="analysis-status" id="analysisSideStatus">소재 생성 후 자동 분석됩니다</div>
-          <div id="analysisProgress" style="display:none">
-            <div class="ap-field-row pending" id="apf-name">
-              <span class="ap-f-icon">📦</span><div class="ap-f-content"><span class="ap-f-label">상품명</span><span class="ap-f-value" id="apf-name-val">—</span></div>
-              <span class="ap-f-status" id="apf-name-st">⏳</span>
-            </div>
-            <div class="ap-field-row pending" id="apf-feat">
-              <span class="ap-f-icon">✏️</span><div class="ap-f-content"><span class="ap-f-label">광고 내용</span><span class="ap-f-value" id="apf-feat-val">—</span></div>
-              <span class="ap-f-status" id="apf-feat-st">⏳</span>
-            </div>
-            <div class="ap-field-row pending" id="apf-img">
-              <span class="ap-f-icon">🖼️</span><div class="ap-f-content"><span class="ap-f-label">이미지</span><span class="ap-f-value" id="apf-img-val">없음</span></div>
-              <span class="ap-f-status" id="apf-img-st">⏳</span>
-            </div>
-            <div class="ap-field-row pending" id="apf-deny">
-              <span class="ap-f-icon">🚫</span><div class="ap-f-content"><span class="ap-f-label">금지어</span><span class="ap-f-value" id="apf-deny-val">없음</span></div>
-              <span class="ap-f-status" id="apf-deny-st">⏳</span>
-            </div>
-            <div class="ap-field-row pending" id="apf-season">
-              <span class="ap-f-icon">📅</span><div class="ap-f-content"><span class="ap-f-label">시즌·이벤트</span><span class="ap-f-value" id="apf-season-val">없음</span></div>
-              <span class="ap-f-status" id="apf-season-st">⏳</span>
-            </div>
-            <div class="ap-field-row pending" id="apf-tone">
-              <span class="ap-f-icon">🎯</span><div class="ap-f-content"><span class="ap-f-label">광고 어조</span><span class="ap-f-value" id="apf-tone-val">없음</span></div>
-              <span class="ap-f-status" id="apf-tone-st">⏳</span>
-            </div>
-            <!-- Gemini 심사숙고 -->
-            <div id="apThinking" style="display:none;margin-top:10px">
-              <div class="ap-thinking-box">
-                <div class="ap-thinking-icon">✦</div>
-                <div class="ap-thinking-text" id="apThinkingText">Gemini가 심사숙고 중...</div>
-              </div>
-              <div class="ap-thinking-dots"><span></span><span></span><span></span><span></span><span></span></div>
-            </div>
-            <!-- 실시간 분석 로그 -->
-            <div id="apLiveLog" style="display:none" class="ap-live-log">
-              <div class="ap-log-item" id="alog-1"><div class="ap-log-dot" id="alog-dot-1"></div><span class="ap-log-icon">📦</span><span class="ap-log-text" id="alog-text-1">상품명에서 핵심 키워드 추출 중...</span></div>
-              <div class="ap-log-item" id="alog-2"><div class="ap-log-dot" id="alog-dot-2"></div><span class="ap-log-icon">🎯</span><span class="ap-log-text" id="alog-text-2">타겟 고객 심리·구매 동기 분석 중...</span></div>
-              <div class="ap-log-item" id="alog-3"><div class="ap-log-dot" id="alog-dot-3"></div><span class="ap-log-icon">📝</span><span class="ap-log-text" id="alog-text-3">30개 제목 구성 전략 검토 중...</span></div>
-              <div class="ap-log-item" id="alog-4"><div class="ap-log-dot" id="alog-dot-4"></div><span class="ap-log-icon">💬</span><span class="ap-log-text" id="alog-text-4">12개 설명 메시지 효과 분석 중...</span></div>
-              <div class="ap-log-item" id="alog-5"><div class="ap-log-dot" id="alog-dot-5"></div><span class="ap-log-icon">⚡</span><span class="ap-log-text" id="alog-text-5">클릭률 개선 포인트 도출 중...</span></div>
-              <div class="ap-log-item" id="alog-6"><div class="ap-log-dot" id="alog-dot-6"></div><span class="ap-log-icon">📊</span><span class="ap-log-text" id="alog-text-6">어조·시즌 세팅 반영 여부 검증 중...</span></div>
-              <div class="ap-log-item" id="alog-7"><div class="ap-log-dot" id="alog-dot-7"></div><span class="ap-log-icon">✍️</span><span class="ap-log-text" id="alog-text-7">리포트 작성 및 인사이트 정리 중...</span></div>
-            </div>
-            <div class="ap-timer" style="margin-top:8px">예상 소요: <b id="apTimerVal">--</b></div>
-          </div>
-          <div class="analysis-preview" id="analysisSidePreview" style="display:none"></div>
-          <button class="analysis-btn" id="analysisOpenBtn" onclick="openAnalysisModal()" disabled>📄 전체 리포트 보기</button>
-        </div>
-
-      </div><!-- main-input-wrapper -->
+      </div><!-- app-section wrapper -->
 
       <!-- 생성 버튼 -->
       <div class="input-footer" id="inputFooter">
@@ -1860,34 +1859,57 @@ function updateKeyHeader(ok) {
   if(lbl) lbl.textContent = ok ? '연결됨' : '미설정';
 }
 
-// ── 파일 업로드 (최대 20장)
-const MAX_IMGS = 20;
+// ── 이미지 업로드 (최대 10장, 자동 압축)
+const MAX_IMGS = 10;
+const IMG_MAX_PX = 800;   // 최대 가로/세로
+const IMG_QUALITY = 0.65; // JPEG 품질 (65%)
+
+function compressImage(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = new Image();
+      img.onload = () => {
+        // 리사이즈 계산
+        let w = img.width, h = img.height;
+        if (w > IMG_MAX_PX || h > IMG_MAX_PX) {
+          if (w >= h) { h = Math.round(h * IMG_MAX_PX / w); w = IMG_MAX_PX; }
+          else        { w = Math.round(w * IMG_MAX_PX / h); h = IMG_MAX_PX; }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        const dataUrl = canvas.toDataURL('image/jpeg', IMG_QUALITY);
+        const b64 = dataUrl.split(',')[1];
+        const kb = Math.round(b64.length * 0.75 / 1024);
+        resolve({ b64, type: 'image/jpeg', name: file.name, url: dataUrl, kb });
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 function onFile(e) {
   const files = Array.from(e.target.files).slice(0, MAX_IMGS - S.imgs.length);
   if (!files.length) return;
-  files.forEach(f => {
-    const r = new FileReader();
-    r.onload = ev => {
-      const raw = ev.target.result;
-      const b64 = raw.split(',')[1];
-      const type = f.type || 'image/jpeg';
-      S.imgs.push({ b64, type, name: f.name, url: raw });
-      renderImgGrid();
-    };
-    r.readAsDataURL(f);
+  files.forEach(async f => {
+    const compressed = await compressImage(f);
+    S.imgs.push(compressed);
+    renderImgGrid();
   });
-  // input 초기화 (같은 파일 재선택 가능하게)
   e.target.value = '';
 }
 function updateCost() {
   const n = S.imgs.length;
   const el = document.getElementById('costCurrent');
   if (n === 0) { el.style.display='none'; return; }
-  const secs = 3 + n * 2;
-  const over = n > 10;
+  const totalKb = S.imgs.reduce((s, img) => s + (img.kb || 80), 0);
+  const estSec = Math.round(30 + totalKb / 30); // 30초 기본 + KB당 추가
   el.style.display = 'block';
   if (document.getElementById('costImgCnt')) document.getElementById('costImgCnt').textContent = n;
-  if (document.getElementById('costAmt')) document.getElementById('costAmt').innerHTML = `<span class="${over?'c-over':''}">약 ${secs}초${over?' (느릴 수 있음)':''}</span>`;
+  if (document.getElementById('costAmt')) document.getElementById('costAmt').innerHTML =
+    `압축 후 약 ${totalKb}KB · 예상 ${estSec < 60 ? estSec+'초' : Math.ceil(estSec/60)+'분'} 이내`;
 }
 
 function removeImg(i) {
@@ -1907,7 +1929,7 @@ function renderImgGrid() {
   }
   zone.classList.add('filled');
   cnt.style.display = 'block';
-  cnt.textContent = `✓ ${S.imgs.length}장 선택됨 (최대 ${MAX_IMGS}장)`;
+  cnt.textContent = `✓ ${S.imgs.length}장 선택됨 (최대 ${MAX_IMGS}장 · 자동 압축)`;
   updateCost();
   grid.innerHTML = S.imgs.map((img, i) => `
     <div class="img-thumb">
@@ -2037,15 +2059,22 @@ async function callClaude(sys, userContent) {
     ];
   }
 
+  // 타임아웃 120초 — 이를 초과하면 재시도 안내
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 120000);
+
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+  try {
   const res = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    signal: controller.signal,
     body: JSON.stringify({
       contents: [{ role: 'user', parts }],
-      generationConfig: { maxOutputTokens: 2000, temperature: 0.5 }
+      generationConfig: { maxOutputTokens: 1200, temperature: 0.5 }
     })
   });
+  clearTimeout(timeoutId);
   if (!res.ok) {
     const e = await res.json();
     const msg = e.error?.message || 'API 오류';
@@ -2055,6 +2084,11 @@ async function callClaude(sys, userContent) {
   }
   const d = await res.json();
   return d.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  } catch(err) {
+    clearTimeout(timeoutId);
+    if(err.name === 'AbortError') throw new Error('응답 시간이 너무 길어요 (120초 초과). 이미지를 줄이거나 다시 시도해주세요.');
+    throw err;
+  }
 }
 
 // ── 단계 표시
@@ -2133,28 +2167,22 @@ ${toneUsed.includes('emotion') || toneUsed.includes('감성') ? '- 감성·공�
 ${toneUsed.includes('proof') || toneUsed.includes('수치') ? '- 수치·증거 어조: 구체적 숫자·통계·비교 데이터가 소재의 신뢰도와 클릭률에 어떻게 기여하는지 분석하세요.' : ''}
 ${toneUsed.includes('action') || toneUsed.includes('행동') ? '- 행동유도·직접 어조: 명령형·행동 촉구 표현이 소재에서 얼마나 직접적으로 클릭을 유도하는지 분석하세요.' : ''}`.trim() : '';
 
-  const analysisPrompt = `당신은 10년차 네이버 파워링크 광고 전문 마케터이자 카피라이터입니다.${contextStr}${toneGuide}
+  const analysisPrompt = `당신은 네이버 파워링크 광고 전문 마케터입니다.${contextStr}${toneGuide}
 
-반드시 아래 5개 섹션을 <section title="섹션제목">내용</section> 형태로 작성하세요.
-각 섹션 내용은 6~8문장, 구체적 수치와 실제 광고 집행 경험 기반 인사이트로 작성.
+아래 3개 섹션을 <section title="섹션제목">내용</section> 형태로 작성하세요.
+각 섹션: 3~4문장, 실무 인사이트 중심, 간결하게.
 
 필수 섹션:
-1. 🔍 상품·키워드 분석 — 상품명에서 발굴한 핵심 키워드, 검색 의도, 경쟁 강도 예측
-2. 🎯 타겟 심리 분석 — 이 상품을 검색하는 사람들의 구매 동기·고충·니즈 심층 분석
-3. 📝 소재 전략 평가 — 30개 제목과 12개 설명의 각도·구성·강약 배분이 왜 이렇게 됐는지
-4. ⚡ 클릭률 핵심 포인트 — 가장 클릭을 많이 받을 것으로 예상되는 소재 3개와 그 이유
-5. 💡 개선 권고사항 — A/B 테스트 제안, 보완해야 할 표현, 장기 운영 전략
+1. 🔍 상품·소재 분석 — 상품명 핵심 키워드, 제목/설명 구성 평가
+2. ⚡ 클릭률 TOP3 — 가장 클릭 받을 소재 3개와 이유 (제목 직접 인용)
+3. 💡 개선 권고 — 즉시 적용 가능한 A/B 테스트 제안 2~3개
 
-규칙:
-- "이들은" 금지 → "고객들은", "구매하시는 분들은" 사용
-- 중요 키워드·수치는 <b>태그로 감싸기
-- 마케터 핵심 판단은 <em>태그로 감싸기
-- 마크다운 완전 금지. 단순 요약 금지. 실무 인사이트만.`;
+규칙: 마크다운 금지. 중요 키워드는 <b>태그. 마케터 판단은 <em>태그. 단순 요약 금지.`;
 
-  // 이미지가 있으면 이미지와 함께 전달
+  // 이미지가 있으면 압축된 전체 이미지 전달 (최대 10장 · 압축됨)
   let userContent;
   if (imgs.length > 0) {
-    userContent = imgs.slice(0, 5).map(img => ({  // 최대 5장만 (분석용)
+    userContent = imgs.map(img => ({
       type: 'image',
       source: { type: 'base64', media_type: img.type || 'image/jpeg', data: img.b64 }
     }));
@@ -2225,12 +2253,24 @@ function toggleTone(btn) {
   }
 }
 
+function syncDenyFromInput() {
+  const inp = document.getElementById('denyInput');
+  const raw = inp.value;
+  // 쉼표로 실시간 파싱 → 마지막 항목은 아직 입력 중이므로 제외
+  const parts = raw.split(',');
+  if(parts.length <= 1) return; // 쉼표가 없으면 대기
+  // 쉼표로 완성된 앞 항목들만 등록
+  const completed = parts.slice(0, -1).map(p => p.trim()).filter(Boolean);
+  completed.forEach(w => S_DENY.add(w));
+  // 마지막 미완성 항목만 input에 남김
+  inp.value = parts[parts.length - 1];
+  renderDenyList();
+}
 function addDeny(e) {
+  // Enter로도 현재 값 추가
   if (e.key !== 'Enter') return;
   const inp = document.getElementById('denyInput');
-  const val = inp.value.trim();
-  if (!val) return;
-  S_DENY.add(val);
+  inp.value.split(',').map(p=>p.trim()).filter(Boolean).forEach(w=>S_DENY.add(w));
   inp.value = '';
   renderDenyList();
 }
@@ -2670,8 +2710,12 @@ async function generate(){
     aLabelTimer = setInterval(showStep, intervalMs);
   }
 
-  // 초기 단계
-  setPhase('① 소재 생성 준비', ['상품명·특징 파악 중...','광고 전략 수립 중...','Gemini API 연결 중...']);
+  // 초기 단계 - 실제 진행 내용 기반
+  setPhase('① 준비 중', [
+    `"${name.slice(0,12)}${name.length>12?'...':''}" 상품명 읽는 중...`,
+    '입력하신 내용을 정리하고 있어요...',
+    'Gemini API에 연결하는 중...',
+  ]);
 
   function stopAnalyzingUI(){
     lockInputs(false);
@@ -2808,15 +2852,15 @@ async function generate(){
       // 전체 스캔 완료 → Gemini 심사숙고 상태
       const thinkEl = document.getElementById('apThinking');
       if(thinkEl) thinkEl.style.display = 'block';
-      if(sideStatus) sideStatus.textContent = 'Gemini가 심사숙고 중...';
-      // 생각 중 텍스트 순환
+      if(sideStatus) sideStatus.textContent = `제목 ${S.titles.length}개 분석 시작...`;
+      // 실제 분석 단계 기반 메시지
       const thinkMsgs = [
-        'Gemini가 심사숙고 중...',
-        '광고 전략 수립 중...',
-        '클릭률 포인트 분석 중...',
-        '타겟 심리 분석 중...',
-        '카피 방향 검토 중...',
-        '리포트 작성 중...',
+        `제목 ${S.titles.length}개 클릭 패턴 분석 중...`,
+        `설명 ${S.descs.length}개 메시지 효과 검토 중...`,
+        target ? `"${target.slice(0,14)}" 타겟 관점으로 소재 재평가 중...` : '검색 키워드 커버리지 확인 중...',
+        S_TONE ? `"${S_TONE}" 어조 전략 효과 측정 중...` : 'TOP3 소재 선정 기준 검토 중...',
+        hasImg ? '이미지 반영 결과 적합도 확인 중...' : '클릭률 예측 점수 계산 중...',
+        '거의 다 왔어요! 개선 권고사항 정리 중...',
       ];
       let ti = 0;
       const thinkTxt = document.getElementById('apThinkingText');
@@ -2843,6 +2887,7 @@ async function generate(){
 
     let content;
     if(S.imgs.length>0){
+      // 압축된 이미지 전체 전송 (최대 10장 · 장당 ~80KB)
       content=S.imgs.map(img=>({type:'image',source:{type:'base64',media_type:img.type||'image/jpeg',data:img.b64}}));
       content.push({type:'text',text:prompt});
     } else {
@@ -2851,15 +2896,19 @@ async function generate(){
 
     pg(1,'done');pg(2,'active');
     document.getElementById('genTxt').innerHTML='<span class="spin"></span> 소재 작성 중...';
-    // 2단계: 소재 생성 중
-    setPhase('① 소재 30개 생성 중', [
-      `제목 30개 작성 중... (이미지 ${S.imgs.length}장 반영)`,
-      '상품 키워드 분석 중...',
-      '클릭률 높은 문구 구성 중...',
-      '설명 12개 (45자 이하) 작성 중...',
-      '타겟 언어·혜택 포인트 적용 중...',
-      '금지어 필터링 적용 중...',
-    ]);
+
+    // 소재 생성 중 — 실제 작업 내용 기반 메시지
+    const hasImg = S.imgs.length > 0;
+    const hasFeat = !!feat;
+    const phase1Msgs = [
+      `상품명 "${name.slice(0,10)}${name.length>10?'...':''}"의 핵심 키워드 분석 중...`,
+      hasFeat ? `"${feat.split('\n')[0].slice(0,16)}" 등 특징을 광고 문구에 반영 중...` : '광고 포인트를 구성하고 있어요...',
+      hasImg ? `상품 이미지 ${S.imgs.length}장 분석해서 소재에 반영 중...` : '클릭률 높은 제목 30개 구성 중...',
+      target ? `"${target.slice(0,16)}" 타겟에 맞는 언어로 조정 중...` : '제목 15자 이내로 다듬는 중...',
+      denyWords.length ? `금지어 [${denyWords.slice(0,2).join(', ')}] 필터링 적용 중...` : '설명문 45자 이내로 채우는 중...',
+      S_TONE ? `"${S_TONE}" 어조 스타일 반영 중...` : '최종 소재 12개 설명 완성 중...',
+    ];
+    setPhase('① 소재 30개 작성 중', phase1Msgs, 2800);
 
     const raw=await callClaude(
       `당신은 네이버 파워링크 광고 전문가입니다.
@@ -2886,16 +2935,21 @@ async function generate(){
     if(sideStatus) sideStatus.textContent='리포트 분석 중...';
     document.getElementById('genTxt').innerHTML='<span class="spin"></span> 리포트 분석 중...';
     pg(3,'active');
-    // 소재 생성 완료 → 분석 단계로
     if(window._startPhase2Timer) window._startPhase2Timer();
-    setPhase('② 마케터 리포트 분석', [
-      '광고 전략 방향 분석 중...',
-      '클릭률 포인트 발굴 중...',
-      '타겟 고객 심리 분석 중...',
-      '30개 제목 구성 의도 검토 중...',
-      '12개 설명 메시지 전략 분석 중...',
-      '개선 방향 및 인사이트 작성 중...',
-    ], 2500);
+
+    // 마케터 리포트 분석 — 실제 분석 단계 메시지
+    const titleCount = S.titles.length;
+    const descCount = S.descs.length;
+    const phase2Steps = [
+      `${titleCount}개 제목의 클릭 유도 방식 분석 중...`,
+      `${descCount}개 설명문에서 핵심 메시지 추출 중...`,
+      target ? `"${target.slice(0,14)}" 타겟 심리와 구매 동기 분석 중...` : '타겟 고객의 구매 심리 분석 중...',
+      S_TONE ? `"${S_TONE}" 어조 전략이 얼마나 효과적인지 검토 중...` : '광고 어조 일관성 검토 중...',
+      hasImg ? '이미지 분석 결과가 소재에 잘 녹아들었는지 확인 중...' : '키워드 커버리지와 검색 의도 일치 확인 중...',
+      '가장 클릭률 높을 소재 TOP3 선정 중... 거의 다 왔어요!',
+      '개선 권고사항 정리 중... 곧 완료됩니다!',
+    ];
+    setPhase('② 마케터 리포트 분석', phase2Steps, 2500);
 
     // 라이브 분석 로그 시작
     const liveLog = document.getElementById('apLiveLog');
