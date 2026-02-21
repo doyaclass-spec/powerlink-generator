@@ -618,7 +618,7 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
         <div class="field">
           <label class="lbl">스마트스토어 URL</label>
           <div class="url-row">
-            <input type="url" class="inp" id="storeUrl" placeholder="https://smartstore.naver.com/..." />
+            <input type="url" class="inp" id="storeUrl" placeholder="https://smartstore.naver.com/... (선택사항)" />
             <button class="url-btn url-clear" id="clearBtn" onclick="clearUrl()" title="초기화" style="display:none">✕</button>
             <button class="url-btn" id="fetchBtn" onclick="fetchStore()">불러오기</button>
           </div>
@@ -992,87 +992,74 @@ async function fetchStore() {
   setNotice('');
 
   try {
-    // ── Step 1: 프록시로 og:title 먼저 시도 (가장 정확한 상품명)
+    // ── Step 1: 여러 프록시로 og:title 시도
     let ogName = '';
     let ogImg  = '';
+    const proxies = [
+      `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+      `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
+    ];
+    for (const px of proxies) {
+      try {
+        const pRes = await fetch(px, { signal: AbortSignal.timeout(8000) });
+        if (!pRes.ok) continue;
+        let raw = '';
+        const ct = pRes.headers.get('content-type') || '';
+        if (ct.includes('json')) {
+          const pdata = await pRes.json();
+          raw = pdata?.contents || pdata?.body || '';
+        } else {
+          raw = await pRes.text();
+        }
+        if (!raw || raw.length < 200) continue;
+        const doc = new DOMParser().parseFromString(raw, 'text/html');
+        const ogTitle = doc.querySelector('meta[property="og:title"]')?.content || '';
+        const errKw = ['에러', '시스템오류', 'error', '찾을 수 없', '접근이 제한', 'showcase'];
+        if (ogTitle && !errKw.some(k => ogTitle.toLowerCase().includes(k.toLowerCase()))) {
+          ogName = ogTitle.replace(/\s*[-|:]\s*(네이버|스마트스토어|쇼핑|N).*/i, '').trim();
+          ogImg  = doc.querySelector('meta[property="og:image"]')?.content || '';
+          if (ogName) break; // 성공 → 루프 탈출
+        }
+      } catch(e) { continue; }
+    }
+
+    // ── Step 2: og:title을 못 가져왔으면 → 검색하지 않고 바로 안내
+    // (스토어ID로 검색하면 엉뚱한 상품이 나오므로 절대 하지 않음)
+    if (!ogName) {
+      setNotice('warn', '⚠️ 네이버가 상품 페이지 접근을 차단했어요.<br>상품명을 직접 입력하고 상세페이지 이미지를 업로드하면 소재를 만들 수 있어요.');
+      return;
+    }
+
+    // ── Step 3: og:title로 네이버 쇼핑 API 검색 → 카테고리·가격 보완
+    let cat = '', price = '', finalImg = ogImg;
     try {
-      const proxyRes = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, { signal: AbortSignal.timeout(7000) });
-      if (proxyRes.ok) {
-        const pdata = await proxyRes.json();
-        if (pdata?.contents) {
-          const doc = new DOMParser().parseFromString(pdata.contents, 'text/html');
-          const ogTitle = doc.querySelector('meta[property="og:title"]')?.content || '';
-          const errKw = ['에러', '시스템오류', 'error', '찾을 수 없', '접근이 제한'];
-          if (ogTitle && !errKw.some(k => ogTitle.includes(k))) {
-            ogName = ogTitle.replace(/\s*[-|:]\s*(네이버|스마트스토어|쇼핑).*/i, '').trim();
-            ogImg  = doc.querySelector('meta[property="og:image"]')?.content || '';
-          }
+      const apiUrl = `https://openapi.naver.com/v1/search/shop.json?query=${encodeURIComponent(ogName)}&display=10&sort=sim`;
+      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`;
+      const res = await fetch(proxyUrl, {
+        headers: { 'X-Naver-Client-Id': NAVER_ID, 'X-Naver-Client-Secret': NAVER_SEC },
+        signal: AbortSignal.timeout(10000)
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const items = data.items || [];
+        if (items.length) {
+          // 상품명 유사도 기준으로 매칭
+          const ogClean = ogName.replace(/\s/g,'').toLowerCase();
+          const best = items.reduce((prev, cur) => {
+            const cs = similarity(ogClean, stripHtml(cur.title).replace(/\s/g,'').toLowerCase());
+            const ps = similarity(ogClean, stripHtml(prev.title).replace(/\s/g,'').toLowerCase());
+            return cs > ps ? cur : prev;
+          });
+          cat   = [best.category1, best.category2, best.category3].filter(Boolean).join(' > ');
+          price = best.lprice ? parseInt(best.lprice).toLocaleString() + '원' : '';
+          if (!finalImg) finalImg = best.image || '';
         }
       }
-    } catch(e) { /* 프록시 실패 → 다음 단계로 */ }
+    } catch(e) { /* 쇼핑 API 실패해도 og:title은 있으니 계속 */ }
 
-    // ── Step 2: 네이버 쇼핑 API로 상세 정보 보완
-    // 검색 쿼리: og:title이 있으면 그걸로, 없으면 스토어ID로
-    const query = ogName || extractProductHint(url);
-    if (!query) {
-      if (ogName) {
-        // og만 있어도 표시
-        showProductCard(ogName, '', ogImg, '', '');
-        setNotice('ok', '✅ 상품명을 불러왔어요! 특징은 직접 입력해주세요.');
-      } else {
-        setNotice('warn', '⚠️ 상품 정보를 가져오지 못했어요. 상품명을 직접 입력해주세요.');
-      }
-      return;
-    }
-
-    const apiUrl = `https://openapi.naver.com/v1/search/shop.json?query=${encodeURIComponent(query)}&display=10&sort=sim`;
-    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`;
-    const res = await fetch(proxyUrl, {
-      headers: { 'X-Naver-Client-Id': NAVER_ID, 'X-Naver-Client-Secret': NAVER_SEC },
-      signal: AbortSignal.timeout(10000)
-    });
-    if (!res.ok) throw new Error('API 응답 오류: ' + res.status);
-    const data = await res.json();
-    const items = data.items || [];
-
-    if (!items.length) {
-      // 검색 결과 없어도 og:title이 있으면 표시
-      if (ogName) {
-        showProductCard(ogName, '', ogImg, '', '');
-        setNotice('ok', '✅ 상품명을 불러왔어요! 카테고리/가격은 직접 추가해주세요.');
-      } else {
-        setNotice('warn', '⚠️ 검색 결과가 없어요. 상품명을 직접 입력해주세요.');
-      }
-      return;
-    }
-
-    // ── 정확한 상품 매칭
-    // 1순위: og:title과 제목이 가장 유사한 것
-    // 2순위: 스토어 ID가 링크에 포함된 것
-    // 3순위: 첫 번째 결과
-    const storeId = extractStoreId(url);
-    let best = null;
-    if (ogName) {
-      const ogClean = ogName.replace(/\s/g,'').toLowerCase();
-      // 유사도 점수
-      best = items.reduce((prev, cur) => {
-        const curClean = stripHtml(cur.title).replace(/\s/g,'').toLowerCase();
-        const curScore = similarity(ogClean, curClean);
-        const prevClean = stripHtml(prev.title).replace(/\s/g,'').toLowerCase();
-        const prevScore = similarity(ogClean, prevClean);
-        return curScore > prevScore ? cur : prev;
-      });
-    }
-    if (!best) best = items.find(it => storeId && it.link?.includes(storeId)) || items[0];
-
-    const name  = ogName || stripHtml(best.title);
-    const cat   = [best.category1, best.category2, best.category3].filter(Boolean).join(' > ');
-    const img   = ogImg || best.image || '';
-    const price = best.lprice ? parseInt(best.lprice).toLocaleString() + '원' : '';
-    const mall  = best.mallName || '';
-
-    showProductCard(name, cat, img, price, mall);
-    setNotice('ok', '✅ 네이버 쇼핑에서 상품 정보를 불러왔어요! 필요하면 수정 후 생성해주세요.');
+    showProductCard(ogName, cat, finalImg, price, '');
+    const src = cat ? '✅ 네이버 쇼핑에서 상품 정보를 불러왔어요!' : '✅ 상품명을 불러왔어요! 특징은 직접 입력해주세요.';
+    setNotice('ok', src);
 
   } catch(e) {
     console.error(e);
