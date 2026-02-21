@@ -1207,8 +1207,10 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 }
 /* ══ 입력 잠금 오버레이 ══ */
 .inputs-locked .input-grid,
+.inputs-locked .input-grid-b,
 .inputs-locked .enhance-row{position:relative}
 .inputs-locked .input-grid::after,
+.inputs-locked .input-grid-b::after,
 .inputs-locked .enhance-row::after{
   content:'⏳ 분석 중 — 입력이 잠겨 있습니다';
   position:absolute;inset:0;z-index:10;
@@ -1351,7 +1353,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v4.7</span>
+    <span class="h-version">v4.9</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -1428,7 +1430,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 
             <!-- 03: 광고 내용 -->
             <div class="input-col" style="border-top:2px solid rgba(180,60,255,.55)">
-              <div class="icol-head"><span class="icol-num icol-num-3">03</span><div><div class="icol-title">광고에 넣고 싶은 내용 <span class="badge-req">필수</span></div><div class="req-hint" id="featReqHint">최소 2개 입력 필요</div><div class="icol-desc">강조하고 싶은 특징·혜택·가격 포인트</div></div></div>
+              <div class="icol-head"><span class="icol-num icol-num-3">03</span><div><div class="icol-title">광고에 넣고 싶은 내용 <span class="badge-req">필수</span></div><div class="req-hint" id="featReqHint">최소 2개 이상 작성해주세요</div><div class="icol-desc">강조하고 싶은 특징·혜택·가격 포인트</div></div></div>
               <div id="featSuggestWrap" style="display:none">
                 <div class="feat-suggest-lbl" id="featSuggestLbl">💡 AI 추천</div>
                 <div class="feat-suggest" id="featSuggest"></div>
@@ -1510,9 +1512,9 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 
             <!-- 하단 Row2: 금지어 / 시즌 / 어조 -->
             <div class="enhance-col" style="border-top:2px solid rgba(255,77,109,.4)">
-              <div class="enhance-head"><span class="enhance-icon">🚫</span><div><div class="enhance-title">금지어 설정 <span class="badge-opt">선택</span></div><div class="enhance-desc">쉼표(,)로 여러 개 입력 가능</div></div></div>
+              <div class="enhance-head"><span class="enhance-icon">🚫</span><div><div class="enhance-title">금지어 설정 <span class="badge-opt">선택</span></div><div class="enhance-desc">입력 후 Enter로 여러 개 추가 가능</div></div></div>
               <div class="enhance-inner">
-                <input type="text" class="inp" id="denyInput" placeholder="예: 최저가, 무조건, 특가" oninput="syncDenyFromInput()" />
+                <input type="text" class="inp" id="denyInput" placeholder="금지어 입력 후 Enter" onkeydown="addDenyEnter(event)" />
                 <div id="denyList" class="deny-list"></div>
               </div>
             </div>
@@ -1535,12 +1537,10 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
               <div class="enhance-head"><span class="enhance-icon">🎯</span><div><div class="enhance-title">광고 어조 <span class="badge-opt">선택</span></div><div class="enhance-desc">최대 2개 선택 · 타겟에 맞는 어조로 효과↑</div></div></div>
               <div class="enhance-inner">
                 <div class="tone-grid" id="toneGrid">
-                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="urgency">⚡ 긴급·희소성</button>
-                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="trust">🏆 신뢰·전문성</button>
-                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="benefit">💰 혜택·절약</button>
-                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="emotion">💝 감성·공감</button>
-                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="proof">📊 수치·증거</button>
-                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="action">🎯 행동유도·직접</button>
+                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="긴급·희소성">⚡ 긴급·희소성</button>
+                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="신뢰·전문성">🏆 신뢰·전문성</button>
+                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="혜택·절약">💰 혜택·절약</button>
+                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="감성·공감">💝 감성·공감</button>
                 </div>
               </div>
             </div>
@@ -1904,12 +1904,9 @@ function updateCost() {
   const n = S.imgs.length;
   const el = document.getElementById('costCurrent');
   if (n === 0) { el.style.display='none'; return; }
-  const totalKb = S.imgs.reduce((s, img) => s + (img.kb || 80), 0);
-  const estSec = Math.round(30 + totalKb / 30); // 30초 기본 + KB당 추가
   el.style.display = 'block';
   if (document.getElementById('costImgCnt')) document.getElementById('costImgCnt').textContent = n;
-  if (document.getElementById('costAmt')) document.getElementById('costAmt').innerHTML =
-    `압축 후 약 ${totalKb}KB · 예상 ${estSec < 60 ? estSec+'초' : Math.ceil(estSec/60)+'분'} 이내`;
+  if (document.getElementById('costAmt')) document.getElementById('costAmt').innerHTML = '';
 }
 
 function removeImg(i) {
@@ -2071,7 +2068,7 @@ async function callClaude(sys, userContent) {
     signal: controller.signal,
     body: JSON.stringify({
       contents: [{ role: 'user', parts }],
-      generationConfig: { maxOutputTokens: 1200, temperature: 0.5 }
+      generationConfig: { maxOutputTokens: 2500, temperature: 0.5 }
     })
   });
   clearTimeout(timeoutId);
@@ -2179,17 +2176,8 @@ ${toneUsed.includes('action') || toneUsed.includes('행동') ? '- 행동유도·
 
 규칙: 마크다운 금지. 중요 키워드는 <b>태그. 마케터 판단은 <em>태그. 단순 요약 금지.`;
 
-  // 이미지가 있으면 압축된 전체 이미지 전달 (최대 10장 · 압축됨)
-  let userContent;
-  if (imgs.length > 0) {
-    userContent = imgs.map(img => ({
-      type: 'image',
-      source: { type: 'base64', media_type: img.type || 'image/jpeg', data: img.b64 }
-    }));
-    userContent.push({ type: 'text', text: analysisPrompt });
-  } else {
-    userContent = analysisPrompt;
-  }
+  // 분석은 카피 텍스트 기반 — 이미지 불필요 (속도 최적화 핵심)
+  const userContent = analysisPrompt;
 
   const raw = await callClaude('', userContent);
 
@@ -2249,28 +2237,17 @@ function toggleTone(btn) {
     if(hint) hint.classList.remove('show');
     featCol?.classList.remove('req-error');
   } else {
-    if(hint) { hint.classList.add('show'); hint.textContent = `현재 ${filled}개 입력됨 → 최소 2개 필요`; }
+    if(hint) { hint.classList.add('show'); hint.textContent = `현재 ${filled}개 입력됨 → 최소 2개 이상 작성해주세요`; }
   }
 }
 
-function syncDenyFromInput() {
-  const inp = document.getElementById('denyInput');
-  const raw = inp.value;
-  // 쉼표로 실시간 파싱 → 마지막 항목은 아직 입력 중이므로 제외
-  const parts = raw.split(',');
-  if(parts.length <= 1) return; // 쉼표가 없으면 대기
-  // 쉼표로 완성된 앞 항목들만 등록
-  const completed = parts.slice(0, -1).map(p => p.trim()).filter(Boolean);
-  completed.forEach(w => S_DENY.add(w));
-  // 마지막 미완성 항목만 input에 남김
-  inp.value = parts[parts.length - 1];
-  renderDenyList();
-}
-function addDeny(e) {
-  // Enter로도 현재 값 추가
+function addDenyEnter(e) {
   if (e.key !== 'Enter') return;
+  e.preventDefault();
   const inp = document.getElementById('denyInput');
-  inp.value.split(',').map(p=>p.trim()).filter(Boolean).forEach(w=>S_DENY.add(w));
+  const val = inp.value.trim();
+  if (!val) return;
+  S_DENY.add(val);
   inp.value = '';
   renderDenyList();
 }
@@ -2286,8 +2263,15 @@ function removeDeny(w) { S_DENY.delete(w); renderDenyList(); }
 function toggleSeason(btn) {
   const already = btn.classList.contains('on');
   document.querySelectorAll('#seasonChips .schip').forEach(b => b.classList.remove('on'));
-  if (!already) { btn.classList.add('on'); S_SEASON = btn.textContent.trim(); }
-  else S_SEASON = '';
+  const eventInp = document.getElementById('eventInput');
+  if (!already) {
+    btn.classList.add('on');
+    S_SEASON = btn.textContent.trim();
+    if(eventInp) eventInp.value = S_SEASON;
+  } else {
+    S_SEASON = '';
+    if(eventInp) eventInp.value = '';
+  }
 }
 
 
@@ -2643,7 +2627,7 @@ async function generate(){
   const featCol = document.getElementById('featSlots')?.closest('.input-col');
   if(featInputs.length < 2){
     featCol?.classList.add('req-error');
-    if(featHint){ featHint.classList.add('show'); featHint.textContent = `현재 ${featInputs.length}개 입력됨 → 최소 2개 필요`; }
+    if(featHint){ featHint.classList.add('show'); featHint.textContent = `현재 ${featInputs.length}개 입력됨 → 최소 2개 이상 작성해주세요`; }
     valid = false;
     if(!focusEl) focusEl = document.querySelector('#featSlots .feat-slot input');
   } else {
@@ -2836,8 +2820,14 @@ async function generate(){
   setApField('season', (S_SEASON||(document.getElementById('eventInput')?.value.trim()||'')) || '없음', 'pending');
   setApField('tone', S_TONE||'없음', 'pending');
 
-  const fieldSeq = ['name','feat','img','deny','season','tone'];
-  const fieldMsgs = ['상품명 분석 중...','광고 포인트 적용 중...','이미지 분석 중...','금지어 적용 중...','시즌 설정 적용 중...','광고 어조 적용 중...'];
+  // sideStatus 업데이트 + 분석 중 옆 stepEl에도 동기화
+  function updateStatus(msg) {
+    if(sideStatus) sideStatus.textContent = msg;
+    if(stepEl) { stepEl.style.opacity='0'; setTimeout(()=>{ stepEl.textContent=msg; stepEl.style.opacity='1'; },160); }
+  }
+
+  const fieldSeq = ['name','feat','img','deny','season'];
+  const fieldMsgs = ['상품명 분석 중...','광고 포인트 적용 중...','이미지 분석 중...','금지어 적용 중...','시즌 설정 적용 중...'];
   let fieldIdx = 0;
 
   // 1.2초 간격 스캔 → 완료 후 심사숙고 상태
@@ -2845,14 +2835,14 @@ async function generate(){
     if(fieldIdx > 0) setApField(fieldSeq[fieldIdx-1], null, 'done');
     if(fieldIdx < fieldSeq.length){
       setApField(fieldSeq[fieldIdx], null, 'active');
-      if(sideStatus) sideStatus.textContent = fieldMsgs[fieldIdx] || '분석 중...';
+      updateStatus(fieldMsgs[fieldIdx] || '분석 중...');
       fieldIdx++;
     } else {
       clearInterval(fieldTimer);
       // 전체 스캔 완료 → Gemini 심사숙고 상태
       const thinkEl = document.getElementById('apThinking');
       if(thinkEl) thinkEl.style.display = 'block';
-      if(sideStatus) sideStatus.textContent = `제목 ${S.titles.length}개 분석 시작...`;
+      updateStatus(`제목 ${S.titles.length}개 분석 시작...`);
       // 실제 분석 단계 기반 메시지
       const thinkMsgs = [
         `제목 ${S.titles.length}개 클릭 패턴 분석 중...`,
@@ -2867,7 +2857,7 @@ async function generate(){
       fieldTimer = setInterval(()=>{
         ti = (ti+1) % thinkMsgs.length;
         if(thinkTxt) thinkTxt.textContent = thinkMsgs[ti];
-        if(sideStatus) sideStatus.textContent = thinkMsgs[ti];
+        updateStatus(thinkMsgs[ti]);
       }, 2000);
     }
   }, 1200);
@@ -2887,8 +2877,9 @@ async function generate(){
 
     let content;
     if(S.imgs.length>0){
-      // 압축된 이미지 전체 전송 (최대 10장 · 장당 ~80KB)
-      content=S.imgs.map(img=>({type:'image',source:{type:'base64',media_type:img.type||'image/jpeg',data:img.b64}}));
+      // 소재 생성용 이미지: 최대 3장 (3장 초과 시 속도 급격히 저하)
+      const genImgs = S.imgs.slice(0, 3);
+      content=genImgs.map(img=>({type:'image',source:{type:'base64',media_type:img.type||'image/jpeg',data:img.b64}}));
       content.push({type:'text',text:prompt});
     } else {
       content=prompt;
@@ -2933,6 +2924,7 @@ async function generate(){
 
     pg(2,'done');
     if(sideStatus) sideStatus.textContent='리포트 분석 중...';
+    if(stepEl) { stepEl.style.opacity='0'; setTimeout(()=>{ stepEl.textContent='리포트 분석 중...'; stepEl.style.opacity='1'; },160); }
     document.getElementById('genTxt').innerHTML='<span class="spin"></span> 리포트 분석 중...';
     pg(3,'active');
     if(window._startPhase2Timer) window._startPhase2Timer();
