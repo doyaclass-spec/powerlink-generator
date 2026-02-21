@@ -82,12 +82,40 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;color:var(--gray-8
 .key-notice{font-size:11px;color:var(--gray-400);margin-bottom:20px;line-height:1.6}
 .key-notice span{color:var(--green);font-weight:600}
 .key-confirm-btn{
-  width:100%;padding:14px;background:var(--green);color:#fff;
-  border:none;border-radius:10px;font-size:14px;font-weight:700;
-  font-family:inherit;cursor:pointer;transition:background .15s;
+  width:100%;padding:15px;
+  background:linear-gradient(135deg,#03C75A,#029e48);
+  color:#fff;border:none;border-radius:12px;
+  font-size:15px;font-weight:800;font-family:inherit;
+  cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  box-shadow:0 4px 16px rgba(3,199,90,.35);
+  letter-spacing:-.3px;
 }
-.key-confirm-btn:hover{background:var(--green-dark)}
-.key-confirm-btn:disabled{background:var(--gray-400);cursor:not-allowed}
+.key-confirm-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 6px 20px rgba(3,199,90,.45);
+}
+.key-confirm-btn:active{transform:translateY(0)}
+.key-confirm-btn:disabled{
+  background:var(--gray-200);color:var(--gray-400);
+  box-shadow:none;cursor:not-allowed;transform:none;
+}
+.key-confirm-btn .btn-icon{
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(255,255,255,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:900;flex-shrink:0;
+}
+.key-confirm-btn:disabled .btn-icon{background:var(--gray-300)}
+.key-confirm-btn .btn-text{font-size:14px}
+.key-skip-btn{
+  width:100%;margin-top:10px;padding:9px;
+  background:none;border:none;
+  font-size:12px;color:var(--gray-400);
+  cursor:pointer;font-family:inherit;
+  transition:color .15s;
+}
+.key-skip-btn:hover{color:var(--gray-600)}
 /* 모달 탭 */
 .modal-tabs{display:flex;border-bottom:1px solid var(--gray-200);margin-bottom:20px}
 .modal-tab{
@@ -530,9 +558,17 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
         </div>
       </div>
 
-      <button class="key-confirm<button class="key-confirm-btn" id="keyConfirmBtn" onclick="confirmKey()" disabled>
-        저장하고 시작하기 →
-      </button>
+      <div style="padding:20px 32px 28px">
+        <button class="key-confirm-btn" id="keyConfirmBtn" onclick="confirmKey()" disabled>
+          <span class="btn-icon">✓</span>
+          <span class="btn-text">저장하고 시작하기</span>
+        </button>
+        <button class="key-skip-btn" onclick="document.getElementById('keyModal').classList.add('hidden')">
+          나중에 설정할게요
+        </button>
+      </div>
+
+      
     </div>
   </div>
 </div>
@@ -545,15 +581,9 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
     <span class="h-sub">Gemini AI powered</span>
   </div>
   <button class="h-key-btn" onclick="openKeyModal()">
-    <span class="key-status-item">
-      <span class="status-dot" id="claudeDot"></span>
-      <span class="status-lbl">Gemini</span>
-    </span>
-    <span class="key-status-item">
-      <span class="status-dot" id="naverDot"></span>
-      <span class="status-lbl">네이버</span>
-    </span>
-    <span class="key-edit-lbl">⚙ 키 설정</span>
+    <span class="status-dot" id="claudeDot"></span>
+    <span class="status-lbl">Gemini API</span>
+    <span class="key-edit-lbl">⚙ 설정</span>
   </button>
 </header>
 
