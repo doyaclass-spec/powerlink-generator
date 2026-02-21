@@ -1221,6 +1221,21 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .gen-log-wrap{display:none;flex:1;overflow:hidden;margin-left:10px}
 .gen-log-item{font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .3s}
 .gen-log-item.active{color:var(--g);font-weight:600}
+.ap-stream-label{font-size:10px;font-weight:700;color:var(--g);letter-spacing:.5px;margin-bottom:6px;opacity:.7}
+.ap-stream-text{
+  font-size:11px;color:var(--text3);line-height:1.7;
+  max-height:160px;overflow-y:auto;
+  white-space:pre-wrap;word-break:break-all;
+  font-family:monospace;
+  background:rgba(0,0,0,.2);border-radius:6px;padding:8px;
+  border:1px solid rgba(255,255,255,.06);
+}
+.ap-stream-cursor{
+  display:inline-block;width:2px;height:12px;background:var(--g);
+  margin-left:1px;vertical-align:middle;
+  animation:cursorBlink .6s step-end infinite;
+}
+.ap-analyzing-header{display:flex;align-items:center;gap:10px;padding:8px 14px 10px;border-bottom:1px solid rgba(3,199,90,.12);margin-bottom:8px}
 .inputs-locked .input-grid,
 .inputs-locked .input-grid-b,
 .inputs-locked .enhance-row{position:relative}
@@ -1368,7 +1383,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v6.1</span>
+    <span class="h-version">v6.3</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -1499,6 +1514,20 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
                 </div>
               </div>
               <div id="analysisProgress" style="display:none">
+                <!-- 분석 중 Gemini 로고 -->
+                <div class="ap-analyzing-header">
+                  <div class="ap-idle-logo" style="width:28px;height:28px">
+                    <svg width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M14 2C14 8.627 8.627 14 2 14C8.627 14 14 19.373 14 26C14 19.373 19.373 14 26 14C19.373 14 14 8.627 14 2Z" fill="url(#gstar2)"/>
+                      <defs><linearGradient id="gstar2" x1="2" y1="2" x2="26" y2="26" gradientUnits="userSpaceOnUse"><stop stop-color="#03C75A"/><stop offset="1" stop-color="#0066FF"/></linearGradient></defs>
+                    </svg>
+                    <div class="ap-idle-pulse"></div>
+                  </div>
+                  <div>
+                    <div style="font-size:12px;font-weight:700;color:var(--g)">Gemini AI 분석 중</div>
+                    <div id="apAnalyzingSubtxt" style="font-size:10px;color:var(--text3)">소재 전략 깊이 분석하는 중...</div>
+                  </div>
+                </div>
                 <div class="ap-field-row pending" id="apf-name">
                   <span class="ap-f-icon">📦</span><div class="ap-f-content"><span class="ap-f-label">상품명</span><span class="ap-f-value" id="apf-name-val">—</span></div>
                   <span class="ap-f-status" id="apf-name-st">⏳</span>
@@ -1531,15 +1560,10 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
                   </div>
                   <div class="ap-thinking-dots"><span></span><span></span><span></span><span></span><span></span></div>
                 </div>
-                <!-- 실시간 분석 로그 -->
+                <!-- 실시간 분석 로그 - 실제 스트리밍 텍스트 -->
                 <div id="apLiveLog" style="display:none" class="ap-live-log">
-                  <div class="ap-log-item" id="alog-1"><div class="ap-log-dot" id="alog-dot-1"></div><span class="ap-log-icon">📦</span><span class="ap-log-text" id="alog-text-1">상품명에서 핵심 키워드 추출 중...</span></div>
-                  <div class="ap-log-item" id="alog-2"><div class="ap-log-dot" id="alog-dot-2"></div><span class="ap-log-icon">🎯</span><span class="ap-log-text" id="alog-text-2">타겟 고객 심리·구매 동기 분석 중...</span></div>
-                  <div class="ap-log-item" id="alog-3"><div class="ap-log-dot" id="alog-dot-3"></div><span class="ap-log-icon">📝</span><span class="ap-log-text" id="alog-text-3">30개 제목 구성 전략 검토 중...</span></div>
-                  <div class="ap-log-item" id="alog-4"><div class="ap-log-dot" id="alog-dot-4"></div><span class="ap-log-icon">💬</span><span class="ap-log-text" id="alog-text-4">12개 설명 메시지 효과 분석 중...</span></div>
-                  <div class="ap-log-item" id="alog-5"><div class="ap-log-dot" id="alog-dot-5"></div><span class="ap-log-icon">⚡</span><span class="ap-log-text" id="alog-text-5">클릭률 개선 포인트 도출 중...</span></div>
-                  <div class="ap-log-item" id="alog-6"><div class="ap-log-dot" id="alog-dot-6"></div><span class="ap-log-icon">📊</span><span class="ap-log-text" id="alog-text-6">어조·시즌 세팅 반영 여부 검증 중...</span></div>
-                  <div class="ap-log-item" id="alog-7"><div class="ap-log-dot" id="alog-dot-7"></div><span class="ap-log-icon">✍️</span><span class="ap-log-text" id="alog-text-7">리포트 작성 및 인사이트 정리 중...</span></div>
+                  <div class="ap-stream-label">📡 AI 분석 실시간 출력</div>
+                  <div id="apStreamText" class="ap-stream-text"></div>
                 </div>
                 <div class="ap-timer" style="margin-top:8px">예상 완료까지: <b id="apTimerVal">--</b></div>
               </div>
@@ -2252,14 +2276,29 @@ ${toneUsed.includes('action') || toneUsed.includes('행동') ? '- 행동유도·
   // 분석은 카피 텍스트 기반 — 이미지 불필요 (속도 최적화 핵심)
   const userContent = analysisPrompt;
 
-  // 실시간 분석 로그
+  // 실시간 분석 로그 - 실제 스트리밍 텍스트 표시
+  const streamEl = document.getElementById('apStreamText');
+  const liveLog = document.getElementById('apLiveLog');
+  if(liveLog) liveLog.style.display = 'block';
+  if(streamEl) streamEl.innerHTML = '<span class="ap-stream-cursor"></span>';
+
   function onAnalysisChunk(full) {
+    if(!streamEl) return;
+    // 실제 토큰 텍스트를 그대로 표시 (HTML 태그 제거해서 가독성 높임)
+    const clean = full
+      .replace(/<section[^>]*>/g, '\n▶ ')
+      .replace(/<\/section>/g, '\n')
+      .replace(/<b>/g, '').replace(/<\/b>/g, '')
+      .replace(/<em>/g, '').replace(/<\/em>/g, '')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+    streamEl.innerHTML = clean + '<span class="ap-stream-cursor"></span>';
+    // 자동 스크롤
+    streamEl.scrollTop = streamEl.scrollHeight;
+    // 버튼 옆 로그도 업데이트
     const sectionsDone = (full.match(/<\/section>/g)||[]).length;
-    const msgs = ['🔍 상품·소재 분석 중...', '⚡ TOP3 클릭률 소재 선정 중...', '💡 개선 권고 작성 중...'];
-    if (sectionsDone < msgs.length && msgs[sectionsDone]) {
-      const el = document.getElementById('genLogTxt');
-      if(el) { el.style.opacity='0'; setTimeout(()=>{ el.textContent=msgs[sectionsDone]; el.style.opacity='1'; },200); }
-    }
+    const msgs = ['🔍 소재 전략 분석 중...', '⚡ TOP3 클릭률 선정 중...', '💡 개선 권고 작성 중...'];
+    if(msgs[sectionsDone]) setGenLog(msgs[sectionsDone]);
   }
 
   const raw = await callClaude('', userContent, onAnalysisChunk);
@@ -2833,10 +2872,11 @@ async function generate(){
     genLogTxt.style.opacity='0';
     setTimeout(()=>{ genLogTxt.textContent=msg; genLogTxt.style.opacity='1'; }, 200);
   }
+  const sideStatus = document.getElementById('analysisSideStatus');
   const sidePreview=document.getElementById('analysisSidePreview');
   const sideBtn=document.getElementById('analysisOpenBtn');
   const apProg=document.getElementById('analysisProgress');
-  if(sideStatus){ sideStatus.textContent='분석 시작...'; sideStatus.classList.add('running'); }
+  if(sideStatus){ sideStatus.style.display='block'; sideStatus.textContent='분석 시작...'; sideStatus.classList.add('running'); }
   setGenLog('Gemini AI 연결 중...');
   if(sidePreview) sidePreview.style.display='none';
   if(sideBtn) sideBtn.disabled=true;
@@ -2872,7 +2912,7 @@ async function generate(){
 
   // 패널 타이머 행 업데이트
   const apTimerRow = document.getElementById('apTimerVal')?.closest('.ap-timer');
-  if(apTimerRow) apTimerRow.innerHTML = '예상 완료까지: <b id="apElapsedVal">${fmtRemain(TOTAL_SEC)}</b>';
+  if(apTimerRow) apTimerRow.innerHTML = `예상 완료까지: <b id="apElapsedVal">${fmtRemain(TOTAL_SEC)}</b>`;
   function updatePanelTimer(text){ const el=document.getElementById('apElapsedVal'); if(el) el.textContent=text; }
 
   const countdownInterval = setInterval(()=>{
@@ -2939,6 +2979,8 @@ async function generate(){
   // sideStatus 업데이트 + 분석 중 옆 stepEl에도 동기화
   function updateStatus(msg) {
     if(sideStatus) sideStatus.textContent = msg;
+    const subEl = document.getElementById('apAnalyzingSubtxt');
+    if(subEl) { subEl.style.opacity='0'; setTimeout(()=>{ subEl.textContent=msg; subEl.style.opacity='1'; },160); }
     setGenLog(msg);
     if(stepEl) { stepEl.style.opacity='0'; setTimeout(()=>{ stepEl.textContent=msg; stepEl.style.opacity='1'; },160); }
   }
@@ -3020,8 +3062,19 @@ async function generate(){
     // 실시간 스트리밍 로그 — 실제 토큰이 올 때마다 업데이트
     let tokenCount = 0;
     let titlesDone = false;
+    const streamElCopy = document.getElementById('apStreamText');
+    const liveLogCopy = document.getElementById('apLiveLog');
+    if(liveLogCopy) liveLogCopy.style.display = 'block';
+    if(streamElCopy) streamElCopy.innerHTML = '<span class="ap-stream-cursor"></span>';
+
     function onCopyChunk(full, token) {
       tokenCount += token.length;
+      // 소재 생성 중 JSON 원본을 패널에 표시
+      if(streamElCopy) {
+        const preview = full.slice(-300); // 최근 300자만 표시
+        streamElCopy.innerHTML = '<span style="color:var(--text3);font-size:10px">소재 생성 중...<br></span>' + preview + '<span class="ap-stream-cursor"></span>';
+        streamElCopy.scrollTop = streamElCopy.scrollHeight;
+      }
       // titles 완료 감지
       if (!titlesDone && full.includes('"descs"')) {
         titlesDone = true;
