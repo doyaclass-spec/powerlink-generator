@@ -155,14 +155,22 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;color:var(--gray-8
 }
 .h-title{font-size:15px;font-weight:700;color:#fff}
 .h-sub{font-size:11px;color:rgba(255,255,255,.4);margin-left:2px}
-.h-key-btn{
+.header-right{display:flex;align-items:center;gap:10px}
+.api-status{
   display:flex;align-items:center;gap:6px;
-  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
-  border-radius:7px;padding:6px 12px;
-  color:rgba(255,255,255,.7);font-size:12px;font-weight:500;
-  cursor:pointer;font-family:inherit;transition:all .15s;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:7px;padding:6px 12px;pointer-events:none;
 }
-.h-key-btn:hover{background:rgba(255,255,255,.14);color:#fff}
+.h-setting-btn{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  border-radius:7px;padding:6px 14px;
+  color:rgba(255,255,255,.85);font-size:12px;font-weight:600;
+  cursor:pointer;font-family:inherit;transition:all .15s;
+  white-space:nowrap;
+}
+.h-setting-btn:hover{background:rgba(255,255,255,.2);color:#fff;border-color:rgba(255,255,255,.4)}
+.h-setting-btn:active{transform:scale(.96)}
 .key-status-item{display:flex;align-items:center;gap:5px}
 .key-status-sep{color:rgba(255,255,255,.2);font-size:12px;margin:0 4px}
 .status-dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;box-shadow:0 0 4px rgba(0,0,0,.3)}
@@ -659,11 +667,13 @@ button { -webkit-tap-highlight-color: transparent; }
     <span class="h-title">파워링크 광고 소재 생성기</span>
     <span class="h-sub">Gemini AI powered</span>
   </div>
-  <button class="h-key-btn" onclick="openKeyModal()">
-    <span class="status-dot" id="claudeDot"></span>
-    <span class="status-lbl">Gemini API</span>
-    <span class="key-edit-lbl">⚙ 설정</span>
-  </button>
+  <div class="header-right">
+    <div class="api-status">
+      <span class="status-dot" id="claudeDot"></span>
+      <span class="status-lbl">Gemini API</span>
+    </div>
+    <button class="h-setting-btn" onclick="openKeyModal()">⚙ 설정</button>
+  </div>
 </header>
 
 <!-- ── 히어로 ── -->
