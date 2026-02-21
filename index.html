@@ -133,8 +133,12 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;color:var(--gray-8
   cursor:pointer;font-family:inherit;transition:all .15s;
 }
 .h-key-btn:hover{background:rgba(255,255,255,.14);color:#fff}
-.h-key-dot{width:7px;height:7px;border-radius:50%;background:var(--gray-400)}
-.h-key-dot.ok{background:var(--green)}
+.key-status-item{display:flex;align-items:center;gap:5px}
+.key-status-sep{color:rgba(255,255,255,.2);font-size:12px;margin:0 4px}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;box-shadow:0 0 4px rgba(0,0,0,.3)}
+.status-dot.ok{background:var(--green);box-shadow:0 0 6px rgba(3,199,90,.5)}
+.status-lbl{font-size:11px;color:rgba(255,255,255,.6)}
+.key-edit-lbl{font-size:11px;color:rgba(255,255,255,.4);margin-left:6px;border-left:1px solid rgba(255,255,255,.15);padding-left:8px}
 
 /* ── 히어로 배너 ── */
 .hero{
@@ -194,6 +198,8 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
 }
 .url-btn:hover{background:var(--gray-200)}
 .url-btn:disabled{opacity:.5;cursor:not-allowed}
+.url-clear{background:rgba(229,62,62,.08);border-color:rgba(229,62,62,.2);color:var(--red);padding:9px 11px;font-size:13px;font-weight:700}
+.url-clear:hover{background:rgba(229,62,62,.15);border-color:var(--red)}
 .url-btn.loading{color:var(--blue)}
 
 /* 상품 카드 (URL 불러온 후) */
@@ -512,10 +518,16 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
     <span class="h-sub">AI powered</span>
   </div>
   <button class="h-key-btn" onclick="openKeyModal()">
-    <span class="h-key-dot" id="keyDot"></span>
-    <span id="keyStatus">API Key 설정</span>
-    <span id="naverDot" style="display:none;width:7px;height:7px;border-radius:50%;background:#03C75A;margin-left:2px"></span>
-    <span id="naverLabel" style="display:none;font-size:10px;color:rgba(255,255,255,.5)">+쇼핑</span>
+    <span class="key-status-item">
+      <span class="status-dot" id="claudeDot"></span>
+      <span class="status-lbl">Claude</span>
+    </span>
+    <span class="key-status-sep">|</span>
+    <span class="key-status-item">
+      <span class="status-dot" id="naverDot"></span>
+      <span class="status-lbl">네이버</span>
+    </span>
+    <span class="key-edit-lbl">⚙ 키 설정</span>
   </button>
 </header>
 
@@ -545,6 +557,7 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
           <label class="lbl">스마트스토어 URL</label>
           <div class="url-row">
             <input type="url" class="inp" id="storeUrl" placeholder="https://smartstore.naver.com/..." />
+            <button class="url-btn url-clear" id="clearBtn" onclick="clearUrl()" title="초기화" style="display:none">✕</button>
             <button class="url-btn" id="fetchBtn" onclick="fetchStore()">불러오기</button>
           </div>
         </div>
@@ -784,13 +797,11 @@ function openKeyModal() {
 }
 
 function updateKeyHeader(ok) {
-  document.getElementById('keyDot').className = 'h-key-dot' + (ok ? ' ok' : '');
-  document.getElementById('keyStatus').textContent = ok ? 'API Key 변경' : 'API Key 설정';
+  document.getElementById('claudeDot').className = 'status-dot' + (ok ? ' ok' : '');
 }
 function updateNaverHeader() {
-  const ok = NAVER_ID && NAVER_SEC;
-  document.getElementById('naverDot').style.display = ok ? '' : 'none';
-  document.getElementById('naverLabel').style.display = ok ? '' : 'none';
+  const ok = !!(NAVER_ID && NAVER_SEC);
+  document.getElementById('naverDot').className = 'status-dot' + (ok ? ' ok' : '');
 }
 
 // ── 파일 업로드 (최대 20장)
@@ -854,6 +865,23 @@ function renderImgGrid() {
     </div>`).join('');
 }
 
+// ── URL 초기화
+function clearUrl() {
+  document.getElementById('storeUrl').value = '';
+  document.getElementById('clearBtn').style.display = 'none';
+  document.getElementById('productCard').style.display = 'none';
+  document.getElementById('productName').value = '';
+  document.getElementById('feature').value = '';
+  setNotice('');
+}
+
+// storeUrl 입력할 때 초기화 버튼 표시
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('storeUrl').addEventListener('input', function() {
+    document.getElementById('clearBtn').style.display = this.value ? '' : 'none';
+  });
+});
+
 // ── 스마트스토어 불러오기
 async function fetchStore() {
   const url = document.getElementById('storeUrl').value.trim();
@@ -872,56 +900,87 @@ async function fetchStore() {
   setNotice('');
 
   try {
-    // URL에서 상품명 힌트 추출
-    const urlHint = extractProductHint(url);
+    // ── Step 1: 프록시로 og:title 먼저 시도 (가장 정확한 상품명)
+    let ogName = '';
+    let ogImg  = '';
+    try {
+      const proxyRes = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, { signal: AbortSignal.timeout(7000) });
+      if (proxyRes.ok) {
+        const pdata = await proxyRes.json();
+        if (pdata?.contents) {
+          const doc = new DOMParser().parseFromString(pdata.contents, 'text/html');
+          const ogTitle = doc.querySelector('meta[property="og:title"]')?.content || '';
+          const errKw = ['에러', '시스템오류', 'error', '찾을 수 없', '접근이 제한'];
+          if (ogTitle && !errKw.some(k => ogTitle.includes(k))) {
+            ogName = ogTitle.replace(/\s*[-|:]\s*(네이버|스마트스토어|쇼핑).*/i, '').trim();
+            ogImg  = doc.querySelector('meta[property="og:image"]')?.content || '';
+          }
+        }
+      }
+    } catch(e) { /* 프록시 실패 → 다음 단계로 */ }
 
-    // 네이버 쇼핑 검색 API (corsproxy로 헤더 전달)
-    const query = urlHint || url;
-    const apiUrl = `https://openapi.naver.com/v1/search/shop.json?query=${encodeURIComponent(query)}&display=5&sort=sim`;
+    // ── Step 2: 네이버 쇼핑 API로 상세 정보 보완
+    // 검색 쿼리: og:title이 있으면 그걸로, 없으면 스토어ID로
+    const query = ogName || extractProductHint(url);
+    if (!query) {
+      if (ogName) {
+        // og만 있어도 표시
+        showProductCard(ogName, '', ogImg, '', '');
+        setNotice('ok', '✅ 상품명을 불러왔어요! 특징은 직접 입력해주세요.');
+      } else {
+        setNotice('warn', '⚠️ 상품 정보를 가져오지 못했어요. 상품명을 직접 입력해주세요.');
+      }
+      return;
+    }
+
+    const apiUrl = `https://openapi.naver.com/v1/search/shop.json?query=${encodeURIComponent(query)}&display=10&sort=sim`;
     const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`;
-
     const res = await fetch(proxyUrl, {
-      headers: {
-        'X-Naver-Client-Id': NAVER_ID,
-        'X-Naver-Client-Secret': NAVER_SEC,
-      },
+      headers: { 'X-Naver-Client-Id': NAVER_ID, 'X-Naver-Client-Secret': NAVER_SEC },
       signal: AbortSignal.timeout(10000)
     });
-
     if (!res.ok) throw new Error('API 응답 오류: ' + res.status);
     const data = await res.json();
     const items = data.items || [];
 
     if (!items.length) {
-      setNotice('warn', '⚠️ 검색 결과가 없어요. 상품명을 직접 입력해주세요.');
+      // 검색 결과 없어도 og:title이 있으면 표시
+      if (ogName) {
+        showProductCard(ogName, '', ogImg, '', '');
+        setNotice('ok', '✅ 상품명을 불러왔어요! 카테고리/가격은 직접 추가해주세요.');
+      } else {
+        setNotice('warn', '⚠️ 검색 결과가 없어요. 상품명을 직접 입력해주세요.');
+      }
       return;
     }
 
-    // 스마트스토어 URL과 가장 일치하는 상품 찾기
+    // ── 정확한 상품 매칭
+    // 1순위: og:title과 제목이 가장 유사한 것
+    // 2순위: 스토어 ID가 링크에 포함된 것
+    // 3순위: 첫 번째 결과
     const storeId = extractStoreId(url);
-    let best = items.find(it => storeId && it.link && it.link.includes(storeId)) || items[0];
-
-    const name = stripHtml(best.title);
-    const desc = best.category1 + (best.category2 ? ' > ' + best.category2 : '') + (best.category3 ? ' > ' + best.category3 : '');
-    const img  = best.image || '';
-    const mall = best.mallName || '';
-    const price = best.lprice ? parseInt(best.lprice).toLocaleString() + '원' : '';
-
-    // 폼 채우기
-    document.getElementById('productName').value = name;
-    if (!document.getElementById('feature').value) {
-      const feat = [desc, price ? '가격 ' + price : '', mall ? mall + ' 판매' : ''].filter(Boolean).join(', ');
-      document.getElementById('feature').value = feat.substring(0, 200);
+    let best = null;
+    if (ogName) {
+      const ogClean = ogName.replace(/\s/g,'').toLowerCase();
+      // 유사도 점수
+      best = items.reduce((prev, cur) => {
+        const curClean = stripHtml(cur.title).replace(/\s/g,'').toLowerCase();
+        const curScore = similarity(ogClean, curClean);
+        const prevClean = stripHtml(prev.title).replace(/\s/g,'').toLowerCase();
+        const prevScore = similarity(ogClean, prevClean);
+        return curScore > prevScore ? cur : prev;
+      });
     }
+    if (!best) best = items.find(it => storeId && it.link?.includes(storeId)) || items[0];
 
-    // 카드 표시
-    const card = document.getElementById('productCard');
-    card.className = 'product-card';
-    card.innerHTML = img
-      ? `<img src="${img}" onerror="this.style.display='none'" /><div><div class="p-name">${esc(name)}</div><div class="p-desc">${esc(desc)}${price ? ' · ' + price : ''}</div></div>`
-      : `<div><div class="p-name">${esc(name)}</div><div class="p-desc">${esc(desc)}</div></div>`;
-    card.style.display = 'flex';
-    setNotice('ok', `✅ 네이버 쇼핑에서 상품 정보를 불러왔어요! 필요하면 수정 후 생성해주세요.`);
+    const name  = ogName || stripHtml(best.title);
+    const cat   = [best.category1, best.category2, best.category3].filter(Boolean).join(' > ');
+    const img   = ogImg || best.image || '';
+    const price = best.lprice ? parseInt(best.lprice).toLocaleString() + '원' : '';
+    const mall  = best.mallName || '';
+
+    showProductCard(name, cat, img, price, mall);
+    setNotice('ok', '✅ 네이버 쇼핑에서 상품 정보를 불러왔어요! 필요하면 수정 후 생성해주세요.');
 
   } catch(e) {
     console.error(e);
@@ -929,6 +988,30 @@ async function fetchStore() {
   } finally {
     btn.disabled = false; btn.className = 'url-btn'; btn.textContent = '불러오기';
   }
+}
+
+// 상품 카드 표시 + 폼 채우기
+function showProductCard(name, cat, img, price, mall) {
+  document.getElementById('productName').value = name;
+  if (!document.getElementById('feature').value && (cat || price || mall)) {
+    const feat = [cat, price ? '가격 ' + price : '', mall ? mall + ' 판매' : ''].filter(Boolean).join(', ');
+    document.getElementById('feature').value = feat.substring(0, 200);
+  }
+  const card = document.getElementById('productCard');
+  card.className = 'product-card';
+  card.innerHTML = img
+    ? `<img src="${img}" onerror="this.style.display='none'" /><div><div class="p-name">${esc(name)}</div><div class="p-desc">${esc(cat)}${price ? ' · ' + price : ''}</div></div>`
+    : `<div><div class="p-name">${esc(name)}</div><div class="p-desc">${esc(cat)}</div></div>`;
+  card.style.display = 'flex';
+  // 초기화 버튼 표시
+  document.getElementById('clearBtn').style.display = '';
+}
+
+// 문자열 유사도 (공통 문자 비율)
+function similarity(a, b) {
+  if (!a || !b) return 0;
+  const set = new Set(a.split(''));
+  return [...b.split('')].filter(c => set.has(c)).length / Math.max(a.length, b.length);
 }
 
 // URL에서 상품명 힌트 추출
