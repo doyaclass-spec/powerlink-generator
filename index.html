@@ -716,7 +716,7 @@ button { -webkit-tap-highlight-color: transparent; }
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-sub">Gemini AI powered</span><span class="h-version">v1.5</span>
+    <span class="h-sub">Gemini AI powered</span><span class="h-version">v1.7</span>
   </div>
   <div class="header-right">
     <div class="api-status">
@@ -970,9 +970,11 @@ function hideApiKeyBanner() {
 
 
 function updateConfirmBtn() {
-  const ck = document.getElementById('modalKey').value.trim();
+  const inp = document.getElementById('modalKey');
+  const ck = inp.value.trim();
   const btn = document.getElementById('keyConfirmBtn');
-  const ok = ck.length >= 5;
+  // 마스킹 상태도 저장 가능 (기존 키 유지)
+  const ok = ck.length >= 5 || inp.dataset.masked === 'true';
   btn.disabled = !ok;
   btn.classList.toggle('ready', ok);
 }
@@ -986,14 +988,14 @@ function toggleModalKey() {
 }
 
 function confirmKey() {
-  const ck = document.getElementById('modalKey').value.trim();
-  // 빈칸이면 기존 키 유지하고 닫기
-  if (!ck) {
+  const inp = document.getElementById('modalKey');
+  const ck = inp.value.trim();
+  // 마스킹 상태(별표)이거나 빈칸이면 기존 키 유지하고 닫기
+  if (inp.dataset.masked === 'true' || !ck || ck.startsWith('●')) {
     if (API_KEY && API_KEY.length > 5) {
       document.getElementById('keyModal').classList.add('hidden');
       return;
     }
-    const inp = document.getElementById('modalKey');
     inp.style.borderColor = 'var(--red)';
     inp.placeholder = 'API Key를 입력해주세요';
     inp.focus();
@@ -1009,11 +1011,27 @@ function confirmKey() {
 }
 
 function openKeyModal() {
-  // 키가 있어도 모달에 표시 안함 - 보안상 비워두기
-  document.getElementById('modalKey').value = '';
-  // 키 등록된 상태면 placeholder로 안내
   const inp = document.getElementById('modalKey');
-  inp.placeholder = API_KEY && API_KEY.length > 5 ? '이미 등록됨 — 변경하려면 새 키 입력' : 'AIzaSy...';
+  // 키가 등록된 상태면 마스킹된 별표로 표시
+  if (API_KEY && API_KEY.length > 5) {
+    inp.value = '●'.repeat(Math.min(API_KEY.length, 32));
+    inp.dataset.masked = 'true';
+    // 클릭하면 지워지고 새로 입력 가능
+    inp.onclick = function() {
+      if (inp.dataset.masked === 'true') {
+        inp.value = '';
+        inp.dataset.masked = 'false';
+        inp.placeholder = 'AIzaSy...';
+        inp.onclick = null;
+        updateConfirmBtn();
+      }
+    };
+  } else {
+    inp.value = '';
+    inp.dataset.masked = 'false';
+    inp.placeholder = 'AIzaSy...';
+    inp.onclick = null;
+  }
   document.getElementById('keyModal').classList.remove('hidden');
   updateConfirmBtn();
   inp.focus();
@@ -1049,8 +1067,8 @@ function updateCost() {
   const secs = 3 + n * 2;
   const over = n > 10;
   el.style.display = 'block';
-  document.getElementById('costImgCnt').textContent = n;
-  document.getElementById('costAmt').innerHTML = `<span class="${over?'c-over':''}">약 ${secs}초${over?' (느릴 수 있음)':''}</span>`;
+  if (document.getElementById('costImgCnt')) document.getElementById('costImgCnt').textContent = n;
+  if (document.getElementById('costAmt')) document.getElementById('costAmt').innerHTML = `<span class="${over?'c-over':''}">약 ${secs}초${over?' (느릴 수 있음)':''}</span>`;
 }
 
 function removeImg(i) {
@@ -1409,7 +1427,8 @@ function render() {
   document.getElementById('dBadge').textContent = S.descs.length;
 
   // 키워드
-  document.getElementById('kwCloud').innerHTML = S.kws.map(k =>
+  const kwEl = document.getElementById('kwCloud');
+  if (kwEl) kwEl.innerHTML = S.kws.map(k =>
     `<span class="kw-chip" onclick="cpKw(this)">${esc(k)}</span>`
   ).join('');
 }
