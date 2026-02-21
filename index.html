@@ -268,21 +268,21 @@ body{
 .req{color:var(--g);font-size:9px}
 .lbl-desc{font-size:13px;color:var(--text3);margin-bottom:5px}
 .inp{
-  width:100%;padding:7px 10px;
+  width:100%;padding:8px 11px;
   background:rgba(0,0,0,.3);border:1.5px solid var(--border);
   border-radius:var(--r2);font-size:15px;font-family:inherit;color:var(--text);outline:none;
   transition:border-color .2s,box-shadow .2s;
 }
 .inp:focus{border-color:rgba(3,199,90,.45);box-shadow:0 0 0 3px rgba(3,199,90,.07);background:rgba(0,0,0,.4)}
 .inp::placeholder{color:var(--text3)}
-textarea.inp{resize:none;line-height:1.5}
+textarea.inp{resize:none;line-height:1.6;font-size:15px}
 
 /* feat slots */
-.feat-slot{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,.2);border:1px solid var(--border);border-radius:5px;padding:4px 7px;margin-bottom:3px;transition:border-color .15s}
+.feat-slot{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,.2);border:1px solid var(--border);border-radius:5px;padding:5px 8px;margin-bottom:4px;transition:border-color .15s}
 .feat-slot:focus-within{border-color:rgba(3,199,90,.3)}
-.feat-slot-num{font-size:9px;font-weight:700;color:var(--g);width:12px;flex-shrink:0}
+.feat-slot-num{font-size:10px;font-weight:700;color:var(--g);width:14px;flex-shrink:0}
 .feat-slot input{flex:1;background:none;border:none;outline:none;font-size:14px;color:var(--text);font-family:inherit}
-.feat-slot input::placeholder{color:var(--text3)}
+.feat-slot input::placeholder{color:var(--text3);font-size:13px}
 .feat-slot-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:11px;padding:0 2px;transition:color .15s}
 .feat-slot-del:hover{color:var(--red)}
 .feat-add-btn{background:none;border:1px dashed rgba(255,255,255,.12);color:var(--text3);border-radius:5px;padding:4px 0;font-size:10px;cursor:pointer;font-family:inherit;width:100%;transition:all .2s;margin-top:2px}
@@ -316,9 +316,6 @@ textarea.inp{resize:none;line-height:1.5}
 
 /* 분석 컬럼 */
 .col-analysis{background:linear-gradient(160deg,rgba(3,199,90,.04),rgba(0,102,255,.03))}
-
-
-50%{box-shadow:0 0 24px rgba(3,199,90,.25)}}
 
 
 .analysis-status{font-size:11px;color:var(--text3);padding:3px 7px;background:rgba(0,0,0,.2);border-radius:4px;border:1px solid var(--border);display:inline-block;margin-bottom:6px}
@@ -552,9 +549,9 @@ textarea.inp{resize:none;line-height:1.5}
 /* 입력 컬럼 헤더 */
 .icol-head{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
 .icol-num{font-size:9px;font-weight:900;color:var(--g);background:var(--g-dim);border:1px solid rgba(3,199,90,.25);border-radius:4px;padding:2px 5px;flex-shrink:0;margin-top:1px;letter-spacing:.5px;min-width:22px;text-align:center}
-.icol-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px}
+.icol-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:2px}
 .icol-desc{font-size:12px;color:var(--text3);line-height:1.4}
-.inp-ta{resize:none;line-height:1.6;min-height:68px}
+.inp-ta{resize:none;line-height:1.6;min-height:72px;font-size:15px}
 /* 5칸 그리드 → 4칸으로 (상품명+타겟 병합) */
 .input-grid{grid-template-columns:1.1fr 1.1fr 1fr 1fr !important}
 
@@ -567,8 +564,37 @@ textarea.inp{resize:none;line-height:1.5}
 .ap-step-row.active .ap-dot{background:var(--g);box-shadow:0 0 6px var(--g-glow);animation:apPulse .8s ease infinite}
 .ap-step-row.done .ap-dot{background:var(--g)}
 @keyframes apPulse{0%,100%{opacity:1}50%{opacity:.4}}
-.ap-timer{font-size:11px;color:var(--text3);margin-top:5px;text-align:right}
+.ap-timer{font-size:10px;color:var(--text3);margin-top:4px;text-align:right}
 .ap-timer b{color:var(--g)}
+
+/* 분석 필드 행 - 실제 입력값 표시 */
+.ap-field-row{
+  display:flex;align-items:center;gap:6px;
+  padding:4px 7px;border-radius:6px;margin-bottom:2px;
+  border:1px solid transparent;transition:all .35s ease;
+  background:rgba(255,255,255,.025);
+}
+.ap-field-row.pending{opacity:.45}
+.ap-field-row.active{
+  opacity:1;background:rgba(3,199,90,.08);
+  border-color:rgba(3,199,90,.25);
+  animation:apFieldPulse 1s ease infinite;
+}
+.ap-field-row.done{
+  opacity:1;background:rgba(3,199,90,.04);
+  border-color:rgba(3,199,90,.12);
+}
+.ap-field-row.skip{opacity:.3}
+@keyframes apFieldPulse{0%,100%{border-color:rgba(3,199,90,.25)}50%{border-color:rgba(3,199,90,.5)}}
+.ap-f-icon{font-size:13px;flex-shrink:0}
+.ap-f-content{flex:1;min-width:0}
+.ap-f-label{font-size:9px;font-weight:700;color:var(--text3);display:block;letter-spacing:.3px;text-transform:uppercase}
+.ap-field-row.active .ap-f-label{color:var(--g)}
+.ap-field-row.done .ap-f-label{color:rgba(3,199,90,.65)}
+.ap-f-value{font-size:11px;color:var(--text3);display:block;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ap-field-row.active .ap-f-value{color:#fff;font-weight:600}
+.ap-field-row.done .ap-f-value{color:var(--text2)}
+.ap-f-status{font-size:12px;flex-shrink:0}
 
 
 /* 모바일 광고 카드 - 네이버 실제처럼 */
@@ -756,6 +782,48 @@ textarea.inp{resize:none;line-height:1.5}
 .rc-title-col::-webkit-scrollbar,.rc-desc-col::-webkit-scrollbar{width:3px}
 .rc-title-col::-webkit-scrollbar-thumb,.rc-desc-col::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
 
+/* ── 3컬럼 제목 레이아웃 (가로 나열) */
+.result-titles-3col{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  border-bottom:1px solid var(--border);
+}
+.rc-title-group{
+  display:flex;flex-direction:column;
+  border-right:1px solid var(--border);
+  overflow-y:auto;max-height:440px;
+}
+.rc-title-group:last-child{border-right:none}
+.rc-title-group::-webkit-scrollbar{width:3px}
+.rc-title-group::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+.rc-desc-area{overflow-y:auto;max-height:300px}
+.rc-desc-area::-webkit-scrollbar{width:3px}
+.rc-desc-area::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+
+/* ── 핀 위치별 item 색상 */
+.item.pin1,.item-desc.pin1{
+  background:linear-gradient(90deg,rgba(3,199,90,.1),rgba(3,199,90,.03));
+  border-left:3px solid #03C75A;
+}
+.item.pin1 .txt,.item-desc.pin1 .txt{color:#4ddb8f}
+.item.pin2,.item-desc.pin2{
+  background:linear-gradient(90deg,rgba(51,133,255,.1),rgba(51,133,255,.03));
+  border-left:3px solid #3385ff;
+}
+.item.pin2 .txt,.item-desc.pin2 .txt{color:#6aabff}
+.item.pin3,.item-desc.pin3{
+  background:linear-gradient(90deg,rgba(255,152,0,.1),rgba(255,152,0,.03));
+  border-left:3px solid #ff9800;
+}
+.item.pin3 .txt,.item-desc.pin3 .txt{color:#ffbb4d}
+
+/* ── 핀 select 색상 (위치별) */
+.pin-sel.pin1{background:#0a2a1a;border-color:rgba(3,199,90,.7);color:#03C75A;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2303C75A'/%3E%3C/svg%3E")}
+.pin-sel.pin2{background:#0a1a2a;border-color:rgba(51,133,255,.7);color:#3385ff;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%233385ff'/%3E%3C/svg%3E")}
+.pin-sel.pin3{background:#2a1a0a;border-color:rgba(255,152,0,.7);color:#ff9800;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23ff9800'/%3E%3C/svg%3E")}
+
 /* ── 헤더 행 */
 .rc-head{
   display:flex;align-items:center;gap:8px;flex-wrap:wrap;
@@ -763,7 +831,7 @@ textarea.inp{resize:none;line-height:1.5}
   border-bottom:1px solid var(--border);
   position:sticky;top:0;z-index:5;
 }
-.rc-head-label{font-size:14px;font-weight:800;color:#fff}
+.rc-head-label{font-size:13px;font-weight:800;color:#fff}
 .rc-sel-count{
   font-size:12px;font-weight:700;
   background:rgba(3,199,90,.15);border:1px solid rgba(3,199,90,.3);
@@ -975,23 +1043,26 @@ textarea.inp{resize:none;line-height:1.5}
 
 /* ── 필수/선택/자동 뱃지 */
 .badge-req{
-  display:inline-flex;align-items:center;gap:3px;
-  font-size:10px;font-weight:800;padding:2px 7px;border-radius:4px;
+  display:inline-flex;align-items:center;gap:2px;
+  font-size:8.5px;font-weight:800;padding:1px 5px;border-radius:3px;
   background:rgba(255,60,80,.18);color:#ff4d6d;
   border:1px solid rgba(255,60,80,.35);vertical-align:middle;
+  line-height:1.4;
 }
-.badge-req::before{content:'✱';font-size:9px}
+.badge-req::before{content:'✱';font-size:8px}
 
 .badge-opt{
-  font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;
+  font-size:8.5px;font-weight:600;padding:1px 5px;border-radius:3px;
   background:rgba(255,255,255,.07);color:rgba(232,240,254,.5);
   border:1px solid rgba(255,255,255,.1);vertical-align:middle;
+  line-height:1.4;
 }
 
 .badge-auto{
-  font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;
+  font-size:8.5px;font-weight:700;padding:1px 5px;border-radius:3px;
   background:rgba(255,152,0,.12);color:#ff9800;
   border:1px solid rgba(255,152,0,.25);vertical-align:middle;
+  line-height:1.4;
 }
 
 /* ── 필수 힌트 텍스트 */
@@ -1205,17 +1276,61 @@ textarea.inp{resize:none;line-height:1.5}
 
         <!-- 분석 리포트 -->
         <div class="input-col col-analysis" style="border-top:2px solid rgba(255,150,0,.5)!important">
-          <div class="icol-head" style="margin-bottom:10px"><span class="icol-num icol-num-5">05</span><div><div class="icol-title">마케터 분석 리포트 <span class="badge-auto">자동</span></div><div class="icol-desc">10년차 전문가 AI가 광고 소재 전략을 분석해드려요</div></div></div>
+          <div class="icol-head" style="margin-bottom:8px"><span class="icol-num icol-num-5">05</span><div><div class="icol-title">마케터 분석 리포트 <span class="badge-auto">자동</span></div><div class="icol-desc">10년차 전문가 AI가 광고 소재 전략을 분석해드려요</div></div></div>
           <div class="analysis-status" id="analysisSideStatus">소재 생성 후 자동 분석됩니다</div>
-          <!-- 분석 진행 상황 -->
-          <div id="analysisProgress" style="display:none;margin-bottom:8px">
-            <div class="ap-step-row" id="apStep1"><span class="ap-dot"></span><span class="ap-txt">상품명 분석 중...</span></div>
-            <div class="ap-step-row" id="apStep2"><span class="ap-dot"></span><span class="ap-txt">이미지 분석 중...</span></div>
-            <div class="ap-step-row" id="apStep3"><span class="ap-dot"></span><span class="ap-txt">광고 전략 수립 중...</span></div>
-            <div class="ap-step-row" id="apStep4"><span class="ap-dot"></span><span class="ap-txt">리포트 작성 중...</span></div>
+          <!-- 분석 진행: 입력값 나열 -->
+          <div id="analysisProgress" style="display:none;margin:4px 0 6px">
+            <div class="ap-field-row pending" id="apf-name">
+              <span class="ap-f-icon">📦</span>
+              <div class="ap-f-content">
+                <span class="ap-f-label">상품명</span>
+                <span class="ap-f-value" id="apf-name-val">—</span>
+              </div>
+              <span class="ap-f-status" id="apf-name-st">⏳</span>
+            </div>
+            <div class="ap-field-row pending" id="apf-feat">
+              <span class="ap-f-icon">✏️</span>
+              <div class="ap-f-content">
+                <span class="ap-f-label">광고 내용</span>
+                <span class="ap-f-value" id="apf-feat-val">—</span>
+              </div>
+              <span class="ap-f-status" id="apf-feat-st">⏳</span>
+            </div>
+            <div class="ap-field-row pending" id="apf-img">
+              <span class="ap-f-icon">🖼️</span>
+              <div class="ap-f-content">
+                <span class="ap-f-label">이미지</span>
+                <span class="ap-f-value" id="apf-img-val">없음</span>
+              </div>
+              <span class="ap-f-status" id="apf-img-st">⏳</span>
+            </div>
+            <div class="ap-field-row pending" id="apf-deny">
+              <span class="ap-f-icon">🚫</span>
+              <div class="ap-f-content">
+                <span class="ap-f-label">금지어</span>
+                <span class="ap-f-value" id="apf-deny-val">없음</span>
+              </div>
+              <span class="ap-f-status" id="apf-deny-st">⏳</span>
+            </div>
+            <div class="ap-field-row pending" id="apf-season">
+              <span class="ap-f-icon">📅</span>
+              <div class="ap-f-content">
+                <span class="ap-f-label">시즌·이벤트</span>
+                <span class="ap-f-value" id="apf-season-val">없음</span>
+              </div>
+              <span class="ap-f-status" id="apf-season-st">⏳</span>
+            </div>
+            <div class="ap-field-row pending" id="apf-tone">
+              <span class="ap-f-icon">🎯</span>
+              <div class="ap-f-content">
+                <span class="ap-f-label">광고 어조</span>
+                <span class="ap-f-value" id="apf-tone-val">없음</span>
+              </div>
+              <span class="ap-f-status" id="apf-tone-st">⏳</span>
+            </div>
             <div class="ap-timer" id="apTimer">예상 소요: <b id="apTimerVal">--</b></div>
           </div>
-          <div class="analysis-preview" id="analysisSidePreview">광고 소재를 생성하면 여기에 마케터의 분석이 요약되어 표시됩니다</div>
+          <div class="analysis-preview" id="analysisSidePreview" style="display:none">광고 소재를 생성하면 여기에 마케터의 분석이 요약되어 표시됩니다</div>
           <button class="analysis-btn" id="analysisOpenBtn" onclick="openAnalysisModal()" disabled>📄 전체 리포트 보기</button>
         </div>
 
@@ -1358,57 +1473,50 @@ textarea.inp{resize:none;line-height:1.5}
       <div class="empty-icon">✦</div>
       <div class="empty-txt">상품 정보를 입력하고 <strong>생성 버튼</strong>을 눌러주세요<br><span style="font-size:13px;opacity:.5">✓ 제목 30개 · 설명 12개 · 마케터 분석 리포트</span></div>
     </div>
+    <!-- analysisBody: hidden buffer for modal (not shown in main UI) -->
     <div id="analysisBody" style="display:none"></div>
     <div id="resultWrap" style="display:none">
-      <!-- 2열 레이아웃: 제목 | 설명 -->
-      <div class="result-2col">
-        <!-- 좌: 광고 제목 (10개씩 3그룹) -->
-        <div class="rc-title-col">
+      <!-- 제목 3컬럼 가로 나열 -->
+      <div class="result-titles-3col">
+        <!-- 그룹 1 -->
+        <div class="rc-title-group">
           <div class="rc-head">
-            <span class="rc-head-label">광고 제목</span>
-            <span class="badge" id="tBadge">0</span>
-            <span class="rc-sel-count" id="tSelBadge" style="display:none">
-              <span id="tSelNum">0</span>개 선택
-            </span>
+            <span class="tg-dot tg1"></span>
+            <span class="rc-head-label" style="color:#03C75A">제목 1 위치 추천</span>
+            <span class="rc-sel-count" id="tSelBadge" style="display:none"><span id="tSelNum">0</span>개 선택</span>
             <span class="sel-limit-badge" id="tLimitBadge">0/15</span>
+            <span class="tg-sub" style="margin-left:auto">광고 첫 번째 제목에 최적</span>
           </div>
-          <!-- 그룹 1 -->
-          <div class="title-group">
-            <div class="title-group-label">
-              <span class="tg-dot tg1"></span>제목 1 위치 추천
-              <span class="tg-sub">광고 첫 번째 제목에 최적</span>
-            </div>
-            <div id="titleGroup1"></div>
-          </div>
-          <!-- 그룹 2 -->
-          <div class="title-group">
-            <div class="title-group-label">
-              <span class="tg-dot tg2"></span>제목 2 위치 추천
-              <span class="tg-sub">광고 두 번째 제목에 최적</span>
-            </div>
-            <div id="titleGroup2"></div>
-          </div>
-          <!-- 그룹 3 -->
-          <div class="title-group">
-            <div class="title-group-label">
-              <span class="tg-dot tg3"></span>제목 3 위치 추천
-              <span class="tg-sub">광고 세 번째 제목에 최적</span>
-            </div>
-            <div id="titleGroup3"></div>
-          </div>
+          <div id="titleGroup1"></div>
         </div>
-        <!-- 우: 광고 설명 (더 넓게) -->
-        <div class="rc-desc-col">
+        <!-- 그룹 2 -->
+        <div class="rc-title-group">
           <div class="rc-head">
-            <span class="rc-head-label">광고 설명</span>
-            <span class="badge" id="dBadge">0</span>
-            <span class="rc-sel-count" id="dSelBadge" style="display:none">
-              <span id="dSelNum">0</span>개 선택
-            </span>
+            <span class="tg-dot tg2"></span>
+            <span class="rc-head-label" style="color:#3385ff">제목 2 위치 추천</span>
+            <span class="tg-sub" style="margin-left:auto">광고 두 번째 제목에 최적</span>
           </div>
-          <div id="descItems"></div>
+          <div id="titleGroup2"></div>
+        </div>
+        <!-- 그룹 3 -->
+        <div class="rc-title-group">
+          <div class="rc-head">
+            <span class="tg-dot tg3"></span>
+            <span class="rc-head-label" style="color:#ff9800">제목 3 위치 추천</span>
+            <span class="tg-sub" style="margin-left:auto">광고 세 번째 제목에 최적</span>
+          </div>
+          <div id="titleGroup3"></div>
         </div>
       </div>
+      <!-- 설명 영역 -->
+      <div class="rc-head" style="border-top:1px solid var(--border)">
+        <span class="rc-head-label">광고 설명</span>
+        <span class="badge" id="dBadge">0</span>
+        <span class="rc-sel-count" id="dSelBadge" style="display:none"><span id="dSelNum">0</span>개 선택</span>
+      </div>
+      <div class="rc-desc-area" id="descItems"></div>
+      <!-- tBadge hidden (count in header) -->
+      <span id="tBadge" style="display:none">0</span>
     </div>
   </div>
 
@@ -1434,6 +1542,9 @@ textarea.inp{resize:none;line-height:1.5}
 
 // ── 상태
 const S = { titles:[], descs:[], kws:[], selT:new Set(), selD:new Set(), imgs:[] };
+// 핀 저장소 (render() 재실행 시 값 유지)
+const pinData = {};    // {titleIdx: '1'|'2'|'3'|''}
+const descPinData = {}; // {descIdx: '1'|'2'|''}
 
 // ── API Key 관리
 let API_KEY     = localStorage.getItem('claude_key') || '';
@@ -1811,8 +1922,9 @@ async function generateAnalysis(name, feat, target, titles, descs, imgs) {
   const analysisPrompt = `당신은 10년차 네이버 파워링크 광고 전문 마케터이자 카피라이터입니다. 섹션을 <section title="섹션제목">내용</section> 형태로 구분해서 응답하세요.
 섹션 제목은 이모지 포함해서 명확하게. 내용은 5~7문장으로 충분히 작성.
 - 단순 요약이 아닌, 실제 광고 집행 경험을 바탕으로 한 구체적 인사이트를 작성하세요.
+- "이들은"이라는 표현 대신 "고객들은", "구매하시는 분들은", "관심 있으신 분들은" 같은 부드럽고 친근한 표현을 사용하세요.
 - 어떤 키워드가 왜 효과적인지, 어떤 표현이 왜 클릭률에 영향을 주는지 근거를 설명하세요.
-- 타겟 고객의 심리와 구매 동기를 구체적으로 분석하세요.
+- 고객들의 심리와 구매 동기를 구체적으로 분석하고, 직접 말을 거는 듯한 따뜻한 톤으로 작성하세요.
 - 주의할 점이나 개선 방향도 솔직하게 포함하세요.
 중요한 키워드나 수치는 <b>태그로 감싸주세요 (예: <b>소상공인</b>, <b>140만원</b>).
 마케터 관점의 핵심 판단은 <em>태그로 감싸주세요. 마크다운 금지.`;
@@ -1999,28 +2111,30 @@ function render(){
     S.titles.slice(start,end).forEach((t,li)=>{
       const i=start+li, on=S.selT.has(i);
       const len=[...t].length, over=len>15;
-      const pin=document.getElementById('pin'+i)?.value||'';
-      el.insertAdjacentHTML('beforeend',`<div class="item${on?' on':''}" id="t${i}">
+      const pin=pinData[i]||'';
+      // item 클래스: 선택 여부 + 핀 색상
+      let itemCls='item';
+      if(pin) itemCls+=' pin'+pin;
+      else if(on) itemCls+=' on';
+      el.insertAdjacentHTML('beforeend',`<div class="${itemCls}" id="t${i}">
         <button class="plus" onclick="tog('t',${i})">${on?'✓':'+'}</button>
         <div class="txt-wrap" style="flex:1">
           <div class="txt" style="font-size:15px">${esc(t)}</div>
           <div class="meta" style="display:flex;align-items:center;gap:6px;margin-top:3px">
             <span class="grp-badge g${g}">${g}번 추천</span>
             <span class="cc${over?' over':''}" style="font-size:11px">${len}/15자${over?' ⚠️':''}</span>
-            ${pin?`<span class="badge-tag" style="font-size:10px">제목${pin} 고정</span>`:''}
+            ${pin?`<span class="badge-tag" style="font-size:10px;background:${pin==='1'?'rgba(3,199,90,.2)':pin==='2'?'rgba(51,133,255,.2)':'rgba(255,152,0,.2)'};color:${pin==='1'?'#03C75A':pin==='2'?'#3385ff':'#ff9800'}">제목${pin} 고정</span>`:''}
           </div>
         </div>
-        <select class="pin-sel${pin?' pinned':''}" id="pin${i}" onchange="onPinChange(${i},this)">
-          <option value="">위치 고정</option>
-          <option value="1">제목 1</option>
-          <option value="2">제목 2</option>
-          <option value="3">제목 3</option>
+        <select class="pin-sel${pin?' pin'+pin:''}" id="pin${i}" onchange="onPinChange(${i},this)">
+          <option value=""${!pin?' selected':''}>위치 고정</option>
+          <option value="1"${pin==='1'?' selected':''}>제목 1</option>
+          <option value="2"${pin==='2'?' selected':''}>제목 2</option>
+          <option value="3"${pin==='3'?' selected':''}>제목 3</option>
         </select>
       </div>`);
     });
   });
-  const tb=document.getElementById('tBadge');
-  if(tb) tb.textContent=S.titles.length;
   const tSel=document.getElementById('tSelBadge');
   const tNum=document.getElementById('tSelNum');
   if(tSel){
@@ -2033,6 +2147,8 @@ function render(){
     lb.textContent=`${S.selT.size}/15`;
     lb.className=isFull?'sel-limit-badge full':'sel-limit-badge';
   }
+  const tb=document.getElementById('tBadge');
+  if(tb) tb.textContent=S.titles.length;
 
   // titleItems 없어도 kwCol 렌더는 아래에서 처리
   const dEl=document.getElementById('descItems');
@@ -2041,20 +2157,23 @@ function render(){
     S.descs.forEach((d,i)=>{
       const len=[...d].length, over=len>45;
       const on=S.selD.has(i);
-      const pinVal=document.getElementById('dpin'+i)?.value||'';
-      dEl.insertAdjacentHTML('beforeend',`<div class="item-desc${on?' on':''}" id="d${i}">
+      const pinVal=descPinData[i]||'';
+      let itemCls='item-desc';
+      if(pinVal) itemCls+=' pin'+pinVal;
+      else if(on) itemCls+=' on';
+      dEl.insertAdjacentHTML('beforeend',`<div class="${itemCls}" id="d${i}">
         <button class="plus" onclick="tog('d',${i})">${on?'✓':'+'}</button>
         <div class="txt-wrap">
           <div class="txt" contenteditable="true" oninput="onDescEdit(${i},this)" onblur="onDescEdit(${i},this)">${esc(d)}</div>
           <div class="meta">
             <span class="cc${over?' over':''}" style="font-size:12px">${len}/45자${over?' ⚠️':''}</span>
-            ${pinVal?`<span class="badge-tag" style="font-size:11px">설명${pinVal} 고정</span>`:''}
+            ${pinVal?`<span class="badge-tag" style="font-size:11px;background:${pinVal==='1'?'rgba(3,199,90,.2)':'rgba(51,133,255,.2)'};color:${pinVal==='1'?'#03C75A':'#3385ff'}">설명${pinVal} 고정</span>`:''}
           </div>
         </div>
-        <select class="pin-sel${pinVal?' pinned':''}" id="dpin${i}" onchange="onDescPinChange(${i},this)">
-          <option value="">위치 고정</option>
-          <option value="1">설명 1</option>
-          <option value="2">설명 2</option>
+        <select class="pin-sel${pinVal?' pin'+pinVal:''}" id="dpin${i}" onchange="onDescPinChange(${i},this)">
+          <option value=""${!pinVal?' selected':''}>위치 고정</option>
+          <option value="1"${pinVal==='1'?' selected':''}>설명 1</option>
+          <option value="2"${pinVal==='2'?' selected':''}>설명 2</option>
         </select>
       </div>`);
     });
@@ -2107,19 +2226,30 @@ function tog(type, i){
 
 // ── 핀 변경
 function onPinChange(i,sel){
-  sel.className='pin-sel'+(sel.value?' pinned':'');
-  if(sel.value && !S.selT.has(i)) tog('t',i);
+  pinData[i]=sel.value;
+  if(sel.value && !S.selT.has(i)){
+    // tog 내부에서 render 호출됨
+    S.selT.add(i);
+    render();
+  } else {
+    render();
+  }
   sync();
 }
 function onDescPinChange(i,sel){
-  sel.className='pin-sel'+(sel.value?' pinned':'');
-  if(sel.value && !S.selD.has(i)) tog('d',i);
+  descPinData[i]=sel.value;
+  if(sel.value && !S.selD.has(i)){
+    S.selD.add(i);
+    render();
+  } else {
+    render();
+  }
   sync();
 }
 function onDescEdit(i,el){
   const txt=el.textContent||'';
   S.descs[i]=[...txt].slice(0,45).join('');
-  const cc=el.closest('.item')?.querySelector('.cc');
+  const cc=el.closest('.item-desc')?.querySelector('.cc');
   if(cc){const l=[...S.descs[i]].length;cc.textContent=l+'/45자'+(l>45?' ⚠️':'');cc.className='cc'+(l>45?' over':'');}
   sync();
 }
@@ -2129,22 +2259,21 @@ function sync(){
   const ts=[...S.selT].sort((a,b)=>a-b).map(i=>S.titles[i]);
   const ds=[...S.selD].sort((a,b)=>a-b).map(i=>S.descs[i]);
 
-  // 핀맵
+  // 핀맵 - pinData 저장소 사용
   const pinMap={1:[],2:[],3:[]};
-  document.querySelectorAll('[id^="pin"]:not([id^="dpin"])').forEach(s=>{
-    const idx=parseInt(s.id.replace('pin',''));
-    if(s.value && S.selT.has(idx)) pinMap[parseInt(s.value)].push(S.titles[idx]);
+  Object.entries(pinData).forEach(([idx,val])=>{
+    const i=parseInt(idx);
+    if(val && S.selT.has(i)) pinMap[parseInt(val)].push(S.titles[i]);
   });
   const descPinMap={1:null,2:null};
-  document.querySelectorAll('[id^="dpin"]').forEach(s=>{
-    const idx=parseInt(s.id.replace('dpin',''));
-    if(s.value && S.selD.has(idx)) descPinMap[parseInt(s.value)]=S.descs[idx];
+  Object.entries(descPinData).forEach(([idx,val])=>{
+    const i=parseInt(idx);
+    if(val && S.selD.has(i)) descPinMap[parseInt(val)]=S.descs[i];
   });
 
   const unpinned=ts.filter(t=>{
     const idx=S.titles.indexOf(t);
-    const pin=document.getElementById('pin'+idx);
-    return !pin||!pin.value;
+    return !pinData[idx];
   });
   const allSlots=[
     ...(pinMap[1].length?pinMap[1]:unpinned.slice(0,1)),
@@ -2154,12 +2283,12 @@ function sync(){
 
   const pvDTxt=descPinMap[1]||(ds[0]||'');
 
-  // PC 미리보기
+  // ── PC 미리보기: 제목을 · 로 연결해서 한 줄로 (실제 네이버 파워링크 UI)
   const pvPcT=document.getElementById('pvPcTitles');
   if(pvPcT){
     if(allSlots.length){
       pvPcT.className='naver-ad-title';
-      pvPcT.innerHTML=allSlots.map((t,i)=>`<div style="font-size:${14+i*0}px;font-weight:700;color:#0068c3;line-height:1.4;margin-bottom:2px">${esc(t)}</div>`).join('');
+      pvPcT.innerHTML=`<div style="font-size:15px;font-weight:700;color:#0068c3;line-height:1.6;word-break:keep-all">${allSlots.map(t=>esc(t)).join('<span style="color:#aaa;margin:0 3px">·</span>')}</div>`;
     } else {
       pvPcT.className='naver-ad-title empty';
       pvPcT.textContent='제목을 선택하면 표시됩니다';
@@ -2168,38 +2297,39 @@ function sync(){
   const pvPcD=document.getElementById('pvPcDesc');
   if(pvPcD){pvPcD.textContent=pvDTxt||'설명을 선택하면 표시됩니다';pvPcD.className=pvDTxt?'naver-ad-desc':'naver-ad-desc empty';}
   const pvPcChips=document.getElementById('pvPcChips');
-  if(pvPcChips) pvPcChips.innerHTML=ds.slice(0,3).flatMap(d=>d.split(/[,·\s]+/).filter(w=>w.length>1).slice(0,2)).slice(0,5).map(w=>`<span class="naver-ad-chip">${esc(w)}</span>`).join('');
+  if(pvPcChips) pvPcChips.innerHTML=allSlots.flatMap(t=>t.split(/[\s]+/).filter(w=>w.length>1).slice(0,2)).slice(0,4).map(w=>`<span class="naver-ad-chip">${esc(w)}</span>`).join('');
   const pvPcThumb=document.getElementById('pvPcThumb');
   if(pvPcThumb){
     const pcUrl=S.imgs.length?S.imgs[0].url:generateProductThumb(document.getElementById('productName')?.value?.trim()||'');
     pvPcThumb.innerHTML=`<img src="${pcUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:4px"/>`;
   }
 
-  // 모바일 미리보기
+  // ── 모바일 미리보기: 단일 카드, 제목 · 로 연결
   const mobContainer=document.getElementById('pvMobTitleList');
   if(mobContainer){
     if(allSlots.length){
       const thumbUrl = S.imgs.length ? S.imgs[0].url : generateProductThumb(document.getElementById('productName')?.value?.trim()||'');
       const thumbHtml=`<div class="naver-mob-thumb"><img src="${thumbUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:5px"/></div>`;
-      const chips=pvDTxt?pvDTxt.split(/[,·\s]+/).filter(w=>w.length>1).slice(0,3).map(w=>`<span class="naver-mob-chip">${esc(w)}</span>`).join(''):'';
-      mobContainer.innerHTML=allSlots.map((t,i)=>`
-        <div class="mob-ad-card${i>0?' mob-ad-card--sub':''}">
-          <div class="naver-mob-meta" style="margin-bottom:6px">
+      const chips=allSlots.flatMap(t=>t.split(/[\s]+/).filter(w=>w.length>1).slice(0,2)).slice(0,4).map(w=>`<span class="naver-mob-chip">${esc(w)}</span>`).join('');
+      const titleLine=allSlots.map(t=>esc(t)).join('<span style="color:#aaa;margin:0 3px">·</span>');
+      mobContainer.innerHTML=`
+        <div class="mob-ad-card">
+          <div class="naver-mob-meta">
             <div class="naver-mob-logo">S</div>
             <span class="naver-mob-store">스마트스토어</span>
-            <span style="color:#ddd;font-size:9px">·</span>
+            <span style="color:#ccc;font-size:9px;margin:0 2px">·</span>
             <span class="naver-mob-url">smartstore.naver.com</span>
             <span class="naver-mob-badge">광고</span>
           </div>
           <div class="naver-mob-row">
             <div class="naver-mob-body">
-              <div class="naver-mob-title">${esc(t)}</div>
-              ${i===0&&pvDTxt?`<div class="naver-mob-desc">${esc(pvDTxt)}</div>`:''}
+              <div class="naver-mob-title" style="word-break:keep-all;line-height:1.55">${titleLine}</div>
+              ${pvDTxt?`<div class="naver-mob-desc" style="margin-top:4px">${esc(pvDTxt)}</div>`:''}
             </div>
-            ${i===0?thumbHtml:''}
+            ${thumbHtml}
           </div>
-          ${i===0&&chips?`<div class="naver-mob-chips">${chips}</div>`:''}
-        </div>`).join('');
+          ${chips?`<div class="naver-mob-chips" style="margin-top:6px">${chips}</div>`:''}
+        </div>`;
     } else {
       mobContainer.innerHTML=`<div class="mob-ad-empty">
         <div class="naver-mob-meta"><div class="naver-mob-logo">S</div><span class="naver-mob-store">스마트스토어</span><span class="naver-mob-badge">광고</span></div>
@@ -2268,6 +2398,9 @@ async function generate(){
   document.getElementById('resultWrap').style.display='none';
 
   S.selT=new Set(); S.selD=new Set();
+  // 핀 데이터 초기화
+  Object.keys(pinData).forEach(k=>delete pinData[k]);
+  Object.keys(descPinData).forEach(k=>delete descPinData[k]);
 
   const sideStatus=document.getElementById('analysisSideStatus');
   const sidePreview=document.getElementById('analysisSidePreview');
@@ -2282,16 +2415,40 @@ async function generate(){
   const timerVal=document.getElementById('apTimerVal');
   if(timerVal) timerVal.textContent=`약 ${estSecs}초`;
 
-  function apStep(n){
-    ['apStep1','apStep2','apStep3','apStep4'].forEach((id,i)=>{
-      const el=document.getElementById(id);
-      if(!el) return;
-      if(i+1<n) el.className='ap-step-row done';
-      else if(i+1===n) el.className='ap-step-row active';
-      else el.className='ap-step-row';
-    });
+  // ── 필드값 채우기 & 순차 활성화 애니메이션
+  function setApField(id, value, state) {
+    const row = document.getElementById('apf-'+id);
+    const val = document.getElementById('apf-'+id+'-val');
+    const st  = document.getElementById('apf-'+id+'-st');
+    if(!row) return;
+    if(val && value) val.textContent = value;
+    row.className = 'ap-field-row ' + state;
+    if(st) st.textContent = state==='done'?'✓':state==='active'?'⏳':state==='skip'?'—':'⏳';
   }
 
+  // 초기: 실제 값 세팅 후 pending 상태
+  setApField('name', name||'—', 'pending');
+  setApField('feat', feat||'—', 'pending');
+  setApField('img', S.imgs.length ? `${S.imgs.length}장` : '없음', 'pending');
+  setApField('deny', denyWords.length ? denyWords.join(', ') : '없음', 'pending');
+  setApField('season', (S_SEASON||(document.getElementById('eventInput')?.value.trim()||'')) || '없음', 'pending');
+  setApField('tone', S_TONE||'없음', 'pending');
+
+  // 순차 활성화 (실제 생성 중 애니메이션)
+  const fieldSeq = ['name','feat','img','deny','season','tone'];
+  let fieldIdx = 0;
+  fieldTimer = setInterval(()=>{
+    if(fieldIdx>0) setApField(fieldSeq[fieldIdx-1], null, 'done');
+    if(fieldIdx<fieldSeq.length){
+      setApField(fieldSeq[fieldIdx], null, 'active');
+      if(sideStatus) sideStatus.textContent = ['상품명 분석 중...','광고 내용 적용 중...','이미지 분석 중...','금지어 적용 중...','시즌 설정 적용 중...','광고 어조 적용 중...'][fieldIdx]||'분석 중...';
+      fieldIdx++;
+    } else {
+      clearInterval(fieldTimer);
+    }
+  }, 800);
+
+  let fieldTimer = null;
   pg(1,'active');
 
   try{
@@ -2312,8 +2469,6 @@ async function generate(){
       content=prompt;
     }
 
-    apStep(1); if(sideStatus) sideStatus.textContent='상품명 분석 중...';
-    if(S.imgs.length>0){apStep(2);if(sideStatus)sideStatus.textContent='이미지 분석 중...';}
     pg(1,'done');pg(2,'active');
     document.getElementById('genTxt').innerHTML='<span class="spin"></span> 소재 작성 중...';
 
@@ -2339,17 +2494,20 @@ async function generate(){
     S.kws=[];
 
     pg(2,'done');
-    apStep(3); if(sideStatus) sideStatus.textContent='광고 전략 수립 중...';
+    if(sideStatus) sideStatus.textContent='리포트 분석 중...';
     document.getElementById('genTxt').innerHTML='<span class="spin"></span> 리포트 분석 중...';
     pg(3,'active');
 
-    const aBody=document.getElementById('analysisBody');aBody.style.display='block';aBody.innerHTML='<div class="analysis-loading"><span class="spin"></span> 마케터 분석 리포트 생성 중...</div>';
-    apStep(4); if(sideStatus) sideStatus.textContent='리포트 작성 중...';
+    const aBody=document.getElementById('analysisBody');aBody.style.display='none';
+    if(sideStatus) sideStatus.textContent='리포트 작성 중...';
 
     generateAnalysis(name, feat, target, S.titles, S.descs, S.imgs).then(html=>{
       document.getElementById('analysisBody').innerHTML=html;
-      document.getElementById('analysisBody').style.display='block';
+      document.getElementById('analysisBody').style.display='none';
       if(apProg) apProg.style.display='none';
+      // 모든 필드 done 처리
+      ['name','feat','img','deny','season','tone'].forEach(id=>setApField(id,null,'done'));
+      clearInterval(fieldTimer);
 
       render();
       pg(3,'done');pg(4,'active');
@@ -2401,6 +2559,7 @@ async function generate(){
   } catch(e){
     document.getElementById('emptyState').style.display='';
     if(apProg) apProg.style.display='none';
+    clearInterval(fieldTimer);
     console.error(e);
     alert('오류: '+e.message);
     btn.disabled=false;
