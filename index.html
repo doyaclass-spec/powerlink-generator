@@ -150,7 +150,7 @@ body{
 
 /* ══ 히어로 ══ */
 .hero{
-  position:relative;z-index:2;text-align:center;padding:36px 20px 28px;overflow:hidden;
+  position:relative;z-index:2;text-align:center;padding:18px 20px 14px;overflow:hidden;
 }
 .hero-eyebrow{
   display:inline-flex;align-items:center;gap:6px;
@@ -160,8 +160,8 @@ body{
   animation:fadeSlideUp .6s ease .1s both;
 }
 .hero h1{
-  font-family:'Pretendard',-apple-system,sans-serif;font-size:28px;font-weight:900;
-  color:#fff;line-height:1.35;margin-bottom:10px;letter-spacing:-0.8px;
+  font-family:'Pretendard',-apple-system,sans-serif;font-size:26px;font-weight:900;
+  color:#fff;line-height:1.35;margin-bottom:7px;letter-spacing:-0.8px;
   max-width:100%;
   animation:fadeSlideUp .6s ease .2s both;
 }
@@ -170,7 +170,7 @@ body{
   text-shadow:0 0 30px var(--g-glow);
 }
 .hero-sub{
-  font-size:16px;color:var(--text3);margin-bottom:22px;line-height:1.7;
+  font-size:14px;color:var(--text3);margin-bottom:0;line-height:1.6;
   animation:fadeSlideUp .6s ease .3s both;
 }
 .hero-sub strong{color:var(--text2)}
@@ -250,7 +250,7 @@ body{
 /* ══ 메인 레이아웃: 좌(입력) + 우(분석) ══ */
 .main-input-wrapper{
   display:grid;
-  grid-template-columns:1fr 280px;
+  grid-template-columns:1fr 300px;
   gap:10px;
   padding:12px 16px 0;
 }
@@ -383,7 +383,9 @@ textarea.inp{resize:none;line-height:1.6;font-size:15px}
 .col-analysis{background:linear-gradient(160deg,rgba(3,199,90,.04),rgba(0,102,255,.03))}
 
 
-.analysis-status{font-size:11px;color:var(--text3);padding:3px 7px;background:rgba(0,0,0,.2);border-radius:4px;border:1px solid var(--border);display:inline-block;margin-bottom:6px}
+.analysis-status{font-size:11px;color:var(--text3);padding:3px 10px;background:rgba(0,0,0,.2);border-radius:4px;border:1px solid var(--border);display:inline-block;margin:4px 16px 6px;transition:all .3s}
+.analysis-status.running{color:var(--g);background:rgba(3,199,90,.08);border-color:rgba(3,199,90,.25);animation:statusPulse 2s ease infinite}
+@keyframes statusPulse{0%,100%{opacity:1}50%{opacity:.7}}
 .analysis-preview{
   font-size:13px;color:var(--text2);line-height:1.8;
   overflow-y:auto;max-height:140px;
@@ -622,7 +624,7 @@ textarea.inp{resize:none;line-height:1.6;font-size:15px}
 .icol-num-5{color:#ff9800;background:rgba(255,150,0,.12);border-color:rgba(255,150,0,.3)}
 .icol-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:2px}
 .icol-desc{font-size:12px;color:var(--text3);line-height:1.4}
-.inp-ta{resize:none;line-height:1.6;min-height:72px;font-size:15px}
+.inp-ta{resize:none;line-height:1.6;min-height:90px;font-size:15px}
 
 
 /* 분석 진행 표시 */
@@ -1104,8 +1106,56 @@ textarea.inp{resize:none;line-height:1.6;font-size:15px}
 .input-col.req-error{border-color:rgba(255,60,80,.5) !important;box-shadow:0 0 0 1px rgba(255,60,80,.2) !important}
 .input-col.req-error .icol-head{background:rgba(255,60,80,.08) !important}
 
-/* ── 생성 버튼 비활성화 */
-.gen-btn:disabled{opacity:.45;cursor:not-allowed}
+/* ══ 분석 중 버튼 강화 애니메이션 ══ */
+.gen-btn.analyzing{
+  background:linear-gradient(135deg,#0a2a16,#032e12,#029e48) !important;
+  background-size:200% 200% !important;
+  animation:genBtnPulse 1.8s ease infinite !important;
+  box-shadow:0 0 0 0 rgba(3,199,90,.5) !important;
+}
+@keyframes genBtnPulse{
+  0%{box-shadow:0 0 0 0 rgba(3,199,90,.6),0 4px 16px rgba(3,199,90,.3)}
+  50%{box-shadow:0 0 0 8px rgba(3,199,90,0),0 4px 24px rgba(3,199,90,.5)}
+  100%{box-shadow:0 0 0 0 rgba(3,199,90,.0),0 4px 16px rgba(3,199,90,.3)}
+}
+/* 분석 중 footer 배경 */
+.input-footer.analyzing{
+  background:rgba(3,199,90,.04);
+  border-top:1px solid rgba(3,199,90,.15);
+  transition:all .5s;
+}
+/* 분석 중 상태 텍스트 */
+.analyzing-label{
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:700;color:var(--g);
+}
+.analyzing-bar{
+  display:flex;gap:3px;align-items:center;
+}
+.analyzing-bar span{
+  display:inline-block;width:3px;border-radius:2px;background:var(--g);
+  animation:analyzeBarDance 1.2s ease infinite;
+}
+.analyzing-bar span:nth-child(1){height:8px;animation-delay:0s}
+.analyzing-bar span:nth-child(2){height:14px;animation-delay:.15s}
+.analyzing-bar span:nth-child(3){height:10px;animation-delay:.3s}
+.analyzing-bar span:nth-child(4){height:16px;animation-delay:.45s}
+.analyzing-bar span:nth-child(5){height:8px;animation-delay:.6s}
+.analyzing-bar span:nth-child(6){height:12px;animation-delay:.75s}
+@keyframes analyzeBarDance{
+  0%,100%{transform:scaleY(.4);opacity:.4}
+  50%{transform:scaleY(1);opacity:1}
+}
+/* 분석 패널 분석 중 강조 */
+.analysis-panel-tall.analyzing-active{
+  border-color:rgba(3,199,90,.5) !important;
+  box-shadow:0 0 0 0 rgba(3,199,90,.3);
+  animation:panelGlow 2s ease infinite;
+}
+@keyframes panelGlow{
+  0%,100%{box-shadow:0 0 12px rgba(3,199,90,.1)}
+  50%{box-shadow:0 0 24px rgba(3,199,90,.25)}
+}
 .gen-btn:disabled .spin{display:none}
 
 /* ── 필수 필드 위 별표 입력창 테두리 */
@@ -1150,7 +1200,18 @@ textarea.inp{resize:none;line-height:1.6;font-size:15px}
         </div>
         <div class="key-input-wrap">
           <input type="password" id="modalKey" placeholder="AIzaSy..." oninput="onKeyInput()" onpaste="setTimeout(onKeyInput,10)" />
-          <button class="key-toggle-btn" onclick="toggleModalKey()">👁</button>
+          <button class="eye-btn" id="keyEyeBtn" onclick="toggleModalKey()" title="키 표시/숨기기">
+            <!-- 기본: 눈 (숨김 상태) -->
+            <svg id="eyeIconOn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <!-- 눈 X (표시 상태) -->
+            <svg id="eyeIconOff" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
         </div>
         <div class="key-notice">
           🔒 API Key는 <span>브라우저에만 저장</span>되며 서버로 전송되지 않아요.<br>
@@ -1391,11 +1452,17 @@ textarea.inp{resize:none;line-height:1.6;font-size:15px}
       </div><!-- main-input-wrapper -->
 
       <!-- 생성 버튼 -->
-      <div class="input-footer">
+      <div class="input-footer" id="inputFooter">
         <button class="gen-btn ripple-btn" id="genBtn" onclick="generate()">
           <span id="genTxt">✨ 광고 소재 생성하기</span>
         </button>
-        <div class="footer-info">Gemini AI · 제목 30개 · 설명 12개 · 무료 API 사용 가능</div>
+        <div id="analyzingLabel" style="display:none" class="analyzing-label">
+          <div class="analyzing-bar">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <span id="analyzingLabelTxt">Gemini AI 분석 중...</span>
+        </div>
+        <div class="footer-info" id="footerInfo">Gemini AI · 제목 30개 · 설명 12개 · 무료 API 사용 가능</div>
       </div>
 
     </div><!-- input-card -->
@@ -1578,7 +1645,32 @@ function onKeyInput() { updateConfirmBtn(); }
 
 function toggleModalKey() {
   const el = document.getElementById('modalKey');
-  el.type = el.type === 'password' ? 'text' : 'password';
+  const iconOn  = document.getElementById('eyeIconOn');
+  const iconOff = document.getElementById('eyeIconOff');
+
+  if (el.dataset.masked === 'true') {
+    // 마스킹 상태 → 실제 키 보여주기
+    el.type = 'text';
+    el.value = API_KEY || '';
+    el.dataset.masked = 'false';
+    el.dataset.revealed = 'true';
+    if(iconOn)  iconOn.style.display = 'none';
+    if(iconOff) iconOff.style.display = '';
+  } else if (el.dataset.revealed === 'true') {
+    // 실제 키 표시 중 → 다시 마스킹
+    el.type = 'password';
+    el.value = '●'.repeat(Math.min((API_KEY||'').length, 32));
+    el.dataset.masked = 'true';
+    el.dataset.revealed = 'false';
+    if(iconOn)  iconOn.style.display = '';
+    if(iconOff) iconOff.style.display = 'none';
+  } else {
+    // 일반 입력 중 토글
+    const isHidden = el.type === 'password';
+    el.type = isHidden ? 'text' : 'password';
+    if(iconOn)  iconOn.style.display  = isHidden ? 'none' : '';
+    if(iconOff) iconOff.style.display = isHidden ? '' : 'none';
+  }
 }
 
 function confirmKey() {
@@ -1606,6 +1698,13 @@ function confirmKey() {
 
 function openKeyModal() {
   const inp = document.getElementById('modalKey');
+  const iconOn  = document.getElementById('eyeIconOn');
+  const iconOff = document.getElementById('eyeIconOff');
+  // 아이콘 초기화 (항상 눈 아이콘 = 숨김 상태)
+  if(iconOn)  iconOn.style.display  = '';
+  if(iconOff) iconOff.style.display = 'none';
+  inp.type = 'password';
+  inp.dataset.revealed = 'false';
   // 키가 등록된 상태면 마스킹된 별표로 표시
   if (API_KEY && API_KEY.length > 5) {
     inp.value = '●'.repeat(Math.min(API_KEY.length, 32));
@@ -1614,9 +1713,13 @@ function openKeyModal() {
     inp.onclick = function() {
       if (inp.dataset.masked === 'true') {
         inp.value = '';
+        inp.type = 'password';
         inp.dataset.masked = 'false';
+        inp.dataset.revealed = 'false';
         inp.placeholder = 'AIzaSy...';
         inp.onclick = null;
+        if(iconOn)  iconOn.style.display = '';
+        if(iconOff) iconOff.style.display = 'none';
         updateConfirmBtn();
       }
     };
@@ -2391,6 +2494,36 @@ async function generate(){
   document.getElementById('emptyState').style.display='none';
   document.getElementById('resultWrap').style.display='none';
 
+  // ── 분석 중 UI 활성화
+  btn.classList.add('analyzing');
+  const footer = document.getElementById('inputFooter');
+  const analyzingLabel = document.getElementById('analyzingLabel');
+  const footerInfo = document.getElementById('footerInfo');
+  if(footer) footer.classList.add('analyzing');
+  if(analyzingLabel) analyzingLabel.style.display='flex';
+  if(footerInfo) footerInfo.style.display='none';
+  // 분석 패널 글로우
+  const analysisPanel = document.querySelector('.analysis-panel-tall');
+  if(analysisPanel) analysisPanel.classList.add('analyzing-active');
+
+  // 분석 중 레이블 메시지 순환
+  const analyzingMsgs = ['Gemini AI 분석 중...','상품 전략 구성 중...','광고 소재 작성 중...','마케터 리포트 준비 중...','클릭률 최적화 중...'];
+  let aIdx=0;
+  const aLabelTxt = document.getElementById('analyzingLabelTxt');
+  const aLabelTimer = setInterval(()=>{
+    aIdx=(aIdx+1)%analyzingMsgs.length;
+    if(aLabelTxt) aLabelTxt.textContent = analyzingMsgs[aIdx];
+  }, 2500);
+
+  function stopAnalyzingUI(){
+    btn.classList.remove('analyzing');
+    if(footer) footer.classList.remove('analyzing');
+    if(analyzingLabel) analyzingLabel.style.display='none';
+    if(footerInfo) footerInfo.style.display='';
+    if(analysisPanel) analysisPanel.classList.remove('analyzing-active');
+    clearInterval(aLabelTimer);
+  }
+
   S.selT=new Set(); S.selD=new Set();
   // 핀 데이터 초기화
   Object.keys(pinData).forEach(k=>delete pinData[k]);
@@ -2400,14 +2533,54 @@ async function generate(){
   const sidePreview=document.getElementById('analysisSidePreview');
   const sideBtn=document.getElementById('analysisOpenBtn');
   const apProg=document.getElementById('analysisProgress');
-  if(sideStatus) sideStatus.textContent='분석 시작...';
+  if(sideStatus){ sideStatus.textContent='분석 시작...'; sideStatus.classList.add('running'); }
   if(sidePreview) sidePreview.style.display='none';
   if(sideBtn) sideBtn.disabled=true;
   if(apProg) apProg.style.display='block';
 
-  const estSecs=12+S.imgs.length*2;
-  const timerVal=document.getElementById('apTimerVal');
-  if(timerVal) timerVal.textContent=`약 ${estSecs}초`;
+  // ── 카운트다운 타이머 (실제 초 단위)
+  // 예상 시간: 소재생성 ~20초 + 분석 ~30초 + 이미지당 5초
+  const estSecs = 25 + (S.imgs.length * 5);
+  const timerEl = document.getElementById('apTimerVal');
+  let countRemain = estSecs;
+  let elapsed = 0;
+  let countDone = false;
+
+  function fmtSec(s){ return s >= 60 ? `${Math.floor(s/60)}분 ${s%60}초` : `${s}초`; }
+
+  if(timerEl) timerEl.textContent = fmtSec(countRemain);
+  const countdownInterval = setInterval(()=>{
+    if(countDone) return;
+    elapsed++;
+    countRemain = Math.max(0, estSecs - elapsed);
+    if(countRemain > 0){
+      if(timerEl) timerEl.textContent = fmtSec(countRemain);
+    } else if(countRemain === 0){
+      // 예상 시간 초과 → 초과 메시지
+      if(timerEl){
+        const over = elapsed - estSecs;
+        timerEl.textContent = '';
+        timerEl.closest('.ap-timer').innerHTML =
+          `<span style="color:#ff9800">⏳ 예상보다 +${fmtSec(over)} 더 걸리고 있어요</span>`;
+      }
+    }
+  }, 1000);
+
+  // 완료 시 타이머 정리 함수 (외부에서 호출)
+  window._stopCountdown = (isEarly)=>{
+    countDone = true;
+    clearInterval(countdownInterval);
+    const timerRow = timerEl?.closest('.ap-timer');
+    if(timerRow){
+      if(isEarly && elapsed < estSecs){
+        timerRow.innerHTML = `<span style="color:var(--g)">✓ 예상(${fmtSec(estSecs)})보다 빨리 완료!</span>`;
+      } else if(elapsed <= estSecs + 5){
+        timerRow.innerHTML = `<span style="color:var(--g)">✓ 완료 (${fmtSec(elapsed)} 소요)</span>`;
+      } else {
+        timerRow.innerHTML = `<span style="color:var(--g)">✓ 완료 (${fmtSec(elapsed)} 소요)</span>`;
+      }
+    }
+  };
 
   // ── 필드 스캔 애니메이션 (1.2초씩 → 총 ~7초)
   function setApField(id, value, state) {
@@ -2580,11 +2753,11 @@ async function generate(){
       pg(4,'done');
       document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
       btn.disabled=false;
-
-      // 분석 완료 상태 업데이트
+      stopAnalyzingUI();
+      if(window._stopCountdown) window._stopCountdown(true);
       const status=document.getElementById('analysisSideStatus');
       const openBtn=document.getElementById('analysisOpenBtn');
-      if(status) status.textContent='✓ 분석 완료';
+      if(status){ status.textContent='✓ 분석 완료'; status.classList.remove('running'); }
       if(openBtn){openBtn.disabled=false;openBtn.classList.add('done');setTimeout(()=>openBtn.classList.remove('done'),5000);}
     }).catch(()=>{
       document.getElementById('analysisBody').innerHTML='<div>분석을 불러오지 못했어요.</div>';
@@ -2594,6 +2767,8 @@ async function generate(){
       pg(4,'done');
       document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
       btn.disabled=false;
+      stopAnalyzingUI();
+      if(window._stopCountdown) window._stopCountdown(false);
       if(apProg) apProg.style.display='none';
       clearInterval(fieldTimer);
     });
@@ -2602,6 +2777,8 @@ async function generate(){
     document.getElementById('emptyState').style.display='';
     if(apProg) apProg.style.display='none';
     clearInterval(fieldTimer);
+    stopAnalyzingUI();
+    if(window._stopCountdown) window._stopCountdown(false);
     console.error(e);
     alert('오류: '+e.message);
     btn.disabled=false;
