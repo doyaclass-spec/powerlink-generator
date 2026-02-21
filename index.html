@@ -247,21 +247,86 @@ body{
 .col-lbl:not(:last-child){border-right:1px solid var(--border)}
 .col-lbl-dot{width:5px;height:5px;border-radius:50%;background:var(--g);opacity:.5}
 
+/* ══ 메인 레이아웃: 좌(입력) + 우(분석) ══ */
+.main-input-wrapper{
+  display:grid;
+  grid-template-columns:1fr 280px;
+  gap:10px;
+  padding:12px 16px 0;
+}
+.left-input-section{
+  display:flex;flex-direction:column;gap:10px;min-width:0;
+}
 /* 입력 그리드 */
 .input-grid{
-  display:grid;grid-template-columns:1fr 1fr 1fr 1fr;
-  border-bottom:1px solid var(--border);
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  gap:10px;
 }
 .input-col{
   padding:0;display:flex;flex-direction:column;
-  border:1px solid rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
   border-radius:10px;
-  background:rgba(255,255,255,.02);
+  background:rgba(5,12,22,.7);
   overflow:hidden;
+  transition:border-color .2s;
 }
-.input-col:hover{border-color:rgba(255,255,255,.1);transition:border-color .2s}
+.input-col:hover{border-color:rgba(255,255,255,.18)}
+/* 컬럼 상단 컬러 라인 */
+.input-col:nth-child(1){border-top:2px solid rgba(3,199,90,.55)}
+.input-col:nth-child(2){border-top:2px solid rgba(51,133,255,.55)}
+.input-col:nth-child(3){border-top:2px solid rgba(180,60,255,.55)}
+.input-col:nth-child(4){border-top:2px solid rgba(255,150,0,.55)}
+/* icol-head 패딩 */
+.input-col > .icol-head{padding:14px 16px 0}
 .icol-inner{padding:12px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
-.input-col:not(:last-child){border-right:1px solid var(--border)}
+
+/* 05 분석 패널 tall */
+.analysis-panel-tall{
+  border-top:2px solid rgba(255,150,0,.6) !important;
+  display:flex;flex-direction:column;
+  min-height:100%;
+}
+.analysis-panel-tall > .icol-head{padding:14px 16px 0}
+.analysis-panel-tall > .analysis-status{padding:4px 16px}
+.analysis-panel-tall > #analysisProgress{padding:6px 16px 0}
+.analysis-panel-tall > .analysis-preview{padding:8px 16px;flex:1;overflow-y:auto}
+.analysis-panel-tall > .analysis-btn{margin:auto 16px 14px;width:calc(100% - 32px)}
+
+/* Gemini 심사숙고 박스 */
+.ap-thinking-box{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 12px;
+  background:linear-gradient(135deg,rgba(3,199,90,.08),rgba(0,102,255,.06));
+  border:1px solid rgba(3,199,90,.2);border-radius:8px;
+  margin-bottom:6px;
+}
+.ap-thinking-icon{
+  font-size:16px;color:var(--g);
+  animation:thinkSpin 3s linear infinite;
+}
+@keyframes thinkSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.ap-thinking-text{font-size:12px;color:var(--g);font-weight:600;flex:1}
+.ap-thinking-dots{display:flex;gap:4px;align-items:center;padding-left:4px}
+.ap-thinking-dots span{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--g);
+  animation:thinkDot 1.4s ease infinite;
+}
+.ap-thinking-dots span:nth-child(1){animation-delay:0s}
+.ap-thinking-dots span:nth-child(2){animation-delay:.2s}
+.ap-thinking-dots span:nth-child(3){animation-delay:.4s}
+.ap-thinking-dots span:nth-child(4){animation-delay:.6s}
+.ap-thinking-dots span:nth-child(5){animation-delay:.8s}
+@keyframes thinkDot{0%,80%,100%{opacity:.2;transform:scale(.7)}40%{opacity:1;transform:scale(1)}}
+
+/* 타이핑 커서 */
+.analysis-typing-cursor{
+  display:inline-block;width:2px;height:1em;
+  background:var(--g);margin-left:2px;vertical-align:middle;
+  animation:cursorBlink .7s step-end infinite;
+}
+@keyframes cursorBlink{0%,100%{opacity:1}50%{opacity:0}}
 
 /* 폼 요소 */
 .lbl{font-size:15px;font-weight:700;color:var(--text2);display:flex;align-items:center;gap:4px;margin-bottom:2px}
@@ -339,7 +404,7 @@ textarea.inp{resize:none;line-height:1.6;font-size:15px}
 
 /* 푸터 행 (생성 버튼) */
 .input-footer{
-  padding:10px 16px;display:flex;align-items:center;gap:12px;
+  padding:10px 16px 14px;display:flex;align-items:center;gap:12px;
   background:rgba(0,0,0,.15);
 }
 .gen-btn{
@@ -549,11 +614,15 @@ textarea.inp{resize:none;line-height:1.6;font-size:15px}
 /* 입력 컬럼 헤더 */
 .icol-head{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
 .icol-num{font-size:9px;font-weight:900;color:var(--g);background:var(--g-dim);border:1px solid rgba(3,199,90,.25);border-radius:4px;padding:2px 5px;flex-shrink:0;margin-top:1px;letter-spacing:.5px;min-width:22px;text-align:center}
+/* 컬럼별 번호 뱃지 색상 */
+.icol-num-1{color:var(--g);background:rgba(3,199,90,.12);border-color:rgba(3,199,90,.3)}
+.icol-num-2{color:#3385ff;background:rgba(51,133,255,.12);border-color:rgba(51,133,255,.3)}
+.icol-num-3{color:#b43cff;background:rgba(180,60,255,.12);border-color:rgba(180,60,255,.3)}
+.icol-num-4{color:#ff9800;background:rgba(255,150,0,.12);border-color:rgba(255,150,0,.3)}
+.icol-num-5{color:#ff9800;background:rgba(255,150,0,.12);border-color:rgba(255,150,0,.3)}
 .icol-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:2px}
 .icol-desc{font-size:12px;color:var(--text3);line-height:1.4}
 .inp-ta{resize:none;line-height:1.6;min-height:72px;font-size:15px}
-/* 5칸 그리드 → 4칸으로 (상품명+타겟 병합) */
-.input-grid{grid-template-columns:1.1fr 1.1fr 1fr 1fr !important}
 
 
 /* 분석 진행 표시 */
@@ -610,20 +679,24 @@ textarea.inp{resize:none;line-height:1.6;font-size:15px}
 /* ── 입력 강화 기능 ── */
 .enhance-row{
   display:grid;grid-template-columns:1fr 1fr 1fr;
-  border-top:1px solid var(--border);
+  gap:10px;
 }
 .enhance-col{
-  padding:0;border-right:1px solid var(--border);
+  padding:0;
   display:flex;flex-direction:column;
-  background:rgba(255,255,255,.015);
+  background:rgba(5,12,22,.7);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;overflow:hidden;
+  transition:border-color .2s;
 }
-.enhance-col:last-child{border-right:none}
+.enhance-col:hover{border-color:rgba(255,255,255,.15)}
+.enhance-col:nth-child(1){border-top:2px solid rgba(255,77,109,.4)}
+.enhance-col:nth-child(2){border-top:2px solid rgba(51,200,170,.4)}
+.enhance-col:nth-child(3){border-top:2px solid rgba(150,100,255,.4)}
 .enhance-inner{padding:10px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
 .enhance-head{
   display:flex;align-items:center;gap:8px;
-  padding:9px 16px;
-  background:rgba(0,0,0,.25);
-  border-bottom:1px solid rgba(255,255,255,.05);
+  padding:10px 16px 6px;
 }
 .enhance-icon{font-size:16px;flex-shrink:0;margin-top:1px}
 .enhance-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:1px}
@@ -896,75 +969,63 @@ textarea.inp{resize:none;line-height:1.6;font-size:15px}
 .item-desc .plus{margin-top:1px}
 
 
-/* ── 입력 컬럼 내부 패딩 (icol-head 제외) */
-.input-col > .inp,
-.input-col > .inp-ta,
-.input-col > .col-lbl,
-.input-col > .feat-slots-wrap,
-.input-col > .feat-slot,
-.input-col > #featSlots,
-.input-col > .feat-add-row,
-.input-col > .icol-head + *{padding-left:16px;padding-right:16px}
-
-/* ── 실제 패딩은 icol-inner 클래스로 처리 */
-
+/* ── 실제 패딩은 icol-head / icol-inner 클래스로 처리 */
 .enhance-body{padding:10px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
 
-/* ── 이미지처럼 input-grid 각 칸 테두리 강조 */
-.input-col{
-  border:1px solid rgba(255,255,255,.08) !important;
-  border-radius:10px !important;
-  overflow:hidden !important;
-  background:rgba(5,12,22,.7) !important;
-  transition:border-color .2s;
-}
+/* ── 이미지처럼 input-grid 각 칸 테두리 강조 (consolidated) */
 .input-col:hover{border-color:rgba(255,255,255,.18) !important}
-.enhance-col{border-radius:0}
 
 .icol-body{padding:12px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
 
-/* ── icol-head 이후 직접 자식 패딩 */
-.input-col > textarea.inp,
-.input-col > input.inp,
-.input-col > .lbl,
-.input-col > #featSlots,
-.input-col > .feat-add-row,
-.input-col > .cost-row,
-.input-col > .col-lbl,
-.input-col > .analysis-status,
-.input-col > .analysis-preview,
-.input-col > .analysis-btn,
-.input-col > .analysisProgress {
-  padding-left: 16px;
-  padding-right: 16px;
-  box-sizing: border-box;
-  width: 100%;
-}
+/* ── icol-head 이후 자식 패딩 */
 .input-col > textarea.inp {
   padding: 8px 16px;
   margin-top: 8px;
   margin-bottom: 4px;
+  width: 100%;
+  box-sizing: border-box;
 }
 .input-col > input.inp {
   padding: 8px 16px;
   margin-top: 6px;
   margin-bottom: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.input-col > #featSlots {
+  padding: 6px 16px 2px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.input-col > .feat-add-row {
+  padding: 0 16px 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.input-col > .cost-row {
+  padding: 4px 16px 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.input-col > .analysis-status {
+  padding-left: 16px;
+  padding-right: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.input-col > .analysis-preview {
+  padding: 0 16px 8px;
+  width: 100%;
+  box-sizing: border-box;
 }
 .input-col > .analysis-btn {
   margin: 8px 16px 10px;
   width: calc(100% - 32px);
 }
-.input-col > .analysis-preview {
-  padding: 0 16px 8px;
-}
-.input-col > .feat-add-row {
-  padding: 0 16px 10px;
-}
-.input-col > #featSlots {
-  padding: 6px 16px 2px;
-}
-.input-col > .cost-row {
-  padding: 4px 16px 8px;
+.input-col > #analysisProgress {
+  padding: 4px 16px 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* ── enhance-col 내부 패딩 */
@@ -984,20 +1045,6 @@ textarea.inp{resize:none;line-height:1.6;font-size:15px}
 .enhance-col > input.inp { padding: 6px 16px; margin-top: 6px; margin-bottom: 8px; }
 .enhance-col > .deny-input-row { padding-bottom: 10px; }
 
-/* ── input-grid 각 컬럼 사이 gap 적용 */
-.input-grid{
-  display:grid;
-  grid-template-columns:1.1fr 1.1fr 1fr 1fr;
-  gap:8px;
-  padding:12px 16px;
-}
-
-
-/* ── 컬럼 상단 컬러 라인 (이미지 디자인 반영) */
-.input-col:nth-child(1) { border-top: 2px solid rgba(3,199,90,.5) !important; }
-.input-col:nth-child(2) { border-top: 2px solid rgba(51,133,255,.5) !important; }
-.input-col:nth-child(3) { border-top: 2px solid rgba(180,60,255,.5) !important; }
-.input-col:nth-child(4) { border-top: 2px solid rgba(255,150,0,.5) !important; }
 
 /* ── 분석 완료 사이드 텍스트 */
 .analysis-complete-txt{font-size:13px;font-weight:700;color:#03C75A;margin-bottom:6px}
@@ -1011,34 +1058,15 @@ textarea.inp{resize:none;line-height:1.6;font-size:15px}
   margin:10px 16px 12px;
   width:calc(100% - 32px);
 }
-/* ── input-grid gap */
-.input-grid{gap:10px !important}
 
-/* ── enhance-row 상단 구분선 강화 */
-.enhance-row{border-top:1px solid rgba(255,255,255,.08) !important;gap:8px;padding:10px 16px}
-.enhance-col{
-  border:1px solid rgba(255,255,255,.06) !important;
-  border-radius:8px !important;
-  overflow:hidden !important;
-  background:rgba(5,12,22,.5) !important;
-}
-.enhance-col:nth-child(1){border-top:2px solid rgba(255,77,109,.4) !important}
-.enhance-col:nth-child(2){border-top:2px solid rgba(51,200,170,.4) !important}
-.enhance-col:nth-child(3){border-top:2px solid rgba(150,100,255,.4) !important}
-
-/* ── enhance-row 자체가 flex로 변경 (gap 적용을 위해) */
-.enhance-row{display:flex !important;flex-direction:row !important;align-items:stretch !important}
-.enhance-col{flex:1 !important}
-
-
+/* ── enhance-col 내부 패딩 */
 .enhance-col > .deny-list{ padding:6px 14px 2px;width:100%;box-sizing:border-box }
 .enhance-col > .deny-input-row{ padding:2px 14px 10px;width:100%;box-sizing:border-box }
 .enhance-col > .season-chips{ padding:6px 14px 2px;width:100%;box-sizing:border-box }
 .enhance-col > input.inp{ margin:4px 14px 8px;width:calc(100% - 28px) }
 .enhance-col > .tone-grid{ padding:6px 14px 10px;width:100%;box-sizing:border-box }
 
-
-.col-analysis{ border-top:2px solid rgba(255,150,0,.5) !important; }
+.col-analysis{ border-top:2px solid rgba(255,150,0,.55) }
 
 
 /* ── 필수/선택/자동 뱃지 */
@@ -1233,19 +1261,25 @@ textarea.inp{resize:none;line-height:1.6;font-size:15px}
 
       
 
-      <!-- 4컬럼 입력 -->
-      <div class="input-grid">
+      <!-- 메인 입력 레이아웃: 좌(4컬럼+보조3칸) + 우(05 분석 패널) -->
+      <div class="main-input-wrapper">
 
-        <!-- 상품명 + 타겟 -->
-        <div class="input-col">
-          <div class="icol-head"><span class="icol-num icol-num-1">01</span><div><div class="icol-title">상품명 <span class="badge-req">필수</span></div><div class="icol-desc">네이버 검색에 노출되는 핵심 키워드를 포함하세요</div></div></div>
-          <textarea class="inp inp-ta" id="productName" rows="3" oninput="this.classList.remove('empty-req');this.closest('.input-col')?.classList.remove('req-error')" placeholder="예: 소상공인 지원 스타리온 간냉식 1등급 업소용 냉장고 냉동고"></textarea>
-          <div class="icol-head" style="margin-top:10px"><span class="icol-num">02</span><div><div class="icol-title">타겟 고객 <span class="badge-opt">선택</span></div><div class="icol-desc">광고를 보여줄 주요 고객층</div></div></div>
-          <input type="text" class="inp" id="target" placeholder="예: 30대 소상공인, 카페 사장님" />
-        </div>
-        <!-- 광고 내용 -->
-        <div class="input-col">
-          <div class="icol-head"><span class="icol-num icol-num-3">03</span><div><div class="icol-title">광고에 넣고 싶은 내용 <span class="badge-req">필수</span></div><div class="req-hint" id="featReqHint">최소 2개 입력 필요</div><div class="icol-desc">강조하고 싶은 특징·혜택·가격 포인트</div></div></div>
+        <!-- 좌측 섹션 -->
+        <div class="left-input-section">
+
+          <!-- 4컬럼 입력 -->
+          <div class="input-grid">
+
+            <!-- 상품명 + 타겟 -->
+            <div class="input-col">
+              <div class="icol-head"><span class="icol-num icol-num-1">01</span><div><div class="icol-title">상품명 <span class="badge-req">필수</span></div><div class="icol-desc">네이버 검색에 노출되는 핵심 키워드를 포함하세요</div></div></div>
+              <textarea class="inp inp-ta" id="productName" rows="3" oninput="this.classList.remove('empty-req');this.closest('.input-col')?.classList.remove('req-error')" placeholder="예: 소상공인 지원 스타리온 간냉식 1등급 업소용 냉장고 냉동고"></textarea>
+              <div class="icol-head" style="margin-top:10px"><span class="icol-num icol-num-2">02</span><div><div class="icol-title">타겟 고객 <span class="badge-opt">선택</span></div><div class="icol-desc">광고를 보여줄 주요 고객층</div></div></div>
+              <input type="text" class="inp" id="target" placeholder="예: 30대 소상공인, 카페 사장님" />
+            </div>
+            <!-- 광고 내용 -->
+            <div class="input-col">
+              <div class="icol-head"><span class="icol-num icol-num-3">03</span><div><div class="icol-title">광고에 넣고 싶은 내용 <span class="badge-req">필수</span></div><div class="req-hint" id="featReqHint">최소 2개 입력 필요</div><div class="icol-desc">강조하고 싶은 특징·혜택·가격 포인트</div></div></div>
           <div id="featSuggestWrap" style="display:none">
             <div class="feat-suggest-lbl" id="featSuggestLbl">💡 AI 추천</div>
             <div class="feat-suggest" id="featSuggest"></div>
@@ -1274,127 +1308,87 @@ textarea.inp{resize:none;line-height:1.6;font-size:15px}
           </div>
         </div>
 
-        <!-- 분석 리포트 -->
-        <div class="input-col col-analysis" style="border-top:2px solid rgba(255,150,0,.5)!important">
-          <div class="icol-head" style="margin-bottom:8px"><span class="icol-num icol-num-5">05</span><div><div class="icol-title">마케터 분석 리포트 <span class="badge-auto">자동</span></div><div class="icol-desc">10년차 전문가 AI가 광고 소재 전략을 분석해드려요</div></div></div>
-          <div class="analysis-status" id="analysisSideStatus">소재 생성 후 자동 분석됩니다</div>
-          <!-- 분석 진행: 입력값 나열 -->
-          <div id="analysisProgress" style="display:none;margin:4px 0 6px">
-            <div class="ap-field-row pending" id="apf-name">
-              <span class="ap-f-icon">📦</span>
-              <div class="ap-f-content">
-                <span class="ap-f-label">상품명</span>
-                <span class="ap-f-value" id="apf-name-val">—</span>
+          </div><!-- input-grid -->
+
+          <!-- 보조 3칸: 금지어/시즌/어조 -->
+          <div class="enhance-row">
+            <div class="enhance-col">
+              <div class="enhance-head"><span class="enhance-icon">🚫</span><div><div class="enhance-title">금지어 설정 <span class="badge-opt">선택</span></div><div class="enhance-desc">쓰지 말아야 할 단어를 입력하면 AI가 제외해요</div></div></div>
+              <div id="denyList" class="deny-list"></div>
+              <div class="deny-input-row"><input type="text" class="inp" id="denyInput" placeholder="금지어 입력 후 Enter" onkeydown="addDeny(event)" /></div>
+            </div>
+            <div class="enhance-col">
+              <div class="enhance-head"><span class="enhance-icon">📅</span><div><div class="enhance-title">시즌 · 이벤트 <span class="badge-opt">선택</span></div><div class="enhance-desc">시즌에 맞는 문구를 자동 반영해요</div></div></div>
+              <div class="season-chips" id="seasonChips">
+                <button class="schip" onclick="toggleSeason(this)">봄 시즌</button>
+                <button class="schip" onclick="toggleSeason(this)">여름 세일</button>
+                <button class="schip" onclick="toggleSeason(this)">추석</button>
+                <button class="schip" onclick="toggleSeason(this)">연말</button>
+                <button class="schip" onclick="toggleSeason(this)">설날</button>
+                <button class="schip" onclick="toggleSeason(this)">밸런타인</button>
+                <button class="schip" onclick="toggleSeason(this)">어버이날</button>
               </div>
+              <input type="text" class="inp" id="eventInput" placeholder="이벤트 직접 입력 (예: 5월 가정의 달 특가)" style="margin-top:7px" />
+            </div>
+            <div class="enhance-col">
+              <div class="enhance-head"><span class="enhance-icon">🎯</span><div><div class="enhance-title">광고 어조 <span class="badge-opt">선택</span></div><div class="enhance-desc">타겟에 맞는 어조를 선택하면 더 효과적이에요</div></div></div>
+              <div class="tone-grid" id="toneGrid">
+                <button class="tone-btn" onclick="toggleTone(this)">🔥 긴박감</button>
+                <button class="tone-btn" onclick="toggleTone(this)">💝 감성·공감</button>
+                <button class="tone-btn" onclick="toggleTone(this)">📊 정보·신뢰</button>
+                <button class="tone-btn" onclick="toggleTone(this)">🎉 혜택·이벤트</button>
+                <button class="tone-btn" onclick="toggleTone(this)">💪 전문가·권위</button>
+                <button class="tone-btn" onclick="toggleTone(this)">🌿 친환경·가치</button>
+              </div>
+            </div>
+          </div><!-- enhance-row -->
+
+        </div><!-- left-input-section -->
+
+        <!-- 우측: 05 마케터 분석 리포트 tall 패널 -->
+        <div class="input-col col-analysis analysis-panel-tall">
+          <div class="icol-head"><span class="icol-num icol-num-5">05</span><div><div class="icol-title">마케터 분석 리포트 <span class="badge-auto">자동</span></div><div class="icol-desc">Gemini AI가 광고 소재 전략을 깊이 분석해드려요</div></div></div>
+          <div class="analysis-status" id="analysisSideStatus">소재 생성 후 자동 분석됩니다</div>
+          <div id="analysisProgress" style="display:none">
+            <div class="ap-field-row pending" id="apf-name">
+              <span class="ap-f-icon">📦</span><div class="ap-f-content"><span class="ap-f-label">상품명</span><span class="ap-f-value" id="apf-name-val">—</span></div>
               <span class="ap-f-status" id="apf-name-st">⏳</span>
             </div>
             <div class="ap-field-row pending" id="apf-feat">
-              <span class="ap-f-icon">✏️</span>
-              <div class="ap-f-content">
-                <span class="ap-f-label">광고 내용</span>
-                <span class="ap-f-value" id="apf-feat-val">—</span>
-              </div>
+              <span class="ap-f-icon">✏️</span><div class="ap-f-content"><span class="ap-f-label">광고 내용</span><span class="ap-f-value" id="apf-feat-val">—</span></div>
               <span class="ap-f-status" id="apf-feat-st">⏳</span>
             </div>
             <div class="ap-field-row pending" id="apf-img">
-              <span class="ap-f-icon">🖼️</span>
-              <div class="ap-f-content">
-                <span class="ap-f-label">이미지</span>
-                <span class="ap-f-value" id="apf-img-val">없음</span>
-              </div>
+              <span class="ap-f-icon">🖼️</span><div class="ap-f-content"><span class="ap-f-label">이미지</span><span class="ap-f-value" id="apf-img-val">없음</span></div>
               <span class="ap-f-status" id="apf-img-st">⏳</span>
             </div>
             <div class="ap-field-row pending" id="apf-deny">
-              <span class="ap-f-icon">🚫</span>
-              <div class="ap-f-content">
-                <span class="ap-f-label">금지어</span>
-                <span class="ap-f-value" id="apf-deny-val">없음</span>
-              </div>
+              <span class="ap-f-icon">🚫</span><div class="ap-f-content"><span class="ap-f-label">금지어</span><span class="ap-f-value" id="apf-deny-val">없음</span></div>
               <span class="ap-f-status" id="apf-deny-st">⏳</span>
             </div>
             <div class="ap-field-row pending" id="apf-season">
-              <span class="ap-f-icon">📅</span>
-              <div class="ap-f-content">
-                <span class="ap-f-label">시즌·이벤트</span>
-                <span class="ap-f-value" id="apf-season-val">없음</span>
-              </div>
+              <span class="ap-f-icon">📅</span><div class="ap-f-content"><span class="ap-f-label">시즌·이벤트</span><span class="ap-f-value" id="apf-season-val">없음</span></div>
               <span class="ap-f-status" id="apf-season-st">⏳</span>
             </div>
             <div class="ap-field-row pending" id="apf-tone">
-              <span class="ap-f-icon">🎯</span>
-              <div class="ap-f-content">
-                <span class="ap-f-label">광고 어조</span>
-                <span class="ap-f-value" id="apf-tone-val">없음</span>
-              </div>
+              <span class="ap-f-icon">🎯</span><div class="ap-f-content"><span class="ap-f-label">광고 어조</span><span class="ap-f-value" id="apf-tone-val">없음</span></div>
               <span class="ap-f-status" id="apf-tone-st">⏳</span>
             </div>
-            <div class="ap-timer" id="apTimer">예상 소요: <b id="apTimerVal">--</b></div>
+            <!-- Gemini 심사숙고 -->
+            <div id="apThinking" style="display:none;margin-top:10px">
+              <div class="ap-thinking-box">
+                <div class="ap-thinking-icon">✦</div>
+                <div class="ap-thinking-text" id="apThinkingText">Gemini가 심사숙고 중...</div>
+              </div>
+              <div class="ap-thinking-dots"><span></span><span></span><span></span><span></span><span></span></div>
+            </div>
+            <div class="ap-timer" style="margin-top:8px">예상 소요: <b id="apTimerVal">--</b></div>
           </div>
-          <div class="analysis-preview" id="analysisSidePreview" style="display:none">광고 소재를 생성하면 여기에 마케터의 분석이 요약되어 표시됩니다</div>
+          <div class="analysis-preview" id="analysisSidePreview" style="display:none"></div>
           <button class="analysis-btn" id="analysisOpenBtn" onclick="openAnalysisModal()" disabled>📄 전체 리포트 보기</button>
         </div>
 
-      </div><!-- input-grid -->
-
-      <!-- 입력 강화 기능 3칸 -->
-      <div class="enhance-row">
-
-        <!-- 금지어 설정 -->
-        <div class="enhance-col">
-          <div class="enhance-head">
-            <span class="enhance-icon">🚫</span>
-            <div>
-              <div class="enhance-title">금지어 설정 <span class="badge-opt">선택</span></div>
-              <div class="enhance-desc">쓰지 말아야 할 단어를 입력하면 AI가 제외해요</div>
-            </div>
-          </div>
-          <div id="denyList" class="deny-list"></div>
-          <div class="deny-input-row">
-            <input type="text" class="inp" id="denyInput" placeholder="금지어 입력 후 Enter" onkeydown="addDeny(event)" style="font-size:11px" />
-          </div>
-        </div>
-
-        <!-- 시즌·이벤트 설정 -->
-        <div class="enhance-col">
-          <div class="enhance-head">
-            <span class="enhance-icon">📅</span>
-            <div>
-              <div class="enhance-title">시즌 · 이벤트 <span class="badge-opt">선택</span></div>
-              <div class="enhance-desc">시즌에 맞는 문구를 자동 반영해요</div>
-            </div>
-          </div>
-          <div class="season-chips" id="seasonChips">
-            <button class="schip" onclick="toggleSeason(this)">봄 시즌</button>
-            <button class="schip" onclick="toggleSeason(this)">여름 세일</button>
-            <button class="schip" onclick="toggleSeason(this)">추석</button>
-            <button class="schip" onclick="toggleSeason(this)">연말</button>
-            <button class="schip" onclick="toggleSeason(this)">설날</button>
-            <button class="schip" onclick="toggleSeason(this)">밸런타인</button>
-            <button class="schip" onclick="toggleSeason(this)">어버이날</button>
-          </div>
-          <input type="text" class="inp" id="eventInput" placeholder="이벤트 직접 입력 (예: 5월 가정의 달 특가)" style="margin-top:7px;font-size:11px" />
-        </div>
-
-        <!-- 광고 어조 설정 -->
-        <div class="enhance-col">
-          <div class="enhance-head">
-            <span class="enhance-icon">🎯</span>
-            <div>
-              <div class="enhance-title">광고 어조 <span class="badge-opt">선택</span></div>
-              <div class="enhance-desc">타겟에 맞는 어조를 선택하면 더 효과적이에요</div>
-            </div>
-          </div>
-          <div class="tone-grid" id="toneGrid">
-            <button class="tone-btn" onclick="toggleTone(this)">🔥 긴박감</button>
-            <button class="tone-btn" onclick="toggleTone(this)">💝 감성·공감</button>
-            <button class="tone-btn" onclick="toggleTone(this)">📊 정보·신뢰</button>
-            <button class="tone-btn" onclick="toggleTone(this)">🎉 혜택·이벤트</button>
-            <button class="tone-btn" onclick="toggleTone(this)">💪 전문가·권위</button>
-            <button class="tone-btn" onclick="toggleTone(this)">🌿 친환경·가치</button>
-          </div>
-        </div>
-
-      </div><!-- enhance-row -->
+      </div><!-- main-input-wrapper -->
 
       <!-- 생성 버튼 -->
       <div class="input-footer">
@@ -1839,7 +1833,7 @@ async function callClaude(sys, userContent) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       contents: [{ role: 'user', parts }],
-      generationConfig: { maxOutputTokens: 2000, temperature: 0.7 }
+      generationConfig: { maxOutputTokens: 4000, temperature: 0.5 }
     })
   });
   if (!res.ok) {
@@ -2415,7 +2409,7 @@ async function generate(){
   const timerVal=document.getElementById('apTimerVal');
   if(timerVal) timerVal.textContent=`약 ${estSecs}초`;
 
-  // ── 필드값 채우기 & 순차 활성화 애니메이션
+  // ── 필드 스캔 애니메이션 (1.2초씩 → 총 ~7초)
   function setApField(id, value, state) {
     const row = document.getElementById('apf-'+id);
     const val = document.getElementById('apf-'+id+'-val');
@@ -2423,10 +2417,10 @@ async function generate(){
     if(!row) return;
     if(val && value) val.textContent = value;
     row.className = 'ap-field-row ' + state;
-    if(st) st.textContent = state==='done'?'✓':state==='active'?'⏳':state==='skip'?'—':'⏳';
+    if(st) st.textContent = state==='done'?'✓':state==='active'?'🔍':state==='skip'?'—':'⏳';
   }
 
-  // 초기: 실제 값 세팅 후 pending 상태
+  // 초기값 설정 (pending 상태)
   setApField('name', name||'—', 'pending');
   setApField('feat', feat||'—', 'pending');
   setApField('img', S.imgs.length ? `${S.imgs.length}장` : '없음', 'pending');
@@ -2434,19 +2428,41 @@ async function generate(){
   setApField('season', (S_SEASON||(document.getElementById('eventInput')?.value.trim()||'')) || '없음', 'pending');
   setApField('tone', S_TONE||'없음', 'pending');
 
-  // 순차 활성화 (실제 생성 중 애니메이션)
   const fieldSeq = ['name','feat','img','deny','season','tone'];
+  const fieldMsgs = ['상품명 분석 중...','광고 포인트 적용 중...','이미지 분석 중...','금지어 적용 중...','시즌 설정 적용 중...','광고 어조 적용 중...'];
   let fieldIdx = 0;
+
+  // 1.2초 간격 스캔 → 완료 후 심사숙고 상태
   fieldTimer = setInterval(()=>{
-    if(fieldIdx>0) setApField(fieldSeq[fieldIdx-1], null, 'done');
-    if(fieldIdx<fieldSeq.length){
+    if(fieldIdx > 0) setApField(fieldSeq[fieldIdx-1], null, 'done');
+    if(fieldIdx < fieldSeq.length){
       setApField(fieldSeq[fieldIdx], null, 'active');
-      if(sideStatus) sideStatus.textContent = ['상품명 분석 중...','광고 내용 적용 중...','이미지 분석 중...','금지어 적용 중...','시즌 설정 적용 중...','광고 어조 적용 중...'][fieldIdx]||'분석 중...';
+      if(sideStatus) sideStatus.textContent = fieldMsgs[fieldIdx] || '분석 중...';
       fieldIdx++;
     } else {
       clearInterval(fieldTimer);
+      // 전체 스캔 완료 → Gemini 심사숙고 상태
+      const thinkEl = document.getElementById('apThinking');
+      if(thinkEl) thinkEl.style.display = 'block';
+      if(sideStatus) sideStatus.textContent = 'Gemini가 심사숙고 중...';
+      // 생각 중 텍스트 순환
+      const thinkMsgs = [
+        'Gemini가 심사숙고 중...',
+        '광고 전략 수립 중...',
+        '클릭률 포인트 분석 중...',
+        '타겟 심리 분석 중...',
+        '카피 방향 검토 중...',
+        '리포트 작성 중...',
+      ];
+      let ti = 0;
+      const thinkTxt = document.getElementById('apThinkingText');
+      fieldTimer = setInterval(()=>{
+        ti = (ti+1) % thinkMsgs.length;
+        if(thinkTxt) thinkTxt.textContent = thinkMsgs[ti];
+        if(sideStatus) sideStatus.textContent = thinkMsgs[ti];
+      }, 2000);
     }
-  }, 800);
+  }, 1200);
 
   let fieldTimer = null;
   pg(1,'active');
@@ -2505,9 +2521,55 @@ async function generate(){
       document.getElementById('analysisBody').innerHTML=html;
       document.getElementById('analysisBody').style.display='none';
       if(apProg) apProg.style.display='none';
+      // 심사숙고 박스 숨기기
+      const thinkEl = document.getElementById('apThinking');
+      if(thinkEl) thinkEl.style.display='none';
       // 모든 필드 done 처리
       ['name','feat','img','deny','season','tone'].forEach(id=>setApField(id,null,'done'));
       clearInterval(fieldTimer);
+      
+      // 분석 결과 타이핑 효과로 표시
+      const preview=document.getElementById('analysisSidePreview');
+      if(preview){
+        preview.style.display='block';
+        // 텍스트 추출
+        const tmp=document.createElement('div'); tmp.innerHTML=html;
+        const allSections=tmp.querySelectorAll('.analysis-section');
+        let rawLines=[];
+        allSections.forEach(sec=>{
+          const title=sec.querySelector('.analysis-section-title');
+          const body=sec.querySelector('.analysis-section-content');
+          if(body){
+            body.textContent.split(/[.。]\s+/).map(s=>s.trim()).filter(s=>s.length>10).forEach(s=>{if(rawLines.length<6)rawLines.push(s);});
+          }
+        });
+        if(!rawLines.length){
+          tmp.querySelectorAll('.analysis-section-content').forEach(el=>{
+            el.textContent.split(/[.。]\s+/).map(s=>s.trim()).filter(s=>s.length>10).forEach(s=>{if(rawLines.length<6)rawLines.push(s);});
+          });
+        }
+        // 타이핑 효과
+        const bullets=['①','②','③','④','⑤','⑥'];
+        const fullText = rawLines.slice(0,6).map((l,i)=>`${bullets[i]} ${l}`).join('\n');
+        preview.innerHTML = '<span id="typingOut"></span><span class="analysis-typing-cursor"></span>';
+        const typingEl = document.getElementById('typingOut');
+        let charIdx = 0;
+        const typeInterval = setInterval(()=>{
+          if(charIdx < fullText.length){
+            const ch = fullText[charIdx];
+            if(ch==='\n') typingEl.innerHTML += '<br>';
+            else typingEl.textContent += ch;
+            charIdx++;
+          } else {
+            clearInterval(typeInterval);
+            // 커서 제거
+            const cursor = preview.querySelector('.analysis-typing-cursor');
+            if(cursor) cursor.remove();
+            // 최종 포맷
+            preview.innerHTML = rawLines.slice(0,6).map((l,i)=>`<span style="color:var(--g);font-weight:700;margin-right:4px">${bullets[i]}</span>${l}`).join('<br>');
+          }
+        }, 18); // 18ms per char
+      }
 
       render();
       pg(3,'done');pg(4,'active');
@@ -2518,32 +2580,11 @@ async function generate(){
       pg(4,'done');
       document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
       btn.disabled=false;
-      if(sidePreview) sidePreview.style.display='block';
 
+      // 분석 완료 상태 업데이트
       const status=document.getElementById('analysisSideStatus');
-      const preview=document.getElementById('analysisSidePreview');
       const openBtn=document.getElementById('analysisOpenBtn');
-      if(status) status.textContent='분석 완료 ✓';
-      if(preview){
-        const tmp=document.createElement('div'); tmp.innerHTML=html;
-        const allSections=tmp.querySelectorAll('.analysis-section');
-        let rawLines=[];
-        allSections.forEach(sec=>{
-          const title=sec.querySelector('.analysis-section-title');
-          if(title&&title.textContent.includes('5줄 요약')){
-            const body=sec.querySelector('.analysis-section-content');
-            if(body) rawLines=body.innerText.split(/\n/).map(s=>s.trim()).filter(s=>s.length>5).slice(0,5);
-          }
-        });
-        if(!rawLines.length){
-          tmp.querySelectorAll('.analysis-section-content').forEach(el=>{
-            el.textContent.split(/[.。]\s+/).map(s=>s.trim()).filter(s=>s.length>10).forEach(s=>{if(rawLines.length<5)rawLines.push(s);});
-          });
-        }
-        const bullets=['①','②','③','④','⑤'];
-        preview.innerHTML=rawLines.slice(0,5).map((l,i)=>`<span style="color:var(--g);font-weight:700;margin-right:4px">${bullets[i]}</span>${l}`).join('<br>');
-        preview.style.color='';
-      }
+      if(status) status.textContent='✓ 분석 완료';
       if(openBtn){openBtn.disabled=false;openBtn.classList.add('done');setTimeout(()=>openBtn.classList.remove('done'),5000);}
     }).catch(()=>{
       document.getElementById('analysisBody').innerHTML='<div>분석을 불러오지 못했어요.</div>';
@@ -2554,6 +2595,7 @@ async function generate(){
       document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
       btn.disabled=false;
       if(apProg) apProg.style.display='none';
+      clearInterval(fieldTimer);
     });
 
   } catch(e){
