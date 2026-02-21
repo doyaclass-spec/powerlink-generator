@@ -1383,7 +1383,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v6.3</span>
+    <span class="h-version">v6.5</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -1528,6 +1528,13 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
                     <div id="apAnalyzingSubtxt" style="font-size:10px;color:var(--text3)">소재 전략 깊이 분석하는 중...</div>
                   </div>
                 </div>
+                <!-- 실시간 스트림 로그 (최상단) -->
+                <div id="apLiveLog" style="display:none" class="ap-live-log">
+                  <div class="ap-stream-label">📡 AI 실시간 출력</div>
+                  <div id="apStreamText" class="ap-stream-text"></div>
+                </div>
+                <!-- field rows (스트림 시작 후 숨겨짐) -->
+                <div id="apFieldRows">
                 <div class="ap-field-row pending" id="apf-name">
                   <span class="ap-f-icon">📦</span><div class="ap-f-content"><span class="ap-f-label">상품명</span><span class="ap-f-value" id="apf-name-val">—</span></div>
                   <span class="ap-f-status" id="apf-name-st">⏳</span>
@@ -1552,6 +1559,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
                   <span class="ap-f-icon">🎯</span><div class="ap-f-content"><span class="ap-f-label">광고 어조</span><span class="ap-f-value" id="apf-tone-val">없음</span></div>
                   <span class="ap-f-status" id="apf-tone-st">⏳</span>
                 </div>
+                </div><!-- /apFieldRows -->
                 <!-- Gemini 심사숙고 -->
                 <div id="apThinking" style="display:none;margin-top:10px">
                   <div class="ap-thinking-box">
@@ -1559,11 +1567,6 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
                     <div class="ap-thinking-text" id="apThinkingText">Gemini가 심사숙고 중...</div>
                   </div>
                   <div class="ap-thinking-dots"><span></span><span></span><span></span><span></span><span></span></div>
-                </div>
-                <!-- 실시간 분석 로그 - 실제 스트리밍 텍스트 -->
-                <div id="apLiveLog" style="display:none" class="ap-live-log">
-                  <div class="ap-stream-label">📡 AI 분석 실시간 출력</div>
-                  <div id="apStreamText" class="ap-stream-text"></div>
                 </div>
                 <div class="ap-timer" style="margin-top:8px">예상 완료까지: <b id="apTimerVal">--</b></div>
               </div>
@@ -2109,7 +2112,6 @@ async function callClaude(sys, userContent, onChunk) {
   if (typeof userContent === 'string') {
     parts = [{ text: sys + '\n\n' + userContent }];
   } else {
-    // 이미지 배열 + 텍스트
     const textItem = userContent.find(c => c.type === 'text');
     const imgItems = userContent.filter(c => c.type === 'image');
     parts = [
@@ -2121,11 +2123,10 @@ async function callClaude(sys, userContent, onChunk) {
     ];
   }
 
-  // 타임아웃 90초
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 90000);
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?key=${API_KEY}&alt=sse`;
   try {
     const res = await fetch(url, {
       method: 'POST',
@@ -2133,11 +2134,7 @@ async function callClaude(sys, userContent, onChunk) {
       signal: controller.signal,
       body: JSON.stringify({
         contents: [{ role: 'user', parts }],
-        generationConfig: {
-          maxOutputTokens: 900,
-          temperature: 0.5,
-          thinkingConfig: { thinkingBudget: 0 }  // ★ thinking 비활성화 — 속도 핵심
-        }
+        generationConfig: { maxOutputTokens: 900, temperature: 0.5 }
       })
     });
     if (!res.ok) {
@@ -2145,39 +2142,15 @@ async function callClaude(sys, userContent, onChunk) {
       const e = await res.json();
       const msg = e.error?.message || 'API 오류';
       if (msg.includes('API_KEY_INVALID') || msg.includes('API key')) throw new Error('API Key가 유효하지 않아요. aistudio.google.com에서 다시 발급해주세요.');
-      if (msg.includes('quota') || msg.includes('RESOURCE_EXHAUSTED')) throw new Error('오늘 무료 한도(1,500회)를 초과했어요. 내일 다시 시도해주세요.');
+      if (msg.includes('quota') || msg.includes('RESOURCE_EXHAUSTED')) throw new Error('오늘 무료 한도를 초과했어요. 내일 다시 시도해주세요.');
       throw new Error(msg);
     }
-
-    // ★ 스트리밍 읽기 — 실시간 토큰 수신
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder();
-    let fullText = '';
-    let buffer = '';
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
-      buffer = lines.pop(); // 마지막 미완성 줄 보관
-      for (const line of lines) {
-        if (!line.startsWith('data: ')) continue;
-        const data = line.slice(6).trim();
-        if (data === '[DONE]') continue;
-        try {
-          const chunk = JSON.parse(data);
-          const token = chunk.candidates?.[0]?.content?.parts?.[0]?.text || '';
-          if (token) {
-            fullText += token;
-            // 스트리밍 콜백 호출 (실시간 로그용)
-            if (typeof onChunk === 'function') onChunk(fullText, token);
-          }
-        } catch {}
-      }
-    }
+    const d = await res.json();
     clearTimeout(timeoutId);
-    return fullText;
+    const text = d.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    // onChunk가 있으면 완성된 텍스트를 한번에 전달 (UI 업데이트용)
+    if (typeof onChunk === 'function') onChunk(text, text);
+    return text;
   } catch(err) {
     clearTimeout(timeoutId);
     if(err.name === 'AbortError') throw new Error('응답 시간이 90초를 초과했어요. 다시 시도해주세요.');
@@ -3064,6 +3037,8 @@ async function generate(){
     let titlesDone = false;
     const streamElCopy = document.getElementById('apStreamText');
     const liveLogCopy = document.getElementById('apLiveLog');
+    const fieldRows = document.getElementById('apFieldRows');
+    if(fieldRows) fieldRows.style.display = 'none';
     if(liveLogCopy) liveLogCopy.style.display = 'block';
     if(streamElCopy) streamElCopy.innerHTML = '<span class="ap-stream-cursor"></span>';
 
@@ -3233,6 +3208,9 @@ async function generate(){
 
       // 리포트 완료 - 결과는 이미 표시됨, 패널만 업데이트
       pg(3,'done');pg(4,'done');
+      // fieldRows 다시 표시
+      const fr = document.getElementById('apFieldRows');
+      if(fr) fr.style.display = 'block';
       document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
       btn.disabled=false;
       stopAnalyzingUI();
