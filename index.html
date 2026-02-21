@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="스마트스토어 URL만 넣으면 네이버 파워링크 광고 소재를 자동으로 생성해드립니다. 제목 15개, 설명 4개, 추천 키워드까지.">
+<meta property="og:title" content="파워링크 광고 소재 생성기">
+<meta property="og:description" content="AI가 스마트스토어 상품을 분석해서 파워링크 광고 소재를 자동 생성합니다">
+<title>파워링크 광고 소재 생성기</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#03C75A;--green-dark:#029e48;--green-pale:rgba(3,199,90,.08);
+  --navy:#0d1b2a;--navy2:#1a2e42;
+  --gray-50:#f8fafc;--gray-100:#f1f4f7;--gray-200:#e2e8ef;
+  --gray-400:#94a3b4;--gray-600:#4e6176;--gray-800:#1e2d3d;
+  --blue:#1a73e8;--red:#e53e3e;--orange:#f59e0b;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.08);
+  --shadow:0 4px 16px rgba(0,0,0,.1);
+  --shadow-lg:0 20px 60px rgba(0,0,0,.18);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;color:var(--gray-800);min-height:100vh;font-size:14px;line-height:1.6}
+
+/* ── 모달 오버레이 ── */
+.overlay{position:fixed;inset:0;background:rgba(13,27,42,.7);backdrop-filter:blur(6px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .2s ease}
+.overlay.hidden{display:none}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* ── API Key 모달 ── */
+.key-modal{
+  background:#fff;border-radius:20px;max-width:480px;width:100%;
+  box-shadow:var(--shadow-lg);animation:slideUp .25s ease;overflow:hidden;
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.key-modal-head{
+  background:var(--navy);padding:28px 32px 24px;
+  position:relative;overflow:hidden;
+}
+.key-modal-head::before{
+  content:'';position:absolute;top:-40px;right:-40px;
+  width:160px;height:160px;border-radius:50%;
+  background:rgba(3,199,90,.12);
+}
+.key-modal-head .logo-mark{
+  width:44px;height:44px;border-radius:12px;
+  background:var(--green);display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:900;color:#fff;letter-spacing:-1px;margin-bottom:16px;
+  position:relative;
+}
+.key-modal-head h2{font-size:20px;font-weight:800;color:#fff;margin-bottom:6px}
+.key-modal-head p{font-size:13px;color:rgba(255,255,255,.6);line-height:1.6}
+.key-modal-body{padding:24px 32px}
+.step-guide{margin-bottom:20px}
+.step-guide-title{font-size:12px;font-weight:700;color:var(--gray-400);letter-spacing:.5px;text-transform:uppercase;margin-bottom:12px}
+.step-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.step-num{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--green-pale);border:1.5px solid var(--green);
+  color:var(--green);font-size:11px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+}
+.step-text{font-size:13px;color:var(--gray-600);line-height:1.6}
+.step-text a{color:var(--blue);text-decoration:none;font-weight:600}
+.step-text a:hover{text-decoration:underline}
+.key-input-wrap{
+  background:var(--gray-50);border:2px solid var(--gray-200);
+  border-radius:12px;padding:14px 16px;margin-bottom:8px;
+  display:flex;align-items:center;gap:10px;
+  transition:border-color .15s;
+}
+.key-input-wrap:focus-within{border-color:var(--green);background:#fff}
+.key-input-wrap input{
+  flex:1;border:none;background:none;outline:none;
+  font-family:inherit;font-size:13px;color:var(--gray-800);
+  letter-spacing:.5px;
+}
+.key-input-wrap input::placeholder{color:#bbb;letter-spacing:0}
+.key-toggle-btn{background:none;border:none;cursor:pointer;font-size:16px;color:var(--gray-400);padding:2px}
+.key-notice{font-size:11px;color:var(--gray-400);margin-bottom:20px;line-height:1.6}
+.key-notice span{color:var(--green);font-weight:600}
+.key-confirm-btn{
+  width:100%;padding:14px;background:var(--green);color:#fff;
+  border:none;border-radius:10px;font-size:14px;font-weight:700;
+  font-family:inherit;cursor:pointer;transition:background .15s;
+}
+.key-confirm-btn:hover{background:var(--green-dark)}
+.key-confirm-btn:disabled{background:var(--gray-400);cursor:not-allowed}
+
+/* ── 헤더 ── */
+.site-header{
+  background:var(--navy);
+  padding:0 24px;height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 12px rgba(0,0,0,.2);
+}
+.header-left{display:flex;align-items:center;gap:10px}
+.h-logo{
+  width:32px;height:32px;background:var(--green);border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:900;color:#fff;letter-spacing:-1px;
+}
+.h-title{font-size:15px;font-weight:700;color:#fff}
+.h-sub{font-size:11px;color:rgba(255,255,255,.4);margin-left:2px}
+.h-key-btn{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  border-radius:7px;padding:6px 12px;
+  color:rgba(255,255,255,.7);font-size:12px;font-weight:500;
+  cursor:pointer;font-family:inherit;transition:all .15s;
+}
+.h-key-btn:hover{background:rgba(255,255,255,.14);color:#fff}
+.h-key-dot{width:7px;height:7px;border-radius:50%;background:var(--gray-400)}
+.h-key-dot.ok{background:var(--green)}
+
+/* ── 히어로 배너 ── */
+.hero{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);
+  padding:40px 24px;text-align:center;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);
+  width:600px;height:300px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(3,199,90,.12) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero h2{font-size:26px;font-weight:800;color:#fff;margin-bottom:10px;line-height:1.3;position:relative}
+.hero h2 em{color:var(--green);font-style:normal}
+.hero p{font-size:14px;color:rgba(255,255,255,.55);max-width:480px;margin:0 auto 24px;line-height:1.7;position:relative}
+.hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;position:relative}
+.chip{
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
+  border-radius:20px;padding:5px 12px;
+  font-size:12px;color:rgba(255,255,255,.65);
+}
+.chip b{color:var(--green)}
+
+/* ── 레이아웃 ── */
+.main{display:grid;grid-template-columns:340px 1fr 290px;gap:14px;max-width:1360px;margin:0 auto;padding:18px 16px}
+
+/* ── 카드 공통 ── */
+.card{background:#fff;border-radius:14px;border:1px solid var(--gray-200);box-shadow:var(--shadow-sm)}
+.card-head{padding:14px 18px;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;gap:8px}
+.card-head h3{font-size:13px;font-weight:700;flex:1;color:var(--gray-800)}
+.card-body{padding:18px}
+
+/* ── 입력 폼 ── */
+.field{margin-bottom:14px}
+.field:last-child{margin-bottom:0}
+.lbl{display:block;font-size:11px;font-weight:700;color:var(--gray-600);margin-bottom:5px;letter-spacing:.4px;text-transform:uppercase}
+.req{color:var(--red);margin-left:2px}
+.inp{
+  width:100%;padding:9px 12px;
+  border:1.5px solid var(--gray-200);border-radius:9px;
+  font-size:13px;font-family:inherit;outline:none;
+  transition:border-color .15s,box-shadow .15s;background:#fff;color:var(--gray-800);
+}
+.inp:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(3,199,90,.1)}
+.inp::placeholder{color:#c8d0da}
+textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
+
+/* URL 행 */
+.url-row{display:flex;gap:7px}
+.url-row .inp{flex:1;min-width:0}
+.url-btn{
+  flex-shrink:0;padding:9px 13px;
+  background:var(--gray-100);border:1.5px solid var(--gray-200);
+  border-radius:9px;font-size:12px;font-weight:700;
+  cursor:pointer;font-family:inherit;color:var(--gray-600);
+  transition:all .15s;white-space:nowrap;
+}
+.url-btn:hover{background:var(--gray-200)}
+.url-btn:disabled{opacity:.5;cursor:not-allowed}
+.url-btn.loading{color:var(--blue)}
+
+/* 상품 카드 (URL 불러온 후) */
+.product-card{
+  display:flex;gap:10px;align-items:flex-start;
+  background:var(--green-pale);border:1px solid rgba(3,199,90,.2);
+  border-radius:9px;padding:10px 12px;margin-bottom:14px;
+  animation:fadeIn .3s ease;
+}
+.product-card img{width:48px;height:48px;object-fit:cover;border-radius:6px;border:1px solid rgba(0,0,0,.08);flex-shrink:0}
+.p-name{font-size:12px;font-weight:700;line-height:1.4;margin-bottom:2px;color:var(--gray-800)}
+.p-desc{font-size:11px;color:var(--gray-600);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* 이미지 업로드 */
+.upload-zone{
+  border:2px dashed var(--gray-200);border-radius:9px;
+  padding:16px;text-align:center;cursor:pointer;
+  transition:all .2s;position:relative;
+}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--green);background:var(--green-pale)}
+.upload-zone.filled{border-style:solid;border-color:var(--green);background:var(--green-pale)}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.upl-icon{font-size:20px;margin-bottom:3px}
+.upl-text{font-size:12px;color:var(--gray-400)}
+.upl-name{font-size:11px;color:var(--green);font-weight:700;margin-top:3px}
+
+/* 알림 박스 */
+.notice{border-radius:8px;padding:9px 12px;font-size:12px;line-height:1.6;margin-bottom:14px}
+.n-ok{background:rgba(3,199,90,.08);color:#1a6e37;border:1px solid rgba(3,199,90,.2)}
+.n-warn{background:rgba(245,158,11,.08);color:#92400e;border:1px solid rgba(245,158,11,.2)}
+.n-info{background:rgba(26,115,232,.08);color:#1a5276;border:1px solid rgba(26,115,232,.2)}
+
+/* 생성 버튼 */
+.gen-btn{
+  width:100%;padding:13px;
+  background:var(--green);color:#fff;border:none;border-radius:10px;
+  font-size:14px;font-weight:800;font-family:inherit;
+  cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 4px 14px rgba(3,199,90,.3);
+}
+.gen-btn:hover{background:var(--green-dark);box-shadow:0 6px 18px rgba(3,199,90,.35);transform:translateY(-1px)}
+.gen-btn:active{transform:translateY(0)}
+.gen-btn:disabled{background:var(--gray-400);box-shadow:none;transform:none;cursor:not-allowed}
+
+/* 진행 단계 */
+.progress{margin-top:16px;display:none}
+.p-item{
+  display:flex;align-items:center;gap:9px;
+  padding:8px 0;font-size:12px;color:var(--gray-400);
+  border-bottom:1px solid var(--gray-100);
+}
+.p-item:last-child{border:none}
+.p-dot{
+  width:24px;height:24px;border-radius:50%;flex-shrink:0;
+  background:var(--gray-100);color:var(--gray-400);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;transition:all .3s;
+}
+.p-item.active{color:var(--blue)}
+.p-item.active .p-dot{background:var(--blue);color:#fff;animation:pulse 1s infinite}
+.p-item.done{color:var(--green)}
+.p-item.done .p-dot{background:var(--green);color:#fff}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(26,115,232,.4)}50%{box-shadow:0 0 0 6px rgba(26,115,232,0)}}
+
+/* ── 결과 패널 ── */
+.sec-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 18px;border-bottom:1px solid var(--gray-100);
+}
+.sec-title{font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px}
+.badge{
+  display:inline-flex;align-items:center;
+  background:var(--gray-100);border-radius:20px;
+  padding:2px 9px;font-size:11px;font-weight:600;color:var(--gray-600);
+}
+.badge.sel{background:rgba(3,199,90,.12);color:#1a6e37}
+.all-btn{font-size:12px;color:var(--blue);background:none;border:none;cursor:pointer;font-weight:600;font-family:inherit}
+.all-btn:hover{text-decoration:underline}
+
+/* 소재 아이템 */
+.items{padding:4px 0}
+.item{
+  display:flex;align-items:center;gap:9px;
+  padding:9px 18px;
+  border-bottom:1px solid var(--gray-50);
+  transition:background .1s;
+}
+.item:last-child{border:none}
+.item:hover{background:var(--gray-50)}
+.item.on{background:rgba(3,199,90,.04)}
+
+.plus{
+  width:26px;height:26px;border-radius:7px;
+  border:2px solid var(--gray-200);background:#fff;
+  color:var(--gray-400);font-size:16px;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:all .15s;font-family:inherit;line-height:1;
+}
+.plus:hover{border-color:var(--green);color:var(--green)}
+.item.on .plus{background:var(--green);border-color:var(--green);color:#fff}
+
+.txt-wrap{flex:1;min-width:0}
+.txt{font-size:13px;color:var(--gray-800);line-height:1.5;word-break:break-all}
+.meta{display:flex;align-items:center;gap:6px;margin-top:2px;flex-wrap:wrap}
+.cc{font-size:11px;color:var(--gray-400)}
+.cc.over{color:var(--red);font-weight:700}
+.gtag{display:inline-block;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:700}
+.g1{background:#e8f4fd;color:#1565c0}
+.g2{background:#f3e8ff;color:#6a1b9a}
+.g3{background:#fff3e0;color:#e65100}
+.g4{background:#e8f5e9;color:#2e7d32}
+
+.kw-in{
+  width:80px;font-size:11px;padding:4px 7px;
+  border:1px solid var(--gray-200);border-radius:5px;
+  background:var(--gray-50);color:var(--gray-600);
+  font-family:inherit;outline:none;transition:border-color .15s;flex-shrink:0;
+}
+.kw-in:focus{border-color:var(--green)}
+.kw-in::placeholder{color:#ccc}
+
+.divider{height:6px;background:var(--gray-100);border-top:1px solid var(--gray-200);border-bottom:1px solid var(--gray-200)}
+
+/* 빈 상태 */
+.empty{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:70px 24px;
+  color:var(--gray-400);text-align:center;
+}
+.empty-icon{font-size:48px;margin-bottom:14px;opacity:.3}
+.empty-txt{font-size:13px;line-height:1.9}
+.empty-txt strong{color:var(--gray-600)}
+
+/* 키워드 */
+.kw-cloud{padding:14px 18px;display:flex;flex-wrap:wrap;gap:7px}
+.kw-chip{
+  background:var(--gray-100);border:1.5px solid var(--gray-200);
+  border-radius:20px;padding:5px 12px;
+  font-size:12px;color:var(--gray-600);cursor:pointer;
+  transition:all .15s;user-select:none;
+}
+.kw-chip:hover{background:var(--green-pale);border-color:var(--green);color:var(--green-dark)}
+.kw-chip.copied{background:var(--green-pale);border-color:var(--green);color:var(--green-dark)}
+
+/* ── 미리보기 패널 ── */
+.preview-panel{position:sticky;top:74px;height:fit-content}
+.pv-box{margin:14px 16px;border:1px solid var(--gray-200);border-radius:10px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.pv-lbl{font-size:10px;font-weight:700;color:var(--gray-400);background:var(--gray-50);padding:6px 12px;border-bottom:1px solid var(--gray-200);letter-spacing:.5px;text-transform:uppercase}
+.pv-ad{padding:12px 14px}
+.pv-url{color:var(--gray-400);font-size:11px;margin-bottom:4px;display:flex;align-items:center;gap:4px}
+.pv-title{font-size:14px;font-weight:700;margin-bottom:5px;line-height:1.4;word-break:break-all}
+.pv-desc{font-size:12px;line-height:1.6;word-break:break-all}
+
+/* 선택 목록 */
+.sel-wrap{padding:14px 16px;border-top:1px solid var(--gray-100)}
+.sel-head{font-size:10px;font-weight:700;color:var(--gray-400);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.sel-cnt{color:var(--green)}
+.sel-item{
+  background:var(--gray-50);border:1px solid var(--gray-200);
+  border-radius:7px;padding:7px 28px 7px 10px;margin-bottom:5px;
+  font-size:12px;color:var(--gray-700);line-height:1.5;position:relative;
+}
+.sel-x{position:absolute;top:6px;right:7px;background:none;border:none;cursor:pointer;color:var(--gray-400);font-size:15px;line-height:1}
+.sel-x:hover{color:var(--red)}
+.sel-empty{font-size:12px;color:#c8d0da;text-align:center;padding:8px 0}
+
+.export-btn{
+  margin:10px 16px 16px;width:calc(100% - 32px);
+  padding:11px;background:var(--navy);color:#fff;
+  border:none;border-radius:9px;font-size:13px;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:all .15s;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.export-btn:hover{background:#000}
+.export-btn:disabled{background:var(--gray-400);cursor:not-allowed}
+
+/* 스피너 */
+.spin{width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:_spin .6s linear infinite;display:inline-block;flex-shrink:0}
+@keyframes _spin{to{transform:rotate(360deg)}}
+.spin-sm{width:12px;height:12px;border-width:2px;border-color:rgba(26,115,232,.3);border-top-color:var(--blue);border-radius:50%;animation:_spin .6s linear infinite;display:inline-block}
+
+/* 반응형 */
+@media(max-width:1100px){.main{grid-template-columns:320px 1fr}.preview-panel{display:none}}
+@media(max-width:720px){.main{grid-template-columns:1fr}.hero h2{font-size:20px}}
+
+/* 스크롤바 */
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--gray-200);border-radius:2px}
+</style>
+</head>
+<body>
+
+<!-- ── API Key 모달 ── -->
+<div class="overlay" id="keyModal">
+  <div class="key-modal">
+    <div class="key-modal-head">
+      <div class="logo-mark">N</div>
+      <h2>파워링크 광고 소재 생성기</h2>
+      <p>스마트스토어 URL 하나로 파워링크 광고 문구를<br>AI가 자동으로 만들어드립니다</p>
+    </div>
+    <div class="key-modal-body">
+      <div class="step-guide">
+        <div class="step-guide-title">Claude API Key 발급 방법</div>
+        <div class="step-row">
+          <div class="step-num">1</div>
+          <div class="step-text"><a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> 접속 후 회원가입</div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">2</div>
+          <div class="step-text">좌측 메뉴 <b>API Keys</b> → <b>Create Key</b> 클릭</div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">3</div>
+          <div class="step-text">생성된 <b>sk-ant-...</b> 형태의 키를 복사해서 아래에 붙여넣기</div>
+        </div>
+      </div>
+      <div class="key-input-wrap">
+        <input type="password" id="modalKey" placeholder="sk-ant-api03-..." oninput="onKeyInput()" />
+        <button class="key-toggle-btn" onclick="toggleModalKey()">👁</button>
+      </div>
+      <div class="key-notice">
+        🔒 API Key는 <span>브라우저에만 저장</span>되며 서버로 전송되지 않아요.<br>
+        1회 생성 비용: 약 <span>15~22원</span> (Claude API 요금제 기준)
+      </div>
+      <button class="key-confirm-btn" id="keyConfirmBtn" onclick="confirmKey()" disabled>
+        시작하기 →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── 헤더 ── -->
+<header class="site-header">
+  <div class="header-left">
+    <div class="h-logo">N</div>
+    <span class="h-title">파워링크 광고 소재 생성기</span>
+    <span class="h-sub">AI powered</span>
+  </div>
+  <button class="h-key-btn" onclick="openKeyModal()">
+    <span class="h-key-dot" id="keyDot"></span>
+    <span id="keyStatus">API Key 설정</span>
+  </button>
+</header>
+
+<!-- ── 히어로 ── -->
+<div class="hero">
+  <h2>스마트스토어 URL 하나로<br><em>파워링크 광고 소재</em> 자동 완성</h2>
+  <p>AI가 상품을 분석해서 제목·설명·키워드를 순식간에 만들어드려요.<br>직접 고르고 선택해서 바로 등록하세요.</p>
+  <div class="hero-chips">
+    <span class="chip">제목 <b>15개</b></span>
+    <span class="chip">설명 <b>4개</b></span>
+    <span class="chip">추천 키워드 <b>20개</b></span>
+    <span class="chip">글자수 자동 체크</span>
+    <span class="chip">CSV 내보내기</span>
+  </div>
+</div>
+
+<!-- ── 메인 ── -->
+<div class="main">
+
+  <!-- 왼쪽: 입력 -->
+  <div>
+    <div class="card">
+      <div class="card-head"><h3>📦 상품 정보 입력</h3></div>
+      <div class="card-body">
+
+        <div class="field">
+          <label class="lbl">스마트스토어 URL</label>
+          <div class="url-row">
+            <input type="url" class="inp" id="storeUrl" placeholder="https://smartstore.naver.com/..." />
+            <button class="url-btn" id="fetchBtn" onclick="fetchStore()">불러오기</button>
+          </div>
+        </div>
+
+        <div id="productCard" style="display:none"></div>
+        <div id="fetchNotice"></div>
+
+        <div class="field">
+          <label class="lbl">상품명 <span class="req">*</span></label>
+          <input type="text" class="inp" id="productName" placeholder="예: 업소용 냉장고 45박스 1등급" />
+        </div>
+
+        <div class="field">
+          <label class="lbl">핵심 특징 · 강점</label>
+          <textarea class="inp" id="feature" placeholder="예: 소상공인 지원사업 환급 최대 160만원, 전기세 절감 1등급, 5년 AS, 창업 필수 냉장고"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="lbl">타겟 고객</label>
+          <input type="text" class="inp" id="target" placeholder="예: 카페·식당 사장님, 소상공인, 창업자" />
+        </div>
+
+        <div class="field">
+          <label class="lbl">상세페이지 이미지 <span style="color:var(--gray-400);font-weight:400;font-size:10px">(선택 · AI가 분석)</span></label>
+          <div class="upload-zone" id="uploadZone">
+            <input type="file" id="fileInput" accept="image/*" onchange="onFile(event)" />
+            <div class="upl-icon">🖼️</div>
+            <div class="upl-text">이미지 드래그 또는 클릭</div>
+            <div class="upl-name" id="uplName" style="display:none"></div>
+          </div>
+        </div>
+
+        <button class="gen-btn" id="genBtn" onclick="generate()">
+          <span id="genTxt">✨ 광고 소재 생성하기</span>
+        </button>
+
+        <div class="progress" id="progress">
+          <div class="p-item" id="pg1">
+            <div class="p-dot" id="pd1">1</div>
+            <span>상품 분석 중...</span>
+          </div>
+          <div class="p-item" id="pg2">
+            <div class="p-dot" id="pd2">2</div>
+            <span>광고 소재 15개 + 4개 작성</span>
+          </div>
+          <div class="p-item" id="pg3">
+            <div class="p-dot" id="pd3">3</div>
+            <span>추천 키워드 추출</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 중앙: 결과 -->
+  <div>
+    <div class="card">
+
+      <div id="emptyState" class="empty">
+        <div class="empty-icon">📋</div>
+        <div class="empty-txt">
+          URL을 불러오거나 상품 정보를 입력하고<br>
+          <strong>생성 버튼</strong>을 눌러주세요<br><br>
+          <span style="font-size:12px;color:#c8d0da">
+            ✓ 제목 15개 (15자 이내) &nbsp;·&nbsp; 설명 4개 (45자 이내)<br>
+            ✓ 추천 키워드 20개 &nbsp;·&nbsp; CSV 내보내기
+          </span>
+        </div>
+      </div>
+
+      <div id="resultWrap" style="display:none">
+
+        <!-- 제목 -->
+        <div class="sec-bar">
+          <div class="sec-title">
+            광고 제목
+            <span style="font-size:10px;color:var(--gray-400);font-weight:400">15자 이내</span>
+            <span class="badge" id="tBadge">0</span>
+            <span class="badge sel" id="tSelBadge" style="display:none"></span>
+          </div>
+          <button class="all-btn" onclick="selAll('t')">+ 전체 선택</button>
+        </div>
+        <div class="items" id="titleItems"></div>
+
+        <div class="divider"></div>
+
+        <!-- 설명 -->
+        <div class="sec-bar">
+          <div class="sec-title">
+            광고 설명
+            <span style="font-size:10px;color:var(--gray-400);font-weight:400">45자 이내</span>
+            <span class="badge" id="dBadge">0</span>
+            <span class="badge sel" id="dSelBadge" style="display:none"></span>
+          </div>
+          <button class="all-btn" onclick="selAll('d')">+ 전체 선택</button>
+        </div>
+        <div class="items" id="descItems"></div>
+
+        <div class="divider"></div>
+
+        <!-- 키워드 -->
+        <div class="sec-bar">
+          <div class="sec-title">🔑 추천 키워드</div>
+          <span style="font-size:11px;color:var(--gray-400)">클릭하면 복사</span>
+        </div>
+        <div class="kw-cloud" id="kwCloud"></div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 오른쪽: 미리보기 -->
+  <div>
+    <div class="card preview-panel">
+      <div class="card-head"><h3>👁️ 광고 미리보기</h3></div>
+
+      <div class="pv-box">
+        <div class="pv-lbl">PC 소재 미리보기</div>
+        <div class="pv-ad">
+          <div class="pv-url">🌐 smartstore.naver.com · <span style="color:var(--orange);font-size:10px;border:1px solid var(--orange);border-radius:3px;padding:0 3px">광고</span></div>
+          <div class="pv-title" id="pvTitle" style="color:#bbb;font-weight:400;font-size:13px">제목을 선택하면 표시됩니다</div>
+          <div class="pv-desc" id="pvDesc" style="color:#bbb;font-size:11px">설명을 선택하면 표시됩니다</div>
+        </div>
+      </div>
+
+      <div class="sel-wrap">
+        <div class="sel-head">선택된 제목 <span class="sel-cnt" id="sTCnt">0개</span></div>
+        <div id="sTList"><div class="sel-empty">선택 없음</div></div>
+        <div class="sel-head" style="margin-top:12px">선택된 설명 <span class="sel-cnt" id="sDCnt">0개</span></div>
+        <div id="sDList"><div class="sel-empty">선택 없음</div></div>
+      </div>
+
+      <button class="export-btn" id="exportBtn" onclick="exportCSV()" disabled>
+        📥 CSV 내보내기
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── 상태
+const S = { titles:[], descs:[], kws:[], selT:new Set(), selD:new Set(), img:null };
+
+// ── API Key 관리
+let API_KEY = localStorage.getItem('claude_key') || '';
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (API_KEY && API_KEY.startsWith('sk-ant')) {
+    document.getElementById('keyModal').classList.add('hidden');
+    updateKeyHeader(true);
+  } else {
+    document.getElementById('keyModal').classList.remove('hidden');
+  }
+});
+
+function onKeyInput() {
+  const v = document.getElementById('modalKey').value.trim();
+  document.getElementById('keyConfirmBtn').disabled = !v.startsWith('sk-ant');
+}
+function toggleModalKey() {
+  const el = document.getElementById('modalKey');
+  el.type = el.type === 'password' ? 'text' : 'password';
+}
+function confirmKey() {
+  const v = document.getElementById('modalKey').value.trim();
+  if (!v.startsWith('sk-ant')) return;
+  API_KEY = v;
+  localStorage.setItem('claude_key', v);
+  document.getElementById('keyModal').classList.add('hidden');
+  updateKeyHeader(true);
+}
+function openKeyModal() {
+  document.getElementById('modalKey').value = API_KEY || '';
+  document.getElementById('keyConfirmBtn').disabled = !API_KEY.startsWith('sk-ant');
+  document.getElementById('keyModal').classList.remove('hidden');
+}
+function updateKeyHeader(ok) {
+  document.getElementById('keyDot').className = 'h-key-dot' + (ok ? ' ok' : '');
+  document.getElementById('keyStatus').textContent = ok ? 'API Key 변경' : 'API Key 설정';
+}
+
+// ── 파일 업로드
+function onFile(e) {
+  const f = e.target.files[0]; if (!f) return;
+  document.getElementById('uplName').textContent = '✓ ' + f.name;
+  document.getElementById('uplName').style.display = 'block';
+  document.getElementById('uploadZone').classList.add('filled');
+  const r = new FileReader();
+  r.onload = ev => { S.img = ev.target.result.split(',')[1]; };
+  r.readAsDataURL(f);
+}
+
+// ── 스마트스토어 불러오기
+async function fetchStore() {
+  const url = document.getElementById('storeUrl').value.trim();
+  if (!url) { alert('URL을 입력해주세요.'); return; }
+  const btn = document.getElementById('fetchBtn');
+  btn.disabled = true;
+  btn.className = 'url-btn loading';
+  btn.innerHTML = '<span class="spin-sm"></span> 불러오는 중...';
+  setNotice('');
+
+  const proxies = [
+    `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+    `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
+  ];
+
+  let html = null;
+  for (const p of proxies) {
+    try {
+      const res = await fetch(p, { signal: AbortSignal.timeout(9000) });
+      if (!res.ok) continue;
+      const data = await res.json().catch(() => null);
+      if (data?.contents && data.contents.length > 500) { html = data.contents; break; }
+    } catch (e) { continue; }
+  }
+
+  btn.disabled = false; btn.className = 'url-btn'; btn.textContent = '불러오기';
+
+  if (!html) {
+    setNotice('warn', '⚠️ 페이지를 자동으로 가져오지 못했어요. 상품명과 특징을 직접 입력해주세요.');
+    return;
+  }
+
+  const info = parse(html);
+  if (info.name) document.getElementById('productName').value = info.name;
+  if (info.desc && !document.getElementById('feature').value)
+    document.getElementById('feature').value = info.desc.substring(0, 200);
+
+  if (info.name) {
+    const card = document.getElementById('productCard');
+    card.className = 'product-card';
+    card.innerHTML = info.img
+      ? `<img src="${info.img}" onerror="this.style.display='none'" /><div><div class="p-name">${esc(info.name)}</div><div class="p-desc">${esc(info.desc||'')}</div></div>`
+      : `<div><div class="p-name">${esc(info.name)}</div><div class="p-desc">${esc(info.desc||'')}</div></div>`;
+    card.style.display = 'flex';
+    setNotice('ok', '✅ 상품 정보를 불러왔어요! 필요하면 수정 후 생성해주세요.');
+  } else {
+    setNotice('warn', '⚠️ 기본 정보만 불러왔어요. 상품명을 확인해주세요.');
+  }
+}
+
+function parse(html) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const og = (prop) => doc.querySelector(`meta[property="${prop}"]`)?.content || doc.querySelector(`meta[name="${prop}"]`)?.content || '';
+  let name = og('og:title') || doc.querySelector('title')?.textContent || '';
+  let desc = og('og:description') || og('description');
+  let img  = og('og:image');
+  try {
+    for (const s of doc.querySelectorAll('script[type="application/ld+json"]')) {
+      const d = JSON.parse(s.textContent);
+      if (d['@type'] === 'Product') { name = d.name||name; desc = d.description||desc; img = d.image?.[0]||d.image||img; break; }
+    }
+  } catch(e) {}
+  name = (name||'').replace(/\s*[-|:]\s*(네이버|스마트스토어|쇼핑).*/i,'').trim();
+  desc = (desc||'').replace(/\s+/g,' ').trim().substring(0,300);
+  return {name, desc, img};
+}
+
+function setNotice(type, msg) {
+  const el = document.getElementById('fetchNotice');
+  el.innerHTML = msg ? `<div class="notice n-${type}">${msg}</div>` : '';
+}
+
+// ── Claude API 호출
+async function callClaude(sys, content) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': API_KEY,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 2000,
+      system: sys,
+      messages: [{ role: 'user', content }]
+    })
+  });
+  if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || 'API 오류'); }
+  const d = await res.json();
+  return d.content[0].text;
+}
+
+// ── 단계 표시
+function pg(n, s) {
+  document.getElementById('pg'+n).className = 'p-item ' + (s||'');
+}
+
+// ── 생성
+async function generate() {
+  if (!API_KEY) { openKeyModal(); return; }
+  const name = document.getElementById('productName').value.trim();
+  if (!name) { alert('상품명을 입력해주세요.'); return; }
+
+  const feat   = document.getElementById('feature').value.trim();
+  const target = document.getElementById('target').value.trim();
+  const url    = document.getElementById('storeUrl').value.trim();
+
+  const btn = document.getElementById('genBtn');
+  btn.disabled = true;
+  document.getElementById('genTxt').innerHTML = '<span class="spin"></span> 생성 중...';
+  document.getElementById('progress').style.display = 'block';
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('resultWrap').style.display = 'none';
+  S.selT = new Set(); S.selD = new Set();
+
+  pg(1, 'active');
+
+  try {
+    const prompt = `상품명: ${name}${feat?'\n핵심 특징: '+feat:''}${target?'\n타겟 고객: '+target:''}${url?'\n스마트스토어 URL: '+url:''}\n\n위 상품의 네이버 파워링크 광고 소재를 생성해주세요.`;
+
+    const content = S.img
+      ? [
+          { type:'image', source:{ type:'base64', media_type:'image/jpeg', data:S.img } },
+          { type:'text', text:prompt }
+        ]
+      : prompt;
+
+    pg(1, 'done'); pg(2, 'active');
+
+    const raw = await callClaude(
+      `당신은 네이버 파워링크 광고 전문가입니다.
+반드시 순수 JSON만 응답하세요. 코드블록, 설명, 다른 텍스트 절대 금지.
+
+생성 규칙:
+- 제목: 15자 이내, 15개. 숫자·혜택·타겟을 활용한 클릭 유도 문구.
+- 설명: 45자 이내, 4개. 핵심 혜택을 구체적으로.
+- 키워드: 20개. 실제 검색에 쓰이는 조합 키워드.
+- 최상급(최고·최저·1위·보장) 표현 금지.
+- 근거 없는 효능 과장 금지.
+
+형식: {"titles":["...",...],"descs":["...",...],"keywords":["...",...]}`,
+      content
+    );
+
+    let parsed;
+    try { parsed = JSON.parse(raw.replace(/```json|```/g,'').trim()); }
+    catch(e) { throw new Error('결과 파싱 실패. 다시 시도해주세요.'); }
+
+    S.titles = parsed.titles || [];
+    S.descs  = parsed.descs  || [];
+    S.kws    = parsed.keywords || [];
+
+    pg(2, 'done'); pg(3, 'active');
+    render();
+    pg(3, 'done');
+    document.getElementById('resultWrap').style.display = 'block';
+
+  } catch(err) {
+    alert('오류가 발생했습니다:\n' + err.message);
+    [1,2,3].forEach(n => pg(n,''));
+    document.getElementById('emptyState').style.display = 'flex';
+  } finally {
+    btn.disabled = false;
+    document.getElementById('genTxt').textContent = '✨ 광고 소재 생성하기';
+  }
+}
+
+// ── 결과 렌더링
+function render() {
+  // 제목
+  const tEl = document.getElementById('titleItems');
+  tEl.innerHTML = '';
+  S.titles.forEach((t, i) => {
+    const len = [...t].length, over = len > 15;
+    const g = i<5?'g1':i<10?'g2':'g3', gl = i<5?'그룹1':i<10?'그룹2':'그룹3';
+    tEl.insertAdjacentHTML('beforeend',
+      `<div class="item" id="t${i}">
+        <button class="plus" onclick="tog('t',${i})">+</button>
+        <div class="txt-wrap">
+          <div class="txt">${esc(t)}</div>
+          <div class="meta"><span class="gtag ${g}">${gl}</span><span class="cc${over?' over':''}">${len}/15자${over?' ⚠️':''}</span></div>
+        </div>
+        <input class="kw-in" placeholder="키워드삽입" />
+      </div>`
+    );
+  });
+  document.getElementById('tBadge').textContent = S.titles.length;
+
+  // 설명
+  const dEl = document.getElementById('descItems');
+  dEl.innerHTML = '';
+  const gs = ['g1','g2','g3','g4'];
+  S.descs.forEach((d, i) => {
+    const len = [...d].length, over = len > 45;
+    dEl.insertAdjacentHTML('beforeend',
+      `<div class="item" id="d${i}">
+        <button class="plus" onclick="tog('d',${i})">+</button>
+        <div class="txt-wrap">
+          <div class="txt">${esc(d)}</div>
+          <div class="meta"><span class="gtag ${gs[i]}">${i+1}번</span><span class="cc${over?' over':''}">${len}/45자${over?' ⚠️':''}</span></div>
+        </div>
+        <input class="kw-in" placeholder="키워드삽입" />
+      </div>`
+    );
+  });
+  document.getElementById('dBadge').textContent = S.descs.length;
+
+  // 키워드
+  document.getElementById('kwCloud').innerHTML = S.kws.map(k =>
+    `<span class="kw-chip" onclick="cpKw(this)">${esc(k)}</span>`
+  ).join('');
+}
+
+function cpKw(el) {
+  navigator.clipboard.writeText(el.textContent).catch(()=>{});
+  el.classList.add('copied');
+  setTimeout(() => el.classList.remove('copied'), 800);
+}
+
+// ── 선택 토글
+function tog(type, i) {
+  const set = type==='t' ? S.selT : S.selD;
+  set.has(i) ? set.delete(i) : set.add(i);
+  document.getElementById(type+i).classList.toggle('on', set.has(i));
+  const plusBtn = document.getElementById(type+i).querySelector('.plus');
+  plusBtn.textContent = set.has(i) ? '✓' : '+';
+  sync();
+}
+function selAll(type) {
+  const items = type==='t' ? S.titles : S.descs;
+  const set   = type==='t' ? S.selT   : S.selD;
+  items.forEach((_,i) => {
+    set.add(i);
+    const el = document.getElementById(type+i);
+    if (el) { el.classList.add('on'); el.querySelector('.plus').textContent='✓'; }
+  });
+  sync();
+}
+function rem(type, i) {
+  const set = type==='t' ? S.selT : S.selD;
+  set.delete(i);
+  const el = document.getElementById(type+i);
+  if (el) { el.classList.remove('on'); el.querySelector('.plus').textContent='+'; }
+  sync();
+}
+
+// ── 미리보기 동기화
+function sync() {
+  const ts = [...S.selT].map(i => S.titles[i]);
+  const ds = [...S.selD].map(i => S.descs[i]);
+
+  const pvT = document.getElementById('pvTitle');
+  if (ts.length) { pvT.textContent = ts.slice(0,2).join(' · '); pvT.style.color='#1a73e8'; pvT.style.fontWeight='700'; pvT.style.fontSize='14px'; }
+  else { pvT.textContent='제목을 선택하면 표시됩니다'; pvT.style.color='#bbb'; pvT.style.fontWeight='400'; pvT.style.fontSize='13px'; }
+  const pvD = document.getElementById('pvDesc');
+  if (ds.length) { pvD.textContent = ds[0]; pvD.style.color='#444'; pvD.style.fontSize='12px'; }
+  else { pvD.textContent='설명을 선택하면 표시됩니다'; pvD.style.color='#bbb'; pvD.style.fontSize='11px'; }
+
+  document.getElementById('sTCnt').textContent = ts.length+'개';
+  document.getElementById('sDCnt').textContent = ds.length+'개';
+
+  document.getElementById('sTList').innerHTML = ts.length
+    ? [...S.selT].map(i => `<div class="sel-item">${esc(S.titles[i])}<button class="sel-x" onclick="rem('t',${i})">×</button></div>`).join('')
+    : '<div class="sel-empty">선택 없음</div>';
+  document.getElementById('sDList').innerHTML = ds.length
+    ? [...S.selD].map(i => `<div class="sel-item">${esc(S.descs[i])}<button class="sel-x" onclick="rem('d',${i})">×</button></div>`).join('')
+    : '<div class="sel-empty">선택 없음</div>';
+
+  const tsb = document.getElementById('tSelBadge');
+  if (ts.length) { tsb.style.display=''; tsb.textContent='✓ '+ts.length+'개 선택'; } else tsb.style.display='none';
+  const dsb = document.getElementById('dSelBadge');
+  if (ds.length) { dsb.style.display=''; dsb.textContent='✓ '+ds.length+'개 선택'; } else dsb.style.display='none';
+
+  document.getElementById('exportBtn').disabled = !ts.length && !ds.length;
+}
+
+// ── CSV
+function exportCSV() {
+  const ts = [...S.selT].map(i => S.titles[i]);
+  const ds = [...S.selD].map(i => S.descs[i]);
+  const url = document.getElementById('storeUrl').value || 'https://smartstore.naver.com/';
+  const name = document.getElementById('productName').value;
+  let csv = '\ufeff제목,설명,표시URL\n';
+  const rows = Math.max(ts.length, ds.length, 1);
+  for (let i=0; i<rows; i++) csv += `"${ts[i]||''}","${ds[Math.min(i,ds.length-1)]||''}","${url}"\n`;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8;'}));
+  a.download = `파워링크_${name}_${new Date().toLocaleDateString('ko')}.csv`;
+  a.click();
+}
+
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;')}
+</script>
+</body>
+</html>
