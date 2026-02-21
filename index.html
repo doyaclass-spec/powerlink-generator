@@ -1205,7 +1205,22 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   0%,100%{box-shadow:0 0 12px rgba(3,199,90,.1)}
   50%{box-shadow:0 0 24px rgba(3,199,90,.25)}
 }
-/* ══ 입력 잠금 오버레이 ══ */
+/* ══ 분석 패널 대기 상태 ══ */
+.ap-idle-gemini{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.ap-idle-logo{position:relative;width:36px;height:36px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ap-idle-pulse{position:absolute;inset:-4px;border-radius:50%;border:1.5px solid rgba(3,199,90,.3);animation:idlePulse 2s ease infinite}
+@keyframes idlePulse{0%,100%{transform:scale(1);opacity:.4}50%{transform:scale(1.15);opacity:.8}}
+.ap-idle-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px}
+.ap-idle-sub{font-size:11px;color:var(--text3);line-height:1.4}
+.ap-idle-scan{display:flex;flex-direction:column;gap:7px}
+.ap-scan-item{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text3);padding:5px 8px;border-radius:6px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);transition:all .3s}
+.ap-scan-item.lit{color:var(--g);background:rgba(3,199,90,.06);border-color:rgba(3,199,90,.2)}
+.ap-scan-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.15);flex-shrink:0;transition:all .3s}
+.ap-scan-item.lit .ap-scan-dot{background:var(--g);box-shadow:0 0 6px rgba(3,199,90,.5);animation:apPulse .8s ease infinite}
+/* ══ 버튼 옆 로그 요약 ══ */
+.gen-log-wrap{display:none;flex:1;overflow:hidden;margin-left:10px}
+.gen-log-item{font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .3s}
+.gen-log-item.active{color:var(--g);font-weight:600}
 .inputs-locked .input-grid,
 .inputs-locked .input-grid-b,
 .inputs-locked .enhance-row{position:relative}
@@ -1353,7 +1368,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v5.8</span>
+    <span class="h-version">v6.1</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -1460,7 +1475,29 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
             <!-- 05: 분석 패널 (2행 span) -->
             <div class="input-col col-analysis analysis-panel-tall" style="grid-row:span 2">
               <div class="icol-head"><span class="icol-num icol-num-5">05</span><div><div class="icol-title">마케터 분석 리포트 <span class="badge-auto">자동</span></div><div class="icol-desc">Gemini AI가 광고 소재 전략을 깊이 분석해드려요</div></div></div>
-              <div class="analysis-status" id="analysisSideStatus">소재 생성 후 자동 분석됩니다</div>
+              <div class="analysis-status" id="analysisSideStatus" style="display:none"></div>
+              <!-- 대기 중 표시 (생성 전) -->
+              <div id="apIdle" style="padding:16px 14px 8px">
+                <div class="ap-idle-gemini">
+                  <div class="ap-idle-logo">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M14 2C14 8.627 8.627 14 2 14C8.627 14 14 19.373 14 26C14 19.373 19.373 14 26 14C19.373 14 14 8.627 14 2Z" fill="url(#gstar)"/>
+                      <defs><linearGradient id="gstar" x1="2" y1="2" x2="26" y2="26" gradientUnits="userSpaceOnUse"><stop stop-color="#03C75A"/><stop offset="1" stop-color="#0066FF"/></linearGradient></defs>
+                    </svg>
+                    <div class="ap-idle-pulse"></div>
+                  </div>
+                  <div class="ap-idle-txt">
+                    <div class="ap-idle-title">Gemini AI 마케터</div>
+                    <div class="ap-idle-sub">소재 생성 후 자동으로 분석을 시작해요</div>
+                  </div>
+                </div>
+                <div class="ap-idle-scan">
+                  <div class="ap-scan-item" id="idleScan1"><span class="ap-scan-dot"></span><span>광고 소재 클릭률 패턴 분석</span></div>
+                  <div class="ap-scan-item" id="idleScan2"><span class="ap-scan-dot"></span><span>타겟 심리·구매 동기 파악</span></div>
+                  <div class="ap-scan-item" id="idleScan3"><span class="ap-scan-dot"></span><span>TOP3 클릭률 소재 선정</span></div>
+                  <div class="ap-scan-item" id="idleScan4"><span class="ap-scan-dot"></span><span>A/B 개선 권고안 도출</span></div>
+                </div>
+              </div>
               <div id="analysisProgress" style="display:none">
                 <div class="ap-field-row pending" id="apf-name">
                   <span class="ap-f-icon">📦</span><div class="ap-f-content"><span class="ap-f-label">상품명</span><span class="ap-f-value" id="apf-name-val">—</span></div>
@@ -1554,6 +1591,10 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
         <button class="gen-btn ripple-btn" id="genBtn" onclick="generate()">
           <span id="genTxt">✨ 광고 소재 생성하기</span>
         </button>
+        <!-- 분석 중 로그 요약 (버튼 옆) -->
+        <div class="gen-log-wrap" id="genLogWrap">
+          <div class="gen-log-item" id="genLogTxt">Gemini AI 연결 중...</div>
+        </div>
         <!-- 분석 중 실시간 표시 패널 -->
         <div id="analyzingLabel" style="display:none" class="analyzing-label">
           <div class="analyzing-bar">
@@ -2038,7 +2079,7 @@ function setNotice(type, msg) {
 }
 
 // ── Gemini API 호출
-async function callClaude(sys, userContent) {
+async function callClaude(sys, userContent, onChunk) {
   // userContent는 string 또는 array (이미지 포함)
   let parts = [];
   if (typeof userContent === 'string') {
@@ -2056,11 +2097,11 @@ async function callClaude(sys, userContent) {
     ];
   }
 
-  // 타임아웃 90초 — fetch 헤더 + body 읽기 전체에 적용
+  // 타임아웃 90초
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 90000);
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?key=${API_KEY}&alt=sse`;
   try {
     const res = await fetch(url, {
       method: 'POST',
@@ -2068,7 +2109,11 @@ async function callClaude(sys, userContent) {
       signal: controller.signal,
       body: JSON.stringify({
         contents: [{ role: 'user', parts }],
-        generationConfig: { maxOutputTokens: 900, temperature: 0.5 }
+        generationConfig: {
+          maxOutputTokens: 900,
+          temperature: 0.5,
+          thinkingConfig: { thinkingBudget: 0 }  // ★ thinking 비활성화 — 속도 핵심
+        }
       })
     });
     if (!res.ok) {
@@ -2079,13 +2124,39 @@ async function callClaude(sys, userContent) {
       if (msg.includes('quota') || msg.includes('RESOURCE_EXHAUSTED')) throw new Error('오늘 무료 한도(1,500회)를 초과했어요. 내일 다시 시도해주세요.');
       throw new Error(msg);
     }
-    // ★ clearTimeout을 res.json() 이후로 이동 — body 수신까지 타임아웃 유지
-    const d = await res.json();
+
+    // ★ 스트리밍 읽기 — 실시간 토큰 수신
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let fullText = '';
+    let buffer = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop(); // 마지막 미완성 줄 보관
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const data = line.slice(6).trim();
+        if (data === '[DONE]') continue;
+        try {
+          const chunk = JSON.parse(data);
+          const token = chunk.candidates?.[0]?.content?.parts?.[0]?.text || '';
+          if (token) {
+            fullText += token;
+            // 스트리밍 콜백 호출 (실시간 로그용)
+            if (typeof onChunk === 'function') onChunk(fullText, token);
+          }
+        } catch {}
+      }
+    }
     clearTimeout(timeoutId);
-    return d.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    return fullText;
   } catch(err) {
     clearTimeout(timeoutId);
-    if(err.name === 'AbortError') throw new Error('응답 시간이 90초를 초과했어요. 이미지를 줄이거나 다시 시도해주세요.');
+    if(err.name === 'AbortError') throw new Error('응답 시간이 90초를 초과했어요. 다시 시도해주세요.');
     throw err;
   }
 }
@@ -2181,7 +2252,17 @@ ${toneUsed.includes('action') || toneUsed.includes('행동') ? '- 행동유도·
   // 분석은 카피 텍스트 기반 — 이미지 불필요 (속도 최적화 핵심)
   const userContent = analysisPrompt;
 
-  const raw = await callClaude('', userContent);
+  // 실시간 분석 로그
+  function onAnalysisChunk(full) {
+    const sectionsDone = (full.match(/<\/section>/g)||[]).length;
+    const msgs = ['🔍 상품·소재 분석 중...', '⚡ TOP3 클릭률 소재 선정 중...', '💡 개선 권고 작성 중...'];
+    if (sectionsDone < msgs.length && msgs[sectionsDone]) {
+      const el = document.getElementById('genLogTxt');
+      if(el) { el.style.opacity='0'; setTimeout(()=>{ el.textContent=msgs[sectionsDone]; el.style.opacity='1'; },200); }
+    }
+  }
+
+  const raw = await callClaude('', userContent, onAnalysisChunk);
 
   // 섹션 파싱
   const sections = [...raw.matchAll(/<section title="([^"]+)">([\s\S]*?)<\/section>/g)];
@@ -2206,6 +2287,22 @@ ${toneUsed.includes('action') || toneUsed.includes('행동') ? '- 행동유도·
 
 
 
+
+// ── 대기 화면 scan 애니메이션
+let _idleScanTimer = null;
+function startIdleScan() {
+  clearInterval(_idleScanTimer);
+  const items = [1,2,3,4].map(n => document.getElementById('idleScan'+n));
+  let idx = 0;
+  items.forEach(el => { if(el) { el.classList.remove('lit'); } });
+  _idleScanTimer = setInterval(() => {
+    items.forEach(el => { if(el) el.classList.remove('lit'); });
+    if(items[idx]) items[idx].classList.add('lit');
+    idx = (idx+1) % items.length;
+  }, 1800);
+}
+// 페이지 로드 시 자동 시작
+startIdleScan();
 
 // ── 입력 강화 기능 ──
 const S_DENY = new Set(); // 금지어
@@ -2712,6 +2809,9 @@ async function generate(){
     if(analysisPanel) analysisPanel.classList.remove('analyzing-active');
     if(aLabelTimer) clearInterval(aLabelTimer);
     document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
+    // 버튼 옆 로그 숨기기
+    const glw = document.getElementById('genLogWrap');
+    if(glw) glw.style.display='none';
   }
 
   S.selT=new Set(); S.selD=new Set();
@@ -2719,11 +2819,25 @@ async function generate(){
   Object.keys(pinData).forEach(k=>delete pinData[k]);
   Object.keys(descPinData).forEach(k=>delete descPinData[k]);
 
-  const sideStatus=document.getElementById('analysisSideStatus');
+  // 대기 화면 숨기기
+  const apIdle = document.getElementById('apIdle');
+  if(apIdle) apIdle.style.display='none';
+
+  // 버튼 옆 로그 표시
+  const genLogWrap = document.getElementById('genLogWrap');
+  const genLogTxt = document.getElementById('genLogTxt');
+  if(genLogWrap) genLogWrap.style.display='block';
+
+  function setGenLog(msg) {
+    if(!genLogTxt) return;
+    genLogTxt.style.opacity='0';
+    setTimeout(()=>{ genLogTxt.textContent=msg; genLogTxt.style.opacity='1'; }, 200);
+  }
   const sidePreview=document.getElementById('analysisSidePreview');
   const sideBtn=document.getElementById('analysisOpenBtn');
   const apProg=document.getElementById('analysisProgress');
   if(sideStatus){ sideStatus.textContent='분석 시작...'; sideStatus.classList.add('running'); }
+  setGenLog('Gemini AI 연결 중...');
   if(sidePreview) sidePreview.style.display='none';
   if(sideBtn) sideBtn.disabled=true;
   if(apProg) apProg.style.display='block';
@@ -2825,6 +2939,7 @@ async function generate(){
   // sideStatus 업데이트 + 분석 중 옆 stepEl에도 동기화
   function updateStatus(msg) {
     if(sideStatus) sideStatus.textContent = msg;
+    setGenLog(msg);
     if(stepEl) { stepEl.style.opacity='0'; setTimeout(()=>{ stepEl.textContent=msg; stepEl.style.opacity='1'; },160); }
   }
 
@@ -2902,6 +3017,31 @@ async function generate(){
     ];
     setPhase('① 소재 30개 작성 중', phase1Msgs, 2800);
 
+    // 실시간 스트리밍 로그 — 실제 토큰이 올 때마다 업데이트
+    let tokenCount = 0;
+    let titlesDone = false;
+    function onCopyChunk(full, token) {
+      tokenCount += token.length;
+      // titles 완료 감지
+      if (!titlesDone && full.includes('"descs"')) {
+        titlesDone = true;
+        updateStatus('📝 제목 20개 완성 · 설명 작성 중...');
+        setGenLog('📝 제목 완성 → 설명 작성 중...');
+      } else if (!titlesDone) {
+        const tCount = (full.match(/"[^"]{1,15}"/g)||[]).length;
+        if (tCount > 0) {
+          updateStatus(`✍️ 제목 작성 중... (${Math.min(tCount, 20)}/20개)`);
+          setGenLog(`✍️ 제목 ${Math.min(tCount,20)}/20개 생성 중...`);
+        }
+      } else {
+        const dCount = (full.match(/"[^"]{10,45}"/g)||[]).length;
+        if (dCount > 0) {
+          updateStatus(`💬 설명 작성 중... (${Math.min(dCount,8)}/8개)`);
+          setGenLog(`💬 설명 ${Math.min(dCount,8)}/8개 생성 중...`);
+        }
+      }
+    }
+
     const raw=await callClaude(
       `당신은 네이버 파워링크 광고 전문가입니다.
 반드시 순수 JSON만 응답하세요. 코드블록, 설명, 다른 텍스트 절대 금지.
@@ -2912,7 +3052,8 @@ async function generate(){
 - 금지 표현: 최고·최저·1위·최상·특가·최대·최저가·압도적·완벽·탁월·월등·독보적·보장·무조건·100% 효과 등 최상급·과장 표현 절대 금지.
 - 근거 없는 효능 과장 금지. 구체적 수치나 사실 기반으로만 작성.
 형식: {"titles":["..."],"descs":["..."]}`,
-      content
+      content,
+      onCopyChunk
     );
 
     let parsed;
