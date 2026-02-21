@@ -72,6 +72,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;color:var(--gray-8
   transition:border-color .15s;
 }
 .key-input-wrap:focus-within{border-color:var(--green);background:#fff}
+.key-input-wrap input{transition:border-color .2s}
 .key-input-wrap input{
   flex:1;border:none;background:none;outline:none;
   font-family:inherit;font-size:13px;color:var(--gray-800);
@@ -83,30 +84,31 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;color:var(--gray-8
 .key-notice span{color:var(--green);font-weight:600}
 .key-confirm-btn{
   width:100%;padding:15px;
-  background:linear-gradient(135deg,#03C75A,#029e48);
-  color:#fff;border:none;border-radius:12px;
-  font-size:15px;font-weight:800;font-family:inherit;
-  cursor:pointer;transition:all .2s;
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  box-shadow:0 4px 16px rgba(3,199,90,.35);
-  letter-spacing:-.3px;
-}
-.key-confirm-btn:hover{
-  transform:translateY(-1px);
-  box-shadow:0 6px 20px rgba(3,199,90,.45);
-}
-.key-confirm-btn:active{transform:translateY(0)}
-.key-confirm-btn:disabled{
   background:var(--gray-200);color:var(--gray-400);
-  box-shadow:none;cursor:not-allowed;transform:none;
+  border:none;border-radius:12px;
+  font-size:15px;font-weight:800;font-family:inherit;
+  cursor:default;transition:all .22s cubic-bezier(.4,0,.2,1);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  letter-spacing:-.3px;box-shadow:none;
 }
+.key-confirm-btn.ready{
+  background:linear-gradient(135deg,#03C75A,#029e48);
+  color:#fff;cursor:pointer;
+  box-shadow:0 4px 16px rgba(3,199,90,.35);
+}
+.key-confirm-btn.ready:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 22px rgba(3,199,90,.45);
+}
+.key-confirm-btn.ready:active{transform:scale(.97);}
 .key-confirm-btn .btn-icon{
   width:22px;height:22px;border-radius:50%;
-  background:rgba(255,255,255,.25);
+  background:rgba(255,255,255,.2);
   display:flex;align-items:center;justify-content:center;
   font-size:13px;font-weight:900;flex-shrink:0;
+  transition:background .2s;
 }
-.key-confirm-btn:disabled .btn-icon{background:var(--gray-300)}
+.key-confirm-btn.ready .btn-icon{background:rgba(255,255,255,.25)}
 .key-confirm-btn .btn-text{font-size:14px}
 .key-skip-btn{
   width:100%;margin-top:10px;padding:9px;
@@ -510,6 +512,83 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
 .pin-sel:focus{border-color:var(--green)}
 .pin-sel.pinned{background:rgba(26,115,232,.08);border-color:rgba(26,115,232,.3);color:var(--blue);font-weight:600}
 
+
+/* ── 전체 버튼 인터랙션 ── */
+button { -webkit-tap-highlight-color: transparent; }
+
+/* 일반 버튼 공통 hover/active */
+.gen-btn, .export-btn, .url-btn, .all-btn, .plus, .key-confirm-btn {
+  transition: all .18s cubic-bezier(.4,0,.2,1);
+}
+
+/* 생성 버튼 */
+.gen-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(3,199,90,.4); }
+.gen-btn:active:not(:disabled) { transform: translateY(0) scale(.98); }
+
+/* CSV 내보내기 */
+.export-btn:hover:not(:disabled) { background: #1a2e42; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.2); }
+.export-btn:active:not(:disabled) { transform: translateY(0) scale(.98); }
+
+/* + 선택 버튼 */
+.plus:hover { transform: scale(1.1); }
+.plus:active { transform: scale(.95); }
+
+/* 불러오기 버튼 */
+.url-btn:active { transform: scale(.96); }
+
+/* 전체선택 버튼 */
+.all-btn:hover { transform: translateX(2px); }
+
+/* 키워드 칩 */
+.kw-chip { transition: all .15s; }
+.kw-chip:active { transform: scale(.94); }
+
+/* 특징 칩 */
+.feat-chip { transition: all .15s; }
+.feat-chip:not(.used):active { transform: scale(.94); }
+
+/* 헤더 키 버튼 */
+.h-key-btn:active { transform: scale(.96); }
+
+/* 저장하고 시작하기 */
+.key-confirm-btn:not(:disabled):active {
+  transform: scale(.97) !important;
+  box-shadow: 0 2px 8px rgba(3,199,90,.25) !important;
+}
+
+/* 아이템 선택 효과 */
+.item { transition: background .12s; }
+.item:active { background: rgba(3,199,90,.06) !important; }
+
+/* ripple 효과 */
+.ripple-btn { position: relative; overflow: hidden; }
+.ripple-btn::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,.35);
+  width: 100px; height: 100px;
+  margin-top: -50px; margin-left: -50px;
+  top: 50%; left: 50%;
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+.ripple-btn:active::after {
+  animation: ripple .4s ease-out;
+}
+@keyframes ripple {
+  from { transform: scale(0); opacity: 1; }
+  to   { transform: scale(3); opacity: 0; }
+}
+
+/* 결과 아이템 fade-in */
+@keyframes itemIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.item { animation: itemIn .2s ease both; }
+
 /* 반응형 */
 @media(max-width:1100px){.main{grid-template-columns:320px 1fr}.preview-panel{display:none}}
 @media(max-width:720px){.main{grid-template-columns:1fr}.hero h2{font-size:20px}}
@@ -521,7 +600,7 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
 <body>
 
 <!-- ── API Key 모달 ── -->
-<div class="overlay" id="keyModal">
+<div class="overlay hidden" id="keyModal">
   <div class="key-modal">
     <div class="key-modal-head">
       <button onclick="document.getElementById('keyModal').classList.add('hidden')" style="position:absolute;top:14px;right:16px;background:rgba(255,255,255,.15);border:none;color:#fff;width:28px;height:28px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;z-index:1">×</button>
@@ -549,7 +628,7 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
           </div>
         </div>
         <div class="key-input-wrap">
-          <input type="password" id="modalKey" placeholder="AIzaSy..." oninput="onKeyInput()" />
+          <input type="password" id="modalKey" placeholder="AIzaSy..." oninput="onKeyInput()" onpaste="setTimeout(onKeyInput,10)" />
           <button class="key-toggle-btn" onclick="toggleModalKey()">👁</button>
         </div>
         <div class="key-notice">
@@ -559,7 +638,7 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
       </div>
 
       <div style="padding:20px 32px 28px">
-        <button class="key-confirm-btn" id="keyConfirmBtn" onclick="confirmKey()" disabled>
+        <button class="key-confirm-btn ripple-btn" id="keyConfirmBtn" onclick="confirmKey()" disabled>
           <span class="btn-icon">✓</span>
           <span class="btn-text">저장하고 시작하기</span>
         </button>
@@ -665,7 +744,7 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
           </div>
         </div>
 
-        <button class="gen-btn" id="genBtn" onclick="generate()">
+        <button class="gen-btn ripple-btn" id="genBtn" onclick="generate()">
           <span id="genTxt">✨ 광고 소재 생성하기</span>
         </button>
 
@@ -784,7 +863,7 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
         <div id="sDList"><div class="sel-empty">선택 없음</div></div>
       </div>
 
-      <button class="export-btn" id="exportBtn" onclick="exportCSV()" disabled>
+      <button class="export-btn ripple-btn" id="exportBtn" onclick="exportCSV()" disabled>
         📥 CSV 내보내기
       </button>
     </div>
@@ -801,13 +880,10 @@ let API_KEY     = localStorage.getItem('claude_key') || '';
 
 
 window.addEventListener('DOMContentLoaded', () => {
-  // 모달은 자동으로 열지 않음 - 사용자가 직접 열도록
-  document.getElementById('keyModal').classList.add('hidden');
+  // 모달은 HTML에서 hidden으로 시작 - 자동으로 열지 않음
   if (API_KEY && API_KEY.length > 5) {
     updateKeyHeader(true);
-  }
-  // API Key 없으면 헤더에 빨간 점 + 안내 배너 표시
-  if (!API_KEY || API_KEY.length < 5) {
+  } else {
     showApiKeyBanner();
   }
 });
@@ -824,7 +900,10 @@ function hideApiKeyBanner() {
 
 function updateConfirmBtn() {
   const ck = document.getElementById('modalKey').value.trim();
-  document.getElementById('keyConfirmBtn').disabled = ck.length < 5;
+  const btn = document.getElementById('keyConfirmBtn');
+  const ok = ck.length >= 5;
+  btn.disabled = !ok;
+  btn.classList.toggle('ready', ok);
 }
 
 function onKeyInput() { updateConfirmBtn(); }
@@ -837,10 +916,15 @@ function toggleModalKey() {
 
 function confirmKey() {
   const ck = document.getElementById('modalKey').value.trim();
-  if (!ck || ck.length < 5) return;
+  if (!ck || ck.length < 5) {
+    const inp = document.getElementById('modalKey');
+    inp.style.borderColor = 'var(--red)';
+    inp.focus();
+    setTimeout(() => inp.style.borderColor = '', 1500);
+    return;
+  }
   API_KEY = ck;
   localStorage.setItem('claude_key', ck);
-
   document.getElementById('keyModal').classList.add('hidden');
   updateKeyHeader(true);
   hideApiKeyBanner();
@@ -848,8 +932,9 @@ function confirmKey() {
 
 function openKeyModal() {
   document.getElementById('modalKey').value = API_KEY || '';
-  updateConfirmBtn();
   document.getElementById('keyModal').classList.remove('hidden');
+  updateConfirmBtn();
+  document.getElementById('modalKey').focus();
 }
 
 function updateKeyHeader(ok) {
