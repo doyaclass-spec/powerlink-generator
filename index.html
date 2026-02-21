@@ -110,18 +110,72 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
 #apiKeyBanner{background:#fff3cd;border-bottom:1px solid #ffc107;padding:5px 16px;display:none;align-items:center;justify-content:center;gap:10px;font-size:11px;color:#856404}
 
 /* ── 메인 레이아웃 ── */
-.app-wrap{display:flex;align-items:flex-start;gap:10px;padding:10px;max-width:1440px;margin:0 auto}
+.app-main{max-width:1080px;margin:0 auto;padding:10px}
 
-/* ── 왼쪽 입력 패널 (sticky) ── */
-.left-panel{
-  width:260px;flex-shrink:0;
-  position:sticky;top:calc(var(--header-h) + 10px);
-  max-height:calc(100vh - var(--header-h) - 20px);
-  overflow-y:auto;overflow-x:hidden;
-  display:flex;flex-direction:column;gap:8px;
+/* ── sticky 입력 영역 ── */
+.sticky-top{
+  position:sticky;top:var(--header-h);z-index:50;
+  background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 100%);
+  border-radius:var(--radius);
+  box-shadow:0 4px 16px rgba(0,0,0,.2);
+  margin-bottom:10px;
+  overflow:hidden;
 }
-.left-panel::-webkit-scrollbar{width:3px}
-.left-panel::-webkit-scrollbar-thumb{background:var(--gray-200);border-radius:2px}
+
+/* 프로그레스바 (sticky 안에서) */
+#progressBar{
+  background:transparent;
+  padding:8px 16px 6px;
+  border-radius:0;
+  border:none;
+  box-shadow:none;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+/* 입력 카드 (sticky 안) */
+.input-sticky-card{background:transparent}
+.input-grid-wrap{
+  display:grid;
+  grid-template-columns:1.8fr 2fr 1.2fr 1.6fr;
+  gap:0;
+  padding:10px 16px 10px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.input-col{padding:0 10px;border-right:1px solid rgba(255,255,255,.08)}
+.input-col:first-child{padding-left:0}
+.input-col:last-child{border-right:none;padding-right:0}
+
+/* 입력 안에서 폼 색상 오버라이드 */
+.sticky-top .lbl{color:rgba(255,255,255,.8);font-size:11px}
+.sticky-top .lbl-desc{color:rgba(255,255,255,.4);font-size:10px}
+.sticky-top .inp{background:rgba(0,0,0,.25);border-color:rgba(255,255,255,.12);color:#fff;font-size:11px}
+.sticky-top .inp:focus{border-color:var(--green);background:rgba(0,0,0,.3)}
+.sticky-top .inp::placeholder{color:rgba(255,255,255,.3)}
+.sticky-top .feat-slot{background:rgba(0,0,0,.2);border-color:rgba(255,255,255,.1)}
+.sticky-top .feat-slot input{color:#fff}
+.sticky-top .feat-slot input::placeholder{color:rgba(255,255,255,.3)}
+.sticky-top .feat-slot-num{color:var(--green)}
+.sticky-top .feat-slot-del{color:rgba(255,255,255,.3)}
+.sticky-top .feat-slot-del:hover{color:var(--red)}
+.sticky-top .feat-add-btn{border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.4)}
+.sticky-top .feat-add-btn:hover{border-color:var(--green);color:var(--green)}
+.sticky-top .upload-zone{background:rgba(0,0,0,.2);border-color:rgba(255,255,255,.15)}
+.sticky-top .upload-zone:hover{background:rgba(3,199,90,.1);border-color:var(--green)}
+.sticky-top .upl-text{color:rgba(255,255,255,.3)}
+.sticky-top .img-thumb{border-color:rgba(255,255,255,.2)}
+.sticky-top #costCurrent{color:rgba(255,255,255,.4) !important}
+
+/* 분석 인라인 */
+.analysis-inline{display:flex;align-items:center;gap:10px;flex:1;background:rgba(0,0,0,.2);border-radius:7px;padding:6px 11px;border:1px solid rgba(255,255,255,.08)}
+.analysis-inline-dot{font-size:16px;flex-shrink:0}
+.analysis-inline-status{font-size:10px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:1px}
+.analysis-inline-preview{font-size:9px;color:rgba(255,255,255,.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.analysis-inline-btn{background:rgba(3,199,90,.15);border:1px solid rgba(3,199,90,.3);color:var(--green);border-radius:5px;padding:4px 10px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s;flex-shrink:0}
+.analysis-inline-btn:hover{background:rgba(3,199,90,.25)}
+.analysis-inline-btn:disabled{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08);color:rgba(255,255,255,.2);cursor:not-allowed}
+
+/* 콘텐츠 섹션 */
+.content-section{margin-bottom:10px}
 
 /* 공통 카드 */
 .card{background:#fff;border-radius:var(--radius);border:1px solid rgba(0,0,0,.06);box-shadow:var(--shadow-sm)}
@@ -161,12 +215,12 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
 .upl-icon{font-size:15px}
 .upl-text{font-size:9px;color:var(--gray-400)}
 .upl-count{font-size:9px;color:var(--green);font-weight:700}
-.img-grid{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px;max-height:68px;overflow-y:auto}
-.img-grid::-webkit-scrollbar{height:2px;width:2px}
-.img-grid::-webkit-scrollbar-thumb{background:var(--gray-200)}
-.img-thumb-wrap{position:relative;width:30px;height:30px;flex-shrink:0}
-.img-thumb-wrap img{width:100%;height:100%;object-fit:cover;border-radius:3px;border:1px solid var(--gray-200)}
-.img-thumb-del{position:absolute;top:-3px;right:-3px;width:12px;height:12px;border-radius:50%;background:var(--red);color:#fff;font-size:7px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.img-grid{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.img-thumb{position:relative;width:52px;height:52px;flex-shrink:0;border-radius:5px;overflow:hidden;border:1.5px solid var(--gray-200);box-shadow:var(--shadow-sm)}
+.img-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.del-btn{position:absolute;top:2px;right:2px;width:15px;height:15px;border-radius:50%;background:rgba(229,62,62,.9);color:#fff;font-size:9px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;font-weight:700}
+.del-btn:hover{background:var(--red)}
+.img-num{position:absolute;bottom:2px;left:3px;font-size:8px;font-weight:700;color:#fff;background:rgba(0,0,0,.45);border-radius:2px;padding:0 3px;line-height:14px}
 
 /* 분석 미니 */
 .analysis-mini{background:linear-gradient(135deg,#0B1829,#162b45);border-radius:var(--radius);padding:10px 12px;border:1px solid rgba(255,255,255,.06)}
@@ -178,7 +232,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
 .analysis-mini-btn:disabled{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.08);color:rgba(255,255,255,.2);cursor:not-allowed}
 
 /* 생성 버튼 */
-.gen-btn{width:100%;padding:10px;background:linear-gradient(135deg,var(--green-dark),var(--green));border:none;border-radius:var(--radius);font-size:12px;font-weight:800;color:#fff;cursor:pointer;font-family:inherit;transition:all .2s;letter-spacing:.2px}
+.gen-btn{width:100%;padding:10px;background:linear-gradient(135deg,var(--green-dark),var(--green));border:none;border-radius:8px;font-size:12px;font-weight:800;color:#fff;cursor:pointer;font-family:inherit;transition:all .2s;letter-spacing:.2px}
 .gen-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 4px 14px rgba(3,199,90,.35)}
 .gen-btn:active:not(:disabled){transform:translateY(0)}
 .gen-btn:disabled{background:var(--gray-200);cursor:not-allowed;color:var(--gray-400)}
@@ -192,7 +246,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
   padding:8px 14px;border:1px solid rgba(255,255,255,.06);
   position:sticky;top:calc(var(--header-h) + 10px);z-index:50;
 }
-.pbar-wrap{display:flex;align-items:center;gap:12px}
+.pbar-wrap{display:flex;align-items:center;gap:14px;max-width:100%}
 .pbar-track{height:2px;background:rgba(255,255,255,.1);border-radius:1px;flex:1;overflow:hidden}
 .pbar-fill{height:100%;background:linear-gradient(90deg,var(--green),#00d4ff);border-radius:1px;width:0%;transition:width .6s cubic-bezier(.4,0,.2,1)}
 .pbar-steps{display:flex;gap:16px;align-items:center;flex-shrink:0}
@@ -299,6 +353,26 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
 .kw-chip{font-size:9px;background:var(--gray-100);border:1px solid var(--gray-200);border-radius:3px;padding:2px 6px;cursor:pointer}
 .kw-chip:hover{background:var(--green-pale);border-color:var(--green);color:var(--green)}
 .divider{height:1px;background:var(--gray-100)}
+
+/* ── 네이버 모바일 광고 스타일 ── */
+.naver-mob-ad{background:#fff;border:1px solid #e5e8ec;border-radius:8px;padding:12px 14px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.naver-mob-meta{display:flex;align-items:center;gap:4px;margin-bottom:8px;flex-wrap:wrap}
+.naver-mob-logo{width:16px;height:16px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#fff;flex-shrink:0}
+.naver-mob-store{font-size:11px;color:#555;font-weight:500}
+.naver-mob-url{font-size:10px;color:#888}
+.naver-mob-badge{font-size:8px;color:#888;border:1px solid #ccc;border-radius:2px;padding:1px 3px;line-height:1.2;margin-left:2px}
+.naver-mob-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
+.naver-mob-body{flex:1;min-width:0}
+.naver-mob-title{font-size:15px;font-weight:700;color:#1a73e8;line-height:1.4;margin-bottom:5px;word-break:keep-all}
+.naver-mob-title.empty{color:#ccc;font-weight:400;font-size:12px}
+.naver-mob-desc{font-size:12px;color:#444;line-height:1.55}
+.naver-mob-desc.empty{color:#ccc;font-size:11px}
+.naver-mob-thumb{width:72px;height:72px;border-radius:6px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden;border:1px solid #eee}
+.naver-mob-thumb img{width:100%;height:100%;object-fit:cover}
+.naver-mob-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.naver-mob-chip{background:#f4f4f4;border:1px solid #e0e0e0;border-radius:14px;padding:3px 10px;font-size:11px;color:#444;cursor:pointer;transition:background .1s}
+.naver-mob-chip:hover{background:#e8e8e8}
+
 </style>
 </head>
 <body>
@@ -382,7 +456,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v2.6</span>
+    <span class="h-version">v2.8</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -418,72 +492,13 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
   <button onclick="openKeyModal()" style="background:#ffc107;border:none;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;color:#333;margin-left:8px">🔑 설정</button>
 </div>
 
-<!-- ── 앱 래퍼 ── -->
-<div class="app-wrap">
+<!-- ── 앱 메인 ── -->
+<div class="app-main">
 
-  <!-- 왼쪽: 입력 패널 (sticky) -->
-  <div class="left-panel">
-    <div class="card">
-      <div class="card-head"><h3>📦 상품 정보 입력</h3></div>
-      <div class="card-body">
-        <div class="field">
-          <label class="lbl">상품명 <span class="req">*</span></label>
-          <span class="lbl-desc">핵심 키워드 포함</span>
-          <input type="text" class="inp" id="productName" placeholder="예: 아로마 디퓨저 200ml 우드향" />
-        </div>
-        <div class="field">
-          <label class="lbl">광고에 넣고 싶은 내용</label>
-          <span class="lbl-desc">특징·혜택·강조 포인트</span>
-          <div id="featSuggestWrap" style="display:none">
-            <div class="feat-suggest-lbl" id="featSuggestLbl">💡 AI 추천 (클릭 추가)</div>
-            <div class="feat-suggest" id="featSuggest"></div>
-          </div>
-          <div class="feat-slots" id="featSlots">
-            <div class="feat-slot"><span class="feat-slot-num">1</span><input type="text" placeholder="예: 천연 에센셜오일 100%" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
-            <div class="feat-slot"><span class="feat-slot-num">2</span><input type="text" placeholder="예: 12시간 지속" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
-          </div>
-          <button class="feat-add-btn" id="featAddBtn" onclick="addSlot()">+ 항목 추가</button>
-        </div>
-        <div class="field">
-          <label class="lbl">타겟 고객</label>
-          <span class="lbl-desc">성별·나이·직업 등</span>
-          <input type="text" class="inp" id="target" placeholder="예: 30대 여성, 소상공인" />
-        </div>
-        <div class="field">
-          <label class="lbl">상세페이지 이미지</label>
-          <span class="lbl-desc">AI 직접 분석 (최대 20장)</span>
-          <div class="upload-zone" id="uploadZone">
-            <input type="file" id="fileInput" accept="image/*" multiple onchange="onFile(event)" />
-            <div class="upl-icon">🖼️</div>
-            <div class="upl-text">드래그 또는 클릭</div>
-            <div class="upl-count" id="uplCount" style="display:none"></div>
-          </div>
-          <div class="img-grid" id="imgGrid"></div>
-          <div id="costCurrent" style="display:none;font-size:9px;color:var(--gray-400);margin-top:3px">
-            현재 <b id="costImgCnt" style="color:var(--green)">0</b>장 → 약 <b id="costAmt" style="color:var(--green)">-</b>
-          </div>
-        </div>
-      </div>
-    </div>
+  <!-- ① 상품 정보 입력 (sticky) -->
+  <div class="sticky-top">
 
-    <!-- 분석 미니 -->
-    <div class="analysis-mini">
-      <div class="analysis-mini-title">🧠 마케터 분석 리포트</div>
-      <div class="analysis-mini-status" id="analysisSideStatus">소재 생성 후 자동 분석됩니다</div>
-      <div class="analysis-mini-preview" id="analysisSidePreview">광고 소재를 생성하면 여기에 마케터의 분석이 요약되어 표시됩니다</div>
-      <button class="analysis-mini-btn" id="analysisOpenBtn" onclick="openAnalysisModal()" disabled>📄 전체 리포트 보기</button>
-    </div>
-
-    <!-- 생성 버튼 -->
-    <button class="gen-btn ripple-btn" id="genBtn" onclick="generate()">
-      <span id="genTxt">✨ 광고 소재 생성하기</span>
-    </button>
-  </div>
-
-  <!-- 오른쪽: 결과 영역 -->
-  <div class="right-area">
-
-    <!-- 프로그레스 바 (sticky) -->
+    <!-- 프로그레스 바 -->
     <div id="progressBar">
       <div class="pbar-wrap">
         <div class="pbar-track"><div class="pbar-fill" id="pbarFill"></div></div>
@@ -496,11 +511,139 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
       </div>
     </div>
 
-    <!-- 결과 카드 -->
+    <!-- 입력 카드 -->
+    <div class="input-sticky-card">
+      <div class="input-grid-wrap">
+
+        <!-- 상품명 -->
+        <div class="input-col">
+          <label class="lbl">상품명 <span class="req">*</span></label>
+          <span class="lbl-desc">광고에 노출되는 핵심 키워드 포함</span>
+          <input type="text" class="inp" id="productName" placeholder="예: 아로마 디퓨저 200ml 우드향" />
+        </div>
+
+        <!-- 광고 내용 -->
+        <div class="input-col">
+          <label class="lbl">광고에 넣고 싶은 내용</label>
+          <span class="lbl-desc">특징·혜택·강조 포인트</span>
+          <div id="featSuggestWrap" style="display:none">
+            <div class="feat-suggest-lbl" id="featSuggestLbl">💡 AI 추천</div>
+            <div class="feat-suggest" id="featSuggest"></div>
+          </div>
+          <div class="feat-slots" id="featSlots">
+            <div class="feat-slot"><span class="feat-slot-num">1</span><input type="text" placeholder="예: 천연 에센셜오일 100% 사용" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
+            <div class="feat-slot"><span class="feat-slot-num">2</span><input type="text" placeholder="예: 12시간 지속" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
+          </div>
+          <button class="feat-add-btn" id="featAddBtn" onclick="addSlot()">+ 항목 추가</button>
+        </div>
+
+        <!-- 타겟 고객 -->
+        <div class="input-col">
+          <label class="lbl">타겟 고객</label>
+          <span class="lbl-desc">성별·나이·직업 등</span>
+          <input type="text" class="inp" id="target" placeholder="예: 30대 여성, 소상공인" />
+        </div>
+
+        <!-- 이미지 -->
+        <div class="input-col">
+          <label class="lbl">상세페이지 이미지</label>
+          <span class="lbl-desc">AI 직접 분석 (최대 20장)</span>
+          <div class="upload-zone" id="uploadZone">
+            <input type="file" id="fileInput" accept="image/*" multiple onchange="onFile(event)" />
+            <div class="upl-icon">🖼️</div>
+            <div class="upl-text">드래그 또는 클릭</div>
+            <div class="upl-count" id="uplCount" style="display:none"></div>
+          </div>
+          <div class="img-grid" id="imgGrid"></div>
+          <div id="costCurrent" style="display:none;font-size:10px;color:var(--gray-400);margin-top:4px">
+            현재 <b id="costImgCnt" style="color:var(--green)">0</b>장 → 약 <b id="costAmt" style="color:var(--green)">-</b>
+          </div>
+        </div>
+
+      </div><!-- input-grid-wrap -->
+
+      <!-- 생성 버튼 -->
+      <div style="padding:0 16px 14px;display:flex;align-items:center;gap:12px">
+        <button class="gen-btn ripple-btn" id="genBtn" onclick="generate()" style="max-width:260px">
+          <span id="genTxt">✨ 광고 소재 생성하기</span>
+        </button>
+        <!-- 분석 리포트 버튼 -->
+        <div class="analysis-inline">
+          <div class="analysis-inline-dot" id="analysisDot">🧠</div>
+          <div style="flex:1;min-width:0">
+            <div class="analysis-inline-status" id="analysisSideStatus">마케터 분석 리포트</div>
+            <div class="analysis-inline-preview" id="analysisSidePreview">소재 생성 후 자동 분석됩니다</div>
+          </div>
+          <button class="analysis-inline-btn" id="analysisOpenBtn" onclick="openAnalysisModal()" disabled>📄 보기</button>
+        </div>
+      </div>
+
+    </div><!-- input-sticky-card -->
+  </div><!-- sticky-top -->
+
+  <!-- ② 광고 미리보기 (가로 2열) -->
+  <div class="content-section">
+    <div class="preview-row">
+      <div class="pv-card">
+        <div class="pv-card-head"><h4>🖥️ PC 미리보기</h4></div>
+        <div class="pv-card-body">
+          <div class="naver-ad">
+            <div class="naver-ad-inner">
+              <div class="naver-ad-header">
+                <div class="naver-ad-logo">S</div>
+                <span class="naver-ad-store">스마트스토어</span>
+                <span style="color:#ddd;font-size:9px">·</span>
+                <span class="naver-ad-url">smartstore.naver.com</span>
+                <span class="naver-ad-badge">광고</span>
+              </div>
+              <div class="naver-ad-row">
+                <div class="naver-ad-body">
+                  <div class="naver-ad-title empty" id="pvPcTitles">제목을 선택하면 표시됩니다</div>
+                  <div class="naver-ad-desc empty" id="pvPcDesc">설명을 선택하면 표시됩니다</div>
+                  <div class="naver-ad-chips" id="pvPcChips" style="margin-top:6px"></div>
+                </div>
+                <div class="naver-ad-thumb" id="pvPcThumb" style="width:80px;height:80px;font-size:22px">🏪</div>
+              </div>
+            </div>
+          </div>
+          <div class="pv-note">※ 키워드에 따라 이미지 미노출 가능</div>
+        </div>
+      </div>
+      <div class="pv-card">
+        <div class="pv-card-head"><h4>📱 모바일 미리보기</h4></div>
+        <div class="pv-card-body">
+          <!-- 네이버 모바일 실제 구조 -->
+          <div class="naver-mob-ad">
+            <!-- 광고주 정보 -->
+            <div class="naver-mob-meta">
+              <div class="naver-mob-logo">S</div>
+              <span class="naver-mob-store">스마트스토어</span>
+              <span class="naver-mob-url">smartstore.naver.com</span>
+              <span class="naver-mob-badge">광고</span>
+            </div>
+            <!-- 제목 + 이미지 -->
+            <div class="naver-mob-row">
+              <div class="naver-mob-body">
+                <div class="naver-mob-title empty" id="pvMobTitles">제목을 선택하면 표시됩니다</div>
+                <div class="naver-mob-desc empty" id="pvMobDesc">설명을 선택하면 표시됩니다</div>
+              </div>
+              <div class="naver-mob-thumb" id="pvMobThumb">🏪</div>
+            </div>
+            <!-- 칩 태그 -->
+            <div class="naver-mob-chips" id="pvMobChips"></div>
+          </div>
+          <div class="pv-note">※ 핀 기능으로 원하는 애셋 고정 권장</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ 광고 소재 결과 -->
+  <div class="content-section">
     <div class="result-card">
       <div id="emptyState" class="empty">
         <div class="empty-icon">📋</div>
-        <div class="empty-txt">상품 정보를 입력하고<br><strong>생성 버튼</strong>을 눌러주세요<br><span style="font-size:10px;opacity:.6">✓ 제목 30개 · 설명 12개 · 마케터 분석 리포트</span></div>
+        <div class="empty-txt">상품 정보를 입력하고 <strong>생성 버튼</strong>을 눌러주세요<br><span style="font-size:10px;opacity:.6">✓ 제목 30개 · 설명 12개 · 마케터 분석 리포트</span></div>
       </div>
       <div id="analysisBody" style="display:none"></div>
       <div id="resultWrap" style="display:none">
@@ -521,56 +664,8 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
       </div>
     </div>
 
-    <!-- 광고 미리보기 (가로 2열) -->
-    <div class="preview-row">
-      <div class="pv-card">
-        <div class="pv-card-head"><h4>🖥️ PC 미리보기</h4></div>
-        <div class="pv-card-body">
-          <div class="naver-ad">
-            <div class="naver-ad-inner">
-              <div class="naver-ad-header">
-                <div class="naver-ad-logo">S</div>
-                <span class="naver-ad-store">스마트스토어</span>
-                <span style="color:#ddd;font-size:9px">·</span>
-                <span class="naver-ad-url">smartstore.naver.com</span>
-                <span class="naver-ad-badge">광고</span>
-              </div>
-              <div class="naver-ad-row">
-                <div class="naver-ad-body">
-                  <div class="naver-ad-title empty" id="pvPcTitles">제목을 선택하면 표시됩니다</div>
-                  <div class="naver-ad-desc empty" id="pvPcDesc">설명을 선택하면 표시됩니다</div>
-                  <div class="naver-ad-chips" id="pvPcChips"></div>
-                </div>
-                <div class="naver-ad-thumb" id="pvPcThumb">🏪</div>
-              </div>
-            </div>
-          </div>
-          <div class="pv-note">※ 키워드에 따라 이미지 미노출 가능</div>
-        </div>
-      </div>
-      <div class="pv-card">
-        <div class="pv-card-head"><h4>📱 모바일 미리보기</h4></div>
-        <div class="pv-card-body">
-          <div class="naver-ad">
-            <div class="naver-ad-inner">
-              <div class="naver-ad-header">
-                <div class="naver-ad-logo">S</div>
-                <span class="naver-ad-store">스마트스토어</span>
-                <span style="color:#ddd;font-size:9px">·</span>
-                <span class="naver-ad-url">smartstore.naver.com</span>
-                <span class="naver-ad-badge">광고</span>
-              </div>
-              <div class="naver-ad-title empty" id="pvMobTitles" style="font-size:14px">제목을 선택하면 표시됩니다</div>
-              <div class="naver-ad-desc empty" id="pvMobDesc">설명을 선택하면 표시됩니다</div>
-            </div>
-          </div>
-          <div class="pv-note">※ 핀 기능으로 원하는 애셋 고정 권장</div>
-        </div>
-      </div>
-    </div>
-
     <!-- 선택 목록 -->
-    <div class="sel-card">
+    <div class="sel-card" style="margin-top:8px">
       <div class="sel-grid">
         <div>
           <div class="sel-head">선택된 제목 <span class="sel-cnt" id="sTCnt">0개</span></div>
@@ -582,10 +677,10 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
         </div>
       </div>
     </div>
+  </div>
 
-  </div><!-- right-area -->
+</div><!-- app-main -->
 
-</div><!-- app-wrap -->
 
 <script>
 
@@ -1331,17 +1426,25 @@ function sync() {
   const pvMobT = document.getElementById('pvMobTitles');
   if (pvMobT) {
     if (allSlots.length) {
-      pvMobT.className = 'naver-ad-title';
-      pvMobT.innerHTML = allSlots.map(t=>`<div>${esc(t)}</div>`).join('');
+      pvMobT.className = 'naver-mob-title';
+      pvMobT.innerHTML = allSlots.join('<br>');
     } else {
-      pvMobT.className = 'naver-ad-title empty';
+      pvMobT.className = 'naver-mob-title empty';
       pvMobT.textContent = '제목을 선택하면 표시됩니다';
     }
   }
   const pvMobD = document.getElementById('pvMobDesc');
   if (pvMobD) {
     pvMobD.textContent = pvDTxt || '설명을 선택하면 표시됩니다';
-    pvMobD.className = pvDTxt ? 'naver-ad-desc' : 'naver-ad-desc empty';
+    pvMobD.className = pvDTxt ? 'naver-mob-desc' : 'naver-mob-desc empty';
+  }
+  // 모바일 칩
+  const pvMobChips = document.getElementById('pvMobChips');
+  if (pvMobChips) {
+    pvMobChips.innerHTML = ds.slice(0,3).map(d => {
+      const words = d.split(/[,·\s]+/).filter(w=>w.length>1).slice(0,2);
+      return words.map(w=>`<span class="naver-mob-chip">${esc(w)}</span>`).join('');
+    }).join('');
   }
 
   document.getElementById('sTCnt').textContent = ts.length+'개';
