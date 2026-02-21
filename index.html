@@ -496,6 +496,7 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
 <div class="overlay" id="keyModal">
   <div class="key-modal">
     <div class="key-modal-head">
+      <button onclick="document.getElementById('keyModal').classList.add('hidden')" style="position:absolute;top:14px;right:16px;background:rgba(255,255,255,.15);border:none;color:#fff;width:28px;height:28px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;z-index:1">×</button>
       <div class="logo-mark">N</div>
       <h2>파워링크 광고 소재 생성기</h2>
       <p>스마트스토어 URL 하나로 파워링크 광고 문구를<br>AI가 자동으로 만들어드립니다</p>
@@ -567,6 +568,12 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
     <span class="chip">글자수 자동 체크</span>
     <span class="chip">CSV 내보내기</span>
   </div>
+</div>
+
+<!-- ── API Key 안내 배너 ── -->
+<div id="apiKeyBanner" style="display:none;background:#fff3cd;border-bottom:1px solid #ffc107;padding:10px 24px;align-items:center;justify-content:center;gap:10px;font-size:13px;color:#856404;">
+  <span>⚠️ Gemini API Key가 설정되지 않았어요. 소재 생성을 위해 키를 등록해주세요.</span>
+  <button onclick="openKeyModal()" style="background:#ffc107;border:none;border-radius:6px;padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;color:#333">🔑 API Key 설정하기</button>
 </div>
 
 <!-- ── 메인 ── -->
@@ -764,18 +771,30 @@ let API_KEY     = localStorage.getItem('claude_key') || '';
 
 
 window.addEventListener('DOMContentLoaded', () => {
+  // 모달은 자동으로 열지 않음 - 사용자가 직접 열도록
+  document.getElementById('keyModal').classList.add('hidden');
   if (API_KEY && API_KEY.length > 5) {
-    document.getElementById('keyModal').classList.add('hidden');
     updateKeyHeader(true);
-  } else {
-    document.getElementById('keyModal').classList.remove('hidden');
+  }
+  // API Key 없으면 헤더에 빨간 점 + 안내 배너 표시
+  if (!API_KEY || API_KEY.length < 5) {
+    showApiKeyBanner();
   }
 });
+
+function showApiKeyBanner() {
+  const banner = document.getElementById('apiKeyBanner');
+  if (banner) banner.style.display = 'flex';
+}
+function hideApiKeyBanner() {
+  const banner = document.getElementById('apiKeyBanner');
+  if (banner) banner.style.display = 'none';
+}
 
 
 function updateConfirmBtn() {
   const ck = document.getElementById('modalKey').value.trim();
-  document.getElementById('keyConfirmBtn').disabled = !(ck.startsWith('AIza') || ck.length > 10);
+  document.getElementById('keyConfirmBtn').disabled = ck.length < 5;
 }
 
 function onKeyInput() { updateConfirmBtn(); }
@@ -794,6 +813,7 @@ function confirmKey() {
 
   document.getElementById('keyModal').classList.add('hidden');
   updateKeyHeader(true);
+  hideApiKeyBanner();
 }
 
 function openKeyModal() {
