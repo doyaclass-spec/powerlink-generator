@@ -501,71 +501,35 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
       <p>스마트스토어 URL 하나로 파워링크 광고 문구를<br>AI가 자동으로 만들어드립니다</p>
     </div>
     <div class="key-modal-body">
-      <div class="modal-tabs">
-        <button class="modal-tab active" onclick="switchModalTab('claude')">🤖 Claude AI</button>
-        <button class="modal-tab" onclick="switchModalTab('naver')">🟢 네이버 쇼핑 API</button>
-      </div>
 
-      <!-- Claude 탭 -->
+      <!-- Gemini 탭 -->
       <div class="tab-pane active" id="tab-claude">
         <div class="step-guide">
-          <div class="step-guide-title">Claude API Key 발급 방법</div>
+          <div class="step-guide-title">Google Gemini API Key 발급 (무료)</div>
           <div class="step-row">
             <div class="step-num">1</div>
-            <div class="step-text"><a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> 접속 후 회원가입</div>
+            <div class="step-text"><a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a> 접속 (구글 계정 로그인)</div>
           </div>
           <div class="step-row">
             <div class="step-num">2</div>
-            <div class="step-text">좌측 메뉴 <b>API Keys</b> → <b>Create Key</b> 클릭</div>
+            <div class="step-text"><b>Create API Key</b> 클릭 → 프로젝트 선택 후 생성</div>
           </div>
           <div class="step-row">
             <div class="step-num">3</div>
-            <div class="step-text">생성된 <b>sk-ant-...</b> 키를 복사해서 아래에 붙여넣기</div>
+            <div class="step-text">생성된 <b>AIza...</b> 형태의 키를 복사해서 아래에 붙여넣기</div>
           </div>
         </div>
         <div class="key-input-wrap">
-          <input type="password" id="modalKey" placeholder="sk-ant-api03-..." oninput="onKeyInput()" />
+          <input type="password" id="modalKey" placeholder="AIzaSy..." oninput="onKeyInput()" />
           <button class="key-toggle-btn" onclick="toggleModalKey()">👁</button>
         </div>
         <div class="key-notice">
           🔒 API Key는 <span>브라우저에만 저장</span>되며 서버로 전송되지 않아요.<br>
-          1회 생성 비용: 약 <span>15~22원</span> (Claude API 요금제 기준)
+          💚 Gemini 1.5 Flash 기준 <span>하루 1,500회 완전 무료</span>입니다
         </div>
       </div>
 
-      <!-- 네이버 탭 -->
-      <div class="tab-pane" id="tab-naver">
-        <div class="step-guide">
-          <div class="step-guide-title">네이버 쇼핑 검색 API 발급 (무료)</div>
-          <div class="step-row">
-            <div class="step-num">1</div>
-            <div class="step-text"><a href="https://developers.naver.com/apps/#/register" target="_blank">developers.naver.com</a> → 애플리케이션 등록</div>
-          </div>
-          <div class="step-row">
-            <div class="step-num">2</div>
-            <div class="step-text">사용 API에서 <b>검색</b> 선택 → 등록</div>
-          </div>
-          <div class="step-row">
-            <div class="step-num">3</div>
-            <div class="step-text"><b>Client ID</b>와 <b>Client Secret</b>을 아래에 입력</div>
-          </div>
-        </div>
-        <label class="naver-key-lbl">Client ID</label>
-        <div class="key-input-wrap" style="margin-bottom:8px">
-          <input type="text" id="naverClientId" placeholder="Client ID 입력..." oninput="onNaverKeyInput()" />
-        </div>
-        <label class="naver-key-lbl">Client Secret</label>
-        <div class="key-input-wrap" style="margin-bottom:10px">
-          <input type="password" id="naverClientSecret" placeholder="Client Secret 입력..." oninput="onNaverKeyInput()" />
-          <button class="key-toggle-btn" onclick="toggleNaverSecret()">👁</button>
-        </div>
-        <div id="naverKeyStatus" class="naver-status none">미설정 — URL 불러오기 기능이 비활성화됩니다</div>
-        <div class="key-notice" style="margin-top:10px">
-          🔒 키는 <span>브라우저에만 저장</span>돼요. 하루 <span>10만 건 무료</span>입니다.
-        </div>
-      </div>
-
-      <button class="key-confirm-btn" id="keyConfirmBtn" onclick="confirmKey()" disabled>
+      <button class="key-confirm<button class="key-confirm-btn" id="keyConfirmBtn" onclick="confirmKey()" disabled>
         저장하고 시작하기 →
       </button>
     </div>
@@ -577,14 +541,13 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-sub">AI powered</span>
+    <span class="h-sub">Gemini AI powered</span>
   </div>
   <button class="h-key-btn" onclick="openKeyModal()">
     <span class="key-status-item">
       <span class="status-dot" id="claudeDot"></span>
-      <span class="status-lbl">Claude</span>
+      <span class="status-lbl">Gemini</span>
     </span>
-    <span class="key-status-sep">|</span>
     <span class="key-status-item">
       <span class="status-dot" id="naverDot"></span>
       <span class="status-lbl">네이버</span>
@@ -615,21 +578,11 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
       <div class="card-head"><h3>📦 상품 정보 입력</h3></div>
       <div class="card-body">
 
-        <div class="field">
-          <label class="lbl">스마트스토어 URL</label>
-          <div class="url-row">
-            <input type="url" class="inp" id="storeUrl" placeholder="https://smartstore.naver.com/... (선택사항)" />
-            <button class="url-btn url-clear" id="clearBtn" onclick="clearUrl()" title="초기화" style="display:none">✕</button>
-            <button class="url-btn" id="fetchBtn" onclick="fetchStore()">불러오기</button>
-          </div>
-        </div>
 
-        <div id="productCard" style="display:none"></div>
-        <div id="fetchNotice"></div>
 
         <div class="field">
           <label class="lbl">상품명 <span class="req">*</span></label>
-          <input type="text" class="inp" id="productName" placeholder="예: 업소용 냉장고 45박스 1등급" />
+          <input type="text" class="inp" id="productName" placeholder="예: 아로마 디퓨저 200ml 우드향" />
         </div>
 
         <div class="field">
@@ -639,17 +592,17 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
             <div class="feat-suggest" id="featSuggest"></div>
           </div>
           <div class="feat-slots" id="featSlots">
-            <div class="feat-slot"><span class="feat-slot-num">1</span><input type="text" placeholder="예: 소상공인 지원사업 환급 최대 160만원" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
-            <div class="feat-slot"><span class="feat-slot-num">2</span><input type="text" placeholder="예: 전기세 절감 1등급" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
-            <div class="feat-slot"><span class="feat-slot-num">3</span><input type="text" placeholder="예: 5년 무상 AS 보장" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
-            <div class="feat-slot"><span class="feat-slot-num">4</span><input type="text" placeholder="예: 창업 첫 냉장고로 추천" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
-            <div class="feat-slot"><span class="feat-slot-num">5</span><input type="text" placeholder="예: 빠른 배송·설치 포함" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
+            <div class="feat-slot"><span class="feat-slot-num">1</span><input type="text" placeholder="예: 천연 에센셜오일 100% 사용" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
+            <div class="feat-slot"><span class="feat-slot-num">2</span><input type="text" placeholder="예: 최대 12시간 은은하게 지속" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
+            <div class="feat-slot"><span class="feat-slot-num">3</span><input type="text" placeholder="예: 소음 없는 초음파 방식" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
+            <div class="feat-slot"><span class="feat-slot-num">4</span><input type="text" placeholder="예: 인테리어 감성 우드 디자인" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
+            <div class="feat-slot"><span class="feat-slot-num">5</span><input type="text" placeholder="예: 500ml 리필 오일 증정" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
           </div>
         </div>
 
         <div class="field">
           <label class="lbl">타겟 고객</label>
-          <input type="text" class="inp" id="target" placeholder="예: 카페·식당 사장님, 소상공인, 창업자" />
+          <input type="text" class="inp" id="target" placeholder="예: 홈인테리어, 선물용, 공간 향기 관심 고객" />
         </div>
 
         <div class="field">
@@ -662,15 +615,15 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
           </div>
           <div class="img-grid" id="imgGrid"></div>
           <div class="cost-info" id="costInfo">
-            <div class="cost-tip">💡 <b>100원 이하</b>로 쓰려면 <b>5~10장</b>이 적당해요</div>
+            <div class="cost-tip">💡 Gemini는 무료예요! 단, 이미지가 많을수록 <b>속도가 느려질 수</b> 있어요</div>
             <div class="cost-row">
-              <span class="cost-label">이미지 없음</span><span class="cost-val">약 7원</span>
-              <span class="cost-label">5장</span><span class="cost-val">약 63원</span>
-              <span class="cost-label">10장</span><span class="cost-val">약 119원</span>
-              <span class="cost-label">20장</span><span class="cost-val">약 231원</span>
+              <span class="cost-label">이미지 없음</span><span class="cost-val">~3초</span>
+              <span class="cost-label">5장</span><span class="cost-val">~10초</span>
+              <span class="cost-label">10장</span><span class="cost-val">~20초</span>
+              <span class="cost-label">20장</span><span class="cost-val">~40초</span>
             </div>
             <div class="cost-current" id="costCurrent" style="display:none">
-              현재 <b id="costImgCnt">0</b>장 선택 → 예상 비용 <b id="costAmt">-</b>
+              현재 <b id="costImgCnt">0</b>장 선택 → 예상 소요시간 <b id="costAmt">-</b>
             </div>
           </div>
         </div>
@@ -808,90 +761,49 @@ const S = { titles:[], descs:[], kws:[], selT:new Set(), selD:new Set(), imgs:[]
 
 // ── API Key 관리
 let API_KEY     = localStorage.getItem('claude_key') || '';
-let NAVER_ID    = localStorage.getItem('naver_id')  || '';
-let NAVER_SEC   = localStorage.getItem('naver_sec') || '';
+
 
 window.addEventListener('DOMContentLoaded', () => {
-  if (API_KEY && API_KEY.startsWith('sk-ant')) {
+  if (API_KEY && API_KEY.length > 5) {
     document.getElementById('keyModal').classList.add('hidden');
     updateKeyHeader(true);
   } else {
     document.getElementById('keyModal').classList.remove('hidden');
   }
-  updateNaverHeader();
 });
 
-// ── 모달 탭 전환
-function switchModalTab(tab) {
-  document.querySelectorAll('.modal-tab').forEach((el,i) => el.classList.toggle('active', (i===0&&tab==='claude')||(i===1&&tab==='naver')));
-  document.getElementById('tab-claude').classList.toggle('active', tab==='claude');
-  document.getElementById('tab-naver').classList.toggle('active', tab==='naver');
-  updateConfirmBtn();
-}
 
 function updateConfirmBtn() {
   const ck = document.getElementById('modalKey').value.trim();
-  document.getElementById('keyConfirmBtn').disabled = !ck.startsWith('sk-ant');
+  document.getElementById('keyConfirmBtn').disabled = !(ck.startsWith('AIza') || ck.length > 10);
 }
 
 function onKeyInput() { updateConfirmBtn(); }
 
-function onNaverKeyInput() {
-  const id  = document.getElementById('naverClientId').value.trim();
-  const sec = document.getElementById('naverClientSecret').value.trim();
-  const ok  = id.length > 3 && sec.length > 3;
-  const el  = document.getElementById('naverKeyStatus');
-  if (ok) {
-    el.className = 'naver-status ok';
-    el.textContent = '✅ 입력 완료 — URL 불러오기가 활성화됩니다';
-  } else {
-    el.className = 'naver-status none';
-    el.textContent = '미설정 — URL 불러오기 기능이 비활성화됩니다';
-  }
-}
 
 function toggleModalKey() {
   const el = document.getElementById('modalKey');
   el.type = el.type === 'password' ? 'text' : 'password';
 }
-function toggleNaverSecret() {
-  const el = document.getElementById('naverClientSecret');
-  el.type = el.type === 'password' ? 'text' : 'password';
-}
 
 function confirmKey() {
   const ck = document.getElementById('modalKey').value.trim();
-  if (!ck.startsWith('sk-ant')) return;
+  if (!ck || ck.length < 5) return;
   API_KEY = ck;
   localStorage.setItem('claude_key', ck);
 
-  const nid = document.getElementById('naverClientId').value.trim();
-  const nsec = document.getElementById('naverClientSecret').value.trim();
-  if (nid && nsec) {
-    NAVER_ID = nid; NAVER_SEC = nsec;
-    localStorage.setItem('naver_id', nid);
-    localStorage.setItem('naver_sec', nsec);
-  }
   document.getElementById('keyModal').classList.add('hidden');
   updateKeyHeader(true);
-  updateNaverHeader();
 }
 
 function openKeyModal() {
   document.getElementById('modalKey').value = API_KEY || '';
-  document.getElementById('naverClientId').value = NAVER_ID || '';
-  document.getElementById('naverClientSecret').value = NAVER_SEC || '';
   updateConfirmBtn();
-  onNaverKeyInput();
   document.getElementById('keyModal').classList.remove('hidden');
 }
 
 function updateKeyHeader(ok) {
   document.getElementById('claudeDot').className = 'status-dot' + (ok ? ' ok' : '');
-}
-function updateNaverHeader() {
-  const ok = !!(NAVER_ID && NAVER_SEC);
-  document.getElementById('naverDot').className = 'status-dot' + (ok ? ' ok' : '');
 }
 
 // ── 파일 업로드 (최대 20장)
@@ -917,15 +829,11 @@ function updateCost() {
   const n = S.imgs.length;
   const el = document.getElementById('costCurrent');
   if (n === 0) { el.style.display='none'; return; }
-  // 기본 1000토큰 + 이미지당 1700토큰 평균, 입력$3/1M 출력$15/1M (sonnet 기준)
-  const inputTokens  = 1000 + n * 1700;
-  const outputTokens = 1000;
-  const usd = (inputTokens * 3 + outputTokens * 15) / 1_000_000;
-  const krw = Math.round(usd * 1400);
+  const secs = 3 + n * 2;
   const over = n > 10;
   el.style.display = 'block';
   document.getElementById('costImgCnt').textContent = n;
-  document.getElementById('costAmt').innerHTML = `<span class="${over?'c-over':''}">${krw}원${over?' (100원 초과)':''}</span>`;
+  document.getElementById('costAmt').innerHTML = `<span class="${over?'c-over':''}">약 ${secs}초${over?' (느릴 수 있음)':''}</span>`;
 }
 
 function removeImg(i) {
@@ -955,133 +863,10 @@ function renderImgGrid() {
     </div>`).join('');
 }
 
-// ── URL 초기화
-function clearUrl() {
-  document.getElementById('storeUrl').value = '';
-  document.getElementById('clearBtn').style.display = 'none';
-  document.getElementById('productCard').style.display = 'none';
-  document.getElementById('productName').value = '';
-  document.getElementById('featSuggestWrap').style.display = 'none';
-  document.getElementById('featSuggest').innerHTML = '';
-  document.querySelectorAll('#featSlots .feat-slot input').forEach(el => el.value = '');
-  setNotice('');
-}
 
-// storeUrl 입력할 때 초기화 버튼 표시
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('storeUrl').addEventListener('input', function() {
-    document.getElementById('clearBtn').style.display = this.value ? '' : 'none';
-  });
 });
 
-// ── 스마트스토어 불러오기
-async function fetchStore() {
-  const url = document.getElementById('storeUrl').value.trim();
-  if (!url) { alert('URL을 입력해주세요.'); return; }
 
-  // 네이버 키가 없으면 설정 안내
-  if (!NAVER_ID || !NAVER_SEC) {
-    setNotice('warn', '⚠️ 네이버 쇼핑 API 키가 없어요. <b style="cursor:pointer;text-decoration:underline" onclick="openNaverTab()">여기서 설정</b>하면 URL에서 자동으로 상품 정보를 가져올 수 있어요.');
-    return;
-  }
-
-  const btn = document.getElementById('fetchBtn');
-  btn.disabled = true;
-  btn.className = 'url-btn loading';
-  btn.innerHTML = '<span class="spin-sm"></span> 불러오는 중...';
-  setNotice('');
-
-  try {
-    // ── Step 1: 여러 프록시로 og:title 시도
-    let ogName = '';
-    let ogImg  = '';
-    const proxies = [
-      `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
-      `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
-    ];
-    for (const px of proxies) {
-      try {
-        const pRes = await fetch(px, { signal: AbortSignal.timeout(8000) });
-        if (!pRes.ok) continue;
-        let raw = '';
-        const ct = pRes.headers.get('content-type') || '';
-        if (ct.includes('json')) {
-          const pdata = await pRes.json();
-          raw = pdata?.contents || pdata?.body || '';
-        } else {
-          raw = await pRes.text();
-        }
-        if (!raw || raw.length < 200) continue;
-        const doc = new DOMParser().parseFromString(raw, 'text/html');
-        const ogTitle = doc.querySelector('meta[property="og:title"]')?.content || '';
-        const errKw = ['에러', '시스템오류', 'error', '찾을 수 없', '접근이 제한', 'showcase'];
-        if (ogTitle && !errKw.some(k => ogTitle.toLowerCase().includes(k.toLowerCase()))) {
-          ogName = ogTitle.replace(/\s*[-|:]\s*(네이버|스마트스토어|쇼핑|N).*/i, '').trim();
-          ogImg  = doc.querySelector('meta[property="og:image"]')?.content || '';
-          if (ogName) break; // 성공 → 루프 탈출
-        }
-      } catch(e) { continue; }
-    }
-
-    // ── Step 2: og:title을 못 가져왔으면 → 검색하지 않고 바로 안내
-    // (스토어ID로 검색하면 엉뚱한 상품이 나오므로 절대 하지 않음)
-    if (!ogName) {
-      setNotice('warn', '⚠️ 네이버가 상품 페이지 접근을 차단했어요.<br>상품명을 직접 입력하고 상세페이지 이미지를 업로드하면 소재를 만들 수 있어요.');
-      return;
-    }
-
-    // ── Step 3: og:title로 네이버 쇼핑 API 검색 → 카테고리·가격 보완
-    let cat = '', price = '', finalImg = ogImg;
-    try {
-      const apiUrl = `https://openapi.naver.com/v1/search/shop.json?query=${encodeURIComponent(ogName)}&display=10&sort=sim`;
-      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`;
-      const res = await fetch(proxyUrl, {
-        headers: { 'X-Naver-Client-Id': NAVER_ID, 'X-Naver-Client-Secret': NAVER_SEC },
-        signal: AbortSignal.timeout(10000)
-      });
-      if (res.ok) {
-        const data = await res.json();
-        const items = data.items || [];
-        if (items.length) {
-          // 상품명 유사도 기준으로 매칭
-          const ogClean = ogName.replace(/\s/g,'').toLowerCase();
-          const best = items.reduce((prev, cur) => {
-            const cs = similarity(ogClean, stripHtml(cur.title).replace(/\s/g,'').toLowerCase());
-            const ps = similarity(ogClean, stripHtml(prev.title).replace(/\s/g,'').toLowerCase());
-            return cs > ps ? cur : prev;
-          });
-          cat   = [best.category1, best.category2, best.category3].filter(Boolean).join(' > ');
-          price = best.lprice ? parseInt(best.lprice).toLocaleString() + '원' : '';
-          if (!finalImg) finalImg = best.image || '';
-        }
-      }
-    } catch(e) { /* 쇼핑 API 실패해도 og:title은 있으니 계속 */ }
-
-    showProductCard(ogName, cat, finalImg, price, '');
-    const src = cat ? '✅ 네이버 쇼핑에서 상품 정보를 불러왔어요!' : '✅ 상품명을 불러왔어요! 특징은 직접 입력해주세요.';
-    setNotice('ok', src);
-
-  } catch(e) {
-    console.error(e);
-    setNotice('warn', '⚠️ 불러오기 실패: ' + e.message + '<br>상품명을 직접 입력해주세요.');
-  } finally {
-    btn.disabled = false; btn.className = 'url-btn'; btn.textContent = '불러오기';
-  }
-}
-
-// 상품 카드 표시 + 폼 채우기
-function showProductCard(name, cat, img, price, mall) {
-  document.getElementById('productName').value = name;
-  const card = document.getElementById('productCard');
-  card.className = 'product-card';
-  card.innerHTML = img
-    ? `<img src="${img}" onerror="this.style.display='none'" /><div><div class="p-name">${esc(name)}</div><div class="p-desc">${esc(cat)}${price ? ' · ' + price : ''}</div></div>`
-    : `<div><div class="p-name">${esc(name)}</div><div class="p-desc">${esc(cat)}</div></div>`;
-  card.style.display = 'flex';
-  document.getElementById('clearBtn').style.display = '';
-  // AI 특징 추천 (비동기, 논블로킹)
-  suggestFeatures(name, cat, price);
-}
 
 // AI 특징 추천 (3개 제안)
 async function suggestFeatures(name, cat, price) {
@@ -1144,77 +929,54 @@ function clearSlot(btn) {
   });
 }
 
-// 문자열 유사도 (공통 문자 비율)
-function similarity(a, b) {
-  if (!a || !b) return 0;
-  const set = new Set(a.split(''));
-  return [...b.split('')].filter(c => set.has(c)).length / Math.max(a.length, b.length);
-}
 
-// URL에서 상품명 힌트 추출
-function extractProductHint(url) {
-  // smartstore.naver.com/storeid/products/1234 → storeid를 검색 힌트로
-  const m = url.match(/smartstore\.naver\.com\/([^\/]+)/);
-  return m ? m[1].replace(/-/g,' ') : '';
-}
 
-// URL에서 스토어 ID 추출
-function extractStoreId(url) {
-  const m = url.match(/smartstore\.naver\.com\/([^\/]+)/);
-  return m ? m[1] : '';
-}
 
-function stripHtml(s) {
-  return (s||'').replace(/<[^>]+>/g,'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
-}
 
-function openNaverTab() {
-  openKeyModal();
-  setTimeout(() => switchModalTab('naver'), 50);
-}
 
-function parse(html) {
-  const doc = new DOMParser().parseFromString(html, 'text/html');
-  const og = (prop) => doc.querySelector(`meta[property="${prop}"]`)?.content || doc.querySelector(`meta[name="${prop}"]`)?.content || '';
-  let name = og('og:title') || doc.querySelector('title')?.textContent || '';
-  let desc = og('og:description') || og('description');
-  let img  = og('og:image');
-  try {
-    for (const s of doc.querySelectorAll('script[type="application/ld+json"]')) {
-      const d = JSON.parse(s.textContent);
-      if (d['@type'] === 'Product') { name = d.name||name; desc = d.description||desc; img = d.image?.[0]||d.image||img; break; }
-    }
-  } catch(e) {}
-  name = (name||'').replace(/\s*[-|:]\s*(네이버|스마트스토어|쇼핑).*/i,'').trim();
-  desc = (desc||'').replace(/\s+/g,' ').trim().substring(0,300);
-  return {name, desc, img};
-}
 
 function setNotice(type, msg) {
   const el = document.getElementById('fetchNotice');
   el.innerHTML = msg ? `<div class="notice n-${type}">${msg}</div>` : '';
 }
 
-// ── Claude API 호출
-async function callClaude(sys, content) {
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+// ── Gemini API 호출
+async function callClaude(sys, userContent) {
+  // userContent는 string 또는 array (이미지 포함)
+  let parts = [];
+  if (typeof userContent === 'string') {
+    parts = [{ text: sys + '\n\n' + userContent }];
+  } else {
+    // 이미지 배열 + 텍스트
+    const textItem = userContent.find(c => c.type === 'text');
+    const imgItems = userContent.filter(c => c.type === 'image');
+    parts = [
+      { text: sys },
+      ...imgItems.map(c => ({
+        inlineData: { mimeType: c.source.media_type, data: c.source.data }
+      })),
+      { text: textItem?.text || '' }
+    ];
+  }
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+  const res = await fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': API_KEY,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true'
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 2000,
-      system: sys,
-      messages: [{ role: 'user', content }]
+      contents: [{ role: 'user', parts }],
+      generationConfig: { maxOutputTokens: 2000, temperature: 0.7 }
     })
   });
-  if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || 'API 오류'); }
+  if (!res.ok) {
+    const e = await res.json();
+    const msg = e.error?.message || 'API 오류';
+    if (msg.includes('API_KEY_INVALID') || msg.includes('API key')) throw new Error('API Key가 유효하지 않아요. aistudio.google.com에서 다시 발급해주세요.');
+    if (msg.includes('quota') || msg.includes('RESOURCE_EXHAUSTED')) throw new Error('오늘 무료 한도(1,500회)를 초과했어요. 내일 다시 시도해주세요.');
+    throw new Error(msg);
+  }
   const d = await res.json();
-  return d.content[0].text;
+  return d.candidates?.[0]?.content?.parts?.[0]?.text || '';
 }
 
 // ── 단계 표시
@@ -1232,7 +994,7 @@ async function generate() {
     .map(el => el.value.trim()).filter(Boolean);
   const feat = featSlots.join(', ');
   const target = document.getElementById('target').value.trim();
-  const url    = document.getElementById('storeUrl').value.trim();
+  const url    = '';
 
   const btn = document.getElementById('genBtn');
   btn.disabled = true;
