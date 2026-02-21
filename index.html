@@ -252,7 +252,15 @@ body{
   display:grid;grid-template-columns:1fr 1fr 1fr 1fr;
   border-bottom:1px solid var(--border);
 }
-.input-col{padding:12px 16px;display:flex;flex-direction:column;gap:8px;min-height:0}
+.input-col{
+  padding:0;display:flex;flex-direction:column;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:10px;
+  background:rgba(255,255,255,.02);
+  overflow:hidden;
+}
+.input-col:hover{border-color:rgba(255,255,255,.1);transition:border-color .2s}
+.icol-inner{padding:12px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
 .input-col:not(:last-child){border-right:1px solid var(--border)}
 
 /* 폼 요소 */
@@ -579,11 +587,18 @@ textarea.inp{resize:none;line-height:1.5}
   border-top:1px solid var(--border);
 }
 .enhance-col{
-  padding:12px 16px;border-right:1px solid var(--border);
-  display:flex;flex-direction:column;gap:8px;
+  padding:0;border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  background:rgba(255,255,255,.015);
 }
 .enhance-col:last-child{border-right:none}
-.enhance-head{display:flex;align-items:flex-start;gap:8px;margin-bottom:2px}
+.enhance-inner{padding:10px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.enhance-head{
+  display:flex;align-items:center;gap:8px;
+  padding:9px 16px;
+  background:rgba(0,0,0,.25);
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
 .enhance-icon{font-size:16px;flex-shrink:0;margin-top:1px}
 .enhance-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:1px}
 .enhance-desc{font-size:11px;color:var(--text3);line-height:1.4}
@@ -812,6 +827,192 @@ textarea.inp{resize:none;line-height:1.5}
 .item-desc .meta{display:flex;align-items:center;gap:6px;margin-top:4px}
 .item-desc .plus{margin-top:1px}
 
+
+/* ── 입력 컬럼 내부 패딩 (icol-head 제외) */
+.input-col > .inp,
+.input-col > .inp-ta,
+.input-col > .col-lbl,
+.input-col > .feat-slots-wrap,
+.input-col > .feat-slot,
+.input-col > #featSlots,
+.input-col > .feat-add-row,
+.input-col > .icol-head + *{padding-left:16px;padding-right:16px}
+
+/* ── 실제 패딩은 icol-inner 클래스로 처리 */
+
+.enhance-body{padding:10px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+
+/* ── 이미지처럼 input-grid 각 칸 테두리 강조 */
+.input-col{
+  border:1px solid rgba(255,255,255,.08) !important;
+  border-radius:10px !important;
+  overflow:hidden !important;
+  background:rgba(5,12,22,.7) !important;
+  transition:border-color .2s;
+}
+.input-col:hover{border-color:rgba(255,255,255,.18) !important}
+.enhance-col{border-radius:0}
+
+.icol-body{padding:12px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+
+/* ── icol-head 이후 직접 자식 패딩 */
+.input-col > textarea.inp,
+.input-col > input.inp,
+.input-col > .lbl,
+.input-col > #featSlots,
+.input-col > .feat-add-row,
+.input-col > .cost-row,
+.input-col > .col-lbl,
+.input-col > .analysis-status,
+.input-col > .analysis-preview,
+.input-col > .analysis-btn,
+.input-col > .analysisProgress {
+  padding-left: 16px;
+  padding-right: 16px;
+  box-sizing: border-box;
+  width: 100%;
+}
+.input-col > textarea.inp {
+  padding: 8px 16px;
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+.input-col > input.inp {
+  padding: 8px 16px;
+  margin-top: 6px;
+  margin-bottom: 4px;
+}
+.input-col > .analysis-btn {
+  margin: 8px 16px 10px;
+  width: calc(100% - 32px);
+}
+.input-col > .analysis-preview {
+  padding: 0 16px 8px;
+}
+.input-col > .feat-add-row {
+  padding: 0 16px 10px;
+}
+.input-col > #featSlots {
+  padding: 6px 16px 2px;
+}
+.input-col > .cost-row {
+  padding: 4px 16px 8px;
+}
+
+/* ── enhance-col 내부 패딩 */
+.enhance-col > .deny-list,
+.enhance-col > .deny-input-row,
+.enhance-col > .season-chips,
+.enhance-col > input.inp,
+.enhance-col > .tone-grid {
+  padding-left: 16px;
+  padding-right: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.enhance-col > .deny-list { padding-top: 8px; }
+.enhance-col > .season-chips { padding-top: 8px; }
+.enhance-col > .tone-grid { padding-top: 6px; padding-bottom: 10px; }
+.enhance-col > input.inp { padding: 6px 16px; margin-top: 6px; margin-bottom: 8px; }
+.enhance-col > .deny-input-row { padding-bottom: 10px; }
+
+/* ── input-grid 각 컬럼 사이 gap 적용 */
+.input-grid{
+  display:grid;
+  grid-template-columns:1.1fr 1.1fr 1fr 1fr;
+  gap:8px;
+  padding:12px 16px;
+}
+
+
+/* ── 컬럼 상단 컬러 라인 (이미지 디자인 반영) */
+.input-col:nth-child(1) { border-top: 2px solid rgba(3,199,90,.5) !important; }
+.input-col:nth-child(2) { border-top: 2px solid rgba(51,133,255,.5) !important; }
+.input-col:nth-child(3) { border-top: 2px solid rgba(180,60,255,.5) !important; }
+.input-col:nth-child(4) { border-top: 2px solid rgba(255,150,0,.5) !important; }
+
+/* ── 분석 완료 사이드 텍스트 */
+.analysis-complete-txt{font-size:13px;font-weight:700;color:#03C75A;margin-bottom:6px}
+
+/* ── 히어로 sub */
+.hero-sub{font-size:15px;color:var(--text3);margin-bottom:18px;line-height:1.7;animation:fadeSlideUp .6s ease .3s both}
+.hero-sub strong{color:var(--text2)}
+
+/* ── 마케터 분석 리포트 전체 보기 버튼 */
+.analysis-btn{
+  margin:10px 16px 12px;
+  width:calc(100% - 32px);
+}
+/* ── input-grid gap */
+.input-grid{gap:10px !important}
+
+/* ── enhance-row 상단 구분선 강화 */
+.enhance-row{border-top:1px solid rgba(255,255,255,.08) !important;gap:8px;padding:10px 16px}
+.enhance-col{
+  border:1px solid rgba(255,255,255,.06) !important;
+  border-radius:8px !important;
+  overflow:hidden !important;
+  background:rgba(5,12,22,.5) !important;
+}
+.enhance-col:nth-child(1){border-top:2px solid rgba(255,77,109,.4) !important}
+.enhance-col:nth-child(2){border-top:2px solid rgba(51,200,170,.4) !important}
+.enhance-col:nth-child(3){border-top:2px solid rgba(150,100,255,.4) !important}
+
+/* ── enhance-row 자체가 flex로 변경 (gap 적용을 위해) */
+.enhance-row{display:flex !important;flex-direction:row !important;align-items:stretch !important}
+.enhance-col{flex:1 !important}
+
+
+.enhance-col > .deny-list{ padding:6px 14px 2px;width:100%;box-sizing:border-box }
+.enhance-col > .deny-input-row{ padding:2px 14px 10px;width:100%;box-sizing:border-box }
+.enhance-col > .season-chips{ padding:6px 14px 2px;width:100%;box-sizing:border-box }
+.enhance-col > input.inp{ margin:4px 14px 8px;width:calc(100% - 28px) }
+.enhance-col > .tone-grid{ padding:6px 14px 10px;width:100%;box-sizing:border-box }
+
+
+.col-analysis{ border-top:2px solid rgba(255,150,0,.5) !important; }
+
+
+/* ── 필수/선택/자동 뱃지 */
+.badge-req{
+  display:inline-flex;align-items:center;gap:3px;
+  font-size:10px;font-weight:800;padding:2px 7px;border-radius:4px;
+  background:rgba(255,60,80,.18);color:#ff4d6d;
+  border:1px solid rgba(255,60,80,.35);vertical-align:middle;
+}
+.badge-req::before{content:'✱';font-size:9px}
+
+.badge-opt{
+  font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;
+  background:rgba(255,255,255,.07);color:rgba(232,240,254,.5);
+  border:1px solid rgba(255,255,255,.1);vertical-align:middle;
+}
+
+.badge-auto{
+  font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;
+  background:rgba(255,152,0,.12);color:#ff9800;
+  border:1px solid rgba(255,152,0,.25);vertical-align:middle;
+}
+
+/* ── 필수 힌트 텍스트 */
+.req-hint{
+  font-size:11px;color:#ff8fa0;margin-top:2px;display:none;
+  padding:2px 6px;
+}
+.req-hint.show{display:block}
+
+/* ── 필수 입력 미완료 시 컬럼 강조 */
+.input-col.req-error{border-color:rgba(255,60,80,.5) !important;box-shadow:0 0 0 1px rgba(255,60,80,.2) !important}
+.input-col.req-error .icol-head{background:rgba(255,60,80,.08) !important}
+
+/* ── 생성 버튼 비활성화 */
+.gen-btn:disabled{opacity:.45;cursor:not-allowed}
+.gen-btn:disabled .spin{display:none}
+
+/* ── 필수 필드 위 별표 입력창 테두리 */
+#productName:invalid,
+#productName.empty-req{border-color:rgba(255,60,80,.4) !important}
+
 </style>
 </head>
 <body>
@@ -909,8 +1110,9 @@ textarea.inp{resize:none;line-height:1.5}
     </div>
     <div class="h-div"></div>
     <div class="api-status">
-      <span class="s-dot" id="claudeDot"></span>
+      <span class="s-dot off" id="claudeDot" style="background:#ff4d6d;box-shadow:0 0 8px rgba(255,77,109,.6);animation:pulse 1.5s ease infinite"></span>
       <span>Gemini API</span>
+      <span id="apiStatusLbl" style="font-size:11px;font-weight:700;color:#ff4d6d;margin-left:2px">미설정</span>
     </div>
     <button class="h-btn" onclick="openKeyModal()">⚙ 설정</button>
   </div>
@@ -965,14 +1167,14 @@ textarea.inp{resize:none;line-height:1.5}
 
         <!-- 상품명 + 타겟 -->
         <div class="input-col">
-          <div class="icol-head"><span class="icol-num">01</span><div><div class="icol-title">상품명 <span class="req">*</span></div><div class="icol-desc">네이버 검색에 노출되는 핵심 키워드를 포함하세요</div></div></div>
-          <textarea class="inp inp-ta" id="productName" rows="3" placeholder="예: 소상공인 지원 스타리온 간냉식 1등급 업소용 냉장고 냉동고"></textarea>
-          <div class="icol-head" style="margin-top:10px"><span class="icol-num">02</span><div><div class="icol-title">타겟 고객</div><div class="icol-desc">광고를 보여줄 주요 고객층</div></div></div>
+          <div class="icol-head"><span class="icol-num icol-num-1">01</span><div><div class="icol-title">상품명 <span class="badge-req">필수</span></div><div class="icol-desc">네이버 검색에 노출되는 핵심 키워드를 포함하세요</div></div></div>
+          <textarea class="inp inp-ta" id="productName" rows="3" oninput="this.classList.remove('empty-req');this.closest('.input-col')?.classList.remove('req-error')" placeholder="예: 소상공인 지원 스타리온 간냉식 1등급 업소용 냉장고 냉동고"></textarea>
+          <div class="icol-head" style="margin-top:10px"><span class="icol-num">02</span><div><div class="icol-title">타겟 고객 <span class="badge-opt">선택</span></div><div class="icol-desc">광고를 보여줄 주요 고객층</div></div></div>
           <input type="text" class="inp" id="target" placeholder="예: 30대 소상공인, 카페 사장님" />
         </div>
         <!-- 광고 내용 -->
         <div class="input-col">
-          <div class="icol-head"><span class="icol-num">03</span><div><div class="icol-title">광고에 넣고 싶은 내용</div><div class="icol-desc">강조하고 싶은 특징·혜택·가격 포인트</div></div></div>
+          <div class="icol-head"><span class="icol-num icol-num-3">03</span><div><div class="icol-title">광고에 넣고 싶은 내용 <span class="badge-req">필수</span></div><div class="req-hint" id="featReqHint">최소 2개 입력 필요</div><div class="icol-desc">강조하고 싶은 특징·혜택·가격 포인트</div></div></div>
           <div id="featSuggestWrap" style="display:none">
             <div class="feat-suggest-lbl" id="featSuggestLbl">💡 AI 추천</div>
             <div class="feat-suggest" id="featSuggest"></div>
@@ -988,7 +1190,7 @@ textarea.inp{resize:none;line-height:1.5}
 
         <!-- 이미지 -->
         <div class="input-col">
-          <div class="icol-head"><span class="icol-num">04</span><div><div class="icol-title">상세페이지 이미지</div><div class="icol-desc">AI가 이미지를 직접 보고 광고 소재를 최적화해요</div></div></div>
+          <div class="icol-head"><span class="icol-num icol-num-4">04</span><div><div class="icol-title">상세페이지 이미지 <span class="badge-opt">선택</span></div><div class="icol-desc">AI가 이미지를 직접 보고 광고 소재를 최적화해요</div></div></div>
           <div class="upload-zone" id="uploadZone">
             <input type="file" id="fileInput" accept="image/*" multiple onchange="onFile(event)" />
             <div class="upl-icon">🖼️</div>
@@ -1002,8 +1204,8 @@ textarea.inp{resize:none;line-height:1.5}
         </div>
 
         <!-- 분석 리포트 -->
-        <div class="input-col col-analysis">
-          <div class="icol-head" style="margin-bottom:10px"><span class="icol-num">05</span><div><div class="icol-title">마케터 분석 리포트</div><div class="icol-desc">10년차 전문가 AI가 광고 소재 전략을 분석해드려요</div></div></div>
+        <div class="input-col col-analysis" style="border-top:2px solid rgba(255,150,0,.5)!important">
+          <div class="icol-head" style="margin-bottom:10px"><span class="icol-num icol-num-5">05</span><div><div class="icol-title">마케터 분석 리포트 <span class="badge-auto">자동</span></div><div class="icol-desc">10년차 전문가 AI가 광고 소재 전략을 분석해드려요</div></div></div>
           <div class="analysis-status" id="analysisSideStatus">소재 생성 후 자동 분석됩니다</div>
           <!-- 분석 진행 상황 -->
           <div id="analysisProgress" style="display:none;margin-bottom:8px">
@@ -1027,7 +1229,7 @@ textarea.inp{resize:none;line-height:1.5}
           <div class="enhance-head">
             <span class="enhance-icon">🚫</span>
             <div>
-              <div class="enhance-title">금지어 설정</div>
+              <div class="enhance-title">금지어 설정 <span class="badge-opt">선택</span></div>
               <div class="enhance-desc">쓰지 말아야 할 단어를 입력하면 AI가 제외해요</div>
             </div>
           </div>
@@ -1042,7 +1244,7 @@ textarea.inp{resize:none;line-height:1.5}
           <div class="enhance-head">
             <span class="enhance-icon">📅</span>
             <div>
-              <div class="enhance-title">시즌 · 이벤트</div>
+              <div class="enhance-title">시즌 · 이벤트 <span class="badge-opt">선택</span></div>
               <div class="enhance-desc">시즌에 맞는 문구를 자동 반영해요</div>
             </div>
           </div>
@@ -1063,7 +1265,7 @@ textarea.inp{resize:none;line-height:1.5}
           <div class="enhance-head">
             <span class="enhance-icon">🎯</span>
             <div>
-              <div class="enhance-title">광고 어조</div>
+              <div class="enhance-title">광고 어조 <span class="badge-opt">선택</span></div>
               <div class="enhance-desc">타겟에 맞는 어조를 선택하면 더 효과적이에요</div>
             </div>
           </div>
@@ -1325,7 +1527,22 @@ function openKeyModal() {
 }
 
 function updateKeyHeader(ok) {
-  document.getElementById('claudeDot').className = 'status-dot' + (ok ? ' ok' : '');
+  const dot = document.getElementById('claudeDot');
+  const lbl = document.getElementById('apiStatusLbl');
+  if(dot){
+    dot.className = 's-dot' + (ok ? '' : ' off');
+    // 색상: ok→초록, 미설정→빨강
+    if(!ok){
+      dot.style.background = '#ff4d6d';
+      dot.style.boxShadow = '0 0 8px rgba(255,77,109,.6)';
+      dot.style.animation = 'pulse 1.5s ease infinite';
+    } else {
+      dot.style.background = '';
+      dot.style.boxShadow = '';
+      dot.style.animation = '';
+    }
+  }
+  if(lbl) lbl.textContent = ok ? '연결됨' : '미설정';
 }
 
 // ── 파일 업로드 (최대 20장)
@@ -1644,6 +1861,19 @@ let S_SEASON = ''; // 선택 시즌
 let S_EVENT = '';  // 이벤트
 let S_TONE = '';   // 어조
 
+
+function checkFeatCount() {
+  const filled = [...document.querySelectorAll('#featSlots .feat-slot input')].map(el=>el.value.trim()).filter(Boolean).length;
+  const hint = document.getElementById('featReqHint');
+  const featCol = document.getElementById('featSlots')?.closest('.input-col');
+  if(filled >= 2){
+    if(hint) hint.classList.remove('show');
+    featCol?.classList.remove('req-error');
+  } else {
+    if(hint) { hint.classList.add('show'); hint.textContent = `현재 ${filled}개 입력됨 → 최소 2개 필요`; }
+  }
+}
+
 function addDeny(e) {
   if (e.key !== 'Enter') return;
   const inp = document.getElementById('denyInput');
@@ -1689,6 +1919,51 @@ function switchPvTab(tab) {}
 
 // ── 유틸
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;')}
+
+// ── Canvas 상품 썸네일 생성
+function generateProductThumb(name) {
+  const MAP = {
+    '냉장고':['#0055AA','#003388','❄️'],'냉동':['#0066CC','#004499','🧊'],
+    '에어컨':['#00AACC','#006699','💨'],'세탁기':['#3366CC','#224488','🫧'],
+    '건조기':['#AA5500','#883300','🌀'],'디퓨저':['#8833CC','#5511AA','🌿'],
+    '향수':['#CC3399','#AA1177','🌸'],'소파':['#7B5A14','#5A3E0A','🛋️'],
+    '침대':['#445599','#223377','🛏️'],'책상':['#3A5A1A','#2A4010','🪑'],
+    '노트북':['#2A2A2A','#0A0A0A','💻'],'스마트폰':['#1A1A2E','#0A0A1A','📱'],
+    '운동':['#AA1111','#880000','🏋️'],'화장품':['#BB3366','#993344','💄'],
+    '식품':['#228833','#116622','🍱'],'커피':['#5A2E1A','#3A1A0A','☕'],
+    '강아지':['#AA7722','#884400','🐶'],'고양이':['#996633','#774411','🐱'],
+    '가방':['#7A3A0A','#5A2A00','👜'],'신발':['#3A3A3A','#1A1A1A','👟'],
+    '청소기':['#0055AA','#003388','🧹'],'공기청정기':['#22AACC','#118899','🌬️'],
+  };
+  let bg=['#1a3a5c','#0d2035'], icon='🏪';
+  for(const [k,[c1,c2,em]] of Object.entries(MAP)){
+    if((name||'').includes(k)){bg=[c1,c2];icon=em;break;}
+  }
+  const cv=document.createElement('canvas');
+  cv.width=cv.height=160;
+  const ctx=cv.getContext('2d');
+  const grd=ctx.createLinearGradient(0,0,160,160);
+  grd.addColorStop(0,bg[0]);grd.addColorStop(1,bg[1]);
+  ctx.fillStyle=grd;
+  ctx.beginPath();
+  if(ctx.roundRect) ctx.roundRect(0,0,160,160,12);
+  else ctx.rect(0,0,160,160);
+  ctx.fill();
+  ctx.font='68px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(icon,80,72);
+  ctx.font='bold 13px sans-serif';ctx.fillStyle='rgba(255,255,255,.8)';
+  ctx.fillText((name||'').slice(0,8),80,128);
+  return cv.toDataURL();
+}
+
+function updatePreviewThumbs() {
+  const name = document.getElementById('productName')?.value?.trim() || '';
+  if(S.imgs.length) return; // 실제 이미지 있으면 패스
+  const url = generateProductThumb(name);
+  const pc = document.getElementById('pvPcThumb');
+  if(pc) pc.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover;border-radius:4px">`;
+}
+
 function cpKw(el){ el.textContent && navigator.clipboard && navigator.clipboard.writeText(el.textContent); el.classList.add('kw-on'); setTimeout(()=>el.classList.remove('kw-on'),1200); }
 
 // ── 시계
@@ -1938,13 +2213,49 @@ function sync(){
 // ── 메인 생성 함수
 async function generate(){
   if(!API_KEY){openKeyModal();return;}
+
+  // ── 유효성 검사 ──
   const name=document.getElementById('productName').value.trim();
-  if(!name){alert('상품명을 입력해주세요.');return;}
+  const featInputs=[...document.querySelectorAll('#featSlots .feat-slot input')].map(el=>el.value.trim()).filter(Boolean);
+  
+  let valid = true;
+  let focusEl = null;
+
+  // 상품명 필수
+  const nameEl = document.getElementById('productName');
+  const nameCol = nameEl?.closest('.input-col');
+  if(!name){
+    nameEl?.classList.add('empty-req');
+    nameCol?.classList.add('req-error');
+    valid = false;
+    if(!focusEl) focusEl = nameEl;
+  } else {
+    nameEl?.classList.remove('empty-req');
+    nameCol?.classList.remove('req-error');
+  }
+
+  // 광고 내용 최소 2개 필수
+  const featHint = document.getElementById('featReqHint');
+  const featSlotsEls = document.querySelectorAll('#featSlots .feat-slot');
+  const featCol = document.getElementById('featSlots')?.closest('.input-col');
+  if(featInputs.length < 2){
+    featCol?.classList.add('req-error');
+    if(featHint){ featHint.classList.add('show'); featHint.textContent = `현재 ${featInputs.length}개 입력됨 → 최소 2개 필요`; }
+    valid = false;
+    if(!focusEl) focusEl = document.querySelector('#featSlots .feat-slot input');
+  } else {
+    featCol?.classList.remove('req-error');
+    if(featHint){ featHint.classList.remove('show'); }
+  }
+
+  if(!valid){
+    if(focusEl) { focusEl.focus(); focusEl.scrollIntoView({behavior:'smooth',block:'center'}); }
+    return;
+  }
   // 상품명 기반 썸네일 미리 생성
   updatePreviewThumbs();
 
-  const featSlots=[...document.querySelectorAll('#featSlots .feat-slot input')].map(el=>el.value.trim()).filter(Boolean);
-  const feat=featSlots.join(', ');
+  const feat=featInputs.join(', '); // featInputs already computed above
   const target=document.getElementById('target')?.value.trim()||'';
   const event=document.getElementById('eventInput')?.value.trim()||'';
   const denyWords=[...S_DENY];
