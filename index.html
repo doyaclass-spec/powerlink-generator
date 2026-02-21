@@ -190,15 +190,37 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
 /* 이미지 업로드 */
 .upload-zone{
   border:2px dashed var(--gray-200);border-radius:9px;
-  padding:16px;text-align:center;cursor:pointer;
+  padding:14px;text-align:center;cursor:pointer;
   transition:all .2s;position:relative;
 }
 .upload-zone:hover,.upload-zone.drag{border-color:var(--green);background:var(--green-pale)}
-.upload-zone.filled{border-style:solid;border-color:var(--green);background:var(--green-pale)}
-.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.upload-zone.filled{border-color:var(--green);background:var(--green-pale)}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .upl-icon{font-size:20px;margin-bottom:3px}
 .upl-text{font-size:12px;color:var(--gray-400)}
-.upl-name{font-size:11px;color:var(--green);font-weight:700;margin-top:3px}
+.upl-count{font-size:11px;color:var(--green);font-weight:700;margin-top:3px}
+/* 이미지 썸네일 그리드 */
+.img-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+.img-thumb{
+  position:relative;border-radius:7px;overflow:hidden;
+  aspect-ratio:1;border:1px solid var(--gray-200);
+  background:var(--gray-50);
+}
+.img-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.img-thumb .del-btn{
+  position:absolute;top:3px;right:3px;
+  width:18px;height:18px;border-radius:50%;
+  background:rgba(0,0,0,.55);color:#fff;
+  border:none;cursor:pointer;font-size:11px;
+  display:flex;align-items:center;justify-content:center;
+  line-height:1;opacity:0;transition:opacity .15s;
+}
+.img-thumb:hover .del-btn{opacity:1}
+.img-thumb .img-num{
+  position:absolute;bottom:3px;left:4px;
+  font-size:9px;font-weight:700;color:#fff;
+  background:rgba(0,0,0,.45);border-radius:3px;padding:1px 4px;
+}
 
 /* 알림 박스 */
 .notice{border-radius:8px;padding:9px 12px;font-size:12px;line-height:1.6;margin-bottom:14px}
@@ -467,13 +489,14 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
         </div>
 
         <div class="field">
-          <label class="lbl">상세페이지 이미지 <span style="color:var(--gray-400);font-weight:400;font-size:10px">(선택 · AI가 분석)</span></label>
+          <label class="lbl">상세페이지 이미지 <span style="color:var(--gray-400);font-weight:400;font-size:10px">(최대 20장 · AI가 모두 분석)</span></label>
           <div class="upload-zone" id="uploadZone">
-            <input type="file" id="fileInput" accept="image/*" onchange="onFile(event)" />
+            <input type="file" id="fileInput" accept="image/*" multiple onchange="onFile(event)" />
             <div class="upl-icon">🖼️</div>
-            <div class="upl-text">이미지 드래그 또는 클릭</div>
-            <div class="upl-name" id="uplName" style="display:none"></div>
+            <div class="upl-text">이미지 드래그 또는 클릭 (여러 장 동시 선택 가능)</div>
+            <div class="upl-count" id="uplCount" style="display:none"></div>
           </div>
+          <div class="img-grid" id="imgGrid"></div>
         </div>
 
         <button class="gen-btn" id="genBtn" onclick="generate()">
@@ -587,7 +610,7 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
 
 <script>
 // ── 상태
-const S = { titles:[], descs:[], kws:[], selT:new Set(), selD:new Set(), img:null };
+const S = { titles:[], descs:[], kws:[], selT:new Set(), selD:new Set(), imgs:[] };
 
 // ── API Key 관리
 let API_KEY = localStorage.getItem('claude_key') || '';
@@ -627,15 +650,48 @@ function updateKeyHeader(ok) {
   document.getElementById('keyStatus').textContent = ok ? 'API Key 변경' : 'API Key 설정';
 }
 
-// ── 파일 업로드
+// ── 파일 업로드 (최대 20장)
+const MAX_IMGS = 20;
 function onFile(e) {
-  const f = e.target.files[0]; if (!f) return;
-  document.getElementById('uplName').textContent = '✓ ' + f.name;
-  document.getElementById('uplName').style.display = 'block';
-  document.getElementById('uploadZone').classList.add('filled');
-  const r = new FileReader();
-  r.onload = ev => { S.img = ev.target.result.split(',')[1]; };
-  r.readAsDataURL(f);
+  const files = Array.from(e.target.files).slice(0, MAX_IMGS - S.imgs.length);
+  if (!files.length) return;
+  files.forEach(f => {
+    const r = new FileReader();
+    r.onload = ev => {
+      const raw = ev.target.result;
+      const b64 = raw.split(',')[1];
+      const type = f.type || 'image/jpeg';
+      S.imgs.push({ b64, type, name: f.name, url: raw });
+      renderImgGrid();
+    };
+    r.readAsDataURL(f);
+  });
+  // input 초기화 (같은 파일 재선택 가능하게)
+  e.target.value = '';
+}
+function removeImg(i) {
+  S.imgs.splice(i, 1);
+  renderImgGrid();
+}
+function renderImgGrid() {
+  const grid = document.getElementById('imgGrid');
+  const cnt  = document.getElementById('uplCount');
+  const zone = document.getElementById('uploadZone');
+  if (S.imgs.length === 0) {
+    grid.innerHTML = '';
+    cnt.style.display = 'none';
+    zone.classList.remove('filled');
+    return;
+  }
+  zone.classList.add('filled');
+  cnt.style.display = 'block';
+  cnt.textContent = `✓ ${S.imgs.length}장 선택됨 (최대 ${MAX_IMGS}장)`;
+  grid.innerHTML = S.imgs.map((img, i) => `
+    <div class="img-thumb">
+      <img src="${img.url}" alt="${img.name}" />
+      <button class="del-btn" onclick="removeImg(${i})" title="삭제">×</button>
+      <span class="img-num">${i+1}</span>
+    </div>`).join('');
 }
 
 // ── 스마트스토어 불러오기
@@ -761,12 +817,17 @@ async function generate() {
   try {
     const prompt = `상품명: ${name}${feat?'\n핵심 특징: '+feat:''}${target?'\n타겟 고객: '+target:''}${url?'\n스마트스토어 URL: '+url:''}\n\n위 상품의 네이버 파워링크 광고 소재를 생성해주세요.`;
 
-    const content = S.img
-      ? [
-          { type:'image', source:{ type:'base64', media_type:'image/jpeg', data:S.img } },
-          { type:'text', text:prompt }
-        ]
-      : prompt;
+    // 이미지 여러 장 포함
+    let content;
+    if (S.imgs.length > 0) {
+      content = S.imgs.map(img => ({
+        type: 'image',
+        source: { type: 'base64', media_type: img.type || 'image/jpeg', data: img.b64 }
+      }));
+      content.push({ type: 'text', text: prompt });
+    } else {
+      content = prompt;
+    }
 
     pg(1, 'done'); pg(2, 'active');
 
