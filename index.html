@@ -1353,7 +1353,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v5.2</span>
+    <span class="h-version">v5.6</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -1374,7 +1374,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 <section class="hero">
   <div class="hero-eyebrow">✦ Naver Powerlink · AI Copy Generator · Powered by Gemini</div>
   <h1><em>AI가 클릭률 높은 파워링크 소재</em>를 자동으로 만들어 드립니다</h1>
-  <p class="hero-sub"><strong>제목 30개 · 설명 12개</strong> 자동 생성 &nbsp;·&nbsp; 마케터 AI 분석 리포트 &nbsp;·&nbsp; 실시간 네이버 미리보기</p>
+  <p class="hero-sub"><strong>제목 20개 · 설명 8개</strong> 자동 생성 &nbsp;·&nbsp; 마케터 AI 분석 리포트 &nbsp;·&nbsp; 실시간 네이버 미리보기</p>
 </section>
 
 <div id="apiKeyBanner">
@@ -1568,7 +1568,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
             <div class="analyzing-timer-lbl" id="analyzingTimerLbl">남음</div>
           </div>
         </div>
-        <div class="footer-info" id="footerInfo">Gemini AI · 제목 30개 · 설명 12개 · 무료 API 사용 가능</div>
+        <div class="footer-info" id="footerInfo">Gemini AI · 제목 20개 · 설명 8개 · 무료 API 사용 가능</div>
       </div>
 
     </div><!-- input-card -->
@@ -1638,7 +1638,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="result-card">
     <div id="emptyState" class="empty">
       <div class="empty-icon">✦</div>
-      <div class="empty-txt">상품 정보를 입력하고 <strong>생성 버튼</strong>을 눌러주세요<br><span style="font-size:13px;opacity:.5">✓ 제목 30개 · 설명 12개 · 마케터 분석 리포트</span></div>
+      <div class="empty-txt">상품 정보를 입력하고 <strong>생성 버튼</strong>을 눌러주세요<br><span style="font-size:13px;opacity:.5">✓ 제목 20개 · 설명 8개 · 마케터 분석 리포트</span></div>
     </div>
     <!-- analysisBody: hidden buffer for modal (not shown in main UI) -->
     <div id="analysisBody" style="display:none"></div>
@@ -1672,7 +1672,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
             <span class="rc-head-label" style="color:#ff9800">제목 3 위치 추천</span>
             <span class="tg-sub" style="margin-left:auto">광고 세 번째 제목에 최적</span>
           </div>
-          <div id="titleGroup3"></div>
+          <div id="titleGroup3" style="display:none"></div>
         </div>
       </div>
       <!-- 설명 영역 -->
@@ -2060,7 +2060,7 @@ async function callClaude(sys, userContent) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 90000);
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key=${API_KEY}`;
   try {
     const res = await fetch(url, {
       method: 'POST',
@@ -2068,7 +2068,7 @@ async function callClaude(sys, userContent) {
       signal: controller.signal,
       body: JSON.stringify({
         contents: [{ role: 'user', parts }],
-        generationConfig: { maxOutputTokens: 1800, temperature: 0.5 }
+        generationConfig: { maxOutputTokens: 900, temperature: 0.5 }
       })
     });
     if (!res.ok) {
@@ -2094,7 +2094,7 @@ async function callClaude(sys, userContent) {
 // 단계별 메시지
 const PG_MSGS = {
   '1-active': 'AI가 상품을 분석하고 있어요...',
-  '2-active': '광고 소재 30개 + 설명 12개 작성 중...',
+  '2-active': '광고 소재 20개 + 설명 8개 작성 중...',
   '3-active': '결과를 정리하고 있어요...',
   '3-done':   '완성! 아래에서 소재를 선택해주세요 ✨'
 };
@@ -2141,7 +2141,7 @@ async function generateAnalysis(name, feat, target, titles, descs, imgs) {
   if (imgs.length > 0) guideLines.push('2. 첨부된 상세페이지 이미지를 직접 보고 — 어떤 제품인지, 어떤 특징이 보이는지, 이미지에서 발견한 광고 포인트를 구체적으로');
   if (feat && feat.trim()) guideLines.push(`${guideLines.length+1}. 입력된 광고 포인트(${feat})를 어떻게 해석하고 반영했는지`);
   if (target && target.trim()) guideLines.push(`${guideLines.length+1}. 타겟 고객(${target})의 언어·심리를 어떻게 광고 소재에 녹였는지`);
-  guideLines.push(`${guideLines.length+1}. 제목 30개를 왜 이런 방향으로 구성했는지 — 어떤 각도들을 선택했고 그 이유`);
+  guideLines.push(`${guideLines.length+1}. 제목 20개를 왜 이런 방향으로 구성했는지 — 어떤 각도들을 선택했고 그 이유`);
   guideLines.push(`${guideLines.length+1}. 설명 12개를 왜 이렇게 썼는지 — 45자 안에 어떤 정보와 감정을 담았는지`);
 
   // 금지어/시즌/어조 정보 수집
@@ -2361,8 +2361,8 @@ function openAnalysisModal(){
 
 // ── 렌더링
 function render(){
-  // 3그룹으로 제목 렌더
-  [1,2,3].forEach(g=>{
+  // 2그룹으로 제목 렌더 (20개)
+  [1,2].forEach(g=>{
     const el=document.getElementById('titleGroup'+g);
     if(!el) return;
     el.innerHTML='';
@@ -2906,8 +2906,8 @@ async function generate(){
       `당신은 네이버 파워링크 광고 전문가입니다.
 반드시 순수 JSON만 응답하세요. 코드블록, 설명, 다른 텍스트 절대 금지.
 생성 규칙:
-- 제목: 15자 이내, 정확히 30개. 숫자·혜택·타겟을 활용한 클릭 유도 문구. 다양한 각도로 작성.
-- 설명: 반드시 45자 이하(공백 포함). 정확히 12개. 핵심 혜택을 구체적으로, 43~45자로 꽉 채울 것. 45자 초과 절대 금지.
+- 제목: 15자 이내, 정확히 20개. 숫자·혜택·타겟을 활용한 클릭 유도 문구. 다양한 각도로 작성.
+- 설명: 반드시 45자 이하(공백 포함). 정확히 8개. 핵심 혜택을 구체적으로 작성. 45자 초과 절대 금지.
 - 타겟 고객이 있으면 해당 타겟의 언어와 관심사에 맞게 작성.
 - 금지 표현: 최고·최저·1위·최상·특가·최대·최저가·압도적·완벽·탁월·월등·독보적·보장·무조건·100% 효과 등 최상급·과장 표현 절대 금지.
 - 근거 없는 효능 과장 금지. 구체적 수치나 사실 기반으로만 작성.
@@ -2924,10 +2924,17 @@ async function generate(){
     S.kws=[];
 
     pg(2,'done');
+    // ★ 소재 생성 완료 즉시 결과 표시 (리포트 기다리지 않음)
+    render();
+    document.getElementById('resultWrap').style.display='block';
+    document.getElementById('previewSection').style.display='block';
+    pg(3,'active');
+    pg(4,'active');
+    document.getElementById('pbarFill').style.width='100%';
+    setTimeout(()=>document.getElementById('resultWrap').scrollIntoView({behavior:'smooth',block:'start'}),300);
+    document.getElementById('genTxt').innerHTML='<span class="spin"></span> 리포트 분석 중...';
     if(sideStatus) sideStatus.textContent='리포트 분석 중...';
     if(stepEl) { stepEl.style.opacity='0'; setTimeout(()=>{ stepEl.textContent='리포트 분석 중...'; stepEl.style.opacity='1'; },160); }
-    document.getElementById('genTxt').innerHTML='<span class="spin"></span> 리포트 분석 중...';
-    pg(3,'active');
     if(window._startPhase2Timer) window._startPhase2Timer();
 
     // 마케터 리포트 분석 — 실제 분석 단계 메시지
@@ -2982,10 +2989,8 @@ async function generate(){
       document.getElementById('analysisBody').innerHTML=html;
       document.getElementById('analysisBody').style.display='none';
       if(apProg) apProg.style.display='none';
-      // 심사숙고 박스 숨기기
       const thinkEl = document.getElementById('apThinking');
       if(thinkEl) thinkEl.style.display='none';
-      // 모든 필드 done 처리
       ['name','feat','img','deny','season','tone'].forEach(id=>setApField(id,null,'done'));
       clearInterval(fieldTimer);
       
@@ -3032,13 +3037,8 @@ async function generate(){
         }, 18); // 18ms per char
       }
 
-      render();
-      pg(3,'done');pg(4,'active');
-      document.getElementById('pbarFill').style.width='100%';
-      document.getElementById('resultWrap').style.display='block';
-      document.getElementById('previewSection').style.display='block';
-      setTimeout(()=>document.getElementById('resultWrap').scrollIntoView({behavior:'smooth',block:'start'}),300);
-      pg(4,'done');
+      // 리포트 완료 - 결과는 이미 표시됨, 패널만 업데이트
+      pg(3,'done');pg(4,'done');
       document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
       btn.disabled=false;
       stopAnalyzingUI();
@@ -3049,10 +3049,7 @@ async function generate(){
       if(openBtn){openBtn.disabled=false;openBtn.classList.add('done');setTimeout(()=>openBtn.classList.remove('done'),5000);}
     }).catch(()=>{
       document.getElementById('analysisBody').innerHTML='<div>분석을 불러오지 못했어요.</div>';
-      render();
-      pg(3,'done');pg(4,'active');
-      document.getElementById('resultWrap').style.display='block';
-      pg(4,'done');
+      pg(3,'done');pg(4,'done');
       document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
       btn.disabled=false;
       stopAnalyzingUI();
