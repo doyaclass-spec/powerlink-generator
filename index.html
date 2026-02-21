@@ -193,7 +193,7 @@ body{
 
 /* ══ 입력 패널 (sticky) ══ */
 .sticky-panel{
-  position:sticky;top:var(--hh);z-index:50;
+  position:relative;
   margin-bottom:14px;
 }
 .input-card{
@@ -251,7 +251,7 @@ body{
   display:grid;grid-template-columns:1fr 1fr 1fr 1fr;
   border-bottom:1px solid var(--border);
 }
-.input-col{padding:12px 16px;display:flex;flex-direction:column;gap:8px}
+.input-col{padding:12px 16px;display:flex;flex-direction:column;gap:8px;min-height:0}
 .input-col:not(:last-child){border-right:1px solid var(--border)}
 
 /* 폼 요소 */
@@ -307,23 +307,19 @@ textarea.inp{resize:none;line-height:1.5}
 
 /* 분석 컬럼 */
 .col-analysis{background:linear-gradient(160deg,rgba(3,199,90,.04),rgba(0,102,255,.03))}
-.analysis-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.analysis-orb{
-  width:32px;height:32px;border-radius:50%;flex-shrink:0;
-  background:linear-gradient(135deg,rgba(3,199,90,.2),rgba(0,102,255,.15));
-  border:1px solid rgba(3,199,90,.25);
-  display:flex;align-items:center;justify-content:center;font-size:15px;
-  box-shadow:0 0 16px rgba(3,199,90,.15);animation:orbPulse 3s ease infinite;
-}
-@keyframes orbPulse{0%,100%{box-shadow:0 0 16px rgba(3,199,90,.15)}50%{box-shadow:0 0 24px rgba(3,199,90,.25)}}
-.analysis-title-sm{font-size:10px;font-weight:800;color:var(--text)}
-.analysis-sub-sm{font-size:8px;color:var(--text3);margin-top:1px}
+
+
+50%{box-shadow:0 0 24px rgba(3,199,90,.25)}}
+
+
 .analysis-status{font-size:9px;color:var(--text3);padding:3px 7px;background:rgba(0,0,0,.2);border-radius:4px;border:1px solid var(--border);display:inline-block;margin-bottom:6px}
 .analysis-preview{
-  font-size:10px;color:var(--text2);line-height:1.8;flex:1;
-  display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden;
-  margin-bottom:8px;min-height:72px;
+  font-size:10px;color:var(--text2);line-height:1.8;
+  overflow-y:auto;max-height:140px;
+  margin-bottom:8px;min-height:60px;
 }
+.analysis-preview::-webkit-scrollbar{width:3px}
+.analysis-preview::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px}
 .analysis-btn{
   background:linear-gradient(135deg,var(--g-dim),rgba(0,102,255,.08));
   border:1px solid rgba(3,199,90,.25);color:var(--g);border-radius:6px;
@@ -551,6 +547,63 @@ textarea.inp{resize:none;line-height:1.5}
 /* 5칸 그리드 → 4칸으로 (상품명+타겟 병합) */
 .input-grid{grid-template-columns:1.1fr 1.1fr 1fr 1fr !important}
 
+
+/* 분석 진행 표시 */
+.ap-step-row{display:flex;align-items:center;gap:7px;padding:4px 0;font-size:10px;color:var(--text3);transition:color .3s}
+.ap-step-row.active{color:var(--text)}
+.ap-step-row.done{color:var(--g)}
+.ap-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.15);flex-shrink:0;transition:all .3s}
+.ap-step-row.active .ap-dot{background:var(--g);box-shadow:0 0 6px var(--g-glow);animation:apPulse .8s ease infinite}
+.ap-step-row.done .ap-dot{background:var(--g)}
+@keyframes apPulse{0%,100%{opacity:1}50%{opacity:.4}}
+.ap-timer{font-size:9px;color:var(--text3);margin-top:5px;text-align:right}
+.ap-timer b{color:var(--g)}
+
+
+/* 모바일 광고 카드 - 네이버 실제처럼 */
+.mob-ad-card{background:#fff;border:1px solid #e5e8ec;border-radius:8px;padding:12px 14px;margin-bottom:6px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.mob-ad-card--sub{background:#fafafa;border-color:#ebebeb}
+.mob-ad-card--sub .naver-mob-title{font-size:14px}
+.mob-ad-empty{background:#fff;border:1px solid #e5e8ec;border-radius:8px;padding:12px 14px}
+#pvMobTitleList{max-height:320px;overflow-y:auto}
+#pvMobTitleList::-webkit-scrollbar{width:3px}
+#pvMobTitleList::-webkit-scrollbar-thumb{background:#e0e0e0;border-radius:2px}
+
+
+/* ── 입력 강화 기능 ── */
+.enhance-row{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  border-top:1px solid var(--border);
+}
+.enhance-col{
+  padding:12px 16px;border-right:1px solid var(--border);
+  display:flex;flex-direction:column;gap:8px;
+}
+.enhance-col:last-child{border-right:none}
+.enhance-head{display:flex;align-items:flex-start;gap:8px;margin-bottom:2px}
+.enhance-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.enhance-title{font-size:11px;font-weight:700;color:var(--text);margin-bottom:1px}
+.enhance-desc{font-size:9px;color:var(--text3);line-height:1.4}
+
+/* 금지어 */
+.deny-list{display:flex;flex-wrap:wrap;gap:4px;min-height:10px}
+.deny-tag{display:inline-flex;align-items:center;gap:4px;background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.2);border-radius:5px;padding:3px 8px;font-size:10px;color:#ff6b85}
+.deny-tag-x{background:none;border:none;color:rgba(255,77,109,.5);cursor:pointer;font-size:10px;padding:0;line-height:1;transition:color .15s}
+.deny-tag-x:hover{color:#ff4d6d}
+.deny-input-row{margin-top:2px}
+
+/* 시즌 칩 */
+.season-chips{display:flex;flex-wrap:wrap;gap:4px}
+.schip{font-size:9px;padding:3px 9px;border-radius:12px;border:1px solid var(--border);color:var(--text3);cursor:pointer;background:none;font-family:inherit;transition:all .15s}
+.schip:hover{border-color:rgba(3,199,90,.3);color:var(--g)}
+.schip.on{background:var(--g-dim);border-color:rgba(3,199,90,.35);color:var(--g);font-weight:700}
+
+/* 어조 */
+.tone-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.tone-btn{padding:5px 6px;background:rgba(0,0,0,.2);border:1px solid var(--border);border-radius:5px;font-size:9px;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .15s;text-align:center}
+.tone-btn:hover{border-color:rgba(3,199,90,.3);color:var(--g)}
+.tone-btn.on{background:var(--g-dim);border-color:rgba(3,199,90,.35);color:var(--g);font-weight:700}
+
 </style>
 </head>
 <body>
@@ -639,7 +692,7 @@ textarea.inp{resize:none;line-height:1.5}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v3.2</span>
+    <span class="h-version">v3.5</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -673,7 +726,7 @@ textarea.inp{resize:none;line-height:1.5}
   <div class="sticky-panel">
     <div class="input-card">
 
-      <!-- 진행 바 -->
+      <!-- 진행 바 (4단계) -->
       <div class="pbar-strip">
         <div class="pbar-track"><div class="pbar-fill" id="pbarFill"></div></div>
         <div class="pbar-steps">
@@ -687,6 +740,10 @@ textarea.inp{resize:none;line-height:1.5}
           </div>
           <div class="pbar-step" id="pg3">
             <div class="pstep-dot"><span class="pstep-num">3</span><svg class="pstep-check" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+            <div class="pstep-lbl">리포트 분석</div>
+          </div>
+          <div class="pbar-step" id="pg4">
+            <div class="pstep-dot"><span class="pstep-num">4</span><svg class="pstep-check" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
             <div class="pstep-lbl">완료</div>
           </div>
         </div>
@@ -698,16 +755,16 @@ textarea.inp{resize:none;line-height:1.5}
       <!-- 4컬럼 입력 -->
       <div class="input-grid">
 
-        <!-- 상품명 -->
+        <!-- 상품명 + 타겟 -->
         <div class="input-col">
           <div class="icol-head"><span class="icol-num">01</span><div><div class="icol-title">상품명 <span class="req">*</span></div><div class="icol-desc">네이버 검색에 노출되는 핵심 키워드를 포함하세요</div></div></div>
           <textarea class="inp inp-ta" id="productName" rows="3" placeholder="예: 소상공인 지원 스타리온 간냉식 1등급 업소용 냉장고 냉동고"></textarea>
-        </div>
-        <!-- 타겟 고객 -->
-        <div class="input-col">
-          <div class="icol-head"><span class="icol-num">02</span><div><div class="icol-title">타겟 고객</div><div class="icol-desc">광고를 보여줄 주요 고객층을 입력하세요</div></div></div>
+          <div class="icol-head" style="margin-top:10px"><span class="icol-num">02</span><div><div class="icol-title">타겟 고객</div><div class="icol-desc">광고를 보여줄 주요 고객층</div></div></div>
           <input type="text" class="inp" id="target" placeholder="예: 30대 소상공인, 카페 사장님" />
-          <div class="icol-head" style="margin-top:8px"><span class="icol-num">03</span><div><div class="icol-title">광고에 넣고 싶은 내용</div><div class="icol-desc">강조하고 싶은 특징·혜택·가격 포인트</div></div></div>
+        </div>
+        <!-- 광고 내용 -->
+        <div class="input-col">
+          <div class="icol-head"><span class="icol-num">03</span><div><div class="icol-title">광고에 넣고 싶은 내용</div><div class="icol-desc">강조하고 싶은 특징·혜택·가격 포인트</div></div></div>
           <div id="featSuggestWrap" style="display:none">
             <div class="feat-suggest-lbl" id="featSuggestLbl">💡 AI 추천</div>
             <div class="feat-suggest" id="featSuggest"></div>
@@ -738,20 +795,81 @@ textarea.inp{resize:none;line-height:1.5}
 
         <!-- 분석 리포트 -->
         <div class="input-col col-analysis">
-          <div class="icol-head" style="margin-bottom:8px"><span class="icol-num">05</span><div><div class="icol-title">마케터 분석 리포트</div><div class="icol-desc">생성 후 10년차 전문가 AI가 소재 전략을 분석해드려요</div></div></div>
-          <div class="analysis-head">
-            <div class="analysis-orb">🧠</div>
-            <div>
-              <div class="analysis-title-sm">마케터 분석 리포트</div>
-              <div class="analysis-sub-sm">AI마케팅전략연구소</div>
-            </div>
-          </div>
+          <div class="icol-head" style="margin-bottom:10px"><span class="icol-num">05</span><div><div class="icol-title">마케터 분석 리포트</div><div class="icol-desc">10년차 전문가 AI가 광고 소재 전략을 분석해드려요</div></div></div>
           <div class="analysis-status" id="analysisSideStatus">소재 생성 후 자동 분석됩니다</div>
+          <!-- 분석 진행 상황 -->
+          <div id="analysisProgress" style="display:none;margin-bottom:8px">
+            <div class="ap-step-row" id="apStep1"><span class="ap-dot"></span><span class="ap-txt">상품명 분석 중...</span></div>
+            <div class="ap-step-row" id="apStep2"><span class="ap-dot"></span><span class="ap-txt">이미지 분석 중...</span></div>
+            <div class="ap-step-row" id="apStep3"><span class="ap-dot"></span><span class="ap-txt">광고 전략 수립 중...</span></div>
+            <div class="ap-step-row" id="apStep4"><span class="ap-dot"></span><span class="ap-txt">리포트 작성 중...</span></div>
+            <div class="ap-timer" id="apTimer">예상 소요: <b id="apTimerVal">--</b></div>
+          </div>
           <div class="analysis-preview" id="analysisSidePreview">광고 소재를 생성하면 여기에 마케터의 분석이 요약되어 표시됩니다</div>
           <button class="analysis-btn" id="analysisOpenBtn" onclick="openAnalysisModal()" disabled>📄 전체 리포트 보기</button>
         </div>
 
       </div><!-- input-grid -->
+
+      <!-- 입력 강화 기능 3칸 -->
+      <div class="enhance-row">
+
+        <!-- 금지어 설정 -->
+        <div class="enhance-col">
+          <div class="enhance-head">
+            <span class="enhance-icon">🚫</span>
+            <div>
+              <div class="enhance-title">금지어 설정</div>
+              <div class="enhance-desc">쓰지 말아야 할 단어를 입력하면 AI가 제외해요</div>
+            </div>
+          </div>
+          <div id="denyList" class="deny-list"></div>
+          <div class="deny-input-row">
+            <input type="text" class="inp" id="denyInput" placeholder="금지어 입력 후 Enter" onkeydown="addDeny(event)" style="font-size:11px" />
+          </div>
+        </div>
+
+        <!-- 시즌·이벤트 설정 -->
+        <div class="enhance-col">
+          <div class="enhance-head">
+            <span class="enhance-icon">📅</span>
+            <div>
+              <div class="enhance-title">시즌 · 이벤트</div>
+              <div class="enhance-desc">시즌에 맞는 문구를 자동 반영해요</div>
+            </div>
+          </div>
+          <div class="season-chips" id="seasonChips">
+            <button class="schip" onclick="toggleSeason(this)">봄 시즌</button>
+            <button class="schip" onclick="toggleSeason(this)">여름 세일</button>
+            <button class="schip" onclick="toggleSeason(this)">추석</button>
+            <button class="schip" onclick="toggleSeason(this)">연말</button>
+            <button class="schip" onclick="toggleSeason(this)">설날</button>
+            <button class="schip" onclick="toggleSeason(this)">밸런타인</button>
+            <button class="schip" onclick="toggleSeason(this)">어버이날</button>
+          </div>
+          <input type="text" class="inp" id="eventInput" placeholder="이벤트 직접 입력 (예: 5월 가정의 달 특가)" style="margin-top:7px;font-size:11px" />
+        </div>
+
+        <!-- 광고 어조 설정 -->
+        <div class="enhance-col">
+          <div class="enhance-head">
+            <span class="enhance-icon">🎯</span>
+            <div>
+              <div class="enhance-title">광고 어조</div>
+              <div class="enhance-desc">타겟에 맞는 어조를 선택하면 더 효과적이에요</div>
+            </div>
+          </div>
+          <div class="tone-grid" id="toneGrid">
+            <button class="tone-btn" onclick="toggleTone(this)">🔥 긴박감</button>
+            <button class="tone-btn" onclick="toggleTone(this)">💝 감성·공감</button>
+            <button class="tone-btn" onclick="toggleTone(this)">📊 정보·신뢰</button>
+            <button class="tone-btn" onclick="toggleTone(this)">🎉 혜택·이벤트</button>
+            <button class="tone-btn" onclick="toggleTone(this)">💪 전문가·권위</button>
+            <button class="tone-btn" onclick="toggleTone(this)">🌿 친환경·가치</button>
+          </div>
+        </div>
+
+      </div><!-- enhance-row -->
 
       <!-- 생성 버튼 -->
       <div class="input-footer">
@@ -807,14 +925,13 @@ textarea.inp{resize:none;line-height:1.5}
               <span class="naver-mob-url">smartstore.naver.com</span>
               <span class="naver-mob-badge">광고</span>
             </div>
-            <div class="naver-mob-row">
-              <div class="naver-mob-body">
-                <div class="naver-mob-title empty" id="pvMobTitles">제목을 선택하면 표시됩니다</div>
-                <div class="naver-mob-desc empty" id="pvMobDesc">설명을 선택하면 표시됩니다</div>
+            <div id="pvMobTitleList">
+              <div class="mob-ad-empty">
+                <div class="naver-mob-meta"><div class="naver-mob-logo">S</div><span class="naver-mob-store">스마트스토어</span><span class="naver-mob-badge">광고</span></div>
+                <div class="naver-mob-title empty">제목을 선택하면 표시됩니다</div>
+                <div class="naver-mob-desc empty">설명을 선택하면 표시됩니다</div>
               </div>
-              <div class="naver-mob-thumb" id="pvMobThumb">🏪</div>
             </div>
-            <div class="naver-mob-chips" id="pvMobChips"></div>
           </div>
         </div>
         <div class="pv-note">※ 핀 기능으로 원하는 애셋 고정 권장</div>
@@ -1199,7 +1316,7 @@ const PG_MSGS = {
   '3-active': '결과를 정리하고 있어요...',
   '3-done':   '완성! 아래에서 소재를 선택해주세요 ✨'
 };
-const PBAR_WIDTH = {'1-active':8,'1-done':33,'2-active':40,'2-done':66,'3-active':75,'3-done':100};
+const PBAR_WIDTH = {'1-active':5,'1-done':25,'2-active':30,'2-done':50,'3-active':55,'3-done':75,'4-active':80,'4-done':100};
 
 function pg(n, s) {
   const el = document.getElementById('pg'+n);
@@ -1299,469 +1416,44 @@ ${guideLines.join('\n')}
 
 
 
-function switchResultTab(tab) {
-  ['t','d'].forEach(t => {
-    document.getElementById('rtab'+t.toUpperCase()).classList.toggle('active', t===tab);
-    document.getElementById('rpane'+t.toUpperCase()).classList.toggle('active', t===tab);
-  });
+
+// ── 입력 강화 기능 ──
+const S_DENY = new Set(); // 금지어
+let S_SEASON = ''; // 선택 시즌
+let S_EVENT = '';  // 이벤트
+let S_TONE = '';   // 어조
+
+function addDeny(e) {
+  if (e.key !== 'Enter') return;
+  const inp = document.getElementById('denyInput');
+  const val = inp.value.trim();
+  if (!val) return;
+  S_DENY.add(val);
+  inp.value = '';
+  renderDenyList();
 }
-
-function switchPvTab(tab) {
-  const pc = document.getElementById('pvPcWrap');
-  const mob = document.getElementById('pvMobWrap');
-  const tabPc = document.getElementById('tabPc');
-  const tabMob = document.getElementById('tabMob');
-  if (tab === 'pc') {
-    if (pc) pc.style.display=''; if (mob) mob.style.display='none';
-    if (tabPc) tabPc.classList.add('active'); if (tabMob) tabMob.classList.remove('active');
-  } else {
-    if (pc) pc.style.display='none'; if (mob) mob.style.display='';
-    if (tabPc) tabPc.classList.remove('active'); if (tabMob) tabMob.classList.add('active');
-  }
-}
-
-function openAnalysisModal() {
-  const body = document.getElementById('analysisModalBody');
-  const src  = document.getElementById('analysisBody').innerHTML;
-  body.innerHTML = src || '<div class="analysis-loading">분석 내용이 없어요.</div>';
-  document.getElementById('analysisModal').classList.remove('hidden');
-}
-
-// ── 생성
-async function generate() {
-  if (!API_KEY) { openKeyModal(); return; }
-  const name = document.getElementById('productName').value.trim();
-  if (!name) { alert('상품명을 입력해주세요.'); return; }
-
-  const featSlots = [...document.querySelectorAll('#featSlots .feat-slot input')]
-    .map(el => el.value.trim()).filter(Boolean);
-  const feat = featSlots.join(', ');
-  const target = document.getElementById('target').value.trim();
-  const url    = '';
-
-  const btn = document.getElementById('genBtn');
-  btn.disabled = true;
-  document.getElementById('genTxt').innerHTML = '<span class="spin"></span> 생성 중...';
-  const pb = document.getElementById('progressBar');
-  if (pb) { document.getElementById('pbarFill').style.width='0%'; }
-  document.getElementById('emptyState').style.display = 'none';
-  document.getElementById('resultWrap').style.display = 'none';
-
-  S.selT = new Set(); S.selD = new Set();
-  const sideStatus = document.getElementById('analysisSideStatus');
-  const sidePreview = document.getElementById('analysisSidePreview');
-  const sideBtn = document.getElementById('analysisOpenBtn');
-  if (sideStatus) sideStatus.textContent = '분석 중...';
-  if (sidePreview) { sidePreview.style.color='var(--gray-300)'; sidePreview.textContent='분석 리포트를 생성하고 있어요...'; }
-  if (sideBtn) sideBtn.disabled = true;
-
-  pg(1, 'active');
-
-  try {
-    const prompt = `상품명: ${name}${feat?'\n핵심 특징: '+feat:''}${target?'\n타겟 고객: '+target:''}${url?'\n스마트스토어 URL: '+url:''}\n\n위 상품의 네이버 파워링크 광고 소재를 생성해주세요.`;
-
-    // 이미지 여러 장 포함
-    let content;
-    if (S.imgs.length > 0) {
-      content = S.imgs.map(img => ({
-        type: 'image',
-        source: { type: 'base64', media_type: img.type || 'image/jpeg', data: img.b64 }
-      }));
-      content.push({ type: 'text', text: prompt });
-    } else {
-      content = prompt;
-    }
-
-    pg(1, 'done'); pg(2, 'active');
-
-    const raw = await callClaude(
-      `당신은 네이버 파워링크 광고 전문가입니다.
-반드시 순수 JSON만 응답하세요. 코드블록, 설명, 다른 텍스트 절대 금지.
-
-생성 규칙:
-- 제목: 15자 이내, 정확히 30개. 숫자·혜택·타겟을 활용한 클릭 유도 문구. 다양한 각도로 작성.
-- 설명: 반드시 45자 이하(공백 포함). 정확히 12개. 핵심 혜택을 구체적으로, 가능하면 43~45자로 꽉 채울 것. 45자 초과는 절대 금지.
-- 타겟 고객이 있으면 해당 타겟의 언어와 관심사에 맞게 작성.
-- 금지 표현: 최고·최저·1위·최상·특가·최대·최저가·압도적·완벽·탁월·월등·독보적·보장·무조건·100% 효과 등 최상급·과장 표현 절대 사용 금지.
-- 근거 없는 효능 과장 금지. 구체적 수치나 사실 기반으로만 작성.
-
-형식: {"titles":["...",...],"descs":["...",...]}`,
-      content
-    );
-
-    let parsed;
-    try { parsed = JSON.parse(raw.replace(/```json|```/g,'').trim()); }
-    catch(e) { throw new Error('결과 파싱 실패. 다시 시도해주세요.'); }
-
-    S.titles = (parsed.titles || []).map(t => [...t].slice(0,15).join(''));
-    S.descs  = (parsed.descs  || []).map(d => [...d].slice(0,45).join(''));
-    S.kws    = [];
-
-    pg(2, 'done'); pg(3, 'active');
-    render();
-    pg(3, 'done');
-    document.getElementById('resultWrap').style.display = 'flex';
-    // 프로그레스바 유지 (사라지지 않음)
-
-    // 마케터 분석 리포트 (비동기 - 결과 표시 후 실행)
-  
-    document.getElementById('analysisBody').innerHTML = '<div class="analysis-loading"><span class="spin-sm"></span> 분석 중...</div>';
-    generateAnalysis(name, feat, target, S.titles, S.descs, S.imgs).then(html => {
-      document.getElementById('analysisBody').innerHTML = html;
-      // 사이드 패널 업데이트
-      const status = document.getElementById('analysisSideStatus');
-      const preview = document.getElementById('analysisSidePreview');
-      const btn = document.getElementById('analysisOpenBtn');
-      if (status) status.textContent = '분석 완료 ✓';
-      if (preview) {
-        // 전체 섹션에서 핵심 문장 5줄 추출
-        const tmp = document.createElement('div'); tmp.innerHTML = html;
-        // 5줄 요약 섹션 우선, 없으면 전체에서 추출
-        const tmp2 = tmp;
-        const allSections = tmp2.querySelectorAll('.analysis-section');
-        let rawLines = [];
-        allSections.forEach(sec => {
-          const title = sec.querySelector('.analysis-section-title');
-          if (title && title.textContent.includes('5줄 요약')) {
-            const body = sec.querySelector('.analysis-section-content');
-            if (body) {
-              rawLines = body.innerText.split(/\n|<br>/).map(s=>s.trim()).filter(s=>s.length>5).slice(0,5);
-            }
-          }
-        });
-        if (!rawLines.length) {
-          tmp2.querySelectorAll('.analysis-section-content').forEach(el => {
-            el.textContent.split(/[.。]\s+/).map(s=>s.trim()).filter(s=>s.length>10)
-              .forEach(s => { if(rawLines.length<5) rawLines.push(s); });
-          });
-        }
-        const bullets = ['①','②','③','④','⑤'];
-        const summary = rawLines.slice(0,5).map((l,i)=>`<span style="color:var(--g);font-weight:700;margin-right:4px">${bullets[i]}</span>${l}`).join('<br style="margin-bottom:4px">');
-        preview.style.color = '';
-        preview.innerHTML = summary || '분석이 완료되었습니다.';
-        preview.style.transition = 'all .5s';
-        preview.style.color = 'rgba(232,240,254,.92)';
-      }
-      if (btn) { btn.disabled = false; btn.classList.add('done'); setTimeout(()=>btn.classList.remove('done'),5000); }
-    }).catch(() => {
-      document.getElementById('analysisBody').innerHTML = '<div>분석을 불러오지 못했어요.</div>';
-      const status = document.getElementById('analysisSideStatus');
-      if (status) status.textContent = '분석 중 오류 발생';
-    });
-
-  } catch(err) {
-    alert('오류가 발생했습니다:\n' + err.message);
-    [1,2,3].forEach(n => pg(n,''));
-    const pb2 = document.getElementById('progressBar'); if(pb2) pb2.style.display='none';
-    document.getElementById('emptyState').style.display = 'flex';
-  } finally {
-    btn.disabled = false;
-    document.getElementById('genTxt').textContent = '✨ 광고 소재 생성하기';
-  }
-}
-
-// ── 결과 렌더링
-function render() {
-  // 제목
-  const tEl = document.getElementById('titleItems');
-  tEl.innerHTML = '';
-  S.titles.forEach((t, i) => {
-    const len = [...t].length, over = len > 15;
-    const g = i<5?'g1':i<10?'g2':'g3';
-    // 추천 고정 위치 (5개씩 그룹 → 제목1/2/3 추천)
-    const recPin = i<5?'1':i<10?'2':'3';
-    tEl.insertAdjacentHTML('beforeend',
-      `<div class="item" id="t${i}">
-        <button class="plus" onclick="tog('t',${i})">+</button>
-        <div class="txt-wrap">
-          <div class="txt">${esc(t)}</div>
-          <div class="meta">
-            <span class="gtag ${g}">제목${recPin} 추천</span>
-            <span class="cc${over?' over':''}">${len}/15자${over?' ⚠️':''}</span>
-          </div>
-        </div>
-        <select class="pin-sel" id="pin${i}" onchange="onPinChange(${i},this)">
-          <option value="">위치 고정</option>
-          <option value="1">제목 1 고정</option>
-          <option value="2">제목 2 고정</option>
-          <option value="3">제목 3 고정</option>
-        </select>
-      </div>`
-    );
-  });
-  document.getElementById('tBadge').textContent = S.titles.length;
-
-  // 설명
-  const dEl = document.getElementById('descItems');
-  dEl.innerHTML = '';
-  S.descs.forEach((d, i) => {
-    const len = [...d].length, over = len > 45;
-    dEl.insertAdjacentHTML('beforeend',
-      `<div class="item" id="d${i}">
-        <button class="plus" onclick="tog('d',${i})">+</button>
-        <div class="txt-wrap">
-          <div class="txt" contenteditable="true" oninput="onDescEdit(${i},this)" onblur="onDescEdit(${i},this)">${esc(d)}</div>
-          <div class="meta"><span class="cc${over?' over':''}">${len}/45자${over?' ⚠️':''}</span></div>
-        </div>
-        <select class="pin-sel" id="dpin${i}" onchange="onDescPinChange(${i},this)">
-          <option value="">위치 고정</option>
-          <option value="1">설명 1 (앞)</option>
-          <option value="2">설명 2 (뒤)</option>
-        </select>
-      </div>`
-    );
-  });
-  document.getElementById('dBadge').textContent = S.descs.length;
-
-  // 키워드
-  const kwEl = document.getElementById('kwCloud');
-  if (kwEl) kwEl.innerHTML = S.kws.map(k =>
-    `<span class="kw-chip" onclick="cpKw(this)">${esc(k)}</span>`
+function renderDenyList() {
+  const el = document.getElementById('denyList');
+  if (!el) return;
+  el.innerHTML = [...S_DENY].map(w =>
+    `<span class="deny-tag">${esc(w)}<button class="deny-tag-x" onclick="removeDeny('${w}')">✕</button></span>`
   ).join('');
+}
+function removeDeny(w) { S_DENY.delete(w); renderDenyList(); }
 
-  // 5칸 키워드 컬럼 업데이트
-  const g1 = S.titles.slice(0,10), g2 = S.titles.slice(10,20), g3 = S.titles.slice(20,30);
-  ['kwCol1','kwCol2','kwCol3'].forEach((id,gi) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const group = [g1,g2,g3][gi];
-    el.innerHTML = group.map((t,i) => {
-      const sel = S.selT.has(gi*10+i);
-      return `<button class="kw-btn${sel?' kw-on':''}" onclick="tog('t',${gi*10+i});render()">${esc(t)}</button>`;
-    }).join('');
-  });
+function toggleSeason(btn) {
+  const already = btn.classList.contains('on');
+  document.querySelectorAll('#seasonChips .schip').forEach(b => b.classList.remove('on'));
+  if (!already) { btn.classList.add('on'); S_SEASON = btn.textContent.trim(); }
+  else S_SEASON = '';
 }
 
-// 제목 위치 고정 핸들러 (복수 허용)
-function onPinChange(i, sel) {
-  const val = sel.value;
-  sel.className = 'pin-sel' + (val ? ' pinned' : '');
-  if (val && !S.selT.has(i)) tog('t', i);
-  sync();
+function toggleTone(btn) {
+  const already = btn.classList.contains('on');
+  document.querySelectorAll('#toneGrid .tone-btn').forEach(b => b.classList.remove('on'));
+  if (!already) { btn.classList.add('on'); S_TONE = btn.textContent.trim(); }
+  else S_TONE = '';
 }
-
-// 설명 위치 고정 핸들러
-function onDescPinChange(i, sel) {
-  const val = sel.value;
-  // 같은 설명 위치는 1개만
-  if (val) {
-    document.querySelectorAll('[id^="dpin"]').forEach((s, idx) => {
-      if (idx !== i && s.value === val) { s.value=''; s.className='pin-sel'; }
-    });
-  }
-  sel.className = 'pin-sel' + (val ? ' pinned' : '');
-  if (val && !S.selD.has(i)) tog('d', i);
-  sync();
-}
-
-// 제목 직접 편집
-function onTitleEdit(i, el) {
-  const txt = el.textContent.trim();
-  S.titles[i] = txt;
-  const len = [...txt].length, over = len > 15;
-  const cc = document.getElementById('tcc'+i);
-  if (cc) { cc.textContent = len+'/15자'+(over?' ⚠️':''); cc.className='cc'+(over?' over':''); }
-  sync();
-}
-
-// 설명 직접 편집
-function onDescEdit(i, el) {
-  const txt = el.textContent.trim();
-  S.descs[i] = txt;
-  const len = [...txt].length, over = len > 45;
-  const cc = el.closest('.txt-wrap')?.querySelector('.cc');
-  if (cc) { cc.textContent = len+'/45자'+(over?' ⚠️':''); cc.className='cc'+(over?' over':''); }
-  sync();
-}
-
-function cpKw(el) {
-  navigator.clipboard.writeText(el.textContent).catch(()=>{});
-  el.classList.add('copied');
-  setTimeout(() => el.classList.remove('copied'), 800);
-}
-
-// ── 선택 토글
-function tog(type, i) {
-  const set = type==='t' ? S.selT : S.selD;
-  set.has(i) ? set.delete(i) : set.add(i);
-  document.getElementById(type+i).classList.toggle('on', set.has(i));
-  const plusBtn = document.getElementById(type+i).querySelector('.plus');
-  plusBtn.textContent = set.has(i) ? '✓' : '+';
-  sync();
-}
-function selAll(type) {
-  const items = type==='t' ? S.titles : S.descs;
-  const set   = type==='t' ? S.selT   : S.selD;
-  items.forEach((_,i) => {
-    set.add(i);
-    const el = document.getElementById(type+i);
-    if (el) { el.classList.add('on'); el.querySelector('.plus').textContent='✓'; }
-  });
-  sync();
-}
-function rem(type, i) {
-  const set = type==='t' ? S.selT : S.selD;
-  set.delete(i);
-  const el = document.getElementById(type+i);
-  if (el) { el.classList.remove('on'); el.querySelector('.plus').textContent='+'; }
-  sync();
-}
-
-// ── 미리보기 동기화
-function sync() {
-  const ts = [...S.selT].sort((a,b)=>a-b).map(i => S.titles[i]);
-  const ds = [...S.selD].sort((a,b)=>a-b).map(i => S.descs[i]);
-
-  // 제목 핀맵 (복수 허용 - 같은 위치 여러개 가능)
-  const pinMap = {1:[], 2:[], 3:[]};
-  document.querySelectorAll('[id^="pin"]:not([id^="dpin"])').forEach((s) => {
-    const idx = parseInt(s.id.replace('pin',''));
-    if (s.value && S.selT.has(idx)) pinMap[parseInt(s.value)].push(S.titles[idx]);
-  });
-  // 설명 핀맵
-  const descPinMap = {1: null, 2: null};
-  document.querySelectorAll('[id^="dpin"]').forEach((s) => {
-    const idx = parseInt(s.id.replace('dpin',''));
-    if (s.value && S.selD.has(idx)) descPinMap[parseInt(s.value)] = S.descs[idx];
-  });
-
-  // 제목 미리보기 - 핀된 것 우선, 순서대로 최대 3개
-  const slot1 = pinMap[1].length ? pinMap[1] : [];
-  const slot2 = pinMap[2].length ? pinMap[2] : [];
-  const slot3 = pinMap[3].length ? pinMap[3] : [];
-  // 핀 없는 선택항목 채우기
-  const unpinned = ts.filter(t => {
-    const idx = S.titles.indexOf(t);
-    const pin = document.getElementById('pin'+S.titles.indexOf(t));
-    return !pin || !pin.value;
-  });
-  const allSlots = [
-    ...(slot1.length?slot1:unpinned.slice(0,1)),
-    ...(slot2.length?slot2:unpinned.slice(1,2)),
-    ...(slot3.length?slot3:unpinned.slice(2,3))
-  ].filter(Boolean).slice(0,3);
-
-  // 설명 조합
-  const d1 = descPinMap[1] || ds[0] || '';
-  const d2 = descPinMap[2] || ds[1] || '';
-  const pvDTxt = [d1, d2].filter(Boolean).join(' ');
-  // PC 미리보기
-  const pvPcT = document.getElementById('pvPcTitles');
-  if (pvPcT) {
-    if (allSlots.length) {
-      pvPcT.className = 'naver-ad-title';
-      pvPcT.innerHTML = allSlots.join(' · ');
-    } else {
-      pvPcT.className = 'naver-ad-title empty';
-      pvPcT.textContent = '제목을 선택하면 표시됩니다';
-    }
-  }
-  // 칩: 선택된 설명들을 요약 키워드로
-  const pvPcChips = document.getElementById('pvPcChips');
-  if (pvPcChips) {
-    pvPcChips.innerHTML = ds.slice(0,2).map(d => {
-      const words = d.split(/[,·\s]+/).filter(w=>w.length>1).slice(0,2);
-      return words.map(w=>`<span class="naver-ad-chip">${esc(w)}</span>`).join('');
-    }).join('');
-  }
-  const pvPcD = document.getElementById('pvPcDesc');
-  if (pvPcD) {
-    pvPcD.textContent = pvDTxt || '설명을 선택하면 표시됩니다';
-    pvPcD.className = pvDTxt ? 'naver-ad-desc' : 'naver-ad-desc empty';
-  }
-  // 모바일 미리보기
-  const pvMobT = document.getElementById('pvMobTitles');
-  if (pvMobT) {
-    if (allSlots.length) {
-      pvMobT.className = 'naver-mob-title';
-      pvMobT.innerHTML = allSlots.join('<br>');
-    } else {
-      pvMobT.className = 'naver-mob-title empty';
-      pvMobT.textContent = '제목을 선택하면 표시됩니다';
-    }
-  }
-  const pvMobD = document.getElementById('pvMobDesc');
-  if (pvMobD) {
-    pvMobD.textContent = pvDTxt || '설명을 선택하면 표시됩니다';
-    pvMobD.className = pvDTxt ? 'naver-mob-desc' : 'naver-mob-desc empty';
-  }
-  // 모바일 칩
-  const pvMobChips = document.getElementById('pvMobChips');
-  if (pvMobChips) {
-    pvMobChips.innerHTML = ds.slice(0,3).map(d => {
-      const words = d.split(/[,·\s]+/).filter(w=>w.length>1).slice(0,2);
-      return words.map(w=>`<span class="naver-mob-chip">${esc(w)}</span>`).join('');
-    }).join('');
-  }
-
-  document.getElementById('sTCnt').textContent = ts.length+'개';
-  document.getElementById('sDCnt').textContent = ds.length+'개';
-
-  // 선택 목록 - 핀 정보 표시
-  document.getElementById('sTList').innerHTML = ts.length
-    ? [...S.selT].sort((a,b)=>a-b).map(i => {
-        const pin = document.getElementById('pin'+i)?.value;
-        const badge = pin ? `<span style="font-size:10px;color:var(--blue);font-weight:700;margin-right:4px">[제목${pin}]</span>` : '';
-        return `<div class="sel-item">${badge}<span contenteditable="true" style="flex:1;outline:none;cursor:text" oninput="S.titles[${i}]=this.textContent.trim();sync()" onblur="S.titles[${i}]=this.textContent.trim()">${esc(S.titles[i])}</span><button class="sel-x" onclick="rem('t',${i})">×</button></div>`;
-      }).join('')
-    : '<div class="sel-empty">선택 없음</div>';
-  document.getElementById('sDList').innerHTML = ds.length
-    ? [...S.selD].sort((a,b)=>a-b).map(i => {
-        const pin = document.getElementById('dpin'+i)?.value;
-        const badge = pin ? `<span style="font-size:10px;color:var(--green);font-weight:700;margin-right:4px">[설명${pin}]</span>` : '';
-        return `<div class="sel-item">${badge}${esc(S.descs[i])}<button class="sel-x" onclick="rem('d',${i})">×</button></div>`;
-      }).join('')
-    : '<div class="sel-empty">선택 없음</div>';
-
-  const tsb = document.getElementById('tSelBadge');
-  if (ts.length) { tsb.style.display=''; tsb.textContent='✓ '+ts.length+'개 선택'; } else tsb.style.display='none';
-  const dsb = document.getElementById('dSelBadge');
-  if (ds.length) { dsb.style.display=''; dsb.textContent='✓ '+ds.length+'개 선택'; } else dsb.style.display='none';
-
-  // export button removed
-}
-
-// ── CSV
-function exportCSV() {
-  const ts = [...S.selT].map(i => S.titles[i]);
-  const ds = [...S.selD].map(i => S.descs[i]);
-  const url = document.getElementById('storeUrl').value || 'https://smartstore.naver.com/';
-  const name = document.getElementById('productName').value;
-  let csv = '\ufeff제목,설명,표시URL\n';
-  const rows = Math.max(ts.length, ds.length, 1);
-  for (let i=0; i<rows; i++) csv += `"${ts[i]||''}","${ds[Math.min(i,ds.length-1)]||''}","${url}"\n`;
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8;'}));
-  a.download = `파워링크_${name}_${new Date().toLocaleDateString('ko')}.csv`;
-  a.click();
-}
-
-// ── 헤더 시계
-function startClock() {
-  const days = ['일','월','화','수','목','금','토'];
-  function tick() {
-    const now = new Date();
-    const h = String(now.getHours()).padStart(2,'0');
-    const m = String(now.getMinutes()).padStart(2,'0');
-    const s = String(now.getSeconds()).padStart(2,'0');
-    const el = document.getElementById('hClockTime');
-    if (el) el.textContent = h + ':' + m + ':' + s;
-    const dateEl = document.getElementById('hClockDate');
-    if (dateEl) {
-      const y = now.getFullYear();
-      const mo = now.getMonth()+1;
-      const d = now.getDate();
-      const day = days[now.getDay()];
-      dateEl.textContent = y+'년 '+mo+'월 '+d+'일 ('+day+') KST';
-    }
-  }
-  tick();
-  setInterval(tick, 1000);
-}
-startClock();
-
-function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;')}
-
 
 function switchResultTab(tab) {
   ['t','d'].forEach(t => {
@@ -1774,135 +1466,384 @@ function switchResultTab(tab) {
 
 function switchPvTab(tab) {}
 
+// ── 유틸
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;')}
+function cpKw(el){ el.textContent && navigator.clipboard && navigator.clipboard.writeText(el.textContent); el.classList.add('kw-on'); setTimeout(()=>el.classList.remove('kw-on'),1200); }
 
-
-function switchResultTab(tab) {
-  ['t','d'].forEach(t => {
-    const btn = document.getElementById('rtab'+t.toUpperCase());
-    const pane = document.getElementById('rpane'+t.toUpperCase());
-    if(btn) btn.classList.toggle('active', t===tab);
-    if(pane) pane.classList.toggle('active', t===tab);
-  });
-}
-function switchPvTab(){}
-
-
-
-function switchResultTab(tab) {
-  ['t','d'].forEach(t => {
-    const btn = document.getElementById('rtab'+t.toUpperCase());
-    const pane = document.getElementById('rpane'+t.toUpperCase());
-    if(btn) btn.classList.toggle('active', t===tab);
-    if(pane) pane.classList.toggle('active', t===tab);
-  });
-}
-function switchPvTab(){}
-
-// ══ 별 파티클 배경 ══
-(function() {
-  const canvas = document.getElementById('starCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let W, H, stars = [], meteors = [];
-  const N_STARS = 180, N_METEORS = 3;
-
-  function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
+// ── 시계
+(function initClock(){
+  function tick(){
+    const now=new Date();
+    const t=document.getElementById('hClockTime');
+    const d=document.getElementById('hClockDate');
+    if(t) t.textContent=now.toLocaleTimeString('ko-KR',{hour12:false});
+    if(d) d.textContent=now.toLocaleDateString('ko-KR',{month:'short',day:'numeric',weekday:'short'});
   }
-
-  function mkStar() {
-    return {
-      x: Math.random() * W,
-      y: Math.random() * H,
-      r: Math.random() * 1.4 + .2,
-      o: Math.random() * .7 + .2,
-      twinkle: Math.random() * .02 + .004,
-      phase: Math.random() * Math.PI * 2,
-      color: Math.random() > .85 ? '#03C75A' : Math.random() > .7 ? '#3385ff' : '#e8f0fe'
-    };
-  }
-
-  function mkMeteor() {
-    return {
-      x: Math.random() * W,
-      y: Math.random() * H * .5,
-      len: Math.random() * 120 + 60,
-      speed: Math.random() * 3 + 2,
-      opacity: 0,
-      fade: 0,  // 0=in 1=out
-      active: false,
-      delay: Math.random() * 8000 + 2000
-    };
-  }
-
-  function init() {
-    resize();
-    stars = Array.from({length: N_STARS}, mkStar);
-    meteors = Array.from({length: N_METEORS}, mkMeteor);
-  }
-
-  let last = 0;
-  function draw(ts) {
-    ctx.clearRect(0, 0, W, H);
-    const t = ts * .001;
-
-    // 별
-    stars.forEach(s => {
-      s.phase += s.twinkle;
-      const alpha = s.o * (.6 + .4 * Math.sin(s.phase));
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = s.color;
-      ctx.globalAlpha = alpha;
-      ctx.fill();
-      // 가끔 십자 빛줄기
-      if (s.r > 1.2 && Math.sin(s.phase * .3) > .7) {
-        ctx.globalAlpha = alpha * .4;
-        ctx.strokeStyle = s.color;
-        ctx.lineWidth = .5;
-        ctx.beginPath();
-        ctx.moveTo(s.x - s.r*3, s.y);
-        ctx.lineTo(s.x + s.r*3, s.y);
-        ctx.moveTo(s.x, s.y - s.r*3);
-        ctx.lineTo(s.x, s.y + s.r*3);
-        ctx.stroke();
-      }
-    });
-
-    // 유성
-    meteors.forEach(m => {
-      if (!m.active) {
-        m.delay -= 16;
-        if (m.delay <= 0) { m.active = true; m.opacity = 0; m.fade = 0; }
-        return;
-      }
-      m.x += m.speed * 1.5;
-      m.y += m.speed;
-      if (m.fade === 0) { m.opacity = Math.min(m.opacity + .06, .9); if (m.opacity >= .9) m.fade = 1; }
-      else { m.opacity = Math.max(m.opacity - .03, 0); }
-      if (m.opacity <= 0 && m.fade === 1) { Object.assign(m, mkMeteor()); m.active = false; return; }
-      const grd = ctx.createLinearGradient(m.x, m.y, m.x - m.len * 1.5, m.y - m.len);
-      grd.addColorStop(0, `rgba(255,255,255,${m.opacity})`);
-      grd.addColorStop(.4, `rgba(3,199,90,${m.opacity * .5})`);
-      grd.addColorStop(1, 'rgba(3,199,90,0)');
-      ctx.globalAlpha = 1;
-      ctx.strokeStyle = grd;
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(m.x, m.y);
-      ctx.lineTo(m.x - m.len * 1.5, m.y - m.len);
-      ctx.stroke();
-    });
-
-    ctx.globalAlpha = 1;
-    requestAnimationFrame(draw);
-  }
-
-  window.addEventListener('resize', () => { resize(); stars = Array.from({length: N_STARS}, mkStar); });
-  init();
-  requestAnimationFrame(draw);
+  tick(); setInterval(tick,1000);
 })();
+
+// ── 분석 모달 열기
+function openAnalysisModal(){
+  const m=document.getElementById('analysisModal');
+  const b=document.getElementById('analysisBody');
+  const mb=document.getElementById('analysisModalBody');
+  if(!m) return;
+  if(b && mb) mb.innerHTML = b.innerHTML || '<div class="analysis-loading"><span class="spin-sm"></span> 분석 중...</div>';
+  m.classList.remove('hidden');
+}
+
+// ── 렌더링
+function render(){
+  const tEl=document.getElementById('titleItems');
+  if(tEl){
+    tEl.innerHTML='';
+    S.titles.forEach((t,i)=>{
+      const len=[...t].length, over=len>15;
+      const g=i<10?'g1':i<20?'g2':'g3';
+      const recPin=i<10?'1':i<20?'2':'3';
+      const on=S.selT.has(i);
+      tEl.insertAdjacentHTML('beforeend',`<div class="item${on?' on':''}" id="t${i}">
+        <button class="plus" onclick="tog('t',${i})">${on?'✓':'+'}</button>
+        <div class="txt-wrap">
+          <div class="txt">${esc(t)}</div>
+          <div class="meta">
+            <span class="badge-tag">${recPin}번 추천</span>
+            <span class="cc${over?' over':''}">${len}/15자${over?' ⚠️':''}</span>
+          </div>
+        </div>
+        <select class="pin-sel${S.selT.has(i)?' pinned':''}" id="pin${i}" onchange="onPinChange(${i},this)">
+          <option value="">위치 고정</option>
+          <option value="1">제목 1</option>
+          <option value="2">제목 2</option>
+          <option value="3">제목 3</option>
+        </select>
+      </div>`);
+    });
+    const tb=document.getElementById('tBadge');
+    if(tb) tb.textContent=S.titles.length;
+    const tSel=document.getElementById('tSelBadge');
+    if(tSel){tSel.textContent=S.selT.size+'선택';tSel.style.display=S.selT.size?'':'none';}
+  }
+
+  const dEl=document.getElementById('descItems');
+  if(dEl){
+    dEl.innerHTML='';
+    S.descs.forEach((d,i)=>{
+      const len=[...d].length, over=len>45;
+      const on=S.selD.has(i);
+      dEl.insertAdjacentHTML('beforeend',`<div class="item${on?' on':''}" id="d${i}">
+        <button class="plus" onclick="tog('d',${i})">${on?'✓':'+'}</button>
+        <div class="txt-wrap">
+          <div class="txt" contenteditable="true" oninput="onDescEdit(${i},this)" onblur="onDescEdit(${i},this)">${esc(d)}</div>
+          <div class="meta"><span class="cc${over?' over':''}">${len}/45자${over?' ⚠️':''}</span></div>
+        </div>
+        <select class="pin-sel" id="dpin${i}" onchange="onDescPinChange(${i},this)">
+          <option value="">위치 고정</option>
+          <option value="1">설명 1 (앞)</option>
+          <option value="2">설명 2 (뒤)</option>
+        </select>
+      </div>`);
+    });
+    const db=document.getElementById('dBadge');
+    if(db) db.textContent=S.descs.length;
+    const dSel=document.getElementById('dSelBadge');
+    if(dSel){dSel.textContent=S.selD.size+'선택';dSel.style.display=S.selD.size?'':'none';}
+  }
+
+  // 5칸 키워드 컬럼
+  ['kwCol1','kwCol2','kwCol3'].forEach((id,gi)=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    const grp=S.titles.slice(gi*10,(gi+1)*10);
+    el.innerHTML=grp.map((t,i)=>{
+      const ri=gi*10+i, on=S.selT.has(ri);
+      return `<button class="kw-btn${on?' kw-on':''}" onclick="tog('t',${ri});render()">${esc(t)}</button>`;
+    }).join('');
+  });
+
+  // 선택 목록
+  updateSelList();
+  sync();
+}
+
+function updateSelList(){
+  const ts=[...S.selT].sort((a,b)=>a-b);
+  const ds=[...S.selD].sort((a,b)=>a-b);
+  const tl=document.getElementById('sTList');
+  const tc=document.getElementById('sTCnt');
+  const dl=document.getElementById('sDList');
+  const dc=document.getElementById('sDCnt');
+  if(tl) tl.innerHTML=ts.length?ts.map(i=>`<div class="sel-item"><span>${esc(S.titles[i])}</span><button class="sel-x" onclick="tog('t',${i})">✕</button></div>`).join(''):'<div class="sel-empty">선택 없음</div>';
+  if(tc) tc.textContent=ts.length+'개';
+  if(dl) dl.innerHTML=ds.length?ds.map(i=>`<div class="sel-item"><span>${esc(S.descs[i])}</span><button class="sel-x" onclick="tog('d',${i})">✕</button></div>`).join(''):'<div class="sel-empty">선택 없음</div>';
+  if(dc) dc.textContent=ds.length+'개';
+}
+
+// ── 선택 토글
+function tog(type, i){
+  const set=type==='t'?S.selT:S.selD;
+  if(set.has(i)) set.delete(i); else set.add(i);
+  render();
+}
+
+// ── 핀 변경
+function onPinChange(i,sel){
+  sel.className='pin-sel'+(sel.value?' pinned':'');
+  if(sel.value && !S.selT.has(i)) tog('t',i);
+  sync();
+}
+function onDescPinChange(i,sel){
+  sel.className='pin-sel'+(sel.value?' pinned':'');
+  if(sel.value && !S.selD.has(i)) tog('d',i);
+  sync();
+}
+function onDescEdit(i,el){
+  const txt=el.textContent||'';
+  S.descs[i]=[...txt].slice(0,45).join('');
+  const cc=el.closest('.item')?.querySelector('.cc');
+  if(cc){const l=[...S.descs[i]].length;cc.textContent=l+'/45자'+(l>45?' ⚠️':'');cc.className='cc'+(l>45?' over':'');}
+  sync();
+}
+
+// ── 미리보기 동기화
+function sync(){
+  const ts=[...S.selT].sort((a,b)=>a-b).map(i=>S.titles[i]);
+  const ds=[...S.selD].sort((a,b)=>a-b).map(i=>S.descs[i]);
+
+  // 핀맵
+  const pinMap={1:[],2:[],3:[]};
+  document.querySelectorAll('[id^="pin"]:not([id^="dpin"])').forEach(s=>{
+    const idx=parseInt(s.id.replace('pin',''));
+    if(s.value && S.selT.has(idx)) pinMap[parseInt(s.value)].push(S.titles[idx]);
+  });
+  const descPinMap={1:null,2:null};
+  document.querySelectorAll('[id^="dpin"]').forEach(s=>{
+    const idx=parseInt(s.id.replace('dpin',''));
+    if(s.value && S.selD.has(idx)) descPinMap[parseInt(s.value)]=S.descs[idx];
+  });
+
+  const unpinned=ts.filter(t=>{
+    const idx=S.titles.indexOf(t);
+    const pin=document.getElementById('pin'+idx);
+    return !pin||!pin.value;
+  });
+  const allSlots=[
+    ...(pinMap[1].length?pinMap[1]:unpinned.slice(0,1)),
+    ...(pinMap[2].length?pinMap[2]:unpinned.slice(1,2)),
+    ...(pinMap[3].length?pinMap[3]:unpinned.slice(2,3))
+  ].slice(0,3);
+
+  const pvDTxt=descPinMap[1]||(ds[0]||'');
+
+  // PC 미리보기
+  const pvPcT=document.getElementById('pvPcTitles');
+  if(pvPcT){
+    if(allSlots.length){
+      pvPcT.className='naver-ad-title';
+      pvPcT.innerHTML=allSlots.map(t=>`<div>${esc(t)}</div>`).join('');
+    } else {
+      pvPcT.className='naver-ad-title empty';
+      pvPcT.textContent='제목을 선택하면 표시됩니다';
+    }
+  }
+  const pvPcD=document.getElementById('pvPcDesc');
+  if(pvPcD){pvPcD.textContent=pvDTxt||'설명을 선택하면 표시됩니다';pvPcD.className=pvDTxt?'naver-ad-desc':'naver-ad-desc empty';}
+  const pvPcChips=document.getElementById('pvPcChips');
+  if(pvPcChips) pvPcChips.innerHTML=ds.slice(0,3).flatMap(d=>d.split(/[,·\s]+/).filter(w=>w.length>1).slice(0,2)).slice(0,5).map(w=>`<span class="naver-ad-chip">${esc(w)}</span>`).join('');
+  const pvPcThumb=document.getElementById('pvPcThumb');
+  if(pvPcThumb&&S.imgs.length) pvPcThumb.innerHTML=`<img src="${S.imgs[0].url}" style="width:100%;height:100%;object-fit:cover"/>`;
+
+  // 모바일 미리보기
+  const mobContainer=document.getElementById('pvMobTitleList');
+  if(mobContainer){
+    if(allSlots.length){
+      const thumbHtml=S.imgs.length?`<div class="naver-mob-thumb"><img src="${S.imgs[0].url}" style="width:100%;height:100%;object-fit:cover"/></div>`:`<div class="naver-mob-thumb" style="font-size:18px">🏪</div>`;
+      const chips=pvDTxt?pvDTxt.split(/[,·\s]+/).filter(w=>w.length>1).slice(0,3).map(w=>`<span class="naver-mob-chip">${esc(w)}</span>`).join(''):'';
+      mobContainer.innerHTML=allSlots.map((t,i)=>`
+        <div class="mob-ad-card${i>0?' mob-ad-card--sub':''}">
+          <div class="naver-mob-meta" style="margin-bottom:6px">
+            <div class="naver-mob-logo">S</div>
+            <span class="naver-mob-store">스마트스토어</span>
+            <span style="color:#ddd;font-size:9px">·</span>
+            <span class="naver-mob-url">smartstore.naver.com</span>
+            <span class="naver-mob-badge">광고</span>
+          </div>
+          <div class="naver-mob-row">
+            <div class="naver-mob-body">
+              <div class="naver-mob-title">${esc(t)}</div>
+              ${i===0&&pvDTxt?`<div class="naver-mob-desc">${esc(pvDTxt)}</div>`:''}
+            </div>
+            ${i===0?thumbHtml:''}
+          </div>
+          ${i===0&&chips?`<div class="naver-mob-chips">${chips}</div>`:''}
+        </div>`).join('');
+    } else {
+      mobContainer.innerHTML=`<div class="mob-ad-empty">
+        <div class="naver-mob-meta"><div class="naver-mob-logo">S</div><span class="naver-mob-store">스마트스토어</span><span class="naver-mob-badge">광고</span></div>
+        <div class="naver-mob-title empty">제목을 선택하면 표시됩니다</div>
+        <div class="naver-mob-desc empty">설명을 선택하면 표시됩니다</div>
+      </div>`;
+    }
+  }
+}
+
+// ── 메인 생성 함수
+async function generate(){
+  if(!API_KEY){openKeyModal();return;}
+  const name=document.getElementById('productName').value.trim();
+  if(!name){alert('상품명을 입력해주세요.');return;}
+
+  const featSlots=[...document.querySelectorAll('#featSlots .feat-slot input')].map(el=>el.value.trim()).filter(Boolean);
+  const feat=featSlots.join(', ');
+  const target=document.getElementById('target')?.value.trim()||'';
+  const event=document.getElementById('eventInput')?.value.trim()||'';
+  const denyWords=[...S_DENY];
+
+  const btn=document.getElementById('genBtn');
+  btn.disabled=true;
+  document.getElementById('genTxt').innerHTML='<span class="spin"></span> 분석 중...';
+  document.getElementById('pbarFill').style.width='0%';
+  document.getElementById('emptyState').style.display='none';
+  document.getElementById('resultWrap').style.display='none';
+
+  S.selT=new Set(); S.selD=new Set();
+
+  const sideStatus=document.getElementById('analysisSideStatus');
+  const sidePreview=document.getElementById('analysisSidePreview');
+  const sideBtn=document.getElementById('analysisOpenBtn');
+  const apProg=document.getElementById('analysisProgress');
+  if(sideStatus) sideStatus.textContent='분석 시작...';
+  if(sidePreview) sidePreview.style.display='none';
+  if(sideBtn) sideBtn.disabled=true;
+  if(apProg) apProg.style.display='block';
+
+  const estSecs=12+S.imgs.length*2;
+  const timerVal=document.getElementById('apTimerVal');
+  if(timerVal) timerVal.textContent=`약 ${estSecs}초`;
+
+  function apStep(n){
+    ['apStep1','apStep2','apStep3','apStep4'].forEach((id,i)=>{
+      const el=document.getElementById(id);
+      if(!el) return;
+      if(i+1<n) el.className='ap-step-row done';
+      else if(i+1===n) el.className='ap-step-row active';
+      else el.className='ap-step-row';
+    });
+  }
+
+  pg(1,'active');
+
+  try{
+    const promptParts=[`상품명: ${name}`];
+    if(feat) promptParts.push(`핵심 특징: ${feat}`);
+    if(target) promptParts.push(`타겟 고객: ${target}`);
+    if(S_SEASON) promptParts.push(`시즌/이벤트: ${S_SEASON}`);
+    if(event) promptParts.push(`이벤트 문구: ${event}`);
+    if(S_TONE) promptParts.push(`광고 어조: ${S_TONE}`);
+    if(denyWords.length) promptParts.push(`절대 사용 금지 단어: ${denyWords.join(', ')}`);
+    const prompt=promptParts.join('\n')+'\n\n위 상품의 네이버 파워링크 광고 소재를 생성해주세요.';
+
+    let content;
+    if(S.imgs.length>0){
+      content=S.imgs.map(img=>({type:'image',source:{type:'base64',media_type:img.type||'image/jpeg',data:img.b64}}));
+      content.push({type:'text',text:prompt});
+    } else {
+      content=prompt;
+    }
+
+    apStep(1); if(sideStatus) sideStatus.textContent='상품명 분석 중...';
+    if(S.imgs.length>0){apStep(2);if(sideStatus)sideStatus.textContent='이미지 분석 중...';}
+    pg(1,'done');pg(2,'active');
+    document.getElementById('genTxt').innerHTML='<span class="spin"></span> 소재 작성 중...';
+
+    const raw=await callClaude(
+      `당신은 네이버 파워링크 광고 전문가입니다.
+반드시 순수 JSON만 응답하세요. 코드블록, 설명, 다른 텍스트 절대 금지.
+생성 규칙:
+- 제목: 15자 이내, 정확히 30개. 숫자·혜택·타겟을 활용한 클릭 유도 문구. 다양한 각도로 작성.
+- 설명: 반드시 45자 이하(공백 포함). 정확히 12개. 핵심 혜택을 구체적으로, 43~45자로 꽉 채울 것. 45자 초과 절대 금지.
+- 타겟 고객이 있으면 해당 타겟의 언어와 관심사에 맞게 작성.
+- 금지 표현: 최고·최저·1위·최상·특가·최대·최저가·압도적·완벽·탁월·월등·독보적·보장·무조건·100% 효과 등 최상급·과장 표현 절대 금지.
+- 근거 없는 효능 과장 금지. 구체적 수치나 사실 기반으로만 작성.
+형식: {"titles":["..."],"descs":["..."]}`,
+      content
+    );
+
+    let parsed;
+    try{parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());}
+    catch(e){throw new Error('결과 파싱 실패. 다시 시도해주세요.');}
+
+    S.titles=(parsed.titles||[]).map(t=>[...t].slice(0,15).join(''));
+    S.descs=(parsed.descs||[]).map(d=>[...d].slice(0,45).join(''));
+    S.kws=[];
+
+    pg(2,'done');
+    apStep(3); if(sideStatus) sideStatus.textContent='광고 전략 수립 중...';
+    document.getElementById('genTxt').innerHTML='<span class="spin"></span> 리포트 분석 중...';
+    pg(3,'active');
+
+    document.getElementById('analysisBody').innerHTML='<div class="analysis-loading"><span class="spin"></span> 마케터 분석 리포트 생성 중...</div>';
+    apStep(4); if(sideStatus) sideStatus.textContent='리포트 작성 중...';
+
+    generateAnalysis(name, feat, target, S.titles, S.descs, S.imgs).then(html=>{
+      document.getElementById('analysisBody').innerHTML=html;
+      if(apProg) apProg.style.display='none';
+
+      render();
+      pg(3,'done');pg(4,'active');
+      document.getElementById('pbarFill').style.width='100%';
+      document.getElementById('resultWrap').style.display='flex';
+      setTimeout(()=>document.getElementById('resultWrap').scrollIntoView({behavior:'smooth',block:'start'}),300);
+      pg(4,'done');
+      document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
+      btn.disabled=false;
+      if(sidePreview) sidePreview.style.display='block';
+
+      const status=document.getElementById('analysisSideStatus');
+      const preview=document.getElementById('analysisSidePreview');
+      const openBtn=document.getElementById('analysisOpenBtn');
+      if(status) status.textContent='분석 완료 ✓';
+      if(preview){
+        const tmp=document.createElement('div'); tmp.innerHTML=html;
+        const allSections=tmp.querySelectorAll('.analysis-section');
+        let rawLines=[];
+        allSections.forEach(sec=>{
+          const title=sec.querySelector('.analysis-section-title');
+          if(title&&title.textContent.includes('5줄 요약')){
+            const body=sec.querySelector('.analysis-section-content');
+            if(body) rawLines=body.innerText.split(/\n/).map(s=>s.trim()).filter(s=>s.length>5).slice(0,5);
+          }
+        });
+        if(!rawLines.length){
+          tmp.querySelectorAll('.analysis-section-content').forEach(el=>{
+            el.textContent.split(/[.。]\s+/).map(s=>s.trim()).filter(s=>s.length>10).forEach(s=>{if(rawLines.length<5)rawLines.push(s);});
+          });
+        }
+        const bullets=['①','②','③','④','⑤'];
+        preview.innerHTML=rawLines.slice(0,5).map((l,i)=>`<span style="color:var(--g);font-weight:700;margin-right:4px">${bullets[i]}</span>${l}`).join('<br>');
+        preview.style.color='';
+      }
+      if(openBtn){openBtn.disabled=false;openBtn.classList.add('done');setTimeout(()=>openBtn.classList.remove('done'),5000);}
+    }).catch(()=>{
+      document.getElementById('analysisBody').innerHTML='<div>분석을 불러오지 못했어요.</div>';
+      render();
+      pg(3,'done');pg(4,'active');
+      document.getElementById('resultWrap').style.display='flex';
+      pg(4,'done');
+      document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
+      btn.disabled=false;
+      if(apProg) apProg.style.display='none';
+    });
+
+  } catch(e){
+    document.getElementById('emptyState').style.display='';
+    if(apProg) apProg.style.display='none';
+    console.error(e);
+    alert('오류: '+e.message);
+    btn.disabled=false;
+    document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
+  }
+}
 
 </script>
 </body>
