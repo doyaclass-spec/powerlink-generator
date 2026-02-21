@@ -136,7 +136,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
 .input-sticky-card{background:transparent}
 .input-grid-wrap{
   display:grid;
-  grid-template-columns:1.8fr 2fr 1.2fr 1.6fr;
+  grid-template-columns:1fr 1fr 1fr 1fr;
   gap:0;
   padding:10px 16px 10px;
   border-bottom:1px solid rgba(255,255,255,.08);
@@ -169,7 +169,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
 .analysis-inline{display:flex;align-items:center;gap:10px;flex:1;background:rgba(0,0,0,.2);border-radius:7px;padding:6px 11px;border:1px solid rgba(255,255,255,.08)}
 .analysis-inline-dot{font-size:16px;flex-shrink:0}
 .analysis-inline-status{font-size:10px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:1px}
-.analysis-inline-preview{font-size:9px;color:rgba(255,255,255,.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.analysis-inline-preview{font-size:9px;color:rgba(255,255,255,.5);display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;line-height:1.6;min-height:70px}
 .analysis-inline-btn{background:rgba(3,199,90,.15);border:1px solid rgba(3,199,90,.3);color:var(--green);border-radius:5px;padding:4px 10px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s;flex-shrink:0}
 .analysis-inline-btn:hover{background:rgba(3,199,90,.25)}
 .analysis-inline-btn:disabled{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08);color:rgba(255,255,255,.2);cursor:not-allowed}
@@ -226,7 +226,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
 .analysis-mini{background:linear-gradient(135deg,#0B1829,#162b45);border-radius:var(--radius);padding:10px 12px;border:1px solid rgba(255,255,255,.06)}
 .analysis-mini-title{font-size:10px;font-weight:800;color:#fff;margin-bottom:2px;display:flex;align-items:center;gap:5px}
 .analysis-mini-status{font-size:9px;color:rgba(255,255,255,.4);margin-bottom:6px}
-.analysis-mini-preview{font-size:9px;color:rgba(255,255,255,.6);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:7px;min-height:36px}
+.analysis-mini-preview{font-size:9px;color:rgba(255,255,255,.6);line-height:1.6;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:7px;min-height:60px}
 .analysis-mini-btn{background:rgba(3,199,90,.12);border:1px solid rgba(3,199,90,.25);color:var(--green);border-radius:5px;padding:5px 10px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;transition:all .15s}
 .analysis-mini-btn:hover{background:rgba(3,199,90,.22)}
 .analysis-mini-btn:disabled{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.08);color:rgba(255,255,255,.2);cursor:not-allowed}
@@ -456,7 +456,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v2.8</span>
+    <span class="h-version">v2.9</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -1042,6 +1042,8 @@ async function generateAnalysis(name, feat, target, titles, descs, imgs) {
 ${inputLines.join('\n')}
 
 [작성 지침]
+가장 먼저 <section title="📋 5줄 요약">핵심 내용을 5문장으로 요약. 각 문장은 줄바꿈으로 구분.</section> 을 작성하세요.
+그 다음 아래 항목들을 각각 <section> 으로 작성:
 ${guideLines.join('\n')}
 
 각 섹션을 <section title="섹션제목">내용</section> 형태로 구분해서 응답하세요.
@@ -1199,13 +1201,29 @@ async function generate() {
       const btn = document.getElementById('analysisOpenBtn');
       if (status) status.textContent = '분석 완료 ✓';
       if (preview) {
-        // 첫 섹션 텍스트 추출해서 미리보기로
+        // 전체 섹션에서 핵심 문장 5줄 추출
         const tmp = document.createElement('div'); tmp.innerHTML = html;
-        const firstContent = tmp.querySelector('.analysis-section-content');
-        if (firstContent) {
-          preview.style.color = 'var(--gray-600)';
-          preview.innerHTML = firstContent.innerHTML;
+        // 5줄 요약 섹션 우선, 없으면 전체에서 추출
+        const tmp2 = tmp;
+        const allSections = tmp2.querySelectorAll('.analysis-section');
+        let summary = '';
+        allSections.forEach(sec => {
+          const title = sec.querySelector('.analysis-section-title');
+          if (title && title.textContent.includes('5줄 요약')) {
+            const body = sec.querySelector('.analysis-section-content');
+            if (body) summary = body.innerHTML;
+          }
+        });
+        if (!summary) {
+          const lines = [];
+          tmp2.querySelectorAll('.analysis-section-content').forEach(el => {
+            el.textContent.split(/[.。]\s+/).map(s=>s.trim()).filter(s=>s.length>10)
+              .forEach(s => { if(lines.length<5) lines.push(s); });
+          });
+          summary = lines.join('<br>');
         }
+        preview.style.color = '';
+        preview.innerHTML = summary || '분석이 완료되었습니다.';
       }
       if (btn) { btn.disabled = false; }
     }).catch(() => {
