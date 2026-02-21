@@ -1212,12 +1212,12 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .inputs-locked .input-grid::after,
 .inputs-locked .input-grid-b::after,
 .inputs-locked .enhance-row::after{
-  content:'⏳ 분석 중 — 입력이 잠겨 있습니다';
+  content:'';
   position:absolute;inset:0;z-index:10;
-  background:rgba(5,12,22,.6);backdrop-filter:blur(3px);
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;font-weight:700;color:var(--g);
-  letter-spacing:.5px;border-radius:10px;pointer-events:all;
+  background:transparent;
+  pointer-events:all;
+  border-radius:10px;
+  cursor:not-allowed;
 }
 /* 생성 버튼 카운트다운 표시 */
 .gen-btn .btn-countdown{
@@ -1353,7 +1353,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v5.0</span>
+    <span class="h-version">v5.2</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -1373,7 +1373,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 <!-- 히어로 -->
 <section class="hero">
   <div class="hero-eyebrow">✦ Naver Powerlink · AI Copy Generator · Powered by Gemini</div>
-  <h1>상품명만 입력하면 <em>AI가 클릭률 높은 파워링크 소재</em>를 자동으로 만들어 드립니다</h1>
+  <h1><em>AI가 클릭률 높은 파워링크 소재</em>를 자동으로 만들어 드립니다</h1>
   <p class="hero-sub"><strong>제목 30개 · 설명 12개</strong> 자동 생성 &nbsp;·&nbsp; 마케터 AI 분석 리포트 &nbsp;·&nbsp; 실시간 네이버 미리보기</p>
 </section>
 
@@ -1448,7 +1448,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
               <div class="upload-zone" id="uploadZone">
                 <input type="file" id="fileInput" accept="image/*" multiple onchange="onFile(event)" />
                 <div class="upl-icon">🖼️</div>
-                <div class="upl-text">드래그 또는 클릭</div>
+                <div class="upl-text">드래그 또는 클릭 (최대 3장)</div>
                 <div class="upl-count" id="uplCount" style="display:none"></div>
               </div>
               <div class="img-grid" id="imgGrid"></div>
@@ -1860,7 +1860,7 @@ function updateKeyHeader(ok) {
 }
 
 // ── 이미지 업로드 (최대 10장, 자동 압축)
-const MAX_IMGS = 10;
+const MAX_IMGS = 3;
 const IMG_MAX_PX = 800;   // 최대 가로/세로
 const IMG_QUALITY = 0.65; // JPEG 품질 (65%)
 
@@ -2879,9 +2879,8 @@ async function generate(){
 
     let content;
     if(S.imgs.length>0){
-      // 소재 생성용 이미지: 1장만 (핵심 원인 — 이미지 많을수록 응답 수~분 지연)
-      const genImg = S.imgs[0];
-      content=[{type:'image',source:{type:'base64',media_type:genImg.type||'image/jpeg',data:genImg.b64}}];
+      // 최대 3장 전송 (MAX_IMGS=3 기준, 3장 이내면 전체 전송)
+      content=S.imgs.map(img=>({type:'image',source:{type:'base64',media_type:img.type||'image/jpeg',data:img.b64}}));
       content.push({type:'text',text:prompt});
     } else {
       content=prompt;
