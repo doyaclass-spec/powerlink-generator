@@ -155,6 +155,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;color:var(--gray-8
 }
 .h-title{font-size:15px;font-weight:700;color:#fff}
 .h-sub{font-size:11px;color:rgba(255,255,255,.4);margin-left:2px}
+.h-version{font-size:10px;font-weight:700;color:rgba(3,199,90,.7);background:rgba(3,199,90,.12);border:1px solid rgba(3,199,90,.2);border-radius:4px;padding:1px 6px;margin-left:6px;letter-spacing:.3px}
 .header-right{display:flex;align-items:center;gap:10px}
 .api-status{
   display:flex;align-items:center;gap:6px;
@@ -597,6 +598,17 @@ button { -webkit-tap-highlight-color: transparent; }
 }
 .item { animation: itemIn .2s ease both; }
 
+
+.feat-add-btn{
+  display:flex;align-items:center;gap:5px;margin-top:7px;
+  background:none;border:1.5px dashed var(--gray-200);border-radius:8px;
+  padding:8px 14px;font-size:12px;font-weight:600;color:var(--gray-400);
+  cursor:pointer;font-family:inherit;transition:all .15s;width:100%;
+  justify-content:center;
+}
+.feat-add-btn:hover{border-color:var(--green);color:var(--green);background:rgba(3,199,90,.04)}
+.feat-add-btn:disabled{opacity:.4;cursor:not-allowed}
+
 /* 반응형 */
 @media(max-width:1100px){.main{grid-template-columns:320px 1fr}.preview-panel{display:none}}
 @media(max-width:720px){.main{grid-template-columns:1fr}.hero h2{font-size:20px}}
@@ -665,7 +677,7 @@ button { -webkit-tap-highlight-color: transparent; }
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-sub">Gemini AI powered</span>
+    <span class="h-sub">Gemini AI powered</span><span class="h-version">v1.0</span>
   </div>
   <div class="header-right">
     <div class="api-status">
@@ -708,31 +720,33 @@ button { -webkit-tap-highlight-color: transparent; }
 
         <div class="field">
           <label class="lbl">상품명 <span class="req">*</span></label>
+          <span class="lbl-desc">광고에 노출되는 핵심 키워드가 포함되도록 작성해주세요</span>
           <input type="text" class="inp" id="productName" placeholder="예: 아로마 디퓨저 200ml 우드향" />
         </div>
 
         <div class="field">
-          <label class="lbl">핵심 특징 · 강점 <span style="color:var(--gray-400);font-weight:400;font-size:10px">(최대 5개)</span></label>
+          <label class="lbl">제품 특징 및 장점</label>
+          <span class="lbl-desc">강조하고 싶은 내용을 입력하세요. AI가 광고 문구에 반영해요 (최대 6개)</span>
           <div id="featSuggestWrap" style="display:none">
             <div class="feat-suggest-lbl" id="featSuggestLbl">💡 AI 추천 특징 (클릭하면 추가)</div>
             <div class="feat-suggest" id="featSuggest"></div>
           </div>
           <div class="feat-slots" id="featSlots">
-            <div class="feat-slot"><span class="feat-slot-num">1</span><input type="text" placeholder="예: 천연 에센셜오일 100% 사용" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
-            <div class="feat-slot"><span class="feat-slot-num">2</span><input type="text" placeholder="예: 최대 12시간 은은하게 지속" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
-            <div class="feat-slot"><span class="feat-slot-num">3</span><input type="text" placeholder="예: 소음 없는 초음파 방식" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
-            <div class="feat-slot"><span class="feat-slot-num">4</span><input type="text" placeholder="예: 인테리어 감성 우드 디자인" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
-            <div class="feat-slot"><span class="feat-slot-num">5</span><input type="text" placeholder="예: 500ml 리필 오일 증정" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
+            <div class="feat-slot"><span class="feat-slot-num">1</span><input type="text" placeholder="예: 천연 에센셜오일 100% 사용" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
+            <div class="feat-slot"><span class="feat-slot-num">2</span><input type="text" placeholder="예: 최대 12시간 은은하게 지속" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
           </div>
+          <button class="feat-add-btn" id="featAddBtn" onclick="addSlot()">+ 항목 추가</button>
         </div>
 
         <div class="field">
           <label class="lbl">타겟 고객</label>
+          <span class="lbl-desc">어떤 사람에게 이 광고를 보여주고 싶은지 알려주세요</span>
           <input type="text" class="inp" id="target" placeholder="예: 홈인테리어, 선물용, 공간 향기 관심 고객" />
         </div>
 
         <div class="field">
-          <label class="lbl">상세페이지 이미지 <span style="color:var(--gray-400);font-weight:400;font-size:10px">(최대 20장 · AI가 모두 분석)</span></label>
+          <label class="lbl">상세페이지 이미지</label>
+          <span class="lbl-desc">상세페이지 이미지를 올리면 AI가 직접 분석해서 더 정확한 광고 소재를 만들어요 (최대 20장)</span>
           <div class="upload-zone" id="uploadZone">
             <input type="file" id="fileInput" accept="image/*" multiple onchange="onFile(event)" />
             <div class="upl-icon">🖼️</div>
@@ -1055,23 +1069,50 @@ function addFeatChip(chipEl, text) {
   chipEl.querySelector('.chip-plus').textContent = '✓';
 }
 
-// 슬롯 개별 초기화
-function clearSlot(btn) {
-  const input = btn.previousElementSibling;
-  input.value = '';
+// 슬롯 삭제 (X 클릭)
+function removeSlot(btn) {
+  const slot = btn.closest('.feat-slot');
+  slot.remove();
+  reNumberSlots();
+  updateAddBtn();
   // 연결된 칩 복원
-  const chips = document.querySelectorAll('#featSuggest .feat-chip');
-  chips.forEach(c => {
-    const chipTxt = c.textContent.replace(/^[+✓]/,'').trim();
-    if (chipTxt === input.placeholder.replace(/^예: /,'')) return;
-    // 모든 슬롯 값과 비교해서 없으면 복원
-    const allVals = [...document.querySelectorAll('#featSlots .feat-slot input')].map(el=>el.value.trim());
+  const allVals = [...document.querySelectorAll('#featSlots .feat-slot input')].map(el=>el.value.trim());
+  document.querySelectorAll('#featSuggest .feat-chip').forEach(c => {
     const chipVal = c.textContent.replace(/^[+✓]/,'').trim();
     if (!allVals.includes(chipVal)) {
       c.classList.remove('used');
       c.querySelector('.chip-plus').textContent = '+';
     }
   });
+}
+
+// 슬롯 번호 재정렬
+function reNumberSlots() {
+  document.querySelectorAll('#featSlots .feat-slot').forEach((slot, i) => {
+    slot.querySelector('.feat-slot-num').textContent = i + 1;
+  });
+}
+
+// + 버튼 상태 업데이트
+function updateAddBtn() {
+  const cnt = document.querySelectorAll('#featSlots .feat-slot').length;
+  const btn = document.getElementById('featAddBtn');
+  if (!btn) return;
+  btn.disabled = cnt >= 6;
+  btn.textContent = cnt >= 6 ? '최대 6개까지 추가 가능해요' : '+ 항목 추가';
+}
+
+// 슬롯 추가
+function addSlot() {
+  const slots = document.getElementById('featSlots');
+  const cnt = slots.querySelectorAll('.feat-slot').length;
+  if (cnt >= 6) return;
+  const div = document.createElement('div');
+  div.className = 'feat-slot';
+  div.innerHTML = `<span class="feat-slot-num">${cnt+1}</span><input type="text" placeholder="강조하고 싶은 내용을 입력하세요" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button>`;
+  slots.appendChild(div);
+  div.querySelector('input').focus();
+  updateAddBtn();
 }
 
 
