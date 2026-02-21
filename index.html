@@ -4,360 +4,408 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>파워링크 광고 소재 생성기 | AI마케팅전략연구소</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&display=swap" rel="stylesheet">
 <style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+/* ── 리셋 & 기본 ── */
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --green:#03C75A;--green-dark:#029e48;--green-pale:rgba(3,199,90,.08);
-  --navy:#0d1b2a;--navy2:#1a2e42;--navy3:#243d52;
-  --gray-50:#f8fafc;--gray-100:#f1f4f7;--gray-200:#e2e8ef;
-  --gray-400:#94a3b4;--gray-600:#4e6176;--gray-800:#1e2d3d;
-  --blue:#1a73e8;--red:#e53e3e;--orange:#f59e0b;
-  --shadow-sm:0 1px 3px rgba(0,0,0,.08);
-  --shadow:0 4px 16px rgba(0,0,0,.1);
-  --radius:10px;
-  --header-h:46px;
-  --hero-h:110px;
-  --pbar-h:34px;
+  --g:#03C75A;--g2:#00e676;--g-dim:rgba(3,199,90,.12);--g-glow:rgba(3,199,90,.35);
+  --b:#0066ff;--b2:#3385ff;
+  --bg:#060d17;--bg2:#091320;--bg3:#0d1a2d;
+  --glass:rgba(255,255,255,.04);--glass2:rgba(255,255,255,.07);
+  --border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.12);
+  --text:#e8f0fe;--text2:rgba(232,240,254,.65);--text3:rgba(232,240,254,.3);
+  --red:#ff4d6d;--amber:#f59e0b;
+  --shadow:0 8px 32px rgba(0,0,0,.5);
+  --shadow-g:0 0 30px rgba(3,199,90,.2);
+  --r:12px;--r2:8px;
+  --hh:48px;
 }
-html{height:100%}
-body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:var(--gray-800);font-size:13px;line-height:1.5;min-height:100vh}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Pretendard',-apple-system,sans-serif;
+  background:var(--bg);color:var(--text);font-size:13px;line-height:1.55;
+  min-height:100vh;overflow-x:hidden;
+}
 
-/* ── 모달 공통 ── */
-.overlay{position:fixed;inset:0;background:rgba(13,27,42,.72);backdrop-filter:blur(6px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .2s}
-.overlay.hidden{display:none}
+/* ══ 오로라 배경 ══ */
+.aurora{
+  position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+}
+.aurora-1{
+  position:absolute;width:900px;height:600px;
+  top:-200px;left:-200px;
+  background:radial-gradient(ellipse,rgba(3,199,90,.07) 0%,transparent 65%);
+  animation:auroraMov1 18s ease-in-out infinite alternate;
+}
+.aurora-2{
+  position:absolute;width:700px;height:500px;
+  top:30%;right:-200px;
+  background:radial-gradient(ellipse,rgba(0,102,255,.08) 0%,transparent 65%);
+  animation:auroraMov2 22s ease-in-out infinite alternate;
+}
+.aurora-3{
+  position:absolute;width:600px;height:400px;
+  bottom:-100px;left:30%;
+  background:radial-gradient(ellipse,rgba(3,199,90,.05) 0%,transparent 65%);
+  animation:auroraMov3 15s ease-in-out infinite alternate;
+}
+@keyframes auroraMov1{from{transform:translate(0,0) scale(1)}to{transform:translate(120px,60px) scale(1.15)}}
+@keyframes auroraMov2{from{transform:translate(0,0) scale(1)}to{transform:translate(-80px,100px) scale(1.1)}}
+@keyframes auroraMov3{from{transform:translate(0,0) scale(1)}to{transform:translate(-60px,-80px) scale(1.2)}}
+
+/* 노이즈 오버레이 */
+.noise{
+  position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ══ 모달 ══ */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(12px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .2s ease}
+.overlay.hidden{display:none!important}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes slideUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
 
 /* API Key 모달 */
-.key-modal{background:#fff;border-radius:18px;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.18);animation:slideUp .25s;overflow:hidden}
-.key-modal-head{background:var(--navy);padding:24px 28px 20px;position:relative;overflow:hidden}
-.key-modal-head::before{content:'';position:absolute;top:-40px;right:-40px;width:150px;height:150px;border-radius:50%;background:rgba(3,199,90,.1)}
-.key-modal-head .logo-mark{width:38px;height:38px;border-radius:10px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff;margin-bottom:12px;position:relative}
-.key-modal-head h2{font-size:17px;font-weight:800;color:#fff;margin-bottom:4px}
-.key-modal-head p{font-size:12px;color:rgba(255,255,255,.55);line-height:1.6}
+.key-modal{background:linear-gradient(160deg,#0a1628,#0f1f38);border:1px solid var(--border2);border-radius:20px;max-width:480px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,.6),0 0 0 1px rgba(3,199,90,.08);animation:slideUp .3s cubic-bezier(.34,1.56,.64,1);overflow:hidden}
+.key-modal-head{background:linear-gradient(135deg,#0a1628 0%,rgba(3,199,90,.06) 100%);padding:26px 28px 22px;position:relative;border-bottom:1px solid var(--border)}
+.key-modal-head::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top right,rgba(3,199,90,.08),transparent 60%);pointer-events:none}
+.key-modal-head .logo-mark{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#029e48,var(--g));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:14px;box-shadow:0 4px 16px var(--g-glow)}
+.key-modal-head h2{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;color:#fff;margin-bottom:5px}
+.key-modal-head p{font-size:12px;color:var(--text3);line-height:1.6}
 .key-modal-body{padding:20px 28px}
-.step-guide{margin-bottom:14px}
-.step-guide-title{font-size:10px;font-weight:700;color:var(--gray-400);letter-spacing:.5px;text-transform:uppercase;margin-bottom:9px}
-.step-row{display:flex;gap:9px;align-items:flex-start;margin-bottom:7px}
-.step-num{width:19px;height:19px;border-radius:50%;background:var(--green-pale);border:1.5px solid var(--green);color:var(--green);font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.step-text{font-size:12px;color:var(--gray-600);line-height:1.6}
-.step-text a{color:var(--blue);text-decoration:none;font-weight:600}
-.key-input-wrap{background:var(--gray-50);border:2px solid var(--gray-200);border-radius:10px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:10px;transition:border-color .15s}
-.key-input-wrap:focus-within{border-color:var(--green);background:#fff}
-.key-input-wrap input{flex:1;border:none;background:none;outline:none;font-family:inherit;font-size:12px;color:var(--gray-800);letter-spacing:.5px}
-.key-input-wrap input::placeholder{color:var(--gray-400)}
-.eye-btn{background:none;border:none;cursor:pointer;color:var(--gray-400);font-size:14px;padding:0}
-.key-notice{font-size:11px;color:var(--gray-400);line-height:1.7;margin-bottom:14px}
-.key-notice span{color:var(--green);font-weight:600}
-.key-confirm-btn{width:100%;padding:10px;background:var(--green);border:none;border-radius:9px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;transition:all .15s;opacity:.4}
-.key-confirm-btn.ready{opacity:1}
-.key-confirm-btn.ready:hover{background:var(--green-dark)}
+.step-guide{margin-bottom:16px}
+.step-guide-title{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.step-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
+.step-num{width:20px;height:20px;border-radius:50%;background:var(--g-dim);border:1.5px solid rgba(3,199,90,.4);color:var(--g);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-text{font-size:12px;color:var(--text2);line-height:1.6}
+.step-text a{color:var(--g);text-decoration:none;font-weight:600}
+.key-input-wrap{background:rgba(0,0,0,.3);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:10px;transition:border-color .2s,box-shadow .2s}
+.key-input-wrap:focus-within{border-color:rgba(3,199,90,.5);box-shadow:0 0 0 3px rgba(3,199,90,.08)}
+.key-input-wrap input{flex:1;border:none;background:none;outline:none;font-family:inherit;font-size:12px;color:var(--text);letter-spacing:.5px}
+.key-input-wrap input::placeholder{color:var(--text3)}
+.eye-btn{background:none;border:none;cursor:pointer;color:var(--text3);font-size:14px;padding:0;transition:color .15s}
+.eye-btn:hover{color:var(--text2)}
+.key-notice{font-size:11px;color:var(--text3);line-height:1.7;margin-bottom:16px}
+.key-notice span{color:var(--g);font-weight:600}
+.key-confirm-btn{width:100%;padding:11px;background:linear-gradient(135deg,#029e48,var(--g));border:none;border-radius:10px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;transition:all .2s;opacity:.4;letter-spacing:.2px}
+.key-confirm-btn.ready{opacity:1;box-shadow:0 4px 16px var(--g-glow)}
+.key-confirm-btn.ready:hover{transform:translateY(-1px);box-shadow:0 8px 24px var(--g-glow)}
 .key-confirm-btn:disabled{cursor:not-allowed}
-.key-skip-btn{width:100%;padding:7px;background:none;border:none;color:var(--gray-400);font-size:11px;cursor:pointer;margin-top:5px;font-family:inherit}
+.key-skip-btn{width:100%;padding:7px;background:none;border:none;color:var(--text3);font-size:11px;cursor:pointer;margin-top:6px;font-family:inherit;transition:color .15s}
+.key-skip-btn:hover{color:var(--text2)}
 
 /* 분석 모달 */
-.analysis-modal-inner{background:linear-gradient(160deg,#0d1b2a,#1a2e42);border-radius:16px;max-width:620px;width:100%;max-height:85vh;display:flex;flex-direction:column;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
-.analysis-modal-head{padding:18px 22px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0}
-.analysis-modal-body{padding:18px 22px;overflow-y:auto;flex:1}
+.analysis-modal-inner{background:linear-gradient(160deg,#080f1c,#0d1c30);border:1px solid var(--border2);border-radius:18px;max-width:640px;width:100%;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.6),var(--shadow-g)}
+.analysis-modal-head{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:linear-gradient(135deg,rgba(3,199,90,.05),transparent)}
+.analysis-modal-body{padding:20px 24px;overflow-y:auto;flex:1}
 .analysis-modal-body::-webkit-scrollbar{width:4px}
-.analysis-modal-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}
-.analysis-section{margin-bottom:14px}
-.analysis-section-title{font-size:11px;font-weight:700;color:var(--green);letter-spacing:.4px;text-transform:uppercase;margin-bottom:5px}
-.analysis-section-content{font-size:12px;color:rgba(255,255,255,.7);line-height:1.7}
-.analysis-loading{color:rgba(255,255,255,.4);font-size:12px;display:flex;align-items:center;gap:8px}
+.analysis-modal-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px}
+.analysis-section{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.analysis-section:last-child{border-bottom:none}
+.analysis-section-title{font-size:11px;font-weight:800;color:var(--g);letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.analysis-section-content{font-size:12px;color:var(--text2);line-height:1.75}
+.analysis-loading{color:var(--text3);font-size:12px;display:flex;align-items:center;gap:10px;padding:8px 0}
 
-/* ── 헤더 (sticky) ── */
+/* ══ 헤더 ══ */
 .site-header{
-  position:sticky;top:0;z-index:100;
-  background:var(--navy);height:var(--header-h);
-  padding:0 16px;display:flex;align-items:center;justify-content:space-between;
-  box-shadow:0 2px 8px rgba(0,0,0,.25);
+  position:sticky;top:0;z-index:100;height:var(--hh);
+  background:rgba(6,13,23,.85);backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--border);
+  padding:0 20px;display:flex;align-items:center;justify-content:space-between;
 }
-.header-left{display:flex;align-items:center;gap:8px}
-.h-logo{width:26px;height:26px;border-radius:7px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff}
-.h-title{font-size:13px;font-weight:800;color:#fff;letter-spacing:-.3px}
-.h-version{font-size:9px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.5);border-radius:4px;padding:2px 6px;font-weight:600}
-.header-right{display:flex;align-items:center;gap:10px}
+.header-left{display:flex;align-items:center;gap:10px}
+.h-logo{
+  width:28px;height:28px;border-radius:8px;
+  background:linear-gradient(135deg,#029e48,var(--g));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:15px;font-weight:900;color:#fff;
+  box-shadow:0 2px 10px var(--g-glow);
+}
+.h-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text);letter-spacing:-.3px}
+.h-version{font-size:9px;background:var(--g-dim);color:var(--g);border:1px solid rgba(3,199,90,.2);border-radius:4px;padding:2px 7px;font-weight:700;letter-spacing:.3px}
+.header-right{display:flex;align-items:center;gap:12px}
 .h-clock{display:flex;flex-direction:column;align-items:flex-end;line-height:1.2}
-.h-clock-time{font-size:15px;font-weight:700;letter-spacing:2px;color:var(--green);font-variant-numeric:tabular-nums;text-shadow:0 0 8px rgba(3,199,90,.4)}
-.h-clock-date{font-size:9px;color:rgba(255,255,255,.35);letter-spacing:.3px}
-.h-divider{width:1px;height:22px;background:rgba(255,255,255,.12)}
-.api-status{display:flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,.5)}
-.status-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px rgba(3,199,90,.6)}
-.status-dot.off{background:var(--gray-400);box-shadow:none}
-.h-setting-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.7);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
-.h-setting-btn:hover{background:rgba(255,255,255,.18);color:#fff}
+.h-clock-time{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;color:var(--g);font-variant-numeric:tabular-nums;filter:drop-shadow(0 0 8px var(--g-glow))}
+.h-clock-date{font-size:9px;color:var(--text3);letter-spacing:.3px}
+.h-div{width:1px;height:24px;background:var(--border)}
+.api-status{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)}
+.s-dot{width:7px;height:7px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g-glow);animation:pulse 2s ease infinite}
+.s-dot.off{background:var(--text3);box-shadow:none;animation:none}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 8px var(--g-glow)}50%{opacity:.6;box-shadow:0 0 4px var(--g-glow)}}
+.h-btn{background:var(--glass);border:1px solid var(--border);color:var(--text2);border-radius:7px;padding:5px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.h-btn:hover{background:var(--glass2);border-color:var(--border2);color:var(--text)}
 
-/* ── 히어로 (가운데 정렬, v1.0 스타일) ── */
+/* ══ 히어로 ══ */
 .hero{
-  background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 60%,#162d42 100%);
-  text-align:center;padding:22px 20px 18px;position:relative;overflow:hidden;
+  position:relative;z-index:2;text-align:center;padding:36px 20px 28px;overflow:hidden;
 }
-.hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:500px;height:200px;border-radius:50%;background:radial-gradient(ellipse,rgba(3,199,90,.08) 0%,transparent 70%);pointer-events:none}
-.hero-eyebrow{font-size:10px;font-weight:600;letter-spacing:2.5px;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:8px}
-.hero h2{font-size:22px;font-weight:900;color:#fff;line-height:1.25;margin-bottom:6px;letter-spacing:-.5px}
-.hero h2 em{color:var(--green);font-style:normal}
-.hero p{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:12px}
-.hero p strong{color:rgba(255,255,255,.8)}
-.hero-stats{display:inline-flex;align-items:center;gap:0;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:9px 20px;gap:0}
-.hero-stat{display:flex;flex-direction:column;align-items:center;gap:1px;padding:0 16px}
-.hero-stat-num{font-size:18px;font-weight:900;color:var(--green);line-height:1}
-.hero-stat-lbl{font-size:9px;color:rgba(255,255,255,.4);font-weight:500}
-.hero-stat-div{width:1px;height:24px;background:rgba(255,255,255,.1)}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:10px;font-weight:700;letter-spacing:2px;color:var(--g);text-transform:uppercase;
+  background:var(--g-dim);border:1px solid rgba(3,199,90,.2);border-radius:20px;
+  padding:4px 14px;margin-bottom:16px;
+  animation:fadeSlideUp .6s ease .1s both;
+}
+.hero h1{
+  font-family:'Syne',sans-serif;font-size:32px;font-weight:900;
+  color:#fff;line-height:1.15;margin-bottom:10px;letter-spacing:-1px;
+  animation:fadeSlideUp .6s ease .2s both;
+}
+.hero h1 em{
+  color:transparent;font-style:normal;
+  background:linear-gradient(135deg,var(--g),#00e676,var(--b2));
+  -webkit-background-clip:text;background-clip:text;
+}
+.hero-sub{
+  font-size:13px;color:var(--text3);margin-bottom:22px;line-height:1.7;
+  animation:fadeSlideUp .6s ease .3s both;
+}
+.hero-sub strong{color:var(--text2)}
+.hero-stats{
+  display:inline-flex;align-items:stretch;
+  background:var(--glass);border:1px solid var(--border);border-radius:14px;
+  overflow:hidden;animation:fadeSlideUp .6s ease .4s both;
+  box-shadow:0 4px 24px rgba(0,0,0,.3);
+}
+.hero-stat{display:flex;flex-direction:column;align-items:center;padding:12px 24px;gap:2px;position:relative}
+.hero-stat::after{content:'';position:absolute;right:0;top:20%;height:60%;width:1px;background:var(--border)}
+.hero-stat:last-child::after{display:none}
+.hero-stat-num{font-family:'Syne',sans-serif;font-size:22px;font-weight:900;color:var(--g);line-height:1;filter:drop-shadow(0 0 8px var(--g-glow))}
+.hero-stat-lbl{font-size:9px;color:var(--text3);font-weight:500;letter-spacing:.3px}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 
-/* ── API 배너 ── */
-#apiKeyBanner{background:#fff3cd;border-bottom:1px solid #ffc107;padding:5px 16px;display:none;align-items:center;justify-content:center;gap:10px;font-size:11px;color:#856404}
+/* ══ API 배너 ══ */
+#apiKeyBanner{
+  display:none;background:rgba(245,158,11,.08);border-bottom:1px solid rgba(245,158,11,.2);
+  padding:6px 20px;align-items:center;justify-content:center;gap:10px;
+  font-size:11px;color:var(--amber);position:relative;z-index:2;
+}
 
-/* ── 메인 레이아웃 ── */
-.app-main{max-width:1080px;margin:0 auto;padding:10px}
+/* ══ 메인 ══ */
+.app-main{max-width:1200px;margin:0 auto;padding:0 16px 40px;position:relative;z-index:2}
 
-/* ── sticky 입력 영역 ── */
-.sticky-top{
-  position:sticky;top:var(--header-h);z-index:50;
-  background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 100%);
-  border-radius:var(--radius);
-  box-shadow:0 4px 16px rgba(0,0,0,.2);
-  margin-bottom:10px;
+/* ══ 입력 패널 (sticky) ══ */
+.sticky-panel{
+  position:sticky;top:var(--hh);z-index:50;
+  margin-bottom:14px;
+}
+.input-card{
+  background:linear-gradient(160deg,rgba(9,19,32,.96),rgba(13,26,45,.96));
+  backdrop-filter:blur(20px) saturate(150%);
+  border:1px solid var(--border2);border-radius:var(--r);
+  box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 0 1px rgba(3,199,90,.04);
   overflow:hidden;
 }
 
-/* 프로그레스바 (sticky 안에서) */
-#progressBar{
-  background:transparent;
-  padding:8px 16px 6px;
-  border-radius:0;
-  border:none;
-  box-shadow:none;
-  border-bottom:1px solid rgba(255,255,255,.06);
+/* 진행 바 */
+.pbar-strip{
+  background:rgba(0,0,0,.25);border-bottom:1px solid var(--border);
+  padding:8px 20px;display:flex;align-items:center;gap:16px;
 }
-
-/* 입력 카드 (sticky 안) */
-.input-sticky-card{background:transparent}
-.input-grid-wrap{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr 1fr;
-  gap:0;
-  padding:10px 16px 10px;
-  border-bottom:1px solid rgba(255,255,255,.08);
+.pbar-track{height:2px;background:rgba(255,255,255,.07);border-radius:1px;flex:1;overflow:hidden}
+.pbar-fill{height:100%;background:linear-gradient(90deg,var(--g),var(--b2));width:0%;transition:width .7s cubic-bezier(.4,0,.2,1);border-radius:1px;box-shadow:0 0 8px var(--g-glow)}
+.pbar-steps{display:flex;gap:20px;align-items:center;flex-shrink:0}
+.pbar-step{display:flex;align-items:center;gap:5px}
+.pstep-dot{
+  width:20px;height:20px;border-radius:50%;
+  background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .4s cubic-bezier(.34,1.56,.64,1);flex-shrink:0;position:relative;
 }
-.input-col{padding:0 10px;border-right:1px solid rgba(255,255,255,.08)}
-.input-col:first-child{padding-left:0}
-.input-col:last-child{border-right:none;padding-right:0}
+.pstep-num{font-size:8px;font-weight:800;color:var(--text3);transition:opacity .2s}
+.pstep-check{width:8px;height:8px;position:absolute;opacity:0;transition:opacity .2s}
+.pstep-lbl{font-size:9px;color:var(--text3);font-weight:500;white-space:nowrap;transition:color .3s}
+.pbar-step.active .pstep-dot{background:rgba(3,199,90,.15);border-color:var(--g);animation:pDot 1.5s ease infinite}
+.pbar-step.active .pstep-num{color:var(--g)}
+.pbar-step.active .pstep-lbl{color:#fff;font-weight:700}
+.pbar-step.done .pstep-dot{background:var(--g);border-color:var(--g);animation:pDone .4s cubic-bezier(.34,1.56,.64,1)}
+.pbar-step.done .pstep-num{opacity:0}
+.pbar-step.done .pstep-check{opacity:1}
+.pbar-step.done .pstep-lbl{color:var(--g);font-weight:600}
+@keyframes pDot{0%,100%{box-shadow:0 0 0 0 rgba(3,199,90,.4)}50%{box-shadow:0 0 0 5px rgba(3,199,90,0)}}
+@keyframes pDone{0%{transform:scale(.5)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+.pbar-msg{font-size:9px;color:var(--text3);min-width:130px;text-align:right;transition:all .3s}
 
-/* 입력 안에서 폼 색상 오버라이드 */
-.sticky-top .lbl{color:rgba(255,255,255,.8);font-size:11px}
-.sticky-top .lbl-desc{color:rgba(255,255,255,.4);font-size:10px}
-.sticky-top .inp{background:rgba(0,0,0,.25);border-color:rgba(255,255,255,.12);color:#fff;font-size:11px}
-.sticky-top .inp:focus{border-color:var(--green);background:rgba(0,0,0,.3)}
-.sticky-top .inp::placeholder{color:rgba(255,255,255,.3)}
-.sticky-top .feat-slot{background:rgba(0,0,0,.2);border-color:rgba(255,255,255,.1)}
-.sticky-top .feat-slot input{color:#fff}
-.sticky-top .feat-slot input::placeholder{color:rgba(255,255,255,.3)}
-.sticky-top .feat-slot-num{color:var(--green)}
-.sticky-top .feat-slot-del{color:rgba(255,255,255,.3)}
-.sticky-top .feat-slot-del:hover{color:var(--red)}
-.sticky-top .feat-add-btn{border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.4)}
-.sticky-top .feat-add-btn:hover{border-color:var(--green);color:var(--green)}
-.sticky-top .upload-zone{background:rgba(0,0,0,.2);border-color:rgba(255,255,255,.15)}
-.sticky-top .upload-zone:hover{background:rgba(3,199,90,.1);border-color:var(--green)}
-.sticky-top .upl-text{color:rgba(255,255,255,.3)}
-.sticky-top .img-thumb{border-color:rgba(255,255,255,.2)}
-.sticky-top #costCurrent{color:rgba(255,255,255,.4) !important}
+/* 컬럼 라벨 바 */
+.col-labels{
+  display:grid;grid-template-columns:1fr 1fr 1fr 1fr;
+  border-bottom:1px solid var(--border);
+}
+.col-lbl{
+  padding:5px 16px;font-size:9px;font-weight:700;
+  color:var(--text3);letter-spacing:.6px;text-transform:uppercase;
+  display:flex;align-items:center;gap:5px;
+}
+.col-lbl:not(:last-child){border-right:1px solid var(--border)}
+.col-lbl-dot{width:5px;height:5px;border-radius:50%;background:var(--g);opacity:.5}
 
-/* 분석 인라인 */
-.analysis-inline{display:flex;align-items:center;gap:10px;flex:1;background:rgba(0,0,0,.2);border-radius:7px;padding:6px 11px;border:1px solid rgba(255,255,255,.08)}
-.analysis-inline-dot{font-size:16px;flex-shrink:0}
-.analysis-inline-status{font-size:10px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:1px}
-.analysis-inline-preview{font-size:9px;color:rgba(255,255,255,.5);display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;line-height:1.6;min-height:70px}
-.analysis-inline-btn{background:rgba(3,199,90,.15);border:1px solid rgba(3,199,90,.3);color:var(--green);border-radius:5px;padding:4px 10px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s;flex-shrink:0}
-.analysis-inline-btn:hover{background:rgba(3,199,90,.25)}
-.analysis-inline-btn:disabled{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08);color:rgba(255,255,255,.2);cursor:not-allowed}
-
-/* 콘텐츠 섹션 */
-.content-section{margin-bottom:10px}
-
-/* 공통 카드 */
-.card{background:#fff;border-radius:var(--radius);border:1px solid rgba(0,0,0,.06);box-shadow:var(--shadow-sm)}
-.card-head{padding:9px 13px;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;gap:7px}
-.card-head h3{font-size:11px;font-weight:700;color:var(--gray-800);flex:1}
-.card-body{padding:10px 12px}
+/* 입력 그리드 */
+.input-grid{
+  display:grid;grid-template-columns:1fr 1fr 1fr 1fr;
+  border-bottom:1px solid var(--border);
+}
+.input-col{padding:12px 16px;display:flex;flex-direction:column;gap:8px}
+.input-col:not(:last-child){border-right:1px solid var(--border)}
 
 /* 폼 요소 */
-.lbl{display:block;font-size:11px;font-weight:700;color:var(--gray-800);margin-bottom:2px}
-.req{color:var(--red)}
-.lbl-desc{display:block;font-size:10px;color:var(--gray-400);margin-bottom:5px}
-.field{margin-bottom:9px}
-.field:last-child{margin-bottom:0}
-.inp{width:100%;padding:6px 9px;background:var(--gray-50);border:1.5px solid var(--gray-200);border-radius:6px;font-size:11px;font-family:inherit;color:var(--gray-800);outline:none;transition:border-color .15s}
-.inp:focus{border-color:var(--green);background:#fff}
-.inp::placeholder{color:var(--gray-400)}
+.lbl{font-size:10px;font-weight:700;color:var(--text2);display:flex;align-items:center;gap:4px;margin-bottom:2px}
+.req{color:var(--g);font-size:9px}
+.lbl-desc{font-size:9px;color:var(--text3);margin-bottom:5px}
+.inp{
+  width:100%;padding:7px 10px;
+  background:rgba(0,0,0,.3);border:1.5px solid var(--border);
+  border-radius:var(--r2);font-size:11px;font-family:inherit;color:var(--text);outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.inp:focus{border-color:rgba(3,199,90,.45);box-shadow:0 0 0 3px rgba(3,199,90,.07);background:rgba(0,0,0,.4)}
+.inp::placeholder{color:var(--text3)}
+textarea.inp{resize:none;line-height:1.5}
 
 /* feat slots */
-.feat-slot{display:flex;align-items:center;gap:5px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:4px;padding:3px 6px;margin-bottom:3px}
-.feat-slot-num{font-size:9px;font-weight:700;color:var(--green);width:12px;flex-shrink:0}
-.feat-slot input{flex:1;background:none;border:none;outline:none;font-size:10px;color:var(--gray-800);font-family:inherit}
-.feat-slot input::placeholder{color:var(--gray-400)}
-.feat-slot-del{background:none;border:none;color:var(--gray-400);cursor:pointer;font-size:11px;padding:0 2px}
+.feat-slot{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,.2);border:1px solid var(--border);border-radius:5px;padding:4px 7px;margin-bottom:3px;transition:border-color .15s}
+.feat-slot:focus-within{border-color:rgba(3,199,90,.3)}
+.feat-slot-num{font-size:9px;font-weight:700;color:var(--g);width:12px;flex-shrink:0}
+.feat-slot input{flex:1;background:none;border:none;outline:none;font-size:10px;color:var(--text);font-family:inherit}
+.feat-slot input::placeholder{color:var(--text3)}
+.feat-slot-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:11px;padding:0 2px;transition:color .15s}
 .feat-slot-del:hover{color:var(--red)}
-.feat-add-btn{background:none;border:1px dashed var(--gray-200);color:var(--gray-400);border-radius:4px;padding:4px 0;font-size:10px;cursor:pointer;font-family:inherit;width:100%;transition:all .15s;margin-top:2px}
-.feat-add-btn:hover{border-color:var(--green);color:var(--green)}
+.feat-add-btn{background:none;border:1px dashed rgba(255,255,255,.12);color:var(--text3);border-radius:5px;padding:4px 0;font-size:10px;cursor:pointer;font-family:inherit;width:100%;transition:all .2s;margin-top:2px}
+.feat-add-btn:hover{border-color:rgba(3,199,90,.4);color:var(--g);background:var(--g-dim)}
 .feat-suggest{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:5px}
-.feat-chip{font-size:9px;background:var(--green-pale);color:var(--green);border:1px solid rgba(3,199,90,.2);border-radius:3px;padding:2px 5px;cursor:pointer;transition:all .15s}
-.feat-chip:hover{background:rgba(3,199,90,.15)}
-.feat-chip.used{background:var(--gray-100);border-color:var(--gray-200);color:var(--gray-400);cursor:default}
-.feat-suggest-lbl{font-size:9px;color:var(--gray-400);margin-bottom:3px}
+.feat-chip{font-size:9px;background:var(--g-dim);color:var(--g);border:1px solid rgba(3,199,90,.2);border-radius:4px;padding:2px 6px;cursor:pointer;transition:all .15s}
+.feat-chip:hover{background:rgba(3,199,90,.2)}
+.feat-chip.used{background:var(--glass);border-color:var(--border);color:var(--text3);cursor:default}
+.feat-suggest-lbl{font-size:9px;color:var(--text3);margin-bottom:3px}
 
 /* 이미지 업로드 */
-.upload-zone{border:1.5px dashed var(--gray-200);border-radius:6px;padding:7px;text-align:center;cursor:pointer;transition:all .15s;position:relative;min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:var(--gray-50)}
-.upload-zone:hover{border-color:var(--green);background:var(--green-pale)}
-.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
-.upl-icon{font-size:15px}
-.upl-text{font-size:9px;color:var(--gray-400)}
-.upl-count{font-size:9px;color:var(--green);font-weight:700}
-.img-grid{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
-.img-thumb{position:relative;width:52px;height:52px;flex-shrink:0;border-radius:5px;overflow:hidden;border:1.5px solid var(--gray-200);box-shadow:var(--shadow-sm)}
-.img-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.del-btn{position:absolute;top:2px;right:2px;width:15px;height:15px;border-radius:50%;background:rgba(229,62,62,.9);color:#fff;font-size:9px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;font-weight:700}
-.del-btn:hover{background:var(--red)}
-.img-num{position:absolute;bottom:2px;left:3px;font-size:8px;font-weight:700;color:#fff;background:rgba(0,0,0,.45);border-radius:2px;padding:0 3px;line-height:14px}
-
-/* 분석 미니 */
-.analysis-mini{background:linear-gradient(135deg,#0B1829,#162b45);border-radius:var(--radius);padding:10px 12px;border:1px solid rgba(255,255,255,.06)}
-.analysis-mini-title{font-size:10px;font-weight:800;color:#fff;margin-bottom:2px;display:flex;align-items:center;gap:5px}
-.analysis-mini-status{font-size:9px;color:rgba(255,255,255,.4);margin-bottom:6px}
-.analysis-mini-preview{font-size:9px;color:rgba(255,255,255,.6);line-height:1.6;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:7px;min-height:60px}
-.analysis-mini-btn{background:rgba(3,199,90,.12);border:1px solid rgba(3,199,90,.25);color:var(--green);border-radius:5px;padding:5px 10px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;transition:all .15s}
-.analysis-mini-btn:hover{background:rgba(3,199,90,.22)}
-.analysis-mini-btn:disabled{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.08);color:rgba(255,255,255,.2);cursor:not-allowed}
-
-/* 생성 버튼 */
-.gen-btn{width:100%;padding:10px;background:linear-gradient(135deg,var(--green-dark),var(--green));border:none;border-radius:8px;font-size:12px;font-weight:800;color:#fff;cursor:pointer;font-family:inherit;transition:all .2s;letter-spacing:.2px}
-.gen-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 4px 14px rgba(3,199,90,.35)}
-.gen-btn:active:not(:disabled){transform:translateY(0)}
-.gen-btn:disabled{background:var(--gray-200);cursor:not-allowed;color:var(--gray-400)}
-
-/* ── 오른쪽 결과 영역 ── */
-.right-area{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
-
-/* 프로그레스 바 (sticky) */
-#progressBar{
-  background:var(--navy2);border-radius:var(--radius);
-  padding:8px 14px;border:1px solid rgba(255,255,255,.06);
-  position:sticky;top:calc(var(--header-h) + 10px);z-index:50;
+.upload-zone{
+  border:1.5px dashed rgba(255,255,255,.12);border-radius:var(--r2);
+  padding:8px;text-align:center;cursor:pointer;transition:all .2s;
+  position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  background:rgba(0,0,0,.2);min-height:56px;
 }
-.pbar-wrap{display:flex;align-items:center;gap:14px;max-width:100%}
-.pbar-track{height:2px;background:rgba(255,255,255,.1);border-radius:1px;flex:1;overflow:hidden}
-.pbar-fill{height:100%;background:linear-gradient(90deg,var(--green),#00d4ff);border-radius:1px;width:0%;transition:width .6s cubic-bezier(.4,0,.2,1)}
-.pbar-steps{display:flex;gap:16px;align-items:center;flex-shrink:0}
-.pbar-step{display:flex;align-items:center;gap:4px}
-.pbar-dot{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;flex-shrink:0}
-.pbar-num{font-size:8px;font-weight:700;color:rgba(255,255,255,.3);transition:opacity .2s}
-.pbar-check{width:7px;height:7px;color:#fff;position:absolute;opacity:0;transition:opacity .2s}
-.pbar-label{font-size:9px;color:rgba(255,255,255,.3);font-weight:500;white-space:nowrap}
-.pbar-step.active .pbar-dot{background:rgba(3,199,90,.2);border-color:var(--green);animation:pbarPulse 1.2s ease infinite}
-.pbar-step.active .pbar-num{color:var(--green)}
-.pbar-step.active .pbar-label{color:#fff;font-weight:700}
-.pbar-step.done .pbar-dot{background:var(--green);border-color:var(--green);animation:pbarDone .35s cubic-bezier(.34,1.56,.64,1)}
-.pbar-step.done .pbar-num{opacity:0}
-.pbar-step.done .pbar-check{opacity:1}
-.pbar-step.done .pbar-label{color:var(--green);font-weight:600}
-@keyframes pbarPulse{0%,100%{box-shadow:0 0 0 0 rgba(3,199,90,.5)}50%{box-shadow:0 0 0 5px rgba(3,199,90,0)}}
-@keyframes pbarDone{0%{transform:scale(.6)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
-.pbar-msg{font-size:9px;color:rgba(255,255,255,.35);min-width:140px;text-align:right}
+.upload-zone:hover{border-color:rgba(3,199,90,.4);background:var(--g-dim)}
+.upload-zone.filled{border-color:rgba(3,199,90,.3);background:rgba(3,199,90,.04)}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.upl-icon{font-size:16px;filter:drop-shadow(0 0 6px var(--g-glow))}
+.upl-text{font-size:9px;color:var(--text3)}
+.upl-count{font-size:9px;color:var(--g);font-weight:700}
+.img-grid{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.img-thumb{position:relative;width:44px;height:44px;flex-shrink:0;border-radius:5px;overflow:hidden;border:1.5px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.3);transition:transform .15s}
+.img-thumb:hover{transform:scale(1.05)}
+.img-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.del-btn{position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:50%;background:rgba(229,62,62,.9);color:#fff;font-size:8px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;transition:background .15s}
+.del-btn:hover{background:var(--red)}
+.img-num{position:absolute;bottom:2px;left:3px;font-size:7px;font-weight:700;color:#fff;background:rgba(0,0,0,.5);border-radius:2px;padding:0 3px;line-height:14px}
 
-/* ── 결과 카드 ── */
-.result-card{background:#fff;border-radius:var(--radius);border:1px solid rgba(0,0,0,.06);box-shadow:var(--shadow-sm);overflow:hidden}
-.result-tabs{display:flex;border-bottom:1px solid var(--gray-100)}
-.result-tab-btn{flex:1;padding:8px 0;font-size:11px;font-weight:700;color:var(--gray-400);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;font-family:inherit}
-.result-tab-btn.active{color:var(--navy);border-bottom-color:var(--green)}
-.result-pane{display:none}
-.result-pane.active{display:block}
+/* 분석 컬럼 */
+.col-analysis{background:linear-gradient(160deg,rgba(3,199,90,.04),rgba(0,102,255,.03))}
+.analysis-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.analysis-orb{
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(3,199,90,.2),rgba(0,102,255,.15));
+  border:1px solid rgba(3,199,90,.25);
+  display:flex;align-items:center;justify-content:center;font-size:15px;
+  box-shadow:0 0 16px rgba(3,199,90,.15);animation:orbPulse 3s ease infinite;
+}
+@keyframes orbPulse{0%,100%{box-shadow:0 0 16px rgba(3,199,90,.15)}50%{box-shadow:0 0 24px rgba(3,199,90,.25)}}
+.analysis-title-sm{font-size:10px;font-weight:800;color:var(--text)}
+.analysis-sub-sm{font-size:8px;color:var(--text3);margin-top:1px}
+.analysis-status{font-size:9px;color:var(--text3);padding:3px 7px;background:rgba(0,0,0,.2);border-radius:4px;border:1px solid var(--border);display:inline-block;margin-bottom:6px}
+.analysis-preview{
+  font-size:9px;color:var(--text2);line-height:1.7;flex:1;
+  display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;
+  margin-bottom:8px;min-height:60px;
+}
+.analysis-btn{
+  background:linear-gradient(135deg,var(--g-dim),rgba(0,102,255,.08));
+  border:1px solid rgba(3,199,90,.25);color:var(--g);border-radius:6px;
+  padding:6px 10px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;
+  width:100%;transition:all .2s;
+}
+.analysis-btn:hover{background:rgba(3,199,90,.15);box-shadow:0 0 12px rgba(3,199,90,.15)}
+.analysis-btn:disabled{background:var(--glass);border-color:var(--border);color:var(--text3);cursor:not-allowed;box-shadow:none}
 
-.sec-bar{display:flex;align-items:center;gap:6px;padding:6px 11px;border-bottom:1px solid var(--gray-100);background:var(--gray-50)}
-.sec-title{font-size:10px;font-weight:700;color:var(--gray-600);display:flex;align-items:center;gap:5px;flex:1}
-.badge{font-size:9px;background:var(--green-pale);color:var(--green);border-radius:3px;padding:1px 5px;font-weight:700}
-.badge.sel{background:rgba(26,115,232,.1);color:var(--blue)}
-.item{display:flex;align-items:center;gap:7px;padding:6px 11px;border-bottom:1px solid var(--gray-100);transition:background .1s}
-.item:hover{background:var(--gray-50)}
-.item.on{background:rgba(3,199,90,.04)}
-.plus{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--gray-200);background:none;color:var(--gray-400);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
-.plus:hover{border-color:var(--green);color:var(--green)}
-.item.on .plus{background:var(--green);border-color:var(--green);color:#fff}
-.txt-wrap{flex:1;min-width:0}
-.txt{font-size:11px;color:var(--gray-800);line-height:1.4;outline:none}
-.txt:focus{outline:1px solid var(--green);border-radius:2px;padding:1px 2px}
-.meta{display:flex;align-items:center;gap:5px;margin-top:2px}
-.cc{font-size:9px;color:var(--gray-400)}
-.cc.over{color:var(--red);font-weight:700}
-.badge-tag{font-size:8px;background:var(--green-pale);color:var(--green);border-radius:2px;padding:1px 4px;font-weight:700}
-.pin-sel{background:var(--gray-50);border:1px solid var(--gray-200);color:var(--gray-600);border-radius:4px;padding:2px 5px;font-size:9px;cursor:pointer;font-family:inherit;flex-shrink:0}
-.pin-sel:focus{outline:none;border-color:var(--green)}
-.pin-sel.pinned{border-color:var(--blue);color:var(--blue);background:rgba(26,115,232,.06)}
+/* 푸터 행 (생성 버튼) */
+.input-footer{
+  padding:10px 16px;display:flex;align-items:center;gap:12px;
+  background:rgba(0,0,0,.15);
+}
+.gen-btn{
+  padding:10px 28px;
+  background:linear-gradient(135deg,#029e48,var(--g));
+  border:none;border-radius:var(--r2);
+  font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:#fff;
+  cursor:pointer;letter-spacing:.3px;transition:all .2s;
+  box-shadow:0 4px 16px var(--g-glow);white-space:nowrap;
+  position:relative;overflow:hidden;
+}
+.gen-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent,rgba(255,255,255,.15),transparent);
+  transform:translateX(-100%);transition:transform .4s ease;
+}
+.gen-btn:hover::before{transform:translateX(100%)}
+.gen-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px var(--g-glow)}
+.gen-btn:active{transform:translateY(0)}
+.gen-btn:disabled{background:rgba(255,255,255,.06);box-shadow:none;cursor:not-allowed;color:var(--text3)}
+.gen-btn:disabled::before{display:none}
+.footer-info{font-size:9px;color:var(--text3);flex:1}
 
-/* 빈 상태 */
-.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 20px;gap:8px}
-.empty-icon{font-size:28px;opacity:.2}
-.empty-txt{text-align:center;font-size:11px;color:var(--gray-400);line-height:1.8}
-.empty-txt strong{color:var(--navy)}
+/* ══ 섹션 헤더 ══ */
+.section-header{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 0 8px;
+}
+.section-label{
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  color:var(--text2);letter-spacing:.5px;text-transform:uppercase;
+  display:flex;align-items:center;gap:6px;
+}
+.section-label::before{content:'';width:3px;height:14px;background:var(--g);border-radius:2px;box-shadow:0 0 8px var(--g-glow)}
+.section-div{flex:1;height:1px;background:var(--border)}
 
-/* ── 광고 미리보기 (PC + 모바일 가로) ── */
-.preview-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.pv-card{background:#fff;border-radius:var(--radius);border:1px solid rgba(0,0,0,.06);box-shadow:var(--shadow-sm);overflow:hidden}
-.pv-card-head{padding:8px 12px;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;gap:6px}
-.pv-card-head h4{font-size:10px;font-weight:700;color:var(--gray-600);flex:1}
-.pv-card-body{padding:10px 12px}
+/* ══ 광고 미리보기 ══ */
+.preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.pv-card{
+  background:var(--glass);backdrop-filter:blur(12px);
+  border:1px solid var(--border);border-radius:var(--r);
+  overflow:hidden;transition:border-color .2s,box-shadow .2s;
+}
+.pv-card:hover{border-color:var(--border2);box-shadow:0 4px 24px rgba(0,0,0,.3)}
+.pv-head{padding:8px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.15)}
+.pv-head h4{font-size:10px;font-weight:700;color:var(--text2);flex:1}
+.pv-live{font-size:8px;background:var(--g-dim);color:var(--g);border:1px solid rgba(3,199,90,.2);border-radius:3px;padding:1px 5px;font-weight:700;animation:blink 2s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.6}}
+.pv-body{padding:12px 14px}
 
-/* 네이버 광고 카드 */
-.naver-ad{background:#fff;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.naver-ad-inner{padding:10px 12px}
-.naver-ad-header{display:flex;align-items:center;gap:3px;margin-bottom:5px;flex-wrap:wrap}
-.naver-ad-logo{width:13px;height:13px;border-radius:2px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:900;color:#fff;flex-shrink:0}
-.naver-ad-store{font-size:10px;color:#666}
-.naver-ad-url{font-size:10px;color:#666}
-.naver-ad-badge{font-size:7px;color:#888;border:1px solid #ccc;border-radius:2px;padding:1px 2px;line-height:1;margin-left:1px}
-.naver-ad-title{font-size:13px;font-weight:700;color:#1a73e8;line-height:1.4;margin-bottom:3px}
-.naver-ad-title.empty{color:#ccc;font-weight:400;font-size:11px}
-.naver-ad-desc{font-size:11px;color:#444;line-height:1.5}
-.naver-ad-desc.empty{color:#ccc;font-size:10px}
-.naver-ad-thumb{width:52px;height:52px;border-radius:3px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;overflow:hidden}
-.naver-ad-thumb img{width:100%;height:100%;object-fit:cover}
-.naver-ad-row{display:flex;gap:8px;align-items:flex-start}
+/* 네이버 PC 광고 */
+.naver-ad{background:#fff;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.naver-ad-inner{padding:12px 14px}
+.naver-ad-header{display:flex;align-items:center;gap:3px;margin-bottom:7px;flex-wrap:wrap}
+.naver-ad-logo{width:14px;height:14px;border-radius:3px;background:#03C75A;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#fff;flex-shrink:0}
+.naver-ad-store{font-size:10px;color:#555;font-weight:500}
+.naver-ad-url{font-size:10px;color:#777}
+.naver-ad-badge{font-size:7px;color:#888;border:1px solid #ccc;border-radius:2px;padding:1px 3px;line-height:1.2;margin-left:2px}
+.naver-ad-row{display:flex;gap:10px;align-items:flex-start}
 .naver-ad-body{flex:1;min-width:0}
-.naver-ad-chips{display:flex;flex-wrap:wrap;gap:3px;margin-top:3px}
-.naver-ad-chip{background:#f3f3f3;border:1px solid #ddd;border-radius:2px;padding:2px 5px;font-size:9px;color:#555}
-.pv-note{font-size:8px;color:var(--gray-400);margin-top:5px}
+.naver-ad-title{font-size:14px;font-weight:700;color:#1a73e8;line-height:1.4;margin-bottom:4px}
+.naver-ad-title.empty{color:#ccc;font-weight:400;font-size:11px}
+.naver-ad-desc{font-size:11px;color:#444;line-height:1.55}
+.naver-ad-desc.empty{color:#ccc;font-size:10px}
+.naver-ad-thumb{width:72px;height:72px;border-radius:5px;background:#f8f8f8;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden;border:1px solid #eee}
+.naver-ad-thumb img{width:100%;height:100%;object-fit:cover}
+.naver-ad-chips{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px}
+.naver-ad-chip{background:#f3f3f3;border:1px solid #e5e5e5;border-radius:2px;padding:2px 6px;font-size:9px;color:#555}
 
-/* ── 선택 목록 카드 ── */
-.sel-card{background:#fff;border-radius:var(--radius);border:1px solid rgba(0,0,0,.06);box-shadow:var(--shadow-sm);padding:10px 13px}
-.sel-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.sel-head{font-size:10px;font-weight:700;color:var(--gray-600);display:flex;justify-content:space-between;margin-bottom:5px;letter-spacing:.2px}
-.sel-cnt{color:var(--green);font-weight:700}
-.sel-item{font-size:10px;color:var(--gray-600);background:var(--gray-50);border-radius:3px;padding:3px 7px;margin-bottom:2px;display:flex;align-items:center;gap:4px;border:1px solid var(--gray-100)}
-.sel-empty{font-size:10px;color:var(--gray-400)}
-.sel-x{background:none;border:none;cursor:pointer;color:var(--gray-400);font-size:11px;margin-left:auto;padding:0 2px;flex-shrink:0}
-.sel-x:hover{color:var(--red)}
-
-/* 스피너 */
-.spin,.spin-sm{display:inline-block;border-radius:50%;border:2px solid var(--gray-200);border-top-color:var(--green);animation:spin .6s linear infinite}
-.spin{width:14px;height:14px}
-.spin-sm{width:10px;height:10px;border-width:1.5px}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* 기타 */
-.ripple-btn{position:relative;overflow:hidden}
-.notice{font-size:11px;border-radius:5px;padding:7px 10px;margin:4px 0}
-.n-error{background:#fff5f5;color:var(--red);border:1px solid #fed7d7}
-.n-warn{background:#fffbeb;color:#b45309;border:1px solid #fde68a}
-.n-info{background:var(--green-pale);color:var(--green);border:1px solid rgba(3,199,90,.2)}
-.kw-chip{font-size:9px;background:var(--gray-100);border:1px solid var(--gray-200);border-radius:3px;padding:2px 6px;cursor:pointer}
-.kw-chip:hover{background:var(--green-pale);border-color:var(--green);color:var(--green)}
-.divider{height:1px;background:var(--gray-100)}
-
-/* ── 네이버 모바일 광고 스타일 ── */
-.naver-mob-ad{background:#fff;border:1px solid #e5e8ec;border-radius:8px;padding:12px 14px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+/* 네이버 모바일 */
+.naver-mob-ad{background:#fff;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.naver-mob-ad-inner{padding:12px 14px}
 .naver-mob-meta{display:flex;align-items:center;gap:4px;margin-bottom:8px;flex-wrap:wrap}
-.naver-mob-logo{width:16px;height:16px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#fff;flex-shrink:0}
+.naver-mob-logo{width:16px;height:16px;border-radius:50%;background:#03C75A;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#fff;flex-shrink:0}
 .naver-mob-store{font-size:11px;color:#555;font-weight:500}
 .naver-mob-url{font-size:10px;color:#888}
 .naver-mob-badge{font-size:8px;color:#888;border:1px solid #ccc;border-radius:2px;padding:1px 3px;line-height:1.2;margin-left:2px}
@@ -367,15 +415,105 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
 .naver-mob-title.empty{color:#ccc;font-weight:400;font-size:12px}
 .naver-mob-desc{font-size:12px;color:#444;line-height:1.55}
 .naver-mob-desc.empty{color:#ccc;font-size:11px}
-.naver-mob-thumb{width:72px;height:72px;border-radius:6px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden;border:1px solid #eee}
+.naver-mob-thumb{width:72px;height:72px;border-radius:6px;background:#f8f8f8;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden;border:1px solid #eee}
 .naver-mob-thumb img{width:100%;height:100%;object-fit:cover}
 .naver-mob-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
-.naver-mob-chip{background:#f4f4f4;border:1px solid #e0e0e0;border-radius:14px;padding:3px 10px;font-size:11px;color:#444;cursor:pointer;transition:background .1s}
-.naver-mob-chip:hover{background:#e8e8e8}
+.naver-mob-chip{background:#f5f5f5;border:1px solid #e0e0e0;border-radius:14px;padding:3px 11px;font-size:11px;color:#444;cursor:pointer;transition:background .1s}
+.naver-mob-chip:hover{background:#ebebeb}
+.pv-note{font-size:8px;color:var(--text3);margin-top:6px;text-align:center}
 
+/* ══ 결과 카드 ══ */
+.result-wrap{margin-bottom:14px}
+.result-card{
+  background:var(--glass);backdrop-filter:blur(12px);
+  border:1px solid var(--border);border-radius:var(--r);overflow:hidden;
+}
+.result-tabs{display:flex;border-bottom:1px solid var(--border);background:rgba(0,0,0,.2)}
+.rtab{
+  flex:1;padding:9px 0;font-size:11px;font-weight:700;color:var(--text3);
+  border:none;background:none;cursor:pointer;
+  border-bottom:2px solid transparent;transition:all .2s;font-family:inherit;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.rtab.active{color:var(--text);border-bottom-color:var(--g)}
+.rpane{display:none}
+.rpane.active{display:block}
+
+/* 아이템 */
+.sec-bar{
+  display:flex;align-items:center;gap:6px;padding:6px 12px;
+  border-bottom:1px solid var(--border);background:rgba(0,0,0,.15);
+  position:sticky;top:0;z-index:1;
+}
+.sec-title{font-size:10px;font-weight:700;color:var(--text2);display:flex;align-items:center;gap:5px;flex:1}
+.badge{font-size:9px;background:var(--g-dim);color:var(--g);border:1px solid rgba(3,199,90,.2);border-radius:3px;padding:1px 6px;font-weight:700}
+.badge.sel{background:rgba(0,102,255,.1);color:var(--b2);border-color:rgba(0,102,255,.2)}
+.item{display:flex;align-items:center;gap:8px;padding:7px 12px;border-bottom:1px solid var(--border);transition:background .15s;cursor:pointer}
+.item:hover{background:rgba(255,255,255,.03)}
+.item.on{background:rgba(3,199,90,.04)}
+.plus{
+  width:22px;height:22px;border-radius:50%;
+  border:1.5px solid var(--border);background:none;color:var(--text3);
+  font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;flex-shrink:0;
+}
+.plus:hover{border-color:var(--g);color:var(--g);background:var(--g-dim)}
+.item.on .plus{background:var(--g);border-color:var(--g);color:#fff}
+.txt-wrap{flex:1;min-width:0}
+.txt{font-size:11px;color:var(--text);line-height:1.4;outline:none}
+.txt:focus{outline:1px solid rgba(3,199,90,.4);border-radius:2px;padding:1px 2px}
+.meta{display:flex;align-items:center;gap:5px;margin-top:2px}
+.cc{font-size:9px;color:var(--text3)}
+.cc.over{color:var(--red);font-weight:700}
+.badge-tag{font-size:8px;background:var(--g-dim);color:var(--g);border-radius:2px;padding:1px 5px;font-weight:700}
+.pin-sel{
+  background:rgba(0,0,0,.2);border:1px solid var(--border);color:var(--text2);
+  border-radius:4px;padding:2px 6px;font-size:9px;cursor:pointer;font-family:inherit;
+  flex-shrink:0;transition:border-color .15s;
+}
+.pin-sel:focus{outline:none;border-color:rgba(3,199,90,.4)}
+.pin-sel.pinned{border-color:rgba(0,102,255,.4);color:var(--b2);background:rgba(0,102,255,.06)}
+
+/* 빈 상태 */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;gap:10px}
+.empty-icon{font-size:32px;opacity:.2;filter:grayscale(1)}
+.empty-txt{text-align:center;font-size:12px;color:var(--text3);line-height:1.8}
+.empty-txt strong{color:var(--text2)}
+
+/* 선택 카드 */
+.sel-card{
+  background:var(--glass);backdrop-filter:blur(12px);
+  border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;
+}
+.sel-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.sel-head{font-size:9px;font-weight:700;color:var(--text3);display:flex;justify-content:space-between;margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+.sel-cnt{color:var(--g);font-weight:700}
+.sel-item{font-size:10px;color:var(--text2);background:rgba(0,0,0,.2);border-radius:4px;padding:4px 8px;margin-bottom:3px;display:flex;align-items:center;gap:4px;border:1px solid var(--border)}
+.sel-empty{font-size:10px;color:var(--text3)}
+.sel-x{background:none;border:none;cursor:pointer;color:var(--text3);font-size:11px;margin-left:auto;padding:0 2px;flex-shrink:0;transition:color .15s}
+.sel-x:hover{color:var(--red)}
+
+/* ══ 스피너 ══ */
+.spin,.spin-sm{display:inline-block;border-radius:50%;border:2px solid rgba(255,255,255,.1);border-top-color:var(--g);animation:spin .6s linear infinite}
+.spin{width:14px;height:14px}
+.spin-sm{width:10px;height:10px;border-width:1.5px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* 기타 */
+.notice{font-size:11px;border-radius:6px;padding:7px 11px;margin:4px 0}
+.n-error{background:rgba(255,77,109,.08);color:var(--red);border:1px solid rgba(255,77,109,.2)}
+.n-warn{background:rgba(245,158,11,.08);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
+.n-info{background:var(--g-dim);color:var(--g);border:1px solid rgba(3,199,90,.2)}
+.kw-chip{font-size:9px;background:var(--glass);border:1px solid var(--border);border-radius:3px;padding:2px 6px;cursor:pointer;color:var(--text3);transition:all .15s}
+.kw-chip:hover{background:var(--g-dim);border-color:rgba(3,199,90,.3);color:var(--g)}
+.divider{height:1px;background:var(--border);margin:4px 0}
+.ripple-btn{position:relative;overflow:hidden}
 </style>
 </head>
 <body>
+
+<div class="aurora"><div class="aurora-1"></div><div class="aurora-2"></div><div class="aurora-3"></div></div>
+<div class="noise"></div>
 
 <!-- ── API Key 모달 ── -->
 <div class="overlay hidden" id="keyModal">
@@ -432,18 +570,19 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
 
 
 
-<!-- ── 분석 리포트 모달 ── -->
+
+<!-- 분석 모달 -->
 <div class="overlay hidden" id="analysisModal">
   <div class="analysis-modal-inner">
     <div class="analysis-modal-head">
-      <div style="display:flex;align-items:center;gap:10px">
-        <span style="font-size:22px">🧠</span>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,rgba(3,199,90,.2),rgba(0,102,255,.15));border:1px solid rgba(3,199,90,.3);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 20px rgba(3,199,90,.2)">🧠</div>
         <div>
-          <div style="font-size:14px;font-weight:800;color:#fff">마케터 분석 리포트</div>
-          <div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:1px">10년차 네이버 파워링크 전문가의 소재 전략 분석</div>
+          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#fff">마케터 분석 리포트</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px">10년차 네이버 파워링크 전문가의 소재 전략 분석</div>
         </div>
       </div>
-      <button onclick="document.getElementById('analysisModal').classList.add('hidden')" style="background:rgba(255,255,255,.1);border:none;color:#fff;width:28px;height:28px;border-radius:50%;font-size:16px;cursor:pointer;flex-shrink:0">×</button>
+      <button onclick="document.getElementById('analysisModal').classList.add('hidden')" style="background:rgba(255,255,255,.07);border:1px solid var(--border);color:var(--text2);width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer;flex-shrink:0;transition:all .15s">×</button>
     </div>
     <div class="analysis-modal-body" id="analysisModalBody">
       <div class="analysis-loading"><span class="spin-sm"></span> 분석 중...</div>
@@ -451,103 +590,114 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
   </div>
 </div>
 
-<!-- ── 헤더 ── -->
+<!-- 헤더 -->
 <header class="site-header">
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v2.9</span>
+    <span class="h-version">v3.0</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
       <div class="h-clock-time" id="hClockTime">00:00:00</div>
       <div class="h-clock-date" id="hClockDate"></div>
     </div>
-    <div class="h-divider"></div>
+    <div class="h-div"></div>
     <div class="api-status">
-      <span class="status-dot" id="claudeDot"></span>
+      <span class="s-dot" id="claudeDot"></span>
       <span>Gemini API</span>
     </div>
-    <button class="h-setting-btn" onclick="openKeyModal()">⚙ 설정</button>
+    <button class="h-btn" onclick="openKeyModal()">⚙ 설정</button>
   </div>
 </header>
 
-<!-- ── 히어로 ── -->
-<div class="hero">
-  <div class="hero-eyebrow">Naver Powerlink · AI Copy Generator</div>
-  <h2>광고 소재, <em>이제 AI가</em> 만들어드려요</h2>
-  <p>상품 정보를 입력하면 <strong>제목 30개 · 설명 12개</strong>를 즉시 생성해드려요</p>
+<!-- 히어로 -->
+<section class="hero">
+  <div class="hero-eyebrow">✦ Naver Powerlink · AI Copy Generator</div>
+  <h1>광고 소재, <em>이제 AI가</em><br>만들어드려요</h1>
+  <p class="hero-sub">상품 정보를 입력하면 <strong>제목 30개 · 설명 12개</strong>를 즉시 생성해드려요<br>Gemini AI · AI마케팅전략연구소</p>
   <div class="hero-stats">
     <div class="hero-stat"><span class="hero-stat-num">30</span><span class="hero-stat-lbl">광고 제목</span></div>
-    <div class="hero-stat-div"></div>
     <div class="hero-stat"><span class="hero-stat-num">12</span><span class="hero-stat-lbl">광고 설명</span></div>
-    <div class="hero-stat-div"></div>
     <div class="hero-stat"><span class="hero-stat-num">AI</span><span class="hero-stat-lbl">분석 리포트</span></div>
   </div>
-</div>
+</section>
 
-<!-- ── API 배너 ── -->
 <div id="apiKeyBanner">
   <span>⚠️ Gemini API Key가 설정되지 않았어요.</span>
-  <button onclick="openKeyModal()" style="background:#ffc107;border:none;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;color:#333;margin-left:8px">🔑 설정</button>
+  <button onclick="openKeyModal()" style="background:rgba(245,158,11,.2);border:1px solid rgba(245,158,11,.4);border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--amber);margin-left:8px">🔑 설정하기</button>
 </div>
 
-<!-- ── 앱 메인 ── -->
-<div class="app-main">
+<main class="app-main">
 
-  <!-- ① 상품 정보 입력 (sticky) -->
-  <div class="sticky-top">
+  <!-- ① 입력 패널 (sticky) -->
+  <div class="sticky-panel">
+    <div class="input-card">
 
-    <!-- 프로그레스 바 -->
-    <div id="progressBar">
-      <div class="pbar-wrap">
+      <!-- 진행 바 -->
+      <div class="pbar-strip">
         <div class="pbar-track"><div class="pbar-fill" id="pbarFill"></div></div>
         <div class="pbar-steps">
-          <div class="pbar-step" id="pg1"><div class="pbar-dot"><span class="pbar-num">1</span><svg class="pbar-check" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div class="pbar-label">상품 분석</div></div>
-          <div class="pbar-step" id="pg2"><div class="pbar-dot"><span class="pbar-num">2</span><svg class="pbar-check" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div class="pbar-label">소재 작성</div></div>
-          <div class="pbar-step" id="pg3"><div class="pbar-dot"><span class="pbar-num">3</span><svg class="pbar-check" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div class="pbar-label">완료</div></div>
+          <div class="pbar-step" id="pg1">
+            <div class="pstep-dot"><span class="pstep-num">1</span><svg class="pstep-check" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+            <div class="pstep-lbl">상품 분석</div>
+          </div>
+          <div class="pbar-step" id="pg2">
+            <div class="pstep-dot"><span class="pstep-num">2</span><svg class="pstep-check" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+            <div class="pstep-lbl">소재 작성</div>
+          </div>
+          <div class="pbar-step" id="pg3">
+            <div class="pstep-dot"><span class="pstep-num">3</span><svg class="pstep-check" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+            <div class="pstep-lbl">완료</div>
+          </div>
         </div>
         <div class="pbar-msg" id="pbarMsg">소재 생성 준비 완료</div>
       </div>
-    </div>
 
-    <!-- 입력 카드 -->
-    <div class="input-sticky-card">
-      <div class="input-grid-wrap">
+      <!-- 컬럼 라벨 -->
+      <div class="col-labels">
+        <div class="col-lbl"><span class="col-lbl-dot"></span>상품명 · 타겟</div>
+        <div class="col-lbl"><span class="col-lbl-dot"></span>광고에 넣고 싶은 내용</div>
+        <div class="col-lbl"><span class="col-lbl-dot"></span>상세페이지 이미지</div>
+        <div class="col-lbl"><span class="col-lbl-dot"></span>마케터 분석 리포트</div>
+      </div>
 
-        <!-- 상품명 -->
+      <!-- 4컬럼 입력 -->
+      <div class="input-grid">
+
+        <!-- 상품명 + 타겟 -->
         <div class="input-col">
-          <label class="lbl">상품명 <span class="req">*</span></label>
-          <span class="lbl-desc">광고에 노출되는 핵심 키워드 포함</span>
-          <input type="text" class="inp" id="productName" placeholder="예: 아로마 디퓨저 200ml 우드향" />
+          <div>
+            <div class="lbl">상품명 <span class="req">*</span></div>
+            <div class="lbl-desc">핵심 키워드 포함</div>
+            <input type="text" class="inp" id="productName" placeholder="예: 아로마 디퓨저 200ml 우드향" />
+          </div>
+          <div>
+            <div class="lbl">타겟 고객</div>
+            <div class="lbl-desc">성별·나이·직업 등</div>
+            <input type="text" class="inp" id="target" placeholder="예: 30대 여성, 소상공인" />
+          </div>
         </div>
 
         <!-- 광고 내용 -->
         <div class="input-col">
-          <label class="lbl">광고에 넣고 싶은 내용</label>
-          <span class="lbl-desc">특징·혜택·강조 포인트</span>
+          <div class="lbl">광고에 넣고 싶은 내용</div>
+          <div class="lbl-desc">특징·혜택·강조 포인트</div>
           <div id="featSuggestWrap" style="display:none">
             <div class="feat-suggest-lbl" id="featSuggestLbl">💡 AI 추천</div>
             <div class="feat-suggest" id="featSuggest"></div>
           </div>
           <div class="feat-slots" id="featSlots">
             <div class="feat-slot"><span class="feat-slot-num">1</span><input type="text" placeholder="예: 천연 에센셜오일 100% 사용" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
-            <div class="feat-slot"><span class="feat-slot-num">2</span><input type="text" placeholder="예: 12시간 지속" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
+            <div class="feat-slot"><span class="feat-slot-num">2</span><input type="text" placeholder="예: 12시간 은은하게 지속" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
           </div>
           <button class="feat-add-btn" id="featAddBtn" onclick="addSlot()">+ 항목 추가</button>
         </div>
 
-        <!-- 타겟 고객 -->
-        <div class="input-col">
-          <label class="lbl">타겟 고객</label>
-          <span class="lbl-desc">성별·나이·직업 등</span>
-          <input type="text" class="inp" id="target" placeholder="예: 30대 여성, 소상공인" />
-        </div>
-
         <!-- 이미지 -->
         <div class="input-col">
-          <label class="lbl">상세페이지 이미지</label>
-          <span class="lbl-desc">AI 직접 분석 (최대 20장)</span>
+          <div class="lbl">상세페이지 이미지</div>
+          <div class="lbl-desc">AI 직접 분석 (최대 20장)</div>
           <div class="upload-zone" id="uploadZone">
             <input type="file" id="fileInput" accept="image/*" multiple onchange="onFile(event)" />
             <div class="upl-icon">🖼️</div>
@@ -555,73 +705,81 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
             <div class="upl-count" id="uplCount" style="display:none"></div>
           </div>
           <div class="img-grid" id="imgGrid"></div>
-          <div id="costCurrent" style="display:none;font-size:10px;color:var(--gray-400);margin-top:4px">
-            현재 <b id="costImgCnt" style="color:var(--green)">0</b>장 → 약 <b id="costAmt" style="color:var(--green)">-</b>
+          <div id="costCurrent" style="display:none;font-size:9px;color:var(--text3);margin-top:3px">
+            현재 <b id="costImgCnt" style="color:var(--g)">0</b>장 → 약 <b id="costAmt" style="color:var(--g)">-</b>
           </div>
         </div>
 
-      </div><!-- input-grid-wrap -->
-
-      <!-- 생성 버튼 -->
-      <div style="padding:0 16px 14px;display:flex;align-items:center;gap:12px">
-        <button class="gen-btn ripple-btn" id="genBtn" onclick="generate()" style="max-width:260px">
-          <span id="genTxt">✨ 광고 소재 생성하기</span>
-        </button>
-        <!-- 분석 리포트 버튼 -->
-        <div class="analysis-inline">
-          <div class="analysis-inline-dot" id="analysisDot">🧠</div>
-          <div style="flex:1;min-width:0">
-            <div class="analysis-inline-status" id="analysisSideStatus">마케터 분석 리포트</div>
-            <div class="analysis-inline-preview" id="analysisSidePreview">소재 생성 후 자동 분석됩니다</div>
-          </div>
-          <button class="analysis-inline-btn" id="analysisOpenBtn" onclick="openAnalysisModal()" disabled>📄 보기</button>
-        </div>
-      </div>
-
-    </div><!-- input-sticky-card -->
-  </div><!-- sticky-top -->
-
-  <!-- ② 광고 미리보기 (가로 2열) -->
-  <div class="content-section">
-    <div class="preview-row">
-      <div class="pv-card">
-        <div class="pv-card-head"><h4>🖥️ PC 미리보기</h4></div>
-        <div class="pv-card-body">
-          <div class="naver-ad">
-            <div class="naver-ad-inner">
-              <div class="naver-ad-header">
-                <div class="naver-ad-logo">S</div>
-                <span class="naver-ad-store">스마트스토어</span>
-                <span style="color:#ddd;font-size:9px">·</span>
-                <span class="naver-ad-url">smartstore.naver.com</span>
-                <span class="naver-ad-badge">광고</span>
-              </div>
-              <div class="naver-ad-row">
-                <div class="naver-ad-body">
-                  <div class="naver-ad-title empty" id="pvPcTitles">제목을 선택하면 표시됩니다</div>
-                  <div class="naver-ad-desc empty" id="pvPcDesc">설명을 선택하면 표시됩니다</div>
-                  <div class="naver-ad-chips" id="pvPcChips" style="margin-top:6px"></div>
-                </div>
-                <div class="naver-ad-thumb" id="pvPcThumb" style="width:80px;height:80px;font-size:22px">🏪</div>
-              </div>
+        <!-- 분석 리포트 -->
+        <div class="input-col col-analysis">
+          <div class="analysis-head">
+            <div class="analysis-orb">🧠</div>
+            <div>
+              <div class="analysis-title-sm">마케터 분석 리포트</div>
+              <div class="analysis-sub-sm">AI마케팅전략연구소</div>
             </div>
           </div>
-          <div class="pv-note">※ 키워드에 따라 이미지 미노출 가능</div>
+          <div class="analysis-status" id="analysisSideStatus">소재 생성 후 자동 분석됩니다</div>
+          <div class="analysis-preview" id="analysisSidePreview">광고 소재를 생성하면 여기에 마케터의 분석이 요약되어 표시됩니다</div>
+          <button class="analysis-btn" id="analysisOpenBtn" onclick="openAnalysisModal()" disabled>📄 전체 리포트 보기</button>
         </div>
+
+      </div><!-- input-grid -->
+
+      <!-- 생성 버튼 -->
+      <div class="input-footer">
+        <button class="gen-btn ripple-btn" id="genBtn" onclick="generate()">
+          <span id="genTxt">✨ 광고 소재 생성하기</span>
+        </button>
+        <div class="footer-info">Gemini AI · 제목 30개 · 설명 12개 · 무료 API 사용 가능</div>
       </div>
-      <div class="pv-card">
-        <div class="pv-card-head"><h4>📱 모바일 미리보기</h4></div>
-        <div class="pv-card-body">
-          <!-- 네이버 모바일 실제 구조 -->
-          <div class="naver-mob-ad">
-            <!-- 광고주 정보 -->
+
+    </div><!-- input-card -->
+  </div><!-- sticky-panel -->
+
+  <!-- ② 광고 미리보기 -->
+  <div class="section-header">
+    <div class="section-label">광고 미리보기</div>
+    <div class="section-div"></div>
+  </div>
+  <div class="preview-grid">
+    <div class="pv-card">
+      <div class="pv-head"><h4>🖥 PC 미리보기</h4><span class="pv-live">실시간</span></div>
+      <div class="pv-body">
+        <div class="naver-ad">
+          <div class="naver-ad-inner">
+            <div class="naver-ad-header">
+              <div class="naver-ad-logo">S</div>
+              <span class="naver-ad-store">스마트스토어</span>
+              <span style="color:#ddd;font-size:9px">·</span>
+              <span class="naver-ad-url">smartstore.naver.com</span>
+              <span class="naver-ad-badge">광고</span>
+            </div>
+            <div class="naver-ad-row">
+              <div class="naver-ad-body">
+                <div class="naver-ad-title empty" id="pvPcTitles">제목을 선택하면 표시됩니다</div>
+                <div class="naver-ad-desc empty" id="pvPcDesc">설명을 선택하면 표시됩니다</div>
+                <div class="naver-ad-chips" id="pvPcChips"></div>
+              </div>
+              <div class="naver-ad-thumb" id="pvPcThumb">🏪</div>
+            </div>
+          </div>
+        </div>
+        <div class="pv-note">※ 키워드에 따라 이미지 미노출 가능</div>
+      </div>
+    </div>
+    <div class="pv-card">
+      <div class="pv-head"><h4>📱 모바일 미리보기</h4><span class="pv-live">실시간</span></div>
+      <div class="pv-body">
+        <div class="naver-mob-ad">
+          <div class="naver-mob-ad-inner">
             <div class="naver-mob-meta">
               <div class="naver-mob-logo">S</div>
               <span class="naver-mob-store">스마트스토어</span>
+              <span style="color:#ddd;font-size:9px">·</span>
               <span class="naver-mob-url">smartstore.naver.com</span>
               <span class="naver-mob-badge">광고</span>
             </div>
-            <!-- 제목 + 이미지 -->
             <div class="naver-mob-row">
               <div class="naver-mob-body">
                 <div class="naver-mob-title empty" id="pvMobTitles">제목을 선택하면 표시됩니다</div>
@@ -629,60 +787,59 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#edf1f7;color:
               </div>
               <div class="naver-mob-thumb" id="pvMobThumb">🏪</div>
             </div>
-            <!-- 칩 태그 -->
             <div class="naver-mob-chips" id="pvMobChips"></div>
           </div>
-          <div class="pv-note">※ 핀 기능으로 원하는 애셋 고정 권장</div>
         </div>
+        <div class="pv-note">※ 핀 기능으로 원하는 애셋 고정 권장</div>
       </div>
     </div>
   </div>
 
   <!-- ③ 광고 소재 결과 -->
-  <div class="content-section">
+  <div class="section-header">
+    <div class="section-label">광고 소재</div>
+    <div class="section-div"></div>
+  </div>
+  <div class="result-wrap">
     <div class="result-card">
       <div id="emptyState" class="empty">
-        <div class="empty-icon">📋</div>
-        <div class="empty-txt">상품 정보를 입력하고 <strong>생성 버튼</strong>을 눌러주세요<br><span style="font-size:10px;opacity:.6">✓ 제목 30개 · 설명 12개 · 마케터 분석 리포트</span></div>
+        <div class="empty-icon">✦</div>
+        <div class="empty-txt">상품 정보를 입력하고 <strong>생성 버튼</strong>을 눌러주세요<br><span style="font-size:10px;opacity:.5">✓ 제목 30개 · 설명 12개 · 마케터 분석 리포트</span></div>
       </div>
       <div id="analysisBody" style="display:none"></div>
       <div id="resultWrap" style="display:none">
         <div class="result-tabs">
-          <button class="result-tab-btn active" id="rtabT" onclick="switchResultTab('t')">
-            광고 제목&nbsp;<span class="badge" id="tBadge">0</span>&nbsp;<span class="badge sel" id="tSelBadge" style="display:none"></span>
+          <button class="rtab active" id="rtabT" onclick="switchResultTab('t')">
+            광고 제목 <span class="badge" id="tBadge">0</span> <span class="badge sel" id="tSelBadge" style="display:none"></span>
           </button>
-          <button class="result-tab-btn" id="rtabD" onclick="switchResultTab('d')">
-            광고 설명&nbsp;<span class="badge" id="dBadge">0</span>&nbsp;<span class="badge sel" id="dSelBadge" style="display:none"></span>
+          <button class="rtab" id="rtabD" onclick="switchResultTab('d')">
+            광고 설명 <span class="badge" id="dBadge">0</span> <span class="badge sel" id="dSelBadge" style="display:none"></span>
           </button>
         </div>
-        <div class="result-pane active" id="rpaneT">
-          <div class="items" id="titleItems"></div>
-        </div>
-        <div class="result-pane" id="rpaneD">
-          <div class="items" id="descItems"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 선택 목록 -->
-    <div class="sel-card" style="margin-top:8px">
-      <div class="sel-grid">
-        <div>
-          <div class="sel-head">선택된 제목 <span class="sel-cnt" id="sTCnt">0개</span></div>
-          <div id="sTList"><div class="sel-empty">선택 없음</div></div>
-        </div>
-        <div>
-          <div class="sel-head">선택된 설명 <span class="sel-cnt" id="sDCnt">0개</span></div>
-          <div id="sDList"><div class="sel-empty">선택 없음</div></div>
-        </div>
+        <div class="rpane active" id="rpaneT"><div class="items" id="titleItems"></div></div>
+        <div class="rpane" id="rpaneD"><div class="items" id="descItems"></div></div>
       </div>
     </div>
   </div>
 
-</div><!-- app-main -->
+  <!-- 선택 목록 -->
+  <div class="sel-card">
+    <div class="sel-grid">
+      <div>
+        <div class="sel-head">선택된 제목 <span class="sel-cnt" id="sTCnt">0개</span></div>
+        <div id="sTList"><div class="sel-empty">선택 없음</div></div>
+      </div>
+      <div>
+        <div class="sel-head">선택된 설명 <span class="sel-cnt" id="sDCnt">0개</span></div>
+        <div id="sDList"><div class="sel-empty">선택 없음</div></div>
+      </div>
+    </div>
+  </div>
 
+</main>
 
 <script>
+
 
 
 // ── 상태
@@ -1544,6 +1701,18 @@ function switchResultTab(tab) {
 }
 
 function switchPvTab(tab) {}
+
+
+
+function switchResultTab(tab) {
+  ['t','d'].forEach(t => {
+    const btn = document.getElementById('rtab'+t.toUpperCase());
+    const pane = document.getElementById('rpane'+t.toUpperCase());
+    if(btn) btn.classList.toggle('active', t===tab);
+    if(pane) pane.classList.toggle('active', t===tab);
+  });
+}
+function switchPvTab(){}
 
 
 
