@@ -88,6 +88,26 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;color:var(--gray-8
 }
 .key-confirm-btn:hover{background:var(--green-dark)}
 .key-confirm-btn:disabled{background:var(--gray-400);cursor:not-allowed}
+/* 모달 탭 */
+.modal-tabs{display:flex;border-bottom:1px solid var(--gray-200);margin-bottom:20px}
+.modal-tab{
+  flex:1;padding:10px;font-size:13px;font-weight:600;
+  background:none;border:none;cursor:pointer;font-family:inherit;
+  color:var(--gray-400);border-bottom:2px solid transparent;margin-bottom:-1px;
+  transition:all .15s;
+}
+.modal-tab.active{color:var(--green);border-bottom-color:var(--green)}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.naver-key-row{display:flex;gap:8px;margin-bottom:8px}
+.naver-key-row .key-input-wrap{flex:1;margin-bottom:0;padding:10px 12px}
+.naver-key-row .key-input-wrap input{font-size:12px}
+.naver-key-lbl{font-size:11px;font-weight:600;color:var(--gray-600);margin-bottom:5px;display:block}
+.naver-status{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;padding:8px 10px;border-radius:7px;margin-top:4px;
+}
+.naver-status.ok{background:rgba(3,199,90,.08);color:#1a6e37;border:1px solid rgba(3,199,90,.2)}
+.naver-status.none{background:var(--gray-50);color:var(--gray-400);border:1px solid var(--gray-200)}
 
 /* ── 헤더 ── */
 .site-header{
@@ -413,31 +433,72 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
       <p>스마트스토어 URL 하나로 파워링크 광고 문구를<br>AI가 자동으로 만들어드립니다</p>
     </div>
     <div class="key-modal-body">
-      <div class="step-guide">
-        <div class="step-guide-title">Claude API Key 발급 방법</div>
-        <div class="step-row">
-          <div class="step-num">1</div>
-          <div class="step-text"><a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> 접속 후 회원가입</div>
+      <div class="modal-tabs">
+        <button class="modal-tab active" onclick="switchModalTab('claude')">🤖 Claude AI</button>
+        <button class="modal-tab" onclick="switchModalTab('naver')">🟢 네이버 쇼핑 API</button>
+      </div>
+
+      <!-- Claude 탭 -->
+      <div class="tab-pane active" id="tab-claude">
+        <div class="step-guide">
+          <div class="step-guide-title">Claude API Key 발급 방법</div>
+          <div class="step-row">
+            <div class="step-num">1</div>
+            <div class="step-text"><a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> 접속 후 회원가입</div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">2</div>
+            <div class="step-text">좌측 메뉴 <b>API Keys</b> → <b>Create Key</b> 클릭</div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">3</div>
+            <div class="step-text">생성된 <b>sk-ant-...</b> 키를 복사해서 아래에 붙여넣기</div>
+          </div>
         </div>
-        <div class="step-row">
-          <div class="step-num">2</div>
-          <div class="step-text">좌측 메뉴 <b>API Keys</b> → <b>Create Key</b> 클릭</div>
+        <div class="key-input-wrap">
+          <input type="password" id="modalKey" placeholder="sk-ant-api03-..." oninput="onKeyInput()" />
+          <button class="key-toggle-btn" onclick="toggleModalKey()">👁</button>
         </div>
-        <div class="step-row">
-          <div class="step-num">3</div>
-          <div class="step-text">생성된 <b>sk-ant-...</b> 형태의 키를 복사해서 아래에 붙여넣기</div>
+        <div class="key-notice">
+          🔒 API Key는 <span>브라우저에만 저장</span>되며 서버로 전송되지 않아요.<br>
+          1회 생성 비용: 약 <span>15~22원</span> (Claude API 요금제 기준)
         </div>
       </div>
-      <div class="key-input-wrap">
-        <input type="password" id="modalKey" placeholder="sk-ant-api03-..." oninput="onKeyInput()" />
-        <button class="key-toggle-btn" onclick="toggleModalKey()">👁</button>
+
+      <!-- 네이버 탭 -->
+      <div class="tab-pane" id="tab-naver">
+        <div class="step-guide">
+          <div class="step-guide-title">네이버 쇼핑 검색 API 발급 (무료)</div>
+          <div class="step-row">
+            <div class="step-num">1</div>
+            <div class="step-text"><a href="https://developers.naver.com/apps/#/register" target="_blank">developers.naver.com</a> → 애플리케이션 등록</div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">2</div>
+            <div class="step-text">사용 API에서 <b>검색</b> 선택 → 등록</div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">3</div>
+            <div class="step-text"><b>Client ID</b>와 <b>Client Secret</b>을 아래에 입력</div>
+          </div>
+        </div>
+        <label class="naver-key-lbl">Client ID</label>
+        <div class="key-input-wrap" style="margin-bottom:8px">
+          <input type="text" id="naverClientId" placeholder="Client ID 입력..." oninput="onNaverKeyInput()" />
+        </div>
+        <label class="naver-key-lbl">Client Secret</label>
+        <div class="key-input-wrap" style="margin-bottom:10px">
+          <input type="password" id="naverClientSecret" placeholder="Client Secret 입력..." oninput="onNaverKeyInput()" />
+          <button class="key-toggle-btn" onclick="toggleNaverSecret()">👁</button>
+        </div>
+        <div id="naverKeyStatus" class="naver-status none">미설정 — URL 불러오기 기능이 비활성화됩니다</div>
+        <div class="key-notice" style="margin-top:10px">
+          🔒 키는 <span>브라우저에만 저장</span>돼요. 하루 <span>10만 건 무료</span>입니다.
+        </div>
       </div>
-      <div class="key-notice">
-        🔒 API Key는 <span>브라우저에만 저장</span>되며 서버로 전송되지 않아요.<br>
-        1회 생성 비용: 약 <span>15~22원</span> (Claude API 요금제 기준)
-      </div>
+
       <button class="key-confirm-btn" id="keyConfirmBtn" onclick="confirmKey()" disabled>
-        시작하기 →
+        저장하고 시작하기 →
       </button>
     </div>
   </div>
@@ -453,6 +514,8 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
   <button class="h-key-btn" onclick="openKeyModal()">
     <span class="h-key-dot" id="keyDot"></span>
     <span id="keyStatus">API Key 설정</span>
+    <span id="naverDot" style="display:none;width:7px;height:7px;border-radius:50%;background:#03C75A;margin-left:2px"></span>
+    <span id="naverLabel" style="display:none;font-size:10px;color:rgba(255,255,255,.5)">+쇼핑</span>
   </button>
 </header>
 
@@ -641,7 +704,9 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
 const S = { titles:[], descs:[], kws:[], selT:new Set(), selD:new Set(), imgs:[] };
 
 // ── API Key 관리
-let API_KEY = localStorage.getItem('claude_key') || '';
+let API_KEY     = localStorage.getItem('claude_key') || '';
+let NAVER_ID    = localStorage.getItem('naver_id')  || '';
+let NAVER_SEC   = localStorage.getItem('naver_sec') || '';
 
 window.addEventListener('DOMContentLoaded', () => {
   if (API_KEY && API_KEY.startsWith('sk-ant')) {
@@ -650,32 +715,82 @@ window.addEventListener('DOMContentLoaded', () => {
   } else {
     document.getElementById('keyModal').classList.remove('hidden');
   }
+  updateNaverHeader();
 });
 
-function onKeyInput() {
-  const v = document.getElementById('modalKey').value.trim();
-  document.getElementById('keyConfirmBtn').disabled = !v.startsWith('sk-ant');
+// ── 모달 탭 전환
+function switchModalTab(tab) {
+  document.querySelectorAll('.modal-tab').forEach((el,i) => el.classList.toggle('active', (i===0&&tab==='claude')||(i===1&&tab==='naver')));
+  document.getElementById('tab-claude').classList.toggle('active', tab==='claude');
+  document.getElementById('tab-naver').classList.toggle('active', tab==='naver');
+  updateConfirmBtn();
 }
+
+function updateConfirmBtn() {
+  const ck = document.getElementById('modalKey').value.trim();
+  document.getElementById('keyConfirmBtn').disabled = !ck.startsWith('sk-ant');
+}
+
+function onKeyInput() { updateConfirmBtn(); }
+
+function onNaverKeyInput() {
+  const id  = document.getElementById('naverClientId').value.trim();
+  const sec = document.getElementById('naverClientSecret').value.trim();
+  const ok  = id.length > 3 && sec.length > 3;
+  const el  = document.getElementById('naverKeyStatus');
+  if (ok) {
+    el.className = 'naver-status ok';
+    el.textContent = '✅ 입력 완료 — URL 불러오기가 활성화됩니다';
+  } else {
+    el.className = 'naver-status none';
+    el.textContent = '미설정 — URL 불러오기 기능이 비활성화됩니다';
+  }
+}
+
 function toggleModalKey() {
   const el = document.getElementById('modalKey');
   el.type = el.type === 'password' ? 'text' : 'password';
 }
+function toggleNaverSecret() {
+  const el = document.getElementById('naverClientSecret');
+  el.type = el.type === 'password' ? 'text' : 'password';
+}
+
 function confirmKey() {
-  const v = document.getElementById('modalKey').value.trim();
-  if (!v.startsWith('sk-ant')) return;
-  API_KEY = v;
-  localStorage.setItem('claude_key', v);
+  const ck = document.getElementById('modalKey').value.trim();
+  if (!ck.startsWith('sk-ant')) return;
+  API_KEY = ck;
+  localStorage.setItem('claude_key', ck);
+
+  const nid = document.getElementById('naverClientId').value.trim();
+  const nsec = document.getElementById('naverClientSecret').value.trim();
+  if (nid && nsec) {
+    NAVER_ID = nid; NAVER_SEC = nsec;
+    localStorage.setItem('naver_id', nid);
+    localStorage.setItem('naver_sec', nsec);
+  }
   document.getElementById('keyModal').classList.add('hidden');
   updateKeyHeader(true);
+  updateNaverHeader();
 }
+
 function openKeyModal() {
   document.getElementById('modalKey').value = API_KEY || '';
-  document.getElementById('keyConfirmBtn').disabled = !API_KEY.startsWith('sk-ant');
+  document.getElementById('naverClientId').value = NAVER_ID || '';
+  document.getElementById('naverClientSecret').value = NAVER_SEC || '';
+  updateConfirmBtn();
+  onNaverKeyInput();
   document.getElementById('keyModal').classList.remove('hidden');
 }
+
 function updateKeyHeader(ok) {
   document.getElementById('keyDot').className = 'h-key-dot' + (ok ? ' ok' : '');
   document.getElementById('keyStatus').textContent = ok ? 'API Key 변경' : 'API Key 설정';
+}
+function updateNaverHeader() {
+  const ok = NAVER_ID && NAVER_SEC;
+  document.getElementById('naverDot').style.display = ok ? '' : 'none';
+  document.getElementById('naverLabel').style.display = ok ? '' : 'none';
 }
 
 // ── 파일 업로드 (최대 20장)
@@ -743,51 +858,99 @@ function renderImgGrid() {
 async function fetchStore() {
   const url = document.getElementById('storeUrl').value.trim();
   if (!url) { alert('URL을 입력해주세요.'); return; }
+
+  // 네이버 키가 없으면 설정 안내
+  if (!NAVER_ID || !NAVER_SEC) {
+    setNotice('warn', '⚠️ 네이버 쇼핑 API 키가 없어요. <b style="cursor:pointer;text-decoration:underline" onclick="openNaverTab()">여기서 설정</b>하면 URL에서 자동으로 상품 정보를 가져올 수 있어요.');
+    return;
+  }
+
   const btn = document.getElementById('fetchBtn');
   btn.disabled = true;
   btn.className = 'url-btn loading';
   btn.innerHTML = '<span class="spin-sm"></span> 불러오는 중...';
   setNotice('');
 
-  const proxies = [
-    `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
-    `https://corsproxy.io/?${encodeURIComponent(url)}`,
-    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
-  ];
+  try {
+    // URL에서 상품명 힌트 추출
+    const urlHint = extractProductHint(url);
 
-  let html = null;
-  for (const p of proxies) {
-    try {
-      const res = await fetch(p, { signal: AbortSignal.timeout(9000) });
-      if (!res.ok) continue;
-      const data = await res.json().catch(() => null);
-      if (data?.contents && data.contents.length > 500) { html = data.contents; break; }
-    } catch (e) { continue; }
-  }
+    // 네이버 쇼핑 검색 API (corsproxy로 헤더 전달)
+    const query = urlHint || url;
+    const apiUrl = `https://openapi.naver.com/v1/search/shop.json?query=${encodeURIComponent(query)}&display=5&sort=sim`;
+    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`;
 
-  btn.disabled = false; btn.className = 'url-btn'; btn.textContent = '불러오기';
+    const res = await fetch(proxyUrl, {
+      headers: {
+        'X-Naver-Client-Id': NAVER_ID,
+        'X-Naver-Client-Secret': NAVER_SEC,
+      },
+      signal: AbortSignal.timeout(10000)
+    });
 
-  if (!html) {
-    setNotice('warn', '⚠️ 페이지를 자동으로 가져오지 못했어요. 상품명과 특징을 직접 입력해주세요.');
-    return;
-  }
+    if (!res.ok) throw new Error('API 응답 오류: ' + res.status);
+    const data = await res.json();
+    const items = data.items || [];
 
-  const info = parse(html);
-  if (info.name) document.getElementById('productName').value = info.name;
-  if (info.desc && !document.getElementById('feature').value)
-    document.getElementById('feature').value = info.desc.substring(0, 200);
+    if (!items.length) {
+      setNotice('warn', '⚠️ 검색 결과가 없어요. 상품명을 직접 입력해주세요.');
+      return;
+    }
 
-  if (info.name) {
+    // 스마트스토어 URL과 가장 일치하는 상품 찾기
+    const storeId = extractStoreId(url);
+    let best = items.find(it => storeId && it.link && it.link.includes(storeId)) || items[0];
+
+    const name = stripHtml(best.title);
+    const desc = best.category1 + (best.category2 ? ' > ' + best.category2 : '') + (best.category3 ? ' > ' + best.category3 : '');
+    const img  = best.image || '';
+    const mall = best.mallName || '';
+    const price = best.lprice ? parseInt(best.lprice).toLocaleString() + '원' : '';
+
+    // 폼 채우기
+    document.getElementById('productName').value = name;
+    if (!document.getElementById('feature').value) {
+      const feat = [desc, price ? '가격 ' + price : '', mall ? mall + ' 판매' : ''].filter(Boolean).join(', ');
+      document.getElementById('feature').value = feat.substring(0, 200);
+    }
+
+    // 카드 표시
     const card = document.getElementById('productCard');
     card.className = 'product-card';
-    card.innerHTML = info.img
-      ? `<img src="${info.img}" onerror="this.style.display='none'" /><div><div class="p-name">${esc(info.name)}</div><div class="p-desc">${esc(info.desc||'')}</div></div>`
-      : `<div><div class="p-name">${esc(info.name)}</div><div class="p-desc">${esc(info.desc||'')}</div></div>`;
+    card.innerHTML = img
+      ? `<img src="${img}" onerror="this.style.display='none'" /><div><div class="p-name">${esc(name)}</div><div class="p-desc">${esc(desc)}${price ? ' · ' + price : ''}</div></div>`
+      : `<div><div class="p-name">${esc(name)}</div><div class="p-desc">${esc(desc)}</div></div>`;
     card.style.display = 'flex';
-    setNotice('ok', '✅ 상품 정보를 불러왔어요! 필요하면 수정 후 생성해주세요.');
-  } else {
-    setNotice('warn', '⚠️ 기본 정보만 불러왔어요. 상품명을 확인해주세요.');
+    setNotice('ok', `✅ 네이버 쇼핑에서 상품 정보를 불러왔어요! 필요하면 수정 후 생성해주세요.`);
+
+  } catch(e) {
+    console.error(e);
+    setNotice('warn', '⚠️ 불러오기 실패: ' + e.message + '<br>상품명을 직접 입력해주세요.');
+  } finally {
+    btn.disabled = false; btn.className = 'url-btn'; btn.textContent = '불러오기';
   }
+}
+
+// URL에서 상품명 힌트 추출
+function extractProductHint(url) {
+  // smartstore.naver.com/storeid/products/1234 → storeid를 검색 힌트로
+  const m = url.match(/smartstore\.naver\.com\/([^\/]+)/);
+  return m ? m[1].replace(/-/g,' ') : '';
+}
+
+// URL에서 스토어 ID 추출
+function extractStoreId(url) {
+  const m = url.match(/smartstore\.naver\.com\/([^\/]+)/);
+  return m ? m[1] : '';
+}
+
+function stripHtml(s) {
+  return (s||'').replace(/<[^>]+>/g,'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+}
+
+function openNaverTab() {
+  openKeyModal();
+  setTimeout(() => switchModalTab('naver'), 50);
 }
 
 function parse(html) {
