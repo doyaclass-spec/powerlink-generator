@@ -1353,7 +1353,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v4.9</span>
+    <span class="h-version">v5.0</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -2056,34 +2056,36 @@ async function callClaude(sys, userContent) {
     ];
   }
 
-  // 타임아웃 120초 — 이를 초과하면 재시도 안내
+  // 타임아웃 90초 — fetch 헤더 + body 읽기 전체에 적용
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 120000);
+  const timeoutId = setTimeout(() => controller.abort(), 90000);
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
   try {
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    signal: controller.signal,
-    body: JSON.stringify({
-      contents: [{ role: 'user', parts }],
-      generationConfig: { maxOutputTokens: 2500, temperature: 0.5 }
-    })
-  });
-  clearTimeout(timeoutId);
-  if (!res.ok) {
-    const e = await res.json();
-    const msg = e.error?.message || 'API 오류';
-    if (msg.includes('API_KEY_INVALID') || msg.includes('API key')) throw new Error('API Key가 유효하지 않아요. aistudio.google.com에서 다시 발급해주세요.');
-    if (msg.includes('quota') || msg.includes('RESOURCE_EXHAUSTED')) throw new Error('오늘 무료 한도(1,500회)를 초과했어요. 내일 다시 시도해주세요.');
-    throw new Error(msg);
-  }
-  const d = await res.json();
-  return d.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      signal: controller.signal,
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts }],
+        generationConfig: { maxOutputTokens: 1800, temperature: 0.5 }
+      })
+    });
+    if (!res.ok) {
+      clearTimeout(timeoutId);
+      const e = await res.json();
+      const msg = e.error?.message || 'API 오류';
+      if (msg.includes('API_KEY_INVALID') || msg.includes('API key')) throw new Error('API Key가 유효하지 않아요. aistudio.google.com에서 다시 발급해주세요.');
+      if (msg.includes('quota') || msg.includes('RESOURCE_EXHAUSTED')) throw new Error('오늘 무료 한도(1,500회)를 초과했어요. 내일 다시 시도해주세요.');
+      throw new Error(msg);
+    }
+    // ★ clearTimeout을 res.json() 이후로 이동 — body 수신까지 타임아웃 유지
+    const d = await res.json();
+    clearTimeout(timeoutId);
+    return d.candidates?.[0]?.content?.parts?.[0]?.text || '';
   } catch(err) {
     clearTimeout(timeoutId);
-    if(err.name === 'AbortError') throw new Error('응답 시간이 너무 길어요 (120초 초과). 이미지를 줄이거나 다시 시도해주세요.');
+    if(err.name === 'AbortError') throw new Error('응답 시간이 90초를 초과했어요. 이미지를 줄이거나 다시 시도해주세요.');
     throw err;
   }
 }
@@ -2877,9 +2879,9 @@ async function generate(){
 
     let content;
     if(S.imgs.length>0){
-      // 소재 생성용 이미지: 최대 3장 (3장 초과 시 속도 급격히 저하)
-      const genImgs = S.imgs.slice(0, 3);
-      content=genImgs.map(img=>({type:'image',source:{type:'base64',media_type:img.type||'image/jpeg',data:img.b64}}));
+      // 소재 생성용 이미지: 1장만 (핵심 원인 — 이미지 많을수록 응답 수~분 지연)
+      const genImg = S.imgs[0];
+      content=[{type:'image',source:{type:'base64',media_type:genImg.type||'image/jpeg',data:genImg.b64}}];
       content.push({type:'text',text:prompt});
     } else {
       content=prompt;
