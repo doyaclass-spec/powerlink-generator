@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>파워링크 광고 소재 생성기 | AI마케팅전략연구소</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
@@ -16,7 +16,7 @@
   --bg:#060d17;--bg2:#091320;--bg3:#0d1a2d;
   --glass:rgba(255,255,255,.04);--glass2:rgba(255,255,255,.07);
   --border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.12);
-  --text:#e8f0fe;--text2:rgba(232,240,254,.65);--text3:rgba(232,240,254,.3);
+  --text:#e8f0fe;--text2:rgba(232,240,254,.9);--text3:rgba(232,240,254,.7);
   --red:#ff4d6d;--amber:#f59e0b;
   --shadow:0 8px 32px rgba(0,0,0,.5);
   --shadow-g:0 0 30px rgba(3,199,90,.2);
@@ -72,8 +72,8 @@ body{
 .key-modal{background:linear-gradient(160deg,#0a1628,#0f1f38);border:1px solid var(--border2);border-radius:20px;max-width:480px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,.6),0 0 0 1px rgba(3,199,90,.08);animation:slideUp .3s cubic-bezier(.34,1.56,.64,1);overflow:hidden}
 .key-modal-head{background:linear-gradient(135deg,#0a1628 0%,rgba(3,199,90,.06) 100%);padding:26px 28px 22px;position:relative;border-bottom:1px solid var(--border)}
 .key-modal-head::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top right,rgba(3,199,90,.08),transparent 60%);pointer-events:none}
-.key-modal-head .logo-mark{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#029e48,var(--g));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:14px;box-shadow:0 4px 16px var(--g-glow)}
-.key-modal-head h2{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;color:#fff;margin-bottom:5px}
+.key-modal-head .logo-mark{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#029e48,var(--g));display:flex;align-items:center;justify-content:center;font-family:'Noto Sans KR','Pretendard',sans-serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:14px;box-shadow:0 4px 16px var(--g-glow)}
+.key-modal-head h2{font-family:'Noto Sans KR','Pretendard',sans-serif;font-size:19px;font-weight:800;color:#fff;margin-bottom:5px}
 .key-modal-head p{font-size:12px;color:var(--text3);line-height:1.6}
 .key-modal-body{padding:20px 28px}
 .step-guide{margin-bottom:16px}
@@ -103,10 +103,20 @@ body{
 .analysis-modal-body{padding:20px 24px;overflow-y:auto;flex:1}
 .analysis-modal-body::-webkit-scrollbar{width:4px}
 .analysis-modal-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px}
-.analysis-section{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.analysis-section{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border);animation:secFadeIn .4s ease both}
+@keyframes secFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .analysis-section:last-child{border-bottom:none}
-.analysis-section-title{font-size:11px;font-weight:800;color:var(--g);letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px}
-.analysis-section-content{font-size:12px;color:var(--text2);line-height:1.75}
+.analysis-section-title{
+  font-size:14px;font-weight:900;color:#fff;letter-spacing:-.3px;
+  margin-bottom:10px;display:flex;align-items:center;gap:8px;
+  padding-bottom:8px;border-bottom:1px solid rgba(3,199,90,.15);
+}
+.analysis-section-title::before{content:'';width:3px;height:16px;background:var(--g);border-radius:2px;flex-shrink:0;box-shadow:0 0 8px var(--g-glow)}
+.analysis-section-content{font-size:13px;color:rgba(232,240,254,.78);line-height:1.85}
+/* 분석 내용 내 강조 키워드 */
+.analysis-section-content .hl{color:var(--g);font-weight:700}
+.analysis-section-content .hl-b{color:var(--b2);font-weight:700}
+.analysis-section-content .hl-w{color:#fff;font-weight:700}
 .analysis-loading{color:var(--text3);font-size:12px;display:flex;align-items:center;gap:10px;padding:8px 0}
 
 /* ══ 헤더 ══ */
@@ -121,14 +131,14 @@ body{
   width:28px;height:28px;border-radius:8px;
   background:linear-gradient(135deg,#029e48,var(--g));
   display:flex;align-items:center;justify-content:center;
-  font-family:'Syne',sans-serif;font-size:15px;font-weight:900;color:#fff;
+  font-family:'Noto Sans KR','Pretendard',sans-serif;font-size:15px;font-weight:900;color:#fff;
   box-shadow:0 2px 10px var(--g-glow);
 }
-.h-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text);letter-spacing:-.3px}
+.h-title{font-family:'Noto Sans KR','Pretendard',sans-serif;font-size:13px;font-weight:700;color:var(--text);letter-spacing:-.3px}
 .h-version{font-size:9px;background:var(--g-dim);color:var(--g);border:1px solid rgba(3,199,90,.2);border-radius:4px;padding:2px 7px;font-weight:700;letter-spacing:.3px}
 .header-right{display:flex;align-items:center;gap:12px}
 .h-clock{display:flex;flex-direction:column;align-items:flex-end;line-height:1.2}
-.h-clock-time{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;color:var(--g);font-variant-numeric:tabular-nums;filter:drop-shadow(0 0 8px var(--g-glow))}
+.h-clock-time{font-family:'Noto Sans KR','Pretendard',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;color:var(--g);font-variant-numeric:tabular-nums;filter:drop-shadow(0 0 8px var(--g-glow))}
 .h-clock-date{font-size:9px;color:var(--text3);letter-spacing:.3px}
 .h-div{width:1px;height:24px;background:var(--border)}
 .api-status{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)}
@@ -150,31 +160,25 @@ body{
   animation:fadeSlideUp .6s ease .1s both;
 }
 .hero h1{
-  font-family:'Syne',sans-serif;font-size:32px;font-weight:900;
-  color:#fff;line-height:1.15;margin-bottom:10px;letter-spacing:-1px;
+  font-family:'Pretendard',-apple-system,sans-serif;font-size:34px;font-weight:900;
+  color:#fff;line-height:1.2;margin-bottom:10px;letter-spacing:-1.5px;
   animation:fadeSlideUp .6s ease .2s both;
 }
 .hero h1 em{
-  color:transparent;font-style:normal;
-  background:linear-gradient(135deg,var(--g),#00e676,var(--b2));
-  -webkit-background-clip:text;background-clip:text;
+  color:var(--g);font-style:normal;
+  text-shadow:0 0 30px var(--g-glow);
 }
 .hero-sub{
   font-size:13px;color:var(--text3);margin-bottom:22px;line-height:1.7;
   animation:fadeSlideUp .6s ease .3s both;
 }
 .hero-sub strong{color:var(--text2)}
-.hero-stats{
-  display:inline-flex;align-items:stretch;
-  background:var(--glass);border:1px solid var(--border);border-radius:14px;
-  overflow:hidden;animation:fadeSlideUp .6s ease .4s both;
-  box-shadow:0 4px 24px rgba(0,0,0,.3);
-}
-.hero-stat{display:flex;flex-direction:column;align-items:center;padding:12px 24px;gap:2px;position:relative}
-.hero-stat::after{content:'';position:absolute;right:0;top:20%;height:60%;width:1px;background:var(--border)}
-.hero-stat:last-child::after{display:none}
-.hero-stat-num{font-family:'Syne',sans-serif;font-size:22px;font-weight:900;color:var(--g);line-height:1;filter:drop-shadow(0 0 8px var(--g-glow))}
-.hero-stat-lbl{font-size:9px;color:var(--text3);font-weight:500;letter-spacing:.3px}
+
+
+
+
+
+
 @keyframes fadeSlideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 
 /* ══ API 배너 ══ */
@@ -235,7 +239,7 @@ body{
   border-bottom:1px solid var(--border);
 }
 .col-lbl{
-  padding:5px 16px;font-size:9px;font-weight:700;
+  padding:5px 16px;font-size:11px;font-weight:700;
   color:var(--text3);letter-spacing:.6px;text-transform:uppercase;
   display:flex;align-items:center;gap:5px;
 }
@@ -251,13 +255,13 @@ body{
 .input-col:not(:last-child){border-right:1px solid var(--border)}
 
 /* 폼 요소 */
-.lbl{font-size:10px;font-weight:700;color:var(--text2);display:flex;align-items:center;gap:4px;margin-bottom:2px}
+.lbl{font-size:12px;font-weight:700;color:var(--text2);display:flex;align-items:center;gap:4px;margin-bottom:2px}
 .req{color:var(--g);font-size:9px}
-.lbl-desc{font-size:9px;color:var(--text3);margin-bottom:5px}
+.lbl-desc{font-size:11px;color:var(--text3);margin-bottom:5px}
 .inp{
   width:100%;padding:7px 10px;
   background:rgba(0,0,0,.3);border:1.5px solid var(--border);
-  border-radius:var(--r2);font-size:11px;font-family:inherit;color:var(--text);outline:none;
+  border-radius:var(--r2);font-size:13px;font-family:inherit;color:var(--text);outline:none;
   transition:border-color .2s,box-shadow .2s;
 }
 .inp:focus{border-color:rgba(3,199,90,.45);box-shadow:0 0 0 3px rgba(3,199,90,.07);background:rgba(0,0,0,.4)}
@@ -268,7 +272,7 @@ textarea.inp{resize:none;line-height:1.5}
 .feat-slot{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,.2);border:1px solid var(--border);border-radius:5px;padding:4px 7px;margin-bottom:3px;transition:border-color .15s}
 .feat-slot:focus-within{border-color:rgba(3,199,90,.3)}
 .feat-slot-num{font-size:9px;font-weight:700;color:var(--g);width:12px;flex-shrink:0}
-.feat-slot input{flex:1;background:none;border:none;outline:none;font-size:10px;color:var(--text);font-family:inherit}
+.feat-slot input{flex:1;background:none;border:none;outline:none;font-size:12px;color:var(--text);font-family:inherit}
 .feat-slot input::placeholder{color:var(--text3)}
 .feat-slot-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:11px;padding:0 2px;transition:color .15s}
 .feat-slot-del:hover{color:var(--red)}
@@ -316,9 +320,9 @@ textarea.inp{resize:none;line-height:1.5}
 .analysis-sub-sm{font-size:8px;color:var(--text3);margin-top:1px}
 .analysis-status{font-size:9px;color:var(--text3);padding:3px 7px;background:rgba(0,0,0,.2);border-radius:4px;border:1px solid var(--border);display:inline-block;margin-bottom:6px}
 .analysis-preview{
-  font-size:9px;color:var(--text2);line-height:1.7;flex:1;
-  display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;
-  margin-bottom:8px;min-height:60px;
+  font-size:10px;color:var(--text2);line-height:1.8;flex:1;
+  display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden;
+  margin-bottom:8px;min-height:72px;
 }
 .analysis-btn{
   background:linear-gradient(135deg,var(--g-dim),rgba(0,102,255,.08));
@@ -328,6 +332,8 @@ textarea.inp{resize:none;line-height:1.5}
 }
 .analysis-btn:hover{background:rgba(3,199,90,.15);box-shadow:0 0 12px rgba(3,199,90,.15)}
 .analysis-btn:disabled{background:var(--glass);border-color:var(--border);color:var(--text3);cursor:not-allowed;box-shadow:none}
+.analysis-btn.done{animation:analysisGlow 1.5s ease 3;border-color:rgba(3,199,90,.6);background:rgba(3,199,90,.15)}
+@keyframes analysisGlow{0%,100%{box-shadow:0 0 0 0 rgba(3,199,90,.4)}50%{box-shadow:0 0 0 6px rgba(3,199,90,0),0 0 20px rgba(3,199,90,.4)}}
 
 /* 푸터 행 (생성 버튼) */
 .input-footer{
@@ -338,7 +344,7 @@ textarea.inp{resize:none;line-height:1.5}
   padding:10px 28px;
   background:linear-gradient(135deg,#029e48,var(--g));
   border:none;border-radius:var(--r2);
-  font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:#fff;
+  font-family:'Noto Sans KR','Pretendard',sans-serif;font-size:12px;font-weight:800;color:#fff;
   cursor:pointer;letter-spacing:.3px;transition:all .2s;
   box-shadow:0 4px 16px var(--g-glow);white-space:nowrap;
   position:relative;overflow:hidden;
@@ -361,7 +367,7 @@ textarea.inp{resize:none;line-height:1.5}
   padding:10px 0 8px;
 }
 .section-label{
-  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  font-family:'Noto Sans KR','Pretendard',sans-serif;font-size:11px;font-weight:700;
   color:var(--text2);letter-spacing:.5px;text-transform:uppercase;
   display:flex;align-items:center;gap:6px;
 }
@@ -460,7 +466,7 @@ textarea.inp{resize:none;line-height:1.5}
 .plus:hover{border-color:var(--g);color:var(--g);background:var(--g-dim)}
 .item.on .plus{background:var(--g);border-color:var(--g);color:#fff}
 .txt-wrap{flex:1;min-width:0}
-.txt{font-size:11px;color:var(--text);line-height:1.4;outline:none}
+.txt{font-size:12px;color:var(--text);line-height:1.4;outline:none}
 .txt:focus{outline:1px solid rgba(3,199,90,.4);border-radius:2px;padding:1px 2px}
 .meta{display:flex;align-items:center;gap:5px;margin-top:2px}
 .cc{font-size:9px;color:var(--text3)}
@@ -508,10 +514,48 @@ textarea.inp{resize:none;line-height:1.5}
 .kw-chip:hover{background:var(--g-dim);border-color:rgba(3,199,90,.3);color:var(--g)}
 .divider{height:1px;background:var(--border);margin:4px 0}
 .ripple-btn{position:relative;overflow:hidden}
+
+/* ══ 5칸 결과 레이아웃 ══ */
+.result-5col{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1.4fr;height:100%;min-height:320px}
+.r5-col{display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--border)}
+.r5-col:last-child{border-right:none}
+.r5-head{
+  padding:8px 12px;border-bottom:1px solid var(--border);
+  background:rgba(0,0,0,.2);flex-shrink:0;
+  display:flex;align-items:center;gap:6px;min-height:36px;
+}
+.r5-title{font-size:11px;font-weight:800;color:var(--text2);flex:1;white-space:nowrap}
+.r5-sub{font-size:9px;color:var(--text3)}
+.r5-body{flex:1;overflow-y:auto;padding:4px 0;max-height:420px}
+.r5-body::-webkit-scrollbar{width:3px}
+.r5-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px}
+/* 키워드 컬럼 버튼 */
+.r5-kw .r5-body{padding:8px}
+.r5-chips{display:flex;flex-direction:column;gap:4px}
+.kw-btn{
+  width:100%;text-align:left;padding:7px 11px;
+  background:rgba(0,0,0,.2);border:1px solid var(--border);
+  border-radius:5px;color:var(--text2);font-size:12px;
+  cursor:pointer;font-family:inherit;transition:all .15s;
+  display:block;white-space:normal;word-break:keep-all;line-height:1.4;
+}
+.kw-btn:hover{background:var(--g-dim);border-color:rgba(3,199,90,.3);color:var(--g)}
+.kw-btn.kw-on{background:rgba(3,199,90,.1);border-color:rgba(3,199,90,.4);color:var(--g);font-weight:700}
+
+/* 입력 컬럼 헤더 */
+.icol-head{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
+.icol-num{font-size:9px;font-weight:900;color:var(--g);background:var(--g-dim);border:1px solid rgba(3,199,90,.25);border-radius:4px;padding:2px 5px;flex-shrink:0;margin-top:1px;letter-spacing:.5px;min-width:22px;text-align:center}
+.icol-title{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px}
+.icol-desc{font-size:10px;color:var(--text3);line-height:1.4}
+.inp-ta{resize:none;line-height:1.6;min-height:68px}
+/* 5칸 그리드 → 4칸으로 (상품명+타겟 병합) */
+.input-grid{grid-template-columns:1.1fr 1.1fr 1fr 1fr !important}
+
 </style>
 </head>
 <body>
 
+<canvas id="starCanvas" style="position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55"></canvas>
 <div class="aurora"><div class="aurora-1"></div><div class="aurora-2"></div><div class="aurora-3"></div></div>
 <div class="noise"></div>
 
@@ -578,7 +622,7 @@ textarea.inp{resize:none;line-height:1.5}
       <div style="display:flex;align-items:center;gap:12px">
         <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,rgba(3,199,90,.2),rgba(0,102,255,.15));border:1px solid rgba(3,199,90,.3);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 20px rgba(3,199,90,.2)">🧠</div>
         <div>
-          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#fff">마케터 분석 리포트</div>
+          <div style="font-family:'Noto Sans KR','Pretendard',sans-serif;font-size:15px;font-weight:800;color:#fff">마케터 분석 리포트</div>
           <div style="font-size:10px;color:var(--text3);margin-top:2px">10년차 네이버 파워링크 전문가의 소재 전략 분석</div>
         </div>
       </div>
@@ -595,7 +639,7 @@ textarea.inp{resize:none;line-height:1.5}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v3.0</span>
+    <span class="h-version">v3.2</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -616,11 +660,6 @@ textarea.inp{resize:none;line-height:1.5}
   <div class="hero-eyebrow">✦ Naver Powerlink · AI Copy Generator</div>
   <h1>광고 소재, <em>이제 AI가</em><br>만들어드려요</h1>
   <p class="hero-sub">상품 정보를 입력하면 <strong>제목 30개 · 설명 12개</strong>를 즉시 생성해드려요<br>Gemini AI · AI마케팅전략연구소</p>
-  <div class="hero-stats">
-    <div class="hero-stat"><span class="hero-stat-num">30</span><span class="hero-stat-lbl">광고 제목</span></div>
-    <div class="hero-stat"><span class="hero-stat-num">12</span><span class="hero-stat-lbl">광고 설명</span></div>
-    <div class="hero-stat"><span class="hero-stat-num">AI</span><span class="hero-stat-lbl">분석 리포트</span></div>
-  </div>
 </section>
 
 <div id="apiKeyBanner">
@@ -654,35 +693,21 @@ textarea.inp{resize:none;line-height:1.5}
         <div class="pbar-msg" id="pbarMsg">소재 생성 준비 완료</div>
       </div>
 
-      <!-- 컬럼 라벨 -->
-      <div class="col-labels">
-        <div class="col-lbl"><span class="col-lbl-dot"></span>상품명 · 타겟</div>
-        <div class="col-lbl"><span class="col-lbl-dot"></span>광고에 넣고 싶은 내용</div>
-        <div class="col-lbl"><span class="col-lbl-dot"></span>상세페이지 이미지</div>
-        <div class="col-lbl"><span class="col-lbl-dot"></span>마케터 분석 리포트</div>
-      </div>
+      
 
       <!-- 4컬럼 입력 -->
       <div class="input-grid">
 
-        <!-- 상품명 + 타겟 -->
+        <!-- 상품명 -->
         <div class="input-col">
-          <div>
-            <div class="lbl">상품명 <span class="req">*</span></div>
-            <div class="lbl-desc">핵심 키워드 포함</div>
-            <input type="text" class="inp" id="productName" placeholder="예: 아로마 디퓨저 200ml 우드향" />
-          </div>
-          <div>
-            <div class="lbl">타겟 고객</div>
-            <div class="lbl-desc">성별·나이·직업 등</div>
-            <input type="text" class="inp" id="target" placeholder="예: 30대 여성, 소상공인" />
-          </div>
+          <div class="icol-head"><span class="icol-num">01</span><div><div class="icol-title">상품명 <span class="req">*</span></div><div class="icol-desc">네이버 검색에 노출되는 핵심 키워드를 포함하세요</div></div></div>
+          <textarea class="inp inp-ta" id="productName" rows="3" placeholder="예: 소상공인 지원 스타리온 간냉식 1등급 업소용 냉장고 냉동고"></textarea>
         </div>
-
-        <!-- 광고 내용 -->
+        <!-- 타겟 고객 -->
         <div class="input-col">
-          <div class="lbl">광고에 넣고 싶은 내용</div>
-          <div class="lbl-desc">특징·혜택·강조 포인트</div>
+          <div class="icol-head"><span class="icol-num">02</span><div><div class="icol-title">타겟 고객</div><div class="icol-desc">광고를 보여줄 주요 고객층을 입력하세요</div></div></div>
+          <input type="text" class="inp" id="target" placeholder="예: 30대 소상공인, 카페 사장님" />
+          <div class="icol-head" style="margin-top:8px"><span class="icol-num">03</span><div><div class="icol-title">광고에 넣고 싶은 내용</div><div class="icol-desc">강조하고 싶은 특징·혜택·가격 포인트</div></div></div>
           <div id="featSuggestWrap" style="display:none">
             <div class="feat-suggest-lbl" id="featSuggestLbl">💡 AI 추천</div>
             <div class="feat-suggest" id="featSuggest"></div>
@@ -694,10 +719,11 @@ textarea.inp{resize:none;line-height:1.5}
           <button class="feat-add-btn" id="featAddBtn" onclick="addSlot()">+ 항목 추가</button>
         </div>
 
+
+
         <!-- 이미지 -->
         <div class="input-col">
-          <div class="lbl">상세페이지 이미지</div>
-          <div class="lbl-desc">AI 직접 분석 (최대 20장)</div>
+          <div class="icol-head"><span class="icol-num">04</span><div><div class="icol-title">상세페이지 이미지</div><div class="icol-desc">AI가 이미지를 직접 보고 광고 소재를 최적화해요</div></div></div>
           <div class="upload-zone" id="uploadZone">
             <input type="file" id="fileInput" accept="image/*" multiple onchange="onFile(event)" />
             <div class="upl-icon">🖼️</div>
@@ -712,6 +738,7 @@ textarea.inp{resize:none;line-height:1.5}
 
         <!-- 분석 리포트 -->
         <div class="input-col col-analysis">
+          <div class="icol-head" style="margin-bottom:8px"><span class="icol-num">05</span><div><div class="icol-title">마케터 분석 리포트</div><div class="icol-desc">생성 후 10년차 전문가 AI가 소재 전략을 분석해드려요</div></div></div>
           <div class="analysis-head">
             <div class="analysis-orb">🧠</div>
             <div>
@@ -802,22 +829,49 @@ textarea.inp{resize:none;line-height:1.5}
   </div>
   <div class="result-wrap">
     <div class="result-card">
+      <!-- 빈 상태 -->
       <div id="emptyState" class="empty">
         <div class="empty-icon">✦</div>
         <div class="empty-txt">상품 정보를 입력하고 <strong>생성 버튼</strong>을 눌러주세요<br><span style="font-size:10px;opacity:.5">✓ 제목 30개 · 설명 12개 · 마케터 분석 리포트</span></div>
       </div>
       <div id="analysisBody" style="display:none"></div>
+      <!-- 5칸 결과 그리드 -->
       <div id="resultWrap" style="display:none">
-        <div class="result-tabs">
-          <button class="rtab active" id="rtabT" onclick="switchResultTab('t')">
-            광고 제목 <span class="badge" id="tBadge">0</span> <span class="badge sel" id="tSelBadge" style="display:none"></span>
-          </button>
-          <button class="rtab" id="rtabD" onclick="switchResultTab('d')">
-            광고 설명 <span class="badge" id="dBadge">0</span> <span class="badge sel" id="dSelBadge" style="display:none"></span>
-          </button>
+        <div class="result-5col">
+          <!-- 칸1: 제목 목록 -->
+          <div class="r5-col">
+            <div class="r5-head">
+              <span class="r5-title">광고 제목</span>
+              <span class="badge" id="tBadge">0</span>
+              <span class="badge sel" id="tSelBadge" style="display:none"></span>
+            </div>
+            <div class="r5-body" id="titleItems"></div>
+          </div>
+          <!-- 칸2: 제목1 추천 키워드 -->
+          <div class="r5-col r5-kw">
+            <div class="r5-head"><span class="r5-title">📌 제목 1 추천</span><span class="r5-sub">위치 1 최적</span></div>
+            <div class="r5-body r5-chips" id="kwCol1"></div>
+          </div>
+          <!-- 칸3: 제목2 추천 키워드 -->
+          <div class="r5-col r5-kw">
+            <div class="r5-head"><span class="r5-title">📌 제목 2 추천</span><span class="r5-sub">위치 2 최적</span></div>
+            <div class="r5-body r5-chips" id="kwCol2"></div>
+          </div>
+          <!-- 칸4: 제목3 추천 키워드 -->
+          <div class="r5-col r5-kw">
+            <div class="r5-head"><span class="r5-title">📌 제목 3 추천</span><span class="r5-sub">위치 3 최적</span></div>
+            <div class="r5-body r5-chips" id="kwCol3"></div>
+          </div>
+          <!-- 칸5: 설명 목록 -->
+          <div class="r5-col">
+            <div class="r5-head">
+              <span class="r5-title">광고 설명</span>
+              <span class="badge" id="dBadge">0</span>
+              <span class="badge sel" id="dSelBadge" style="display:none"></span>
+            </div>
+            <div class="r5-body" id="descItems"></div>
+          </div>
         </div>
-        <div class="rpane active" id="rpaneT"><div class="items" id="titleItems"></div></div>
-        <div class="rpane" id="rpaneD"><div class="items" id="descItems"></div></div>
       </div>
     </div>
   </div>
@@ -1204,7 +1258,9 @@ ${inputLines.join('\n')}
 ${guideLines.join('\n')}
 
 각 섹션을 <section title="섹션제목">내용</section> 형태로 구분해서 응답하세요.
-섹션 제목은 이모지 포함해서 짧게. 내용은 3~5문장. 광고주가 "아, 이래서 이런 소재가 나왔구나" 하고 납득할 수 있도록 구체적으로. 마크다운 금지.`;
+섹션 제목은 이모지 포함해서 짧고 직관적으로. 내용은 3~5문장, 단락 사이에 빈줄 추가.
+중요한 키워드나 수치는 <b>태그로 감싸주세요 (예: <b>소상공인</b>, <b>140만원</b>).
+마케터 관점의 핵심 판단은 <em>태그로 감싸주세요. 마크다운 금지.`;
 
   // 이미지가 있으면 이미지와 함께 전달
   let userContent;
@@ -1363,26 +1419,30 @@ async function generate() {
         // 5줄 요약 섹션 우선, 없으면 전체에서 추출
         const tmp2 = tmp;
         const allSections = tmp2.querySelectorAll('.analysis-section');
-        let summary = '';
+        let rawLines = [];
         allSections.forEach(sec => {
           const title = sec.querySelector('.analysis-section-title');
           if (title && title.textContent.includes('5줄 요약')) {
             const body = sec.querySelector('.analysis-section-content');
-            if (body) summary = body.innerHTML;
+            if (body) {
+              rawLines = body.innerText.split(/\n|<br>/).map(s=>s.trim()).filter(s=>s.length>5).slice(0,5);
+            }
           }
         });
-        if (!summary) {
-          const lines = [];
+        if (!rawLines.length) {
           tmp2.querySelectorAll('.analysis-section-content').forEach(el => {
             el.textContent.split(/[.。]\s+/).map(s=>s.trim()).filter(s=>s.length>10)
-              .forEach(s => { if(lines.length<5) lines.push(s); });
+              .forEach(s => { if(rawLines.length<5) rawLines.push(s); });
           });
-          summary = lines.join('<br>');
         }
+        const bullets = ['①','②','③','④','⑤'];
+        const summary = rawLines.slice(0,5).map((l,i)=>`<span style="color:var(--g);font-weight:700;margin-right:4px">${bullets[i]}</span>${l}`).join('<br style="margin-bottom:4px">');
         preview.style.color = '';
         preview.innerHTML = summary || '분석이 완료되었습니다.';
+        preview.style.transition = 'all .5s';
+        preview.style.color = 'rgba(232,240,254,.92)';
       }
-      if (btn) { btn.disabled = false; }
+      if (btn) { btn.disabled = false; btn.classList.add('done'); setTimeout(()=>btn.classList.remove('done'),5000); }
     }).catch(() => {
       document.getElementById('analysisBody').innerHTML = '<div>분석을 불러오지 못했어요.</div>';
       const status = document.getElementById('analysisSideStatus');
@@ -1458,6 +1518,18 @@ function render() {
   if (kwEl) kwEl.innerHTML = S.kws.map(k =>
     `<span class="kw-chip" onclick="cpKw(this)">${esc(k)}</span>`
   ).join('');
+
+  // 5칸 키워드 컬럼 업데이트
+  const g1 = S.titles.slice(0,10), g2 = S.titles.slice(10,20), g3 = S.titles.slice(20,30);
+  ['kwCol1','kwCol2','kwCol3'].forEach((id,gi) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const group = [g1,g2,g3][gi];
+    el.innerHTML = group.map((t,i) => {
+      const sel = S.selT.has(gi*10+i);
+      return `<button class="kw-btn${sel?' kw-on':''}" onclick="tog('t',${gi*10+i});render()">${esc(t)}</button>`;
+    }).join('');
+  });
 }
 
 // 제목 위치 고정 핸들러 (복수 허용)
@@ -1725,6 +1797,112 @@ function switchResultTab(tab) {
   });
 }
 function switchPvTab(){}
+
+// ══ 별 파티클 배경 ══
+(function() {
+  const canvas = document.getElementById('starCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, stars = [], meteors = [];
+  const N_STARS = 180, N_METEORS = 3;
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function mkStar() {
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.4 + .2,
+      o: Math.random() * .7 + .2,
+      twinkle: Math.random() * .02 + .004,
+      phase: Math.random() * Math.PI * 2,
+      color: Math.random() > .85 ? '#03C75A' : Math.random() > .7 ? '#3385ff' : '#e8f0fe'
+    };
+  }
+
+  function mkMeteor() {
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H * .5,
+      len: Math.random() * 120 + 60,
+      speed: Math.random() * 3 + 2,
+      opacity: 0,
+      fade: 0,  // 0=in 1=out
+      active: false,
+      delay: Math.random() * 8000 + 2000
+    };
+  }
+
+  function init() {
+    resize();
+    stars = Array.from({length: N_STARS}, mkStar);
+    meteors = Array.from({length: N_METEORS}, mkMeteor);
+  }
+
+  let last = 0;
+  function draw(ts) {
+    ctx.clearRect(0, 0, W, H);
+    const t = ts * .001;
+
+    // 별
+    stars.forEach(s => {
+      s.phase += s.twinkle;
+      const alpha = s.o * (.6 + .4 * Math.sin(s.phase));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = s.color;
+      ctx.globalAlpha = alpha;
+      ctx.fill();
+      // 가끔 십자 빛줄기
+      if (s.r > 1.2 && Math.sin(s.phase * .3) > .7) {
+        ctx.globalAlpha = alpha * .4;
+        ctx.strokeStyle = s.color;
+        ctx.lineWidth = .5;
+        ctx.beginPath();
+        ctx.moveTo(s.x - s.r*3, s.y);
+        ctx.lineTo(s.x + s.r*3, s.y);
+        ctx.moveTo(s.x, s.y - s.r*3);
+        ctx.lineTo(s.x, s.y + s.r*3);
+        ctx.stroke();
+      }
+    });
+
+    // 유성
+    meteors.forEach(m => {
+      if (!m.active) {
+        m.delay -= 16;
+        if (m.delay <= 0) { m.active = true; m.opacity = 0; m.fade = 0; }
+        return;
+      }
+      m.x += m.speed * 1.5;
+      m.y += m.speed;
+      if (m.fade === 0) { m.opacity = Math.min(m.opacity + .06, .9); if (m.opacity >= .9) m.fade = 1; }
+      else { m.opacity = Math.max(m.opacity - .03, 0); }
+      if (m.opacity <= 0 && m.fade === 1) { Object.assign(m, mkMeteor()); m.active = false; return; }
+      const grd = ctx.createLinearGradient(m.x, m.y, m.x - m.len * 1.5, m.y - m.len);
+      grd.addColorStop(0, `rgba(255,255,255,${m.opacity})`);
+      grd.addColorStop(.4, `rgba(3,199,90,${m.opacity * .5})`);
+      grd.addColorStop(1, 'rgba(3,199,90,0)');
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = grd;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(m.x, m.y);
+      ctx.lineTo(m.x - m.len * 1.5, m.y - m.len);
+      ctx.stroke();
+    });
+
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { resize(); stars = Array.from({length: N_STARS}, mkStar); });
+  init();
+  requestAnimationFrame(draw);
+})();
 
 </script>
 </body>
