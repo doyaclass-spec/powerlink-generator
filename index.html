@@ -420,6 +420,68 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
 .cost-current b{color:var(--green-dark)}
 .cost-current .c-over{color:var(--orange)}
 
+
+/* 핵심 특징 슬롯 */
+.feat-suggest{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.feat-chip{
+  background:rgba(3,199,90,.08);border:1.5px solid rgba(3,199,90,.25);
+  border-radius:20px;padding:5px 11px;font-size:12px;color:#1a6e37;
+  cursor:pointer;transition:all .15s;user-select:none;display:flex;align-items:center;gap:5px;
+}
+.feat-chip:hover{background:rgba(3,199,90,.15);border-color:var(--green)}
+.feat-chip.used{background:var(--gray-100);border-color:var(--gray-200);color:var(--gray-400);cursor:default}
+.feat-chip .chip-plus{font-size:14px;font-weight:700;color:var(--green)}
+.feat-chip.used .chip-plus{color:var(--gray-400)}
+.feat-suggest-lbl{font-size:11px;color:var(--gray-400);margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.feat-suggest-lbl .spin-sm{flex-shrink:0}
+.feat-slots{display:flex;flex-direction:column;gap:6px}
+.feat-slot{
+  display:flex;align-items:center;gap:7px;
+  background:var(--gray-50);border:1.5px solid var(--gray-200);
+  border-radius:8px;padding:7px 10px;transition:border-color .15s;
+}
+.feat-slot:focus-within{border-color:var(--green);background:#fff}
+.feat-slot-num{font-size:11px;font-weight:700;color:var(--gray-400);width:16px;flex-shrink:0;text-align:center}
+.feat-slot input{
+  flex:1;border:none;background:none;outline:none;
+  font-size:13px;font-family:inherit;color:var(--gray-800);
+}
+.feat-slot input::placeholder{color:#c8d0da}
+.feat-slot-del{
+  background:none;border:none;cursor:pointer;
+  color:var(--gray-300);font-size:14px;line-height:1;padding:2px;
+  transition:color .15s;
+}
+.feat-slot-del:hover{color:var(--red)}
+
+
+/* 반응형 소재 안내 */
+.rotation-guide{
+  margin:0 18px 12px;
+  background:linear-gradient(135deg,rgba(26,115,232,.06),rgba(3,199,90,.06));
+  border:1px solid rgba(26,115,232,.15);border-radius:9px;padding:11px 14px;
+}
+.rotation-title{font-size:12px;font-weight:700;color:var(--blue);margin-bottom:7px;display:flex;align-items:center;gap:5px}
+.rotation-slots{display:flex;gap:6px;flex-wrap:wrap}
+.rot-slot{
+  flex:1;min-width:80px;
+  background:#fff;border:1px solid var(--gray-200);border-radius:7px;
+  padding:7px 10px;text-align:center;
+}
+.rot-slot-name{font-size:10px;font-weight:700;color:var(--gray-400);margin-bottom:3px;letter-spacing:.3px}
+.rot-slot-desc{font-size:11px;color:var(--gray-600);line-height:1.5}
+.rot-note{font-size:11px;color:var(--gray-400);margin-top:7px;line-height:1.6}
+/* 고정 위치 드롭다운 */
+.pin-sel{
+  font-size:11px;padding:3px 6px;
+  border:1px solid var(--gray-200);border-radius:5px;
+  background:var(--gray-50);color:var(--gray-600);
+  font-family:inherit;outline:none;cursor:pointer;
+  transition:border-color .15s;flex-shrink:0;
+}
+.pin-sel:focus{border-color:var(--green)}
+.pin-sel.pinned{background:rgba(26,115,232,.08);border-color:rgba(26,115,232,.3);color:var(--blue);font-weight:600}
+
 /* 반응형 */
 @media(max-width:1100px){.main{grid-template-columns:320px 1fr}.preview-panel{display:none}}
 @media(max-width:720px){.main{grid-template-columns:1fr}.hero h2{font-size:20px}}
@@ -571,8 +633,18 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
         </div>
 
         <div class="field">
-          <label class="lbl">핵심 특징 · 강점</label>
-          <textarea class="inp" id="feature" placeholder="예: 소상공인 지원사업 환급 최대 160만원, 전기세 절감 1등급, 5년 AS, 창업 필수 냉장고"></textarea>
+          <label class="lbl">핵심 특징 · 강점 <span style="color:var(--gray-400);font-weight:400;font-size:10px">(최대 5개)</span></label>
+          <div id="featSuggestWrap" style="display:none">
+            <div class="feat-suggest-lbl" id="featSuggestLbl">💡 AI 추천 특징 (클릭하면 추가)</div>
+            <div class="feat-suggest" id="featSuggest"></div>
+          </div>
+          <div class="feat-slots" id="featSlots">
+            <div class="feat-slot"><span class="feat-slot-num">1</span><input type="text" placeholder="예: 소상공인 지원사업 환급 최대 160만원" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
+            <div class="feat-slot"><span class="feat-slot-num">2</span><input type="text" placeholder="예: 전기세 절감 1등급" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
+            <div class="feat-slot"><span class="feat-slot-num">3</span><input type="text" placeholder="예: 5년 무상 AS 보장" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
+            <div class="feat-slot"><span class="feat-slot-num">4</span><input type="text" placeholder="예: 창업 첫 냉장고로 추천" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
+            <div class="feat-slot"><span class="feat-slot-num">5</span><input type="text" placeholder="예: 빠른 배송·설치 포함" /><button class="feat-slot-del" onclick="clearSlot(this)">✕</button></div>
+          </div>
         </div>
 
         <div class="field">
@@ -653,6 +725,24 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
             <span class="badge sel" id="tSelBadge" style="display:none"></span>
           </div>
           <button class="all-btn" onclick="selAll('t')">+ 전체 선택</button>
+        </div>
+        <div class="rotation-guide">
+          <div class="rotation-title">🔄 반응형 소재 — 제목1·2·3 로테이션 노출</div>
+          <div class="rotation-slots">
+            <div class="rot-slot">
+              <div class="rot-slot-name">제목 1</div>
+              <div class="rot-slot-desc">핵심 키워드<br>포함 필수</div>
+            </div>
+            <div class="rot-slot">
+              <div class="rot-slot-name">제목 2</div>
+              <div class="rot-slot-desc">혜택·숫자<br>강조</div>
+            </div>
+            <div class="rot-slot">
+              <div class="rot-slot-name">제목 3</div>
+              <div class="rot-slot-desc">타겟·감성<br>문구</div>
+            </div>
+          </div>
+          <div class="rot-note">💡 각 소재를 <b>고정 위치</b>에 배정하면 A/B 테스트 없이 안정적으로 운영할 수 있어요.<br>오른쪽 드롭다운으로 제목1·2·3 중 고정할 위치를 선택하세요.</div>
         </div>
         <div class="items" id="titleItems"></div>
 
@@ -871,7 +961,9 @@ function clearUrl() {
   document.getElementById('clearBtn').style.display = 'none';
   document.getElementById('productCard').style.display = 'none';
   document.getElementById('productName').value = '';
-  document.getElementById('feature').value = '';
+  document.getElementById('featSuggestWrap').style.display = 'none';
+  document.getElementById('featSuggest').innerHTML = '';
+  document.querySelectorAll('#featSlots .feat-slot input').forEach(el => el.value = '');
   setNotice('');
 }
 
@@ -993,18 +1085,76 @@ async function fetchStore() {
 // 상품 카드 표시 + 폼 채우기
 function showProductCard(name, cat, img, price, mall) {
   document.getElementById('productName').value = name;
-  if (!document.getElementById('feature').value && (cat || price || mall)) {
-    const feat = [cat, price ? '가격 ' + price : '', mall ? mall + ' 판매' : ''].filter(Boolean).join(', ');
-    document.getElementById('feature').value = feat.substring(0, 200);
-  }
   const card = document.getElementById('productCard');
   card.className = 'product-card';
   card.innerHTML = img
     ? `<img src="${img}" onerror="this.style.display='none'" /><div><div class="p-name">${esc(name)}</div><div class="p-desc">${esc(cat)}${price ? ' · ' + price : ''}</div></div>`
     : `<div><div class="p-name">${esc(name)}</div><div class="p-desc">${esc(cat)}</div></div>`;
   card.style.display = 'flex';
-  // 초기화 버튼 표시
   document.getElementById('clearBtn').style.display = '';
+  // AI 특징 추천 (비동기, 논블로킹)
+  suggestFeatures(name, cat, price);
+}
+
+// AI 특징 추천 (3개 제안)
+async function suggestFeatures(name, cat, price) {
+  if (!API_KEY) return;
+  const wrap = document.getElementById('featSuggestWrap');
+  const lbl  = document.getElementById('featSuggestLbl');
+  const box  = document.getElementById('featSuggest');
+  wrap.style.display = 'block';
+  lbl.innerHTML = '💡 AI 추천 특징 분석 중... <span class="spin-sm"></span>';
+  box.innerHTML = '';
+  try {
+    const raw = await callClaude(
+      `당신은 네이버 파워링크 광고 전문가입니다.
+상품 정보를 보고 광고에 써먹을 핵심 특징·강점 3가지를 뽑아주세요.
+반드시 JSON 배열만 응답하세요. 예: ["특징1","특징2","특징3"]
+각 항목은 15자 이내, 구체적이고 광고 소재에 바로 쓸 수 있는 문구로.`,
+      `상품명: ${name}
+카테고리: ${cat||'미상'}
+가격: ${price||'미상'}`
+    );
+    const clean = raw.replace(/```json|```/g,'').trim();
+    const feats = JSON.parse(clean);
+    lbl.textContent = '💡 AI 추천 특징 (클릭하면 슬롯에 추가)';
+    box.innerHTML = feats.map((f,i) =>
+      `<span class="feat-chip" onclick="addFeatChip(this,'${esc(f)}')" id="fc${i}"><span class="chip-plus">+</span>${esc(f)}</span>`
+    ).join('');
+  } catch(e) {
+    lbl.textContent = '💡 특징을 직접 입력해주세요';
+    wrap.style.display = 'none';
+  }
+}
+
+// 칩 클릭 → 빈 슬롯에 추가
+function addFeatChip(chipEl, text) {
+  if (chipEl.classList.contains('used')) return;
+  const slots = document.querySelectorAll('#featSlots .feat-slot input');
+  const empty = [...slots].find(el => !el.value.trim());
+  if (!empty) { alert('슬롯이 모두 차있어요. 기존 내용을 지우고 다시 시도해주세요.'); return; }
+  empty.value = text;
+  chipEl.classList.add('used');
+  chipEl.querySelector('.chip-plus').textContent = '✓';
+}
+
+// 슬롯 개별 초기화
+function clearSlot(btn) {
+  const input = btn.previousElementSibling;
+  input.value = '';
+  // 연결된 칩 복원
+  const chips = document.querySelectorAll('#featSuggest .feat-chip');
+  chips.forEach(c => {
+    const chipTxt = c.textContent.replace(/^[+✓]/,'').trim();
+    if (chipTxt === input.placeholder.replace(/^예: /,'')) return;
+    // 모든 슬롯 값과 비교해서 없으면 복원
+    const allVals = [...document.querySelectorAll('#featSlots .feat-slot input')].map(el=>el.value.trim());
+    const chipVal = c.textContent.replace(/^[+✓]/,'').trim();
+    if (!allVals.includes(chipVal)) {
+      c.classList.remove('used');
+      c.querySelector('.chip-plus').textContent = '+';
+    }
+  });
 }
 
 // 문자열 유사도 (공통 문자 비율)
@@ -1091,7 +1241,9 @@ async function generate() {
   const name = document.getElementById('productName').value.trim();
   if (!name) { alert('상품명을 입력해주세요.'); return; }
 
-  const feat   = document.getElementById('feature').value.trim();
+  const featSlots = [...document.querySelectorAll('#featSlots .feat-slot input')]
+    .map(el => el.value.trim()).filter(Boolean);
+  const feat = featSlots.join(', ');
   const target = document.getElementById('target').value.trim();
   const url    = document.getElementById('storeUrl').value.trim();
 
@@ -1167,14 +1319,25 @@ function render() {
   tEl.innerHTML = '';
   S.titles.forEach((t, i) => {
     const len = [...t].length, over = len > 15;
-    const g = i<5?'g1':i<10?'g2':'g3', gl = i<5?'그룹1':i<10?'그룹2':'그룹3';
+    const g = i<5?'g1':i<10?'g2':'g3';
+    // 추천 고정 위치 (5개씩 그룹 → 제목1/2/3 추천)
+    const recPin = i<5?'1':i<10?'2':'3';
     tEl.insertAdjacentHTML('beforeend',
       `<div class="item" id="t${i}">
         <button class="plus" onclick="tog('t',${i})">+</button>
         <div class="txt-wrap">
           <div class="txt">${esc(t)}</div>
-          <div class="meta"><span class="gtag ${g}">${gl}</span><span class="cc${over?' over':''}">${len}/15자${over?' ⚠️':''}</span></div>
+          <div class="meta">
+            <span class="gtag ${g}">제목${recPin} 추천</span>
+            <span class="cc${over?' over':''}">${len}/15자${over?' ⚠️':''}</span>
+          </div>
         </div>
+        <select class="pin-sel" id="pin${i}" onchange="onPinChange(${i},this)">
+          <option value="">위치 고정</option>
+          <option value="1">제목 1 고정</option>
+          <option value="2">제목 2 고정</option>
+          <option value="3">제목 3 고정</option>
+        </select>
         <input class="kw-in" placeholder="키워드삽입" />
       </div>`
     );
@@ -1204,6 +1367,24 @@ function render() {
   document.getElementById('kwCloud').innerHTML = S.kws.map(k =>
     `<span class="kw-chip" onclick="cpKw(this)">${esc(k)}</span>`
   ).join('');
+}
+
+// 고정 위치 선택 핸들러
+function onPinChange(i, sel) {
+  const val = sel.value;
+  // 같은 위치에 이미 고정된 다른 항목 해제
+  if (val) {
+    document.querySelectorAll('.pin-sel').forEach((s, idx) => {
+      if (idx !== i && s.value === val) {
+        s.value = '';
+        s.className = 'pin-sel';
+      }
+    });
+  }
+  sel.className = 'pin-sel' + (val ? ' pinned' : '');
+  // 선택된 항목이면 자동으로 선택 처리
+  if (val && !S.selT.has(i)) tog('t', i);
+  sync();
 }
 
 function cpKw(el) {
@@ -1244,8 +1425,14 @@ function sync() {
   const ts = [...S.selT].map(i => S.titles[i]);
   const ds = [...S.selD].map(i => S.descs[i]);
 
+  // 고정 위치 반영해서 미리보기 구성
+  const pinMap = {}; // {1: title, 2: title, 3: title}
+  document.querySelectorAll('.pin-sel').forEach((s, i) => {
+    if (s.value && S.selT.has(i)) pinMap[s.value] = S.titles[i];
+  });
+  const previewTitles = [pinMap['1']||ts[0]||'', pinMap['2']||ts[1]||'', pinMap['3']||ts[2]||''].filter(Boolean);
   const pvT = document.getElementById('pvTitle');
-  if (ts.length) { pvT.textContent = ts.slice(0,2).join(' · '); pvT.style.color='#1a73e8'; pvT.style.fontWeight='700'; pvT.style.fontSize='14px'; }
+  if (previewTitles.length) { pvT.textContent = previewTitles.slice(0,2).join(' · '); pvT.style.color='#1a73e8'; pvT.style.fontWeight='700'; pvT.style.fontSize='14px'; }
   else { pvT.textContent='제목을 선택하면 표시됩니다'; pvT.style.color='#bbb'; pvT.style.fontWeight='400'; pvT.style.fontSize='13px'; }
   const pvD = document.getElementById('pvDesc');
   if (ds.length) { pvD.textContent = ds[0]; pvD.style.color='#444'; pvD.style.fontSize='12px'; }
