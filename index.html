@@ -180,6 +180,7 @@ body{font-family:'Pretendard',-apple-system,sans-serif;background:#f0f4f8;color:
 .key-edit-lbl{font-size:11px;color:rgba(255,255,255,.4);margin-left:6px;border-left:1px solid rgba(255,255,255,.15);padding-left:8px}
 
 /* ── 히어로 배너 ── */
+.hero-chips{display:none}
 .hero{
   background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);
   padding:40px 24px;text-align:center;position:relative;overflow:hidden;
@@ -308,24 +309,7 @@ textarea.inp{resize:vertical;line-height:1.6;min-height:70px}
 .gen-btn:disabled{background:var(--gray-400);box-shadow:none;transform:none;cursor:not-allowed}
 
 /* 진행 단계 */
-.progress{margin-top:16px;display:none}
-.p-item{
-  display:flex;align-items:center;gap:9px;
-  padding:8px 0;font-size:12px;color:var(--gray-400);
-  border-bottom:1px solid var(--gray-100);
-}
-.p-item:last-child{border:none}
-.p-dot{
-  width:24px;height:24px;border-radius:50%;flex-shrink:0;
-  background:var(--gray-100);color:var(--gray-400);
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:700;transition:all .3s;
-}
-.p-item.active{color:var(--blue)}
-.p-item.active .p-dot{background:var(--blue);color:#fff;animation:pulse 1s infinite}
-.p-item.done{color:var(--green)}
-.p-item.done .p-dot{background:var(--green);color:#fff}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(26,115,232,.4)}50%{box-shadow:0 0 0 6px rgba(26,115,232,0)}}
+50%{box-shadow:0 0 0 6px rgba(26,115,232,0)}}
 
 /* ── 결과 패널 ── */
 .sec-bar{
@@ -654,6 +638,93 @@ button { -webkit-tap-highlight-color: transparent; }
 
 /* 스크롤바 */
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--gray-200);border-radius:2px}
+
+/* ── 생성 Progress Bar ── */
+#progressBar{
+  background:var(--navy);border-bottom:1px solid rgba(255,255,255,.07);
+  padding:18px 0;animation:slideDown .25s ease;
+}
+.pbar-wrap{max-width:520px;margin:0 auto;padding:0 24px}
+.pbar-track{
+  height:3px;background:rgba(255,255,255,.1);border-radius:2px;
+  margin-bottom:16px;overflow:hidden;
+}
+.pbar-fill{
+  height:100%;background:linear-gradient(90deg,var(--green),#00e676);
+  border-radius:2px;width:0%;transition:width .6s cubic-bezier(.4,0,.2,1);
+}
+.pbar-steps{display:flex;justify-content:space-between;margin-bottom:12px}
+.pbar-step{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1}
+.pbar-dot{
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;
+}
+.pbar-num{font-size:12px;font-weight:700;color:rgba(255,255,255,.35);transition:opacity .2s}
+.pbar-check{width:12px;height:12px;color:#fff;position:absolute;opacity:0;transition:opacity .2s}
+.pbar-label{font-size:11px;color:rgba(255,255,255,.35);font-weight:500;transition:color .3s;text-align:center}
+.pbar-step.active .pbar-dot{
+  background:rgba(26,115,232,.2);border-color:var(--blue);
+  animation:pbarPulse 1.2s ease infinite;
+}
+.pbar-step.active .pbar-num{color:var(--blue)}
+.pbar-step.active .pbar-label{color:rgba(255,255,255,.8);font-weight:700}
+.pbar-step.done .pbar-dot{
+  background:var(--green);border-color:var(--green);
+  animation:pbarDone .35s cubic-bezier(.34,1.56,.64,1);
+}
+.pbar-step.done .pbar-num{opacity:0}
+.pbar-step.done .pbar-check{opacity:1}
+.pbar-step.done .pbar-label{color:var(--green);font-weight:600}
+@keyframes pbarPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(26,115,232,.5)}
+  50%{box-shadow:0 0 0 8px rgba(26,115,232,0)}
+}
+@keyframes pbarDone{
+  0%{transform:scale(.6)} 60%{transform:scale(1.15)} 100%{transform:scale(1)}
+}
+.pbar-msg{
+  text-align:center;font-size:12px;color:rgba(255,255,255,.45);
+  min-height:18px;transition:opacity .3s;
+}
+
+
+/* ── 분석 모달 ── */
+.analysis-modal-inner{
+  background:linear-gradient(160deg,#0f1e30 0%,#162b45 100%);
+  border-radius:16px;max-width:620px;width:100%;max-height:85vh;
+  display:flex;flex-direction:column;overflow:hidden;
+  border:1px solid rgba(3,199,90,.2);box-shadow:0 32px 80px rgba(0,0,0,.5);
+}
+.analysis-modal-head{
+  padding:22px 26px;border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;
+}
+.analysis-modal-body{
+  padding:24px 26px;overflow-y:auto;flex:1;
+}
+.analysis-modal-body::-webkit-scrollbar{width:4px}
+.analysis-modal-body::-webkit-scrollbar-track{background:transparent}
+.analysis-modal-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}
+.analysis-open-btn{
+  background:rgba(3,199,90,.15);border:1px solid rgba(3,199,90,.35);
+  color:var(--green);border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;
+  cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s;flex-shrink:0;
+}
+.analysis-open-btn:hover{background:rgba(3,199,90,.25);border-color:var(--green)}
+
+
+/* ── 헤더 시계 ── */
+.h-clock{display:flex;flex-direction:column;align-items:flex-end;line-height:1.2}
+.h-clock-time{
+  font-size:16px;font-weight:700;letter-spacing:1.5px;
+  color:var(--green);font-variant-numeric:tabular-nums;
+  text-shadow:0 0 12px rgba(3,199,90,.4);
+}
+.h-clock-date{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.3px;margin-top:1px}
+.h-divider{width:1px;height:28px;background:rgba(255,255,255,.1);margin:0 4px}
+
 </style>
 </head>
 <body>
@@ -716,9 +787,14 @@ button { -webkit-tap-highlight-color: transparent; }
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-sub">Gemini AI powered</span><span class="h-version">v1.7</span>
+    <span class="h-sub">Gemini AI powered</span><span class="h-version">v2.0</span>
   </div>
   <div class="header-right">
+    <div class="h-clock" id="hClock">
+      <div class="h-clock-time" id="hClockTime">00:00:00</div>
+      <div class="h-clock-date" id="hClockDate"></div>
+    </div>
+    <div class="h-divider"></div>
     <div class="api-status">
       <span class="status-dot" id="claudeDot"></span>
       <span class="status-lbl">Gemini API</span>
@@ -729,13 +805,31 @@ button { -webkit-tap-highlight-color: transparent; }
 
 <!-- ── 히어로 ── -->
 <div class="hero">
-  <h2>스마트스토어 URL 하나로<br><em>파워링크 광고 소재</em> 자동 완성</h2>
-  <p>AI가 상품을 분석해서 제목·설명·키워드를 순식간에 만들어드려요.<br>직접 고르고 선택해서 바로 등록하세요.</p>
-  <div class="hero-chips">
-    <span class="chip">제목 <b>15개</b></span>
-    <span class="chip">설명 <b>4개</b></span>
-    <span class="chip">글자수 자동 체크</span>
-    <span class="chip">CSV 내보내기</span>
+  <h2>스마트스토어 <em>파워링크 광고 소재</em> 자동 완성</h2>
+  <p>상품 정보를 입력하면 AI가 광고 제목 30개·설명 12개를 자동으로 만들어드려요</p>
+</div>
+
+<!-- ── 생성 진행 Progress Bar ── -->
+<div id="progressBar" style="display:none">
+  <div class="pbar-wrap">
+    <div class="pbar-track">
+      <div class="pbar-fill" id="pbarFill"></div>
+    </div>
+    <div class="pbar-steps">
+      <div class="pbar-step" id="pg1">
+        <div class="pbar-dot"><span class="pbar-num">1</span><svg class="pbar-check" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div class="pbar-label">상품 분석</div>
+      </div>
+      <div class="pbar-step" id="pg2">
+        <div class="pbar-dot"><span class="pbar-num">2</span><svg class="pbar-check" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div class="pbar-label">소재 작성 중</div>
+      </div>
+      <div class="pbar-step" id="pg3">
+        <div class="pbar-dot"><span class="pbar-num">3</span><svg class="pbar-check" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div class="pbar-label">결과 정리</div>
+      </div>
+    </div>
+    <div class="pbar-msg" id="pbarMsg">AI가 상품을 분석하고 있어요...</div>
   </div>
 </div>
 
@@ -810,20 +904,7 @@ button { -webkit-tap-highlight-color: transparent; }
           <span id="genTxt">✨ 광고 소재 생성하기</span>
         </button>
 
-        <div class="progress" id="progress">
-          <div class="p-item" id="pg1">
-            <div class="p-dot" id="pd1">1</div>
-            <span>상품 분석 중...</span>
-          </div>
-          <div class="p-item" id="pg2">
-            <div class="p-dot" id="pd2">2</div>
-            <span>광고 소재 15개 + 4개 작성</span>
-          </div>
-          <div class="p-item" id="pg3">
-            <div class="p-dot" id="pd3">3</div>
-            <span>결과 정리 및 미리보기</span>
-          </div>
-        </div>
+
 
       </div>
     </div>
@@ -839,8 +920,8 @@ button { -webkit-tap-highlight-color: transparent; }
           URL을 불러오거나 상품 정보를 입력하고<br>
           <strong>생성 버튼</strong>을 눌러주세요<br><br>
           <span style="font-size:12px;color:#c8d0da">
-            ✓ 제목 15개 (15자 이내) &nbsp;·&nbsp; 설명 4개 (45자 이내)<br>
-            ✓ CSV 내보내기
+            ✓ 광고 제목 30개 · 설명 12개 · 마케터 분석 리포트<br>
+            ✓ 직접 편집 가능 · 위치 고정
           </span>
         </div>
       </div>
@@ -850,14 +931,13 @@ button { -webkit-tap-highlight-color: transparent; }
         <div class="analysis-box">
           <div class="analysis-head">
             <div class="analysis-icon">🧠</div>
-            <div>
+            <div style="flex:1">
               <div class="analysis-title">10년차 네이버 광고 마케터의 분석 리포트</div>
               <div class="analysis-sub">입력하신 내용을 바탕으로 광고 소재 전략을 분석했어요</div>
             </div>
+            <button class="analysis-open-btn" id="analysisOpenBtn" onclick="openAnalysisModal()" style="display:none">📄 리포트 확인하기</button>
           </div>
-          <div class="analysis-body" id="analysisBody">
-            <div class="analysis-loading"><span class="spin-sm"></span> 분석 중...</div>
-          </div>
+          <div id="analysisBody" style="display:none"></div>
         </div>
       </div>
 
@@ -918,12 +998,22 @@ button { -webkit-tap-highlight-color: transparent; }
     <div class="card preview-panel">
       <div class="card-head"><h3>👁️ 광고 미리보기</h3></div>
 
+      <!-- PC 미리보기 -->
       <div class="pv-box">
         <div class="pv-lbl">PC 소재 미리보기</div>
         <div class="pv-ad">
           <div class="pv-url">🌐 smartstore.naver.com · <span style="color:var(--orange);font-size:10px;border:1px solid var(--orange);border-radius:3px;padding:0 3px">광고</span></div>
-          <div class="pv-title" id="pvTitle" style="color:#bbb;font-weight:400;font-size:13px">제목을 선택하면 표시됩니다</div>
-          <div class="pv-desc" id="pvDesc" style="color:#bbb;font-size:11px">설명을 선택하면 표시됩니다</div>
+          <div id="pvPcTitles" style="color:#bbb;font-size:13px">제목을 선택하면 표시됩니다</div>
+          <div class="pv-desc" id="pvPcDesc" style="color:#bbb;font-size:11px">설명을 선택하면 표시됩니다</div>
+        </div>
+      </div>
+      <!-- 모바일 미리보기 -->
+      <div class="pv-box" style="margin-top:10px">
+        <div class="pv-lbl">모바일 소재 미리보기</div>
+        <div class="pv-ad" style="background:#f8f9fa">
+          <div class="pv-url" style="font-size:10px">🔵 포클 · smartstore.naver.com · <span style="color:var(--orange);font-size:10px;border:1px solid var(--orange);border-radius:3px;padding:0 3px">광고</span></div>
+          <div id="pvMobTitles" style="color:#bbb;font-size:13px;font-weight:700">제목을 선택하면 표시됩니다</div>
+          <div class="pv-desc" id="pvMobDesc" style="color:#bbb;font-size:11px;margin-top:4px">설명을 선택하면 표시됩니다</div>
         </div>
       </div>
 
@@ -934,9 +1024,7 @@ button { -webkit-tap-highlight-color: transparent; }
         <div id="sDList"><div class="sel-empty">선택 없음</div></div>
       </div>
 
-      <button class="export-btn ripple-btn" id="exportBtn" onclick="exportCSV()" disabled>
-        📥 CSV 내보내기
-      </button>
+
     </div>
   </div>
 
@@ -1239,8 +1327,34 @@ async function callClaude(sys, userContent) {
 }
 
 // ── 단계 표시
+// 단계별 메시지
+const PG_MSGS = {
+  '1-active': 'AI가 상품을 분석하고 있어요...',
+  '2-active': '광고 소재 30개 + 설명 12개 작성 중...',
+  '3-active': '결과를 정리하고 있어요...',
+  '3-done':   '완성! 아래에서 소재를 선택해주세요 ✨'
+};
+const PBAR_WIDTH = {'1-active':8,'1-done':33,'2-active':40,'2-done':66,'3-active':75,'3-done':100};
+
 function pg(n, s) {
-  document.getElementById('pg'+n).className = 'p-item ' + (s||'');
+  const el = document.getElementById('pg'+n);
+  if (!el) return;
+  el.className = 'pbar-step ' + (s||'');
+  // 트래킹 바 너비
+  const key = n+'-'+s;
+  if (PBAR_WIDTH[key] !== undefined) {
+    const fill = document.getElementById('pbarFill');
+    if (fill) fill.style.width = PBAR_WIDTH[key] + '%';
+  }
+  // 메시지
+  const msg = PG_MSGS[key];
+  if (msg) {
+    const el2 = document.getElementById('pbarMsg');
+    if (el2) {
+      el2.style.opacity = '0';
+      setTimeout(() => { el2.textContent = msg; el2.style.opacity = '1'; }, 200);
+    }
+  }
 }
 
 // ── 마케터 분석 리포트 생성
@@ -1273,16 +1387,28 @@ async function generateAnalysis(name, feat, target, titles, descs) {
   const sections = [...raw.matchAll(/<section title="([^"]+)">([\s\S]*?)<\/section>/g)];
   if (!sections.length) {
     // fallback - 그냥 텍스트로 표시
-    const escaped = raw.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+    const cleaned2 = raw.replace(/\*\*([^*]+)\*\*/g,'$1').replace(/\*([^*]+)\*/g,'$1');
+    const escaped = cleaned2.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
     return `<div class="analysis-section-content">${escaped}</div>`;
   }
   return sections.map(([,title,body]) => {
-    const bodyHtml = body.trim().split('\n').join('<br>');
+    const cleaned = body.trim()
+      .replace(/\*\*([^*]+)\*\*/g, '$1')  // ** bold 제거
+      .replace(/\*([^*]+)\*/g, '$1');       // * italic 제거
+    const bodyHtml = cleaned.split('\n').join('<br>');
     return '<div class="analysis-section">'
       + '<div class="analysis-section-title">' + title + '</div>'
       + '<div class="analysis-section-content">' + bodyHtml + '</div>'
       + '</div>';
   }).join('');
+}
+
+
+function openAnalysisModal() {
+  const body = document.getElementById('analysisModalBody');
+  const src  = document.getElementById('analysisBody').innerHTML;
+  body.innerHTML = src || '<div class="analysis-loading">분석 내용이 없어요.</div>';
+  document.getElementById('analysisModal').classList.remove('hidden');
 }
 
 // ── 생성
@@ -1300,7 +1426,8 @@ async function generate() {
   const btn = document.getElementById('genBtn');
   btn.disabled = true;
   document.getElementById('genTxt').innerHTML = '<span class="spin"></span> 생성 중...';
-  document.getElementById('progress').style.display = 'block';
+  const pb = document.getElementById('progressBar');
+  if (pb) { pb.style.display='block'; document.getElementById('pbarFill').style.width='0%'; }
   document.getElementById('emptyState').style.display = 'none';
   document.getElementById('resultWrap').style.display = 'none';
   document.getElementById('analysisBanner').style.display = 'none';
@@ -1331,7 +1458,7 @@ async function generate() {
 
 생성 규칙:
 - 제목: 15자 이내, 정확히 30개. 숫자·혜택·타겟을 활용한 클릭 유도 문구. 다양한 각도로 작성.
-- 설명: 45자에 최대한 가깝게(40~45자 목표), 정확히 12개. 핵심 혜택을 구체적으로. 가능하면 45자 꽉 채울 것.
+- 설명: 반드시 45자 이하(공백 포함). 정확히 12개. 핵심 혜택을 구체적으로, 가능하면 43~45자로 꽉 채울 것. 45자 초과는 절대 금지.
 - 타겟 고객이 있으면 해당 타겟의 언어와 관심사에 맞게 작성.
 - 최상급(최고·최저·1위·보장) 표현 금지.
 - 근거 없는 효능 과장 금지.
@@ -1352,19 +1479,28 @@ async function generate() {
     render();
     pg(3, 'done');
     document.getElementById('resultWrap').style.display = 'block';
+    setTimeout(() => {
+      const pb = document.getElementById('progressBar');
+      if (pb) { pb.style.opacity='0'; pb.style.transition='opacity .5s'; setTimeout(()=>{pb.style.display='none';pb.style.opacity='';pb.style.transition='';},500); }
+    }, 1200);
 
     // 마케터 분석 리포트 (비동기 - 결과 표시 후 실행)
     document.getElementById('analysisBanner').style.display = 'block';
     document.getElementById('analysisBody').innerHTML = '<div class="analysis-loading"><span class="spin-sm"></span> 분석 중...</div>';
     generateAnalysis(name, feat, target, S.titles, S.descs).then(html => {
       document.getElementById('analysisBody').innerHTML = html;
+      const btn = document.getElementById('analysisOpenBtn');
+      if (btn) btn.style.display = '';
     }).catch(() => {
       document.getElementById('analysisBody').innerHTML = '<div class="analysis-loading">분석을 불러오지 못했어요.</div>';
+      const btn = document.getElementById('analysisOpenBtn');
+      if (btn) btn.style.display = '';
     });
 
   } catch(err) {
     alert('오류가 발생했습니다:\n' + err.message);
     [1,2,3].forEach(n => pg(n,''));
+    const pb2 = document.getElementById('progressBar'); if(pb2) pb2.style.display='none';
     document.getElementById('emptyState').style.display = 'flex';
   } finally {
     btn.disabled = false;
@@ -1398,7 +1534,6 @@ function render() {
           <option value="2">제목 2 고정</option>
           <option value="3">제목 3 고정</option>
         </select>
-        <input class="kw-in" placeholder="키워드삽입" />
       </div>`
     );
   });
@@ -1563,7 +1698,7 @@ function sync() {
     ? [...S.selT].sort((a,b)=>a-b).map(i => {
         const pin = document.getElementById('pin'+i)?.value;
         const badge = pin ? `<span style="font-size:10px;color:var(--blue);font-weight:700;margin-right:4px">[제목${pin}]</span>` : '';
-        return `<div class="sel-item">${badge}${esc(S.titles[i])}<button class="sel-x" onclick="rem('t',${i})">×</button></div>`;
+        return `<div class="sel-item">${badge}<span contenteditable="true" style="flex:1;outline:none;cursor:text" oninput="S.titles[${i}]=this.textContent.trim();sync()" onblur="S.titles[${i}]=this.textContent.trim()">${esc(S.titles[i])}</span><button class="sel-x" onclick="rem('t',${i})">×</button></div>`;
       }).join('')
     : '<div class="sel-empty">선택 없음</div>';
   document.getElementById('sDList').innerHTML = ds.length
@@ -1579,7 +1714,7 @@ function sync() {
   const dsb = document.getElementById('dSelBadge');
   if (ds.length) { dsb.style.display=''; dsb.textContent='✓ '+ds.length+'개 선택'; } else dsb.style.display='none';
 
-  document.getElementById('exportBtn').disabled = !ts.length && !ds.length;
+  // export button removed
 }
 
 // ── CSV
@@ -1597,7 +1732,51 @@ function exportCSV() {
   a.click();
 }
 
+// ── 헤더 시계
+function startClock() {
+  const days = ['일','월','화','수','목','금','토'];
+  function tick() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2,'0');
+    const m = String(now.getMinutes()).padStart(2,'0');
+    const s = String(now.getSeconds()).padStart(2,'0');
+    const el = document.getElementById('hClockTime');
+    if (el) el.textContent = h + ':' + m + ':' + s;
+    const dateEl = document.getElementById('hClockDate');
+    if (dateEl) {
+      const y = now.getFullYear();
+      const mo = now.getMonth()+1;
+      const d = now.getDate();
+      const day = days[now.getDay()];
+      dateEl.textContent = y+'년 '+mo+'월 '+d+'일 ('+day+') KST';
+    }
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+startClock();
+
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;')}
 </script>
+
+<!-- ── 분석 리포트 모달 ── -->
+<div class="overlay hidden" id="analysisModal">
+  <div class="analysis-modal-inner">
+    <div class="analysis-modal-head">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:24px">🧠</span>
+        <div>
+          <div style="font-size:16px;font-weight:800;color:#fff">마케터 분석 리포트</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.45);margin-top:2px">10년차 네이버 파워링크 전문가의 소재 전략 분석</div>
+        </div>
+      </div>
+      <button onclick="document.getElementById('analysisModal').classList.add('hidden')" style="background:rgba(255,255,255,.1);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer;flex-shrink:0">×</button>
+    </div>
+    <div class="analysis-modal-body" id="analysisModalBody">
+      <div class="analysis-loading"><span class="spin-sm"></span> 분석 중...</div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
