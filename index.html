@@ -150,18 +150,18 @@ body{
 
 /* ══ 히어로 ══ */
 .hero{
-  position:relative;z-index:2;text-align:center;padding:18px 20px 14px;overflow:hidden;
+  position:relative;z-index:2;text-align:center;padding:10px 20px 8px;overflow:hidden;
 }
 .hero-eyebrow{
   display:inline-flex;align-items:center;gap:6px;
-  font-size:13px;font-weight:700;letter-spacing:2px;color:var(--g);text-transform:uppercase;
+  font-size:11px;font-weight:700;letter-spacing:2px;color:var(--g);text-transform:uppercase;
   background:var(--g-dim);border:1px solid rgba(3,199,90,.2);border-radius:20px;
-  padding:4px 14px;margin-bottom:16px;
+  padding:3px 12px;margin-bottom:8px;
   animation:fadeSlideUp .6s ease .1s both;
 }
 .hero h1{
-  font-family:'Pretendard',-apple-system,sans-serif;font-size:26px;font-weight:900;
-  color:#fff;line-height:1.35;margin-bottom:7px;letter-spacing:-0.8px;
+  font-family:'Pretendard',-apple-system,sans-serif;font-size:22px;font-weight:900;
+  color:#fff;line-height:1.3;margin-bottom:5px;letter-spacing:-0.8px;
   max-width:100%;
   animation:fadeSlideUp .6s ease .2s both;
 }
@@ -170,7 +170,7 @@ body{
   text-shadow:0 0 30px var(--g-glow);
 }
 .hero-sub{
-  font-size:14px;color:var(--text3);margin-bottom:0;line-height:1.6;
+  font-size:12px;color:var(--text3);margin-bottom:0;line-height:1.5;
   animation:fadeSlideUp .6s ease .3s both;
 }
 .hero-sub strong{color:var(--text2)}
@@ -1106,7 +1106,35 @@ textarea.inp{resize:none;line-height:1.6;font-size:15px}
 .input-col.req-error{border-color:rgba(255,60,80,.5) !important;box-shadow:0 0 0 1px rgba(255,60,80,.2) !important}
 .input-col.req-error .icol-head{background:rgba(255,60,80,.08) !important}
 
-/* ══ 분석 중 버튼 강화 애니메이션 ══ */
+/* ══ 분석 중 상세 표시 ══ */
+.analyzing-label{
+  display:flex;align-items:center;gap:10px;flex:1;
+}
+.analyzing-detail{
+  display:flex;flex-direction:column;gap:2px;flex:1;min-width:0;
+}
+.analyzing-phase{
+  font-size:11px;font-weight:800;color:var(--g);letter-spacing:.3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.analyzing-step{
+  font-size:11px;color:var(--text3);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  transition:opacity .3s;
+}
+.analyzing-timer-box{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:rgba(3,199,90,.08);border:1px solid rgba(3,199,90,.2);
+  border-radius:8px;padding:4px 10px;min-width:64px;flex-shrink:0;
+}
+.analyzing-timer-remain{
+  font-size:17px;font-weight:900;color:var(--g);
+  font-variant-numeric:tabular-nums;line-height:1.1;letter-spacing:-0.5px;
+}
+.analyzing-timer-remain.overtime{color:#ff9800 !important}
+.analyzing-timer-lbl{
+  font-size:9px;color:var(--text3);font-weight:600;letter-spacing:.5px;
+}
 .gen-btn.analyzing{
   background:linear-gradient(135deg,#0a2a16,#032e12,#029e48) !important;
   background-size:200% 200% !important;
@@ -1156,12 +1184,56 @@ textarea.inp{resize:none;line-height:1.6;font-size:15px}
   0%,100%{box-shadow:0 0 12px rgba(3,199,90,.1)}
   50%{box-shadow:0 0 24px rgba(3,199,90,.25)}
 }
-.gen-btn:disabled .spin{display:none}
-
-/* ── 필수 필드 위 별표 입력창 테두리 */
-#productName:invalid,
-#productName.empty-req{border-color:rgba(255,60,80,.4) !important}
-
+/* ══ 입력 잠금 오버레이 ══ */
+.inputs-locked .input-grid,
+.inputs-locked .enhance-row{position:relative}
+.inputs-locked .input-grid::after,
+.inputs-locked .enhance-row::after{
+  content:'⏳ 분석 중 — 입력이 잠겨 있습니다';
+  position:absolute;inset:0;z-index:10;
+  background:rgba(5,12,22,.6);backdrop-filter:blur(3px);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:var(--g);
+  letter-spacing:.5px;border-radius:10px;pointer-events:all;
+}
+/* 생성 버튼 카운트다운 표시 */
+.gen-btn .btn-countdown{
+  font-size:12px;font-weight:700;
+  font-variant-numeric:tabular-nums;
+  background:rgba(0,0,0,.3);border-radius:5px;
+  padding:1px 7px;margin-left:8px;letter-spacing:-.3px;
+  display:inline-block;min-width:38px;text-align:center;
+}
+.gen-btn .btn-countdown.overtime{color:#ffcc44}
+/* 정렬 개선: icol-head 내부 텍스트 높이 고정 */
+.icol-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px;line-height:1.3}
+.icol-desc{font-size:11px;color:var(--text3);line-height:1.4;word-break:keep-all}
+/* 분석 패널 내부 여백 통일 */
+.analysis-panel-tall > .icol-head{padding:12px 14px 8px}
+.analysis-panel-tall > .analysis-status{padding:0 14px 4px}
+.analysis-panel-tall > #analysisProgress{padding:0 14px 0;overflow-y:auto;flex:1}
+.analysis-panel-tall > .analysis-preview{padding:8px 14px;flex:1;overflow-y:auto;font-size:12px;line-height:1.6;color:var(--text2)}
+.analysis-panel-tall > .analysis-btn{margin:8px 14px 12px;width:calc(100% - 28px)}
+/* 마케터 분석 실시간 내용 표시 */
+.ap-live-log{
+  margin-top:8px;padding:8px 10px;
+  background:rgba(3,199,90,.04);border:1px solid rgba(3,199,90,.12);
+  border-radius:7px;font-size:11px;line-height:1.7;color:var(--text3);
+}
+.ap-live-log .ap-log-item{
+  display:flex;align-items:flex-start;gap:6px;
+  padding:2px 0;border-bottom:1px solid rgba(255,255,255,.04);
+}
+.ap-live-log .ap-log-item:last-child{border-bottom:none}
+.ap-live-log .ap-log-icon{font-size:11px;flex-shrink:0;margin-top:1px}
+.ap-live-log .ap-log-text{flex:1;color:var(--text2)}
+.ap-live-log .ap-log-text.active{color:var(--g);font-weight:600}
+.ap-live-log .ap-log-dot{
+  width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:4px;
+  background:rgba(255,255,255,.15);transition:all .3s;
+}
+.ap-live-log .ap-log-dot.done{background:var(--g)}
+.ap-live-log .ap-log-dot.active{background:var(--g);animation:apPulse .8s ease infinite}
 </style>
 </head>
 <body>
@@ -1392,14 +1464,14 @@ textarea.inp{resize:none;line-height:1.6;font-size:15px}
               <input type="text" class="inp" id="eventInput" placeholder="이벤트 직접 입력 (예: 5월 가정의 달 특가)" style="margin-top:7px" />
             </div>
             <div class="enhance-col">
-              <div class="enhance-head"><span class="enhance-icon">🎯</span><div><div class="enhance-title">광고 어조 <span class="badge-opt">선택</span></div><div class="enhance-desc">타겟에 맞는 어조를 선택하면 더 효과적이에요</div></div></div>
+              <div class="enhance-head"><span class="enhance-icon">🎯</span><div><div class="enhance-title">광고 어조 <span class="badge-opt">선택</span></div><div class="enhance-desc">최대 2개 선택 · 타겟에 맞는 어조로 효과↑</div></div></div>
               <div class="tone-grid" id="toneGrid">
-                <button class="tone-btn" onclick="toggleTone(this)">🔥 긴박감</button>
-                <button class="tone-btn" onclick="toggleTone(this)">💝 감성·공감</button>
-                <button class="tone-btn" onclick="toggleTone(this)">📊 정보·신뢰</button>
-                <button class="tone-btn" onclick="toggleTone(this)">🎉 혜택·이벤트</button>
-                <button class="tone-btn" onclick="toggleTone(this)">💪 전문가·권위</button>
-                <button class="tone-btn" onclick="toggleTone(this)">🌿 친환경·가치</button>
+                <button class="tone-btn" onclick="toggleTone(this)" data-tone="urgency">⚡ 긴급·희소성</button>
+                <button class="tone-btn" onclick="toggleTone(this)" data-tone="trust">🏆 신뢰·전문성</button>
+                <button class="tone-btn" onclick="toggleTone(this)" data-tone="benefit">💰 혜택·절약</button>
+                <button class="tone-btn" onclick="toggleTone(this)" data-tone="emotion">💝 감성·공감</button>
+                <button class="tone-btn" onclick="toggleTone(this)" data-tone="proof">📊 수치·증거</button>
+                <button class="tone-btn" onclick="toggleTone(this)" data-tone="action">🎯 행동유도·직접</button>
               </div>
             </div>
           </div><!-- enhance-row -->
@@ -1443,6 +1515,16 @@ textarea.inp{resize:none;line-height:1.6;font-size:15px}
               </div>
               <div class="ap-thinking-dots"><span></span><span></span><span></span><span></span><span></span></div>
             </div>
+            <!-- 실시간 분석 로그 -->
+            <div id="apLiveLog" style="display:none" class="ap-live-log">
+              <div class="ap-log-item" id="alog-1"><div class="ap-log-dot" id="alog-dot-1"></div><span class="ap-log-icon">📦</span><span class="ap-log-text" id="alog-text-1">상품명에서 핵심 키워드 추출 중...</span></div>
+              <div class="ap-log-item" id="alog-2"><div class="ap-log-dot" id="alog-dot-2"></div><span class="ap-log-icon">🎯</span><span class="ap-log-text" id="alog-text-2">타겟 고객 심리·구매 동기 분석 중...</span></div>
+              <div class="ap-log-item" id="alog-3"><div class="ap-log-dot" id="alog-dot-3"></div><span class="ap-log-icon">📝</span><span class="ap-log-text" id="alog-text-3">30개 제목 구성 전략 검토 중...</span></div>
+              <div class="ap-log-item" id="alog-4"><div class="ap-log-dot" id="alog-dot-4"></div><span class="ap-log-icon">💬</span><span class="ap-log-text" id="alog-text-4">12개 설명 메시지 효과 분석 중...</span></div>
+              <div class="ap-log-item" id="alog-5"><div class="ap-log-dot" id="alog-dot-5"></div><span class="ap-log-icon">⚡</span><span class="ap-log-text" id="alog-text-5">클릭률 개선 포인트 도출 중...</span></div>
+              <div class="ap-log-item" id="alog-6"><div class="ap-log-dot" id="alog-dot-6"></div><span class="ap-log-icon">📊</span><span class="ap-log-text" id="alog-text-6">어조·시즌 세팅 반영 여부 검증 중...</span></div>
+              <div class="ap-log-item" id="alog-7"><div class="ap-log-dot" id="alog-dot-7"></div><span class="ap-log-icon">✍️</span><span class="ap-log-text" id="alog-text-7">리포트 작성 및 인사이트 정리 중...</span></div>
+            </div>
             <div class="ap-timer" style="margin-top:8px">예상 소요: <b id="apTimerVal">--</b></div>
           </div>
           <div class="analysis-preview" id="analysisSidePreview" style="display:none"></div>
@@ -1456,11 +1538,19 @@ textarea.inp{resize:none;line-height:1.6;font-size:15px}
         <button class="gen-btn ripple-btn" id="genBtn" onclick="generate()">
           <span id="genTxt">✨ 광고 소재 생성하기</span>
         </button>
+        <!-- 분석 중 실시간 표시 패널 -->
         <div id="analyzingLabel" style="display:none" class="analyzing-label">
           <div class="analyzing-bar">
             <span></span><span></span><span></span><span></span><span></span><span></span>
           </div>
-          <span id="analyzingLabelTxt">Gemini AI 분석 중...</span>
+          <div class="analyzing-detail">
+            <div class="analyzing-phase" id="analyzingPhase">준비 중...</div>
+            <div class="analyzing-step" id="analyzingStep">Gemini AI 연결 중</div>
+          </div>
+          <div class="analyzing-timer-box">
+            <div class="analyzing-timer-remain" id="analyzingRemain">--</div>
+            <div class="analyzing-timer-lbl" id="analyzingTimerLbl">남음</div>
+          </div>
         </div>
         <div class="footer-info" id="footerInfo">Gemini AI · 제목 30개 · 설명 12개 · 무료 API 사용 가능</div>
       </div>
@@ -2016,15 +2106,33 @@ async function generateAnalysis(name, feat, target, titles, descs, imgs) {
   if(eventUsed) contextParts.push(`이벤트 문구: ${eventUsed}`);
   if(toneUsed) contextParts.push(`광고 어조: ${toneUsed}`);
   const contextStr = contextParts.length ? ('\n\n[광고 세팅 정보]\n' + contextParts.join('\n')) : '';
-  const analysisPrompt = `당신은 10년차 네이버 파워링크 광고 전문 마케터이자 카피라이터입니다. 섹션을 <section title="섹션제목">내용</section> 형태로 구분해서 응답하세요.
-섹션 제목은 이모지 포함해서 명확하게. 내용은 5~7문장으로 충분히 작성.
-- 단순 요약이 아닌, 실제 광고 집행 경험을 바탕으로 한 구체적 인사이트를 작성하세요.
-- "이들은"이라는 표현 대신 "고객들은", "구매하시는 분들은", "관심 있으신 분들은" 같은 부드럽고 친근한 표현을 사용하세요.
-- 어떤 키워드가 왜 효과적인지, 어떤 표현이 왜 클릭률에 영향을 주는지 근거를 설명하세요.
-- 고객들의 심리와 구매 동기를 구체적으로 분석하고, 직접 말을 거는 듯한 따뜻한 톤으로 작성하세요.
-- 주의할 점이나 개선 방향도 솔직하게 포함하세요.
-중요한 키워드나 수치는 <b>태그로 감싸주세요 (예: <b>소상공인</b>, <b>140만원</b>).
-마케터 관점의 핵심 판단은 <em>태그로 감싸주세요. 마크다운 금지.`;
+
+  // 어조별 구체적 지침
+  const toneGuide = toneUsed ? `\n\n[선택된 광고 어조: ${toneUsed}]\n어조 적용 지침:
+${toneUsed.includes('urgency') || toneUsed.includes('긴급') ? '- 긴급·희소성 어조: 지금 당장 행동해야 할 이유, 재고 한정·기간 한정 등 희소성 심리 자극 요소가 소재에 어떻게 반영되었는지 분석하세요.' : ''}
+${toneUsed.includes('trust') || toneUsed.includes('신뢰') ? '- 신뢰·전문성 어조: 경력·수상·인증·데이터 등 신뢰 근거가 소재에 어떻게 녹아있는지, 전문가 권위를 어떻게 활용했는지 분석하세요.' : ''}
+${toneUsed.includes('benefit') || toneUsed.includes('혜택') ? '- 혜택·절약 어조: 구체적 금액·할인율·무료 요소 등 경제적 이득이 소재에 얼마나 명확하게 전달되는지 분석하세요.' : ''}
+${toneUsed.includes('emotion') || toneUsed.includes('감성') ? '- 감성·공감 어조: 고객의 감정·고충·바람에 공감하는 표현이 소재에 얼마나 자연스럽게 녹아있는지 분석하세요.' : ''}
+${toneUsed.includes('proof') || toneUsed.includes('수치') ? '- 수치·증거 어조: 구체적 숫자·통계·비교 데이터가 소재의 신뢰도와 클릭률에 어떻게 기여하는지 분석하세요.' : ''}
+${toneUsed.includes('action') || toneUsed.includes('행동') ? '- 행동유도·직접 어조: 명령형·행동 촉구 표현이 소재에서 얼마나 직접적으로 클릭을 유도하는지 분석하세요.' : ''}`.trim() : '';
+
+  const analysisPrompt = `당신은 10년차 네이버 파워링크 광고 전문 마케터이자 카피라이터입니다.${contextStr}${toneGuide}
+
+반드시 아래 5개 섹션을 <section title="섹션제목">내용</section> 형태로 작성하세요.
+각 섹션 내용은 6~8문장, 구체적 수치와 실제 광고 집행 경험 기반 인사이트로 작성.
+
+필수 섹션:
+1. 🔍 상품·키워드 분석 — 상품명에서 발굴한 핵심 키워드, 검색 의도, 경쟁 강도 예측
+2. 🎯 타겟 심리 분석 — 이 상품을 검색하는 사람들의 구매 동기·고충·니즈 심층 분석
+3. 📝 소재 전략 평가 — 30개 제목과 12개 설명의 각도·구성·강약 배분이 왜 이렇게 됐는지
+4. ⚡ 클릭률 핵심 포인트 — 가장 클릭을 많이 받을 것으로 예상되는 소재 3개와 그 이유
+5. 💡 개선 권고사항 — A/B 테스트 제안, 보완해야 할 표현, 장기 운영 전략
+
+규칙:
+- "이들은" 금지 → "고객들은", "구매하시는 분들은" 사용
+- 중요 키워드·수치는 <b>태그로 감싸기
+- 마케터 핵심 판단은 <em>태그로 감싸기
+- 마크다운 완전 금지. 단순 요약 금지. 실무 인사이트만.`;
 
   // 이미지가 있으면 이미지와 함께 전달
   let userContent;
@@ -2068,10 +2176,27 @@ async function generateAnalysis(name, feat, target, titles, descs, imgs) {
 const S_DENY = new Set(); // 금지어
 let S_SEASON = ''; // 선택 시즌
 let S_EVENT = '';  // 이벤트
-let S_TONE = '';   // 어조
+let S_TONE = '';        // 어조 (최대 2개, 쉼표 구분)
+let S_TONE_ARR = [];   // 선택된 어조 배열
 
-
-function checkFeatCount() {
+function toggleTone(btn) {
+  const tone = btn.dataset.tone || btn.textContent.trim();
+  const idx = S_TONE_ARR.indexOf(tone);
+  if(idx >= 0){
+    S_TONE_ARR.splice(idx,1);
+    btn.classList.remove('on');
+  } else {
+    if(S_TONE_ARR.length >= 2){
+      const first = S_TONE_ARR.shift();
+      document.querySelectorAll('#toneGrid .tone-btn').forEach(b=>{
+        if((b.dataset.tone||b.textContent.trim())===first) b.classList.remove('on');
+      });
+    }
+    S_TONE_ARR.push(tone);
+    btn.classList.add('on');
+  }
+  S_TONE = S_TONE_ARR.join(' + ');
+} {
   const filled = [...document.querySelectorAll('#featSlots .feat-slot input')].map(el=>el.value.trim()).filter(Boolean).length;
   const hint = document.getElementById('featReqHint');
   const featCol = document.getElementById('featSlots')?.closest('.input-col');
@@ -2108,12 +2233,6 @@ function toggleSeason(btn) {
   else S_SEASON = '';
 }
 
-function toggleTone(btn) {
-  const already = btn.classList.contains('on');
-  document.querySelectorAll('#toneGrid .tone-btn').forEach(b => b.classList.remove('on'));
-  if (!already) { btn.classList.add('on'); S_TONE = btn.textContent.trim(); }
-  else S_TONE = '';
-}
 
 function switchResultTab(tab) {
   ['t','d'].forEach(t => {
@@ -2494,8 +2613,19 @@ async function generate(){
   document.getElementById('emptyState').style.display='none';
   document.getElementById('resultWrap').style.display='none';
 
-  // ── 분석 중 UI 활성화
-  btn.classList.add('analyzing');
+  // ── 입력 전체 잠금
+  function lockInputs(lock){
+    const ids=['productName','target','denyInput','eventInput'];
+    ids.forEach(id=>{ const el=document.getElementById(id); if(el) el.disabled=lock; });
+    document.querySelectorAll('#featSlots input, #featSlots button').forEach(el=>el.disabled=lock);
+    document.querySelectorAll('#seasonChips .schip').forEach(el=>el.disabled=lock);
+    document.querySelectorAll('#toneGrid .tone-btn').forEach(el=>el.disabled=lock);
+    document.getElementById('featAddBtn') && (document.getElementById('featAddBtn').disabled=lock);
+    document.getElementById('uploadZone') && (document.getElementById('uploadZone').style.pointerEvents=lock?'none':'');
+    const card=document.querySelector('.input-card');
+    if(card) card.classList.toggle('inputs-locked', lock);
+  }
+  lockInputs(true);
   const footer = document.getElementById('inputFooter');
   const analyzingLabel = document.getElementById('analyzingLabel');
   const footerInfo = document.getElementById('footerInfo');
@@ -2506,22 +2636,35 @@ async function generate(){
   const analysisPanel = document.querySelector('.analysis-panel-tall');
   if(analysisPanel) analysisPanel.classList.add('analyzing-active');
 
-  // 분석 중 레이블 메시지 순환
-  const analyzingMsgs = ['Gemini AI 분석 중...','상품 전략 구성 중...','광고 소재 작성 중...','마케터 리포트 준비 중...','클릭률 최적화 중...'];
-  let aIdx=0;
-  const aLabelTxt = document.getElementById('analyzingLabelTxt');
-  const aLabelTimer = setInterval(()=>{
-    aIdx=(aIdx+1)%analyzingMsgs.length;
-    if(aLabelTxt) aLabelTxt.textContent = analyzingMsgs[aIdx];
-  }, 2500);
+  // ── 단계별 실시간 메시지 시스템
+  const phaseEl  = document.getElementById('analyzingPhase');
+  const stepEl   = document.getElementById('analyzingStep');
+  const remainEl = document.getElementById('analyzingRemain');
+  const lblEl    = document.getElementById('analyzingTimerLbl');
+
+  // 단계 메시지 세팅 함수
+  let aLabelTimer = null;
+  function setPhase(phase, steps, intervalMs=2200){
+    if(phaseEl) phaseEl.textContent = phase;
+    if(aLabelTimer) clearInterval(aLabelTimer);
+    let si=0;
+    function showStep(){ if(stepEl){ stepEl.style.opacity='0'; setTimeout(()=>{ stepEl.textContent=steps[si]; stepEl.style.opacity='1'; si=(si+1)%steps.length; },160); } }
+    showStep();
+    aLabelTimer = setInterval(showStep, intervalMs);
+  }
+
+  // 초기 단계
+  setPhase('① 소재 생성 준비', ['상품명·특징 파악 중...','광고 전략 수립 중...','Gemini API 연결 중...']);
 
   function stopAnalyzingUI(){
+    lockInputs(false);
     btn.classList.remove('analyzing');
     if(footer) footer.classList.remove('analyzing');
     if(analyzingLabel) analyzingLabel.style.display='none';
     if(footerInfo) footerInfo.style.display='';
     if(analysisPanel) analysisPanel.classList.remove('analyzing-active');
-    clearInterval(aLabelTimer);
+    if(aLabelTimer) clearInterval(aLabelTimer);
+    document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
   }
 
   S.selT=new Set(); S.selD=new Set();
@@ -2538,48 +2681,77 @@ async function generate(){
   if(sideBtn) sideBtn.disabled=true;
   if(apProg) apProg.style.display='block';
 
-  // ── 카운트다운 타이머 (실제 초 단위)
-  // 예상 시간: 소재생성 ~20초 + 분석 ~30초 + 이미지당 5초
-  const estSecs = 25 + (S.imgs.length * 5);
-  const timerEl = document.getElementById('apTimerVal');
-  let countRemain = estSecs;
+  // ── 카운트다운 타이머 (2단계 API 콜 기준)
+  // 실측 기준: 소재생성 ~20-40초, 마케터분석 ~25-50초, 이미지당 +6초
+  const estPhase1 = 30 + (S.imgs.length * 6); // 소재 생성
+  const estPhase2 = 40;                         // 마케터 분석
+  const estTotal  = estPhase1 + estPhase2;
   let elapsed = 0;
   let countDone = false;
+  let currentPhaseEst = estTotal; // 현재 카운트 기준
 
-  function fmtSec(s){ return s >= 60 ? `${Math.floor(s/60)}분 ${s%60}초` : `${s}초`; }
+  function fmtSec(s){
+    s = Math.max(0, Math.round(s));
+    return s >= 60 ? `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}` : `${s}초`;
+  }
 
-  if(timerEl) timerEl.textContent = fmtSec(countRemain);
+  function updateTimerDisplay(){
+    if(!remainEl || countDone) return;
+    const remain = currentPhaseEst - elapsed;
+    if(remain > 0){
+      remainEl.textContent = fmtSec(remain);
+      remainEl.classList.remove('overtime');
+      if(lblEl) lblEl.textContent = '남음';
+    } else {
+      const over = elapsed - currentPhaseEst;
+      remainEl.textContent = '+'+fmtSec(over);
+      remainEl.classList.add('overtime');
+      if(lblEl) lblEl.textContent = '초과';
+    }
+  }
+
+  if(remainEl) remainEl.textContent = fmtSec(estTotal);
+  // 생성 버튼에도 카운트다운 표시
+  function updateBtnCountdown(){
+    const cd = document.querySelector('#genBtn .btn-countdown');
+    if(!cd) return;
+    const remain = currentPhaseEst - elapsed;
+    if(remain > 0){
+      cd.textContent = fmtSec(remain);
+      cd.classList.remove('overtime');
+    } else {
+      cd.textContent = '+'+fmtSec(elapsed - currentPhaseEst);
+      cd.classList.add('overtime');
+    }
+  }
+  document.getElementById('genTxt').innerHTML = `<span class="spin"></span> 분석 중... <span class="btn-countdown">${fmtSec(estTotal)}</span>`;
+
   const countdownInterval = setInterval(()=>{
     if(countDone) return;
     elapsed++;
-    countRemain = Math.max(0, estSecs - elapsed);
-    if(countRemain > 0){
-      if(timerEl) timerEl.textContent = fmtSec(countRemain);
-    } else if(countRemain === 0){
-      // 예상 시간 초과 → 초과 메시지
-      if(timerEl){
-        const over = elapsed - estSecs;
-        timerEl.textContent = '';
-        timerEl.closest('.ap-timer').innerHTML =
-          `<span style="color:#ff9800">⏳ 예상보다 +${fmtSec(over)} 더 걸리고 있어요</span>`;
-      }
-    }
+    updateTimerDisplay();
+    updateBtnCountdown();
   }, 1000);
 
-  // 완료 시 타이머 정리 함수 (외부에서 호출)
   window._stopCountdown = (isEarly)=>{
     countDone = true;
     clearInterval(countdownInterval);
-    const timerRow = timerEl?.closest('.ap-timer');
-    if(timerRow){
-      if(isEarly && elapsed < estSecs){
-        timerRow.innerHTML = `<span style="color:var(--g)">✓ 예상(${fmtSec(estSecs)})보다 빨리 완료!</span>`;
-      } else if(elapsed <= estSecs + 5){
-        timerRow.innerHTML = `<span style="color:var(--g)">✓ 완료 (${fmtSec(elapsed)} 소요)</span>`;
+    if(remainEl && lblEl){
+      remainEl.classList.remove('overtime');
+      if(isEarly && elapsed < currentPhaseEst){
+        remainEl.textContent = fmtSec(elapsed);
+        lblEl.textContent = '✓ 완료';
       } else {
-        timerRow.innerHTML = `<span style="color:var(--g)">✓ 완료 (${fmtSec(elapsed)} 소요)</span>`;
+        remainEl.textContent = fmtSec(elapsed);
+        lblEl.textContent = '✓ 완료';
       }
     }
+  };
+
+  // 1단계 완료 시점에 타이머 리셋하는 함수
+  window._startPhase2Timer = ()=>{
+    currentPhaseEst = elapsed + estPhase2; // 현재 경과 + 분석 예상 시간
+    updateTimerDisplay();
   };
 
   // ── 필드 스캔 애니메이션 (1.2초씩 → 총 ~7초)
@@ -2660,6 +2832,15 @@ async function generate(){
 
     pg(1,'done');pg(2,'active');
     document.getElementById('genTxt').innerHTML='<span class="spin"></span> 소재 작성 중...';
+    // 2단계: 소재 생성 중
+    setPhase('① 소재 30개 생성 중', [
+      `제목 30개 작성 중... (이미지 ${S.imgs.length}장 반영)`,
+      '상품 키워드 분석 중...',
+      '클릭률 높은 문구 구성 중...',
+      '설명 12개 (45자 이하) 작성 중...',
+      '타겟 언어·혜택 포인트 적용 중...',
+      '금지어 필터링 적용 중...',
+    ]);
 
     const raw=await callClaude(
       `당신은 네이버 파워링크 광고 전문가입니다.
@@ -2686,6 +2867,47 @@ async function generate(){
     if(sideStatus) sideStatus.textContent='리포트 분석 중...';
     document.getElementById('genTxt').innerHTML='<span class="spin"></span> 리포트 분석 중...';
     pg(3,'active');
+    // 소재 생성 완료 → 분석 단계로
+    if(window._startPhase2Timer) window._startPhase2Timer();
+    setPhase('② 마케터 리포트 분석', [
+      '광고 전략 방향 분석 중...',
+      '클릭률 포인트 발굴 중...',
+      '타겟 고객 심리 분석 중...',
+      '30개 제목 구성 의도 검토 중...',
+      '12개 설명 메시지 전략 분석 중...',
+      '개선 방향 및 인사이트 작성 중...',
+    ], 2500);
+
+    // 라이브 분석 로그 시작
+    const liveLog = document.getElementById('apLiveLog');
+    if(liveLog) liveLog.style.display='block';
+    const thinkEl2 = document.getElementById('apThinking');
+    if(thinkEl2) thinkEl2.style.display='none';
+    let logStep = 0;
+    const logDots  = [1,2,3,4,5,6,7].map(n=>document.getElementById('alog-dot-'+n));
+    const logTexts = [1,2,3,4,5,6,7].map(n=>document.getElementById('alog-text-'+n));
+    function advanceLog(){
+      if(logStep < 7){
+        if(logStep > 0){
+          logDots[logStep-1] && logDots[logStep-1].classList.replace('active','done');
+          logTexts[logStep-1] && logTexts[logStep-1].classList.remove('active');
+        }
+        logDots[logStep] && logDots[logStep].classList.add('active');
+        logTexts[logStep] && logTexts[logStep].classList.add('active');
+        logStep++;
+      }
+    }
+    advanceLog();
+    const logInterval = setInterval(advanceLog, Math.floor(estPhase2*1000/8));
+    // 완료 시 정리
+    const origStop = window._stopCountdown;
+    window._stopCountdown = (isEarly)=>{
+      clearInterval(logInterval);
+      // 모든 로그 done
+      logDots.forEach(d=>{ if(d){d.classList.remove('active');d.classList.add('done');} });
+      logTexts.forEach(t=>{ if(t) t.classList.remove('active'); });
+      if(origStop) origStop(isEarly);
+    };
 
     const aBody=document.getElementById('analysisBody');aBody.style.display='none';
     if(sideStatus) sideStatus.textContent='리포트 작성 중...';
