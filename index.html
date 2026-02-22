@@ -1500,7 +1500,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v7.4</span>
+    <span class="h-version">v7.6</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -1521,7 +1521,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 <section class="hero">
   <div class="hero-eyebrow">✦ Naver Powerlink · AI Copy Generator · Powered by Gemini</div>
   <h1><em>AI가 클릭률 높은 파워링크 소재</em>를 자동으로 만들어 드립니다</h1>
-  <p class="hero-sub"><strong>제목 15개 · 설명 6개</strong> 자동 생성 &nbsp;·&nbsp; 마케터 AI 분석 리포트 &nbsp;·&nbsp; 실시간 네이버 미리보기</p>
+  <p class="hero-sub"><strong>제목 30개 · 설명 6개</strong> 자동 생성 &nbsp;·&nbsp; 마케터 AI 분석 리포트 &nbsp;·&nbsp; 실시간 네이버 미리보기</p>
 </section>
 
 <div id="apiKeyBanner">
@@ -1775,55 +1775,79 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
       </div>
     </div>
 
-    <!-- 광고 소재 모니터 (compact — sticky 안에서 항상 노출) -->
+    <!-- 광고 소재 모니터 (원래 모습 복원 — sticky 안에서 항상 노출) -->
     <div id="monitorSection">
-      <div class="section-header" style="margin-top:6px;padding:6px 0 4px">
-        <div class="section-label" style="font-size:13px">광고 소재 모니터</div>
+      <div class="section-header" style="margin-top:8px">
+        <div class="section-label">광고 소재 모니터</div>
         <div class="section-div"></div>
       </div>
-      <div class="sb-compact-row">
-        <!-- 선택 현황 -->
-        <div class="sb-c-sel sb-c-title">
-          <span class="sb-c-icon">📋</span>
-          <span class="sb-c-num" id="sbTitleNum">0</span>
-          <span class="sb-c-label">/15</span>
-          <div class="sb-c-bar"><div class="sb-c-fill sb-c-fill-t" id="sbTitleBar" style="width:0%"></div></div>
+      <div class="status-board">
+        <!-- 1행: 선택 현황 -->
+        <div class="sb-row-select">
+          <div class="sb-sel-box sb-title">
+            <div class="sb-sel-icon">📋</div>
+            <div class="sb-sel-info">
+              <div class="sb-sel-label">제목 선택</div>
+              <div class="sb-sel-count">
+                <span class="sb-sel-num" id="sbTitleNum">0</span>
+                <span class="sb-sel-max">/ 15개</span>
+              </div>
+              <div class="sb-bar"><div class="sb-bar-fill sb-title-fill" id="sbTitleBar" style="width:0%"></div></div>
+            </div>
+          </div>
+          <div class="sb-sel-box sb-desc">
+            <div class="sb-sel-icon">📝</div>
+            <div class="sb-sel-info">
+              <div class="sb-sel-label">설명 선택</div>
+              <div class="sb-sel-count">
+                <span class="sb-sel-num" id="sbDescNum">0</span>
+                <span class="sb-sel-max">/ 4개</span>
+              </div>
+              <div class="sb-bar"><div class="sb-bar-fill sb-desc-fill" id="sbDescBar" style="width:0%"></div></div>
+            </div>
+          </div>
         </div>
-        <div class="sb-c-sel sb-c-desc">
-          <span class="sb-c-icon">📝</span>
-          <span class="sb-c-num" id="sbDescNum">0</span>
-          <span class="sb-c-label">/4</span>
-          <div class="sb-c-bar"><div class="sb-c-fill sb-c-fill-d" id="sbDescBar" style="width:0%"></div></div>
+        <div class="sb-divider"></div>
+        <!-- 2행: 고정 현황 -->
+        <div class="sb-row-pin">
+          <div class="sb-pin-box sb-t1" id="sbPinT1">
+            <div class="sb-pin-label">제목 1 고정</div>
+            <div class="sb-pin-num" id="sbPinT1Num">0</div>
+            <div class="sb-pin-sub" id="sbPinT1Sub">없음</div>
+          </div>
+          <div class="sb-pin-box sb-t2" id="sbPinT2">
+            <div class="sb-pin-label">제목 2 고정</div>
+            <div class="sb-pin-num" id="sbPinT2Num">0</div>
+            <div class="sb-pin-sub" id="sbPinT2Sub">없음</div>
+          </div>
+          <div class="sb-pin-box sb-t3" id="sbPinT3">
+            <div class="sb-pin-label">제목 3 고정</div>
+            <div class="sb-pin-num" id="sbPinT3Num">0</div>
+            <div class="sb-pin-sub" id="sbPinT3Sub">없음</div>
+          </div>
+          <div class="sb-pin-box sb-d1" id="sbPinD1">
+            <div class="sb-pin-label">설명 1 고정</div>
+            <div class="sb-pin-num" id="sbPinD1Num">0</div>
+            <div class="sb-pin-sub" id="sbPinD1Sub">없음</div>
+          </div>
+          <div class="sb-pin-box sb-d2" id="sbPinD2">
+            <div class="sb-pin-label">설명 2 고정</div>
+            <div class="sb-pin-num" id="sbPinD2Num">0</div>
+            <div class="sb-pin-sub" id="sbPinD2Sub">없음</div>
+          </div>
         </div>
-        <!-- 고정 현황 (5칸) -->
-        <div class="sb-c-pin sb-c-t1" id="sbPinT1">
-          <div class="sb-c-pin-num" id="sbPinT1Num">0</div>
-          <div class="sb-c-pin-lbl">T1 고정</div>
-          <div class="sb-c-pin-sub" id="sbPinT1Sub"></div>
+        <div class="sb-divider"></div>
+        <!-- 선택 목록 -->
+        <div class="sb-lists">
+          <div class="sb-list-col">
+            <div class="sb-list-head">선택된 제목 <span class="sel-cnt" id="sTCnt">0개</span></div>
+            <div id="sTList"><div class="sel-empty">선택 없음</div></div>
+          </div>
+          <div class="sb-list-col">
+            <div class="sb-list-head">선택된 설명 <span class="sel-cnt" id="sDCnt">0개</span></div>
+            <div id="sDList"><div class="sel-empty">선택 없음</div></div>
+          </div>
         </div>
-        <div class="sb-c-pin sb-c-t2" id="sbPinT2">
-          <div class="sb-c-pin-num" id="sbPinT2Num">0</div>
-          <div class="sb-c-pin-lbl">T2 고정</div>
-          <div class="sb-c-pin-sub" id="sbPinT2Sub"></div>
-        </div>
-        <div class="sb-c-pin sb-c-t3" id="sbPinT3">
-          <div class="sb-c-pin-num" id="sbPinT3Num">0</div>
-          <div class="sb-c-pin-lbl">T3 고정</div>
-          <div class="sb-c-pin-sub" id="sbPinT3Sub"></div>
-        </div>
-        <div class="sb-c-pin sb-c-d1" id="sbPinD1">
-          <div class="sb-c-pin-num" id="sbPinD1Num">0</div>
-          <div class="sb-c-pin-lbl">D1 고정</div>
-          <div class="sb-c-pin-sub" id="sbPinD1Sub"></div>
-        </div>
-        <div class="sb-c-pin sb-c-d2" id="sbPinD2">
-          <div class="sb-c-pin-num" id="sbPinD2Num">0</div>
-          <div class="sb-c-pin-lbl">D2 고정</div>
-          <div class="sb-c-pin-sub" id="sbPinD2Sub"></div>
-        </div>
-        <!-- 선택된 소재 목록 축약 -->
-        <div class="sb-c-list" id="sTList_compact"></div>
-        <div class="sb-c-list" id="sDList_compact"></div>
       </div>
     </div>
 
@@ -2232,7 +2256,7 @@ function addSlot() {
 
 
 // ── Gemini API 호출
-async function callClaude(sys, userContent, onChunk) {
+async function callClaude(sys, userContent, onChunk, maxTokens) {
   // userContent는 string 또는 array (이미지 포함)
   let parts = [];
   if (typeof userContent === 'string') {
@@ -2249,8 +2273,9 @@ async function callClaude(sys, userContent, onChunk) {
     ];
   }
 
+  const tokens = maxTokens || 900;
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 90000);
+  const timeoutId = setTimeout(() => controller.abort(), tokens > 1000 ? 120000 : 90000);
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
   try {
@@ -2260,7 +2285,7 @@ async function callClaude(sys, userContent, onChunk) {
       signal: controller.signal,
       body: JSON.stringify({
         contents: [{ role: 'user', parts }],
-        generationConfig: { maxOutputTokens: 900, temperature: 0.5 }
+        generationConfig: { maxOutputTokens: tokens, temperature: 0.5 }
       })
     });
     if (!res.ok) {
@@ -2279,7 +2304,7 @@ async function callClaude(sys, userContent, onChunk) {
     return text;
   } catch(err) {
     clearTimeout(timeoutId);
-    if(err.name === 'AbortError') throw new Error('응답 시간이 90초를 초과했어요. 다시 시도해주세요.');
+    if(err.name === 'AbortError') throw new Error('응답 시간이 초과됐어요. 다시 시도해주세요.');
     throw err;
   }
 }
@@ -2362,29 +2387,20 @@ ${toneUsed.includes('action') || toneUsed.includes('행동') ? '- 행동유도·
 
   const analysisPrompt = `당신은 네이버 파워링크 광고 전문 마케터입니다.${contextStr}${toneGuide}
 
-[분석 대상 — 아래 데이터만 사용하고, 없는 정보는 절대 추측하지 마세요]
+[분석 대상 — 아래 데이터만 사용, 없는 정보는 절대 추측 금지]
 ${inputLines.join('\n')}
 
-⚠️ 절대 금지:
-- 입력되지 않은 정보 추측 (예: 타겟 없으면 타겟 분석 금지)
-- 상품명에 없는 카테고리나 특성 언급 금지
-- 실제 생성된 소재 외 예시 소재 임의 생성 금지
+⚠️ 절대 금지: 입력되지 않은 정보 추측, 상품명에 없는 특성 언급, 임의 소재 생성
 
 아래 4개 섹션을 <section title="섹션제목">내용</section> 형태로 작성하세요.
+각 섹션은 2~3문단, 총 500자 내외로 간결하게. 마크다운 금지. 중요 키워드는 <b>태그.
 
-[가독성 규칙]
-- 각 섹션은 짧은 문단으로 나눠서 작성 (한 문단 = 2~3문장)
-- 중요 키워드·수치는 <b>태그로 강조
-- 소재 인용 시 따옴표로 명확히 구분
-- 번호 목록은 줄바꿈으로 구분
+1. 🔍 상품·소재 분석 — 상품명 키워드 분석, 제목/설명 구성 평가 (2~3문단)
+2. ⚡ 클릭률 TOP3 — 실제 생성된 소재 중 3개 직접 인용 + 이유
+3. ✍️ 소재 표현 선택 이유 — 주요 표현 3~4개 직접 인용 + 마케팅 근거
+4. 💡 개선 권고 — A/B 테스트 2개 제안 (수정 전→후 형태로)
 
-필수 섹션:
-1. 🔍 상품·소재 분석 — 상품명 키워드 분석, 실제 생성된 제목/설명 구성 평가
-2. ⚡ 클릭률 TOP3 — 실제 생성된 소재 중 클릭 가능성 높은 3개와 구체적 이유
-3. ✍️ 소재 표현 선택 이유 — 생성된 제목과 설명에 사용된 주요 표현·단어를 3~5개 직접 인용하고, 각 표현을 왜 선택했는지 마케팅 근거와 함께 상세히 설명 (예: "간냉식"이라는 단어를 쓴 이유, "소상공인 지원"이라는 표현을 넣은 전략적 이유 등)
-4. 💡 개선 권고 — 실제 소재 기반 A/B 테스트 2~3개 제안 (구체적 수정안 포함)
-
-규칙: 마크다운 금지. 마케터 관점 판단은 <em>태그.`;
+규칙: 마케터 관점 판단은 <em>태그. 섹션별 50~150자 내외.`;
 
   // 실제 입력 데이터를 userContent에 포함
   const userContent = analysisPrompt;
@@ -2486,7 +2502,7 @@ ${inputLines.join('\n')}
     }
   }
 
-  const raw = await callClaude('', userContent, onAnalysisChunk);
+  const raw = await callClaude('', userContent, onAnalysisChunk, 2500);
   logDone = true;
   clearInterval(logTimer);
 
@@ -2701,15 +2717,14 @@ function openAnalysisModal(){
 
 // ── 렌더링
 function render(){
-  // 제목 3그룹 렌더 (각 5개씩)
+  // 제목 3그룹 렌더 (각 10개씩, 총 30개)
   [1,2,3].forEach(g=>{
     const el=document.getElementById('titleGroup'+g);
     if(!el) return;
     el.innerHTML='';
-    const total = S.titles.length;
-    const size = Math.ceil(total/3);
+    const size = 10;
     const start=(g-1)*size;
-    const end=Math.min(g*size, total);
+    const end=Math.min(g*size, S.titles.length);
     S.titles.slice(start,end).forEach((t,li)=>{
       const i=start+li, on=S.selT.has(i);
       const len=[...t].length, over=len>15;
@@ -2720,10 +2735,10 @@ function render(){
       el.insertAdjacentHTML('beforeend',`<div class="${itemCls}" id="t${i}">
         <button class="plus" onclick="tog('t',${i})">${on?'✓':'+'}</button>
         <div class="txt-wrap" style="flex:1;min-width:0">
-          <div class="txt" style="font-size:15px">${esc(t)}</div>
+          <div class="txt">${esc(t)}</div>
           <div class="meta" style="display:flex;align-items:center;gap:6px;margin-top:3px;flex-wrap:wrap">
             <span class="grp-badge g${g}">${g}번 추천</span>
-            <span class="cc${over?' over':''}" style="font-size:11px">${len}/15자${over?' ⚠️':''}</span>
+            <span class="cc${over?' over':''}">${len}/15자${over?' ⚠️':''}</span>
             ${pin?`<span class="badge-tag" style="font-size:10px;background:${pin==='1'?'rgba(3,199,90,.2)':pin==='2'?'rgba(51,133,255,.2)':'rgba(255,152,0,.2)'};color:${pin==='1'?'#03C75A':pin==='2'?'#3385ff':'#ff9800'}">제목${pin} 고정</span>`:''}
           </div>
         </div>
@@ -2804,15 +2819,19 @@ function updateSelList(){
   const ts=[...S.selT].sort((a,b)=>a-b);
   const ds=[...S.selD].sort((a,b)=>a-b);
 
-  // compact 선택 목록 업데이트
-  const tl=document.getElementById('sTList_compact');
-  const dl=document.getElementById('sDList_compact');
+  // 선택 목록 업데이트 (원래 IDs)
+  const tl=document.getElementById('sTList');
+  const tc=document.getElementById('sTCnt');
+  const dl=document.getElementById('sDList');
+  const dc=document.getElementById('sDCnt');
   if(tl) tl.innerHTML=ts.length
-    ? ts.map(i=>`<span style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer" onclick="tog('t',${i})" title="${esc(S.titles[i])}">✓ ${esc(S.titles[i])}</span>`).join('')
-    : '<span style="color:rgba(255,255,255,.2)">선택 없음</span>';
+    ? ts.map(i=>`<div class="sel-item"><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(S.titles[i])}</span><button class="sel-copy" onclick="copySelItem(this,'${esc(S.titles[i])}')" title="복사">📋</button><button class="sel-x" onclick="tog('t',${i})">✕</button></div>`).join('')
+    : '<div class="sel-empty">선택 없음</div>';
+  if(tc) tc.textContent=ts.length+'개';
   if(dl) dl.innerHTML=ds.length
-    ? ds.map(i=>`<span style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer" onclick="tog('d',${i})" title="${esc(S.descs[i])}">✓ ${esc(S.descs[i])}</span>`).join('')
-    : '<span style="color:rgba(255,255,255,.2)">선택 없음</span>';
+    ? ds.map(i=>`<div class="sel-item"><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(S.descs[i])}</span><button class="sel-copy" onclick="copySelItem(this,'${esc(S.descs[i])}')" title="복사">📋</button><button class="sel-x" onclick="tog('d',${i})">✕</button></div>`).join('')
+    : '<div class="sel-empty">선택 없음</div>';
+  if(dc) dc.textContent=ds.length+'개';
 
   // ── 현황판 업데이트
   const sbTN=document.getElementById('sbTitleNum');
@@ -2824,12 +2843,11 @@ function updateSelList(){
   if(sbTB) sbTB.style.width=(ts.length/15*100)+'%';
   if(sbDB) sbDB.style.width=(ds.length/4*100)+'%';
 
-  // 고정 현황 (compact 패널 IDs)
+  // 고정 현황
   const pinCounts={t1:0,t2:0,t3:0,d1:0,d2:0};
   Object.values(pinData).forEach(v=>{ if(v==='1')pinCounts.t1++; else if(v==='2')pinCounts.t2++; else if(v==='3')pinCounts.t3++; });
   Object.values(descPinData).forEach(v=>{ if(v==='1')pinCounts.d1++; else if(v==='2')pinCounts.d2++; });
 
-  // 고정된 소재 텍스트 구하기
   const pinnedT={t1:'',t2:'',t3:''};
   Object.entries(pinData).forEach(([idx,v])=>{if(v&&S.titles[idx])pinnedT['t'+v]=S.titles[idx];});
   const pinnedD={d1:'',d2:''};
@@ -2842,7 +2860,7 @@ function updateSelList(){
     const n=pinCounts[k];
     const txt=(k.startsWith('t')?pinnedT[k]:pinnedD[k])||'';
     if(num) num.textContent=n;
-    if(sub) sub.textContent=txt?txt.slice(0,6)+(txt.length>6?'…':''):'';
+    if(sub) sub.textContent=n?(txt?txt.slice(0,8)+(txt.length>8?'…':''):'고정됨'):'없음';
     if(box){ if(n>0){box.classList.add('active');}else{box.classList.remove('active');} }
   });
 }
@@ -2887,25 +2905,37 @@ function tog(type, i){
 
 // ── 핀 변경
 function onPinChange(i,sel){
-  pinData[i]=sel.value;
-  if(sel.value && !S.selT.has(i)){
-    // tog 내부에서 render 호출됨
-    S.selT.add(i);
-    render();
-  } else {
-    render();
+  const wasEmpty = !sel.value;
+  // 핀 해제는 항상 허용
+  if(!sel.value){
+    pinData[i]='';
+    render(); sync(); return;
   }
-  sync();
+  // 핀 설정 시: 아직 선택 안 된 상태에서 15개 초과면 경고
+  if(!S.selT.has(i) && S.selT.size >= MAX_TITLE_SEL){
+    showLimitToast('⚠️ 광고 제목은 최대 15개까지 선택 가능합니다');
+    sel.value=''; // 선택 취소
+    return;
+  }
+  pinData[i]=sel.value;
+  if(!S.selT.has(i)) S.selT.add(i);
+  render(); sync();
 }
 function onDescPinChange(i,sel){
-  descPinData[i]=sel.value;
-  if(sel.value && !S.selD.has(i)){
-    S.selD.add(i);
-    render();
-  } else {
-    render();
+  // 핀 해제는 항상 허용
+  if(!sel.value){
+    descPinData[i]='';
+    render(); sync(); return;
   }
-  sync();
+  // 핀 설정 시: 아직 선택 안 된 상태에서 4개 초과면 경고
+  if(!S.selD.has(i) && S.selD.size >= MAX_DESC_SEL){
+    showLimitToast('⚠️ 광고 설명은 최대 4개까지 선택 가능합니다');
+    sel.value=''; // 선택 취소
+    return;
+  }
+  descPinData[i]=sel.value;
+  if(!S.selD.has(i)) S.selD.add(i);
+  render(); sync();
 }
 function onDescEdit(i,el){
   const txt=el.textContent||'';
@@ -2950,24 +2980,25 @@ function sync(){
   if(pvPcT){
     if(allSlots.length){
       pvPcT.className='naver-ad-title';
-      pvPcT.innerHTML=`<div style="font-size:15px;font-weight:700;color:#0068c3;line-height:1.6;word-break:keep-all">${allSlots.map(t=>esc(t)).join('<span style="color:#aaa;margin:0 3px">·</span>')}</div>`;
+      pvPcT.innerHTML=`<div style="font-size:14px;font-weight:700;color:#0068c3;line-height:1.55;word-break:keep-all">${allSlots.map(t=>esc(t)).join('<span style="color:#aaa;margin:0 3px">·</span>')}</div>`;
     } else {
       pvPcT.className='naver-ad-title empty';
       pvPcT.textContent='제목을 선택하면 표시됩니다';
     }
   }
+  // 설명1 + 설명2 이어서 표시 (실제 네이버 광고처럼 연속 텍스트)
   const pvPcD=document.getElementById('pvPcDesc');
   if(pvPcD){
-    if(pvDTxt1||pvDTxt2){
+    const combined=[pvDTxt1,pvDTxt2].filter(Boolean).join(' ');
+    if(combined){
       pvPcD.className='naver-ad-desc';
-      pvPcD.innerHTML=(pvDTxt1?`<div style="margin-bottom:${pvDTxt2?'4px':'0'}">${esc(pvDTxt1)}</div>`:'')
-        +(pvDTxt2?`<div style="border-top:1px dashed #e0e0e0;padding-top:4px;color:#666">${esc(pvDTxt2)}</div>`:'');
+      pvPcD.textContent=combined;
     } else {
       pvPcD.className='naver-ad-desc empty';
       pvPcD.textContent='설명을 선택하면 표시됩니다';
     }
   }
-  // 칩(키워드 네모칸) 제거
+  // 칩(키워드 네모칸) 없음
   const pvPcChips=document.getElementById('pvPcChips');
   if(pvPcChips) pvPcChips.innerHTML='';
   const pvPcThumb=document.getElementById('pvPcThumb');
@@ -2976,19 +3007,17 @@ function sync(){
     pvPcThumb.innerHTML=`<img src="${pcUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:4px"/>`;
   }
 
-  // ── 모바일 미리보기: 단일 카드, 제목 · 로 연결
+  // ── 모바일 미리보기: 설명1+2 이어서 표시
   const mobContainer=document.getElementById('pvMobTitleList');
   if(mobContainer){
     if(allSlots.length){
       const thumbUrl = generateProductThumb(document.getElementById('productName')?.value?.trim()||'');
       const thumbHtml=`<div class="naver-mob-thumb"><img src="${thumbUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:5px"/></div>`;
       const titleLine=allSlots.map(t=>esc(t)).join('<span style="color:#aaa;margin:0 3px">·</span>');
-      const descHtml=(pvDTxt1||pvDTxt2)?`
-        <div style="font-size:11px;color:#444;line-height:1.55;word-break:keep-all;margin-top:4px">
-          ${pvDTxt1?`<div>${esc(pvDTxt1)}</div>`:''}
-          ${pvDTxt2?`<div style="border-top:1px dashed #e0e0e0;padding-top:3px;margin-top:3px;color:#666">${esc(pvDTxt2)}</div>`:''}
-        </div>`:
-        `<div class="naver-mob-desc empty" style="margin-top:4px">설명을 선택하면 표시됩니다</div>`;
+      const combinedDesc=[pvDTxt1,pvDTxt2].filter(Boolean).join(' ');
+      const descHtml=combinedDesc
+        ? `<div style="font-size:11px;color:#444;line-height:1.55;word-break:keep-all;margin-top:4px">${esc(combinedDesc)}</div>`
+        : `<div class="naver-mob-desc empty" style="margin-top:4px">설명을 선택하면 표시됩니다</div>`;
       mobContainer.innerHTML=`
         <div class="mob-ad-card">
           <div class="naver-mob-meta">
@@ -3000,7 +3029,7 @@ function sync(){
           </div>
           <div class="naver-mob-row">
             <div class="naver-mob-body">
-              <div class="naver-mob-title" style="word-break:keep-all;line-height:1.55">${titleLine}</div>
+              <div class="naver-mob-title" style="font-size:14px;font-weight:700;color:#0068c3;word-break:keep-all;line-height:1.55">${titleLine}</div>
               ${descHtml}
             </div>
             ${thumbHtml}
@@ -3296,8 +3325,8 @@ async function generate(){
     // 이미지가 있으면 제목 생성에만 이미지 첨부 (설명엔 불필요)
     const titlesContent = S.imgs.length > 0
       ? [...S.imgs.map(img=>({type:'image',source:{type:'base64',media_type:img.type||'image/jpeg',data:img.b64}})),
-         {type:'text', text: promptBase + '\n\n제목 15개를 생성하세요. 규칙: 15자 이내, 숫자·혜택·타겟 활용.\n형식: {"titles":["..."]}'}]
-      : promptBase + '\n\n제목 15개를 생성하세요. 규칙: 15자 이내, 숫자·혜택·타겟 활용.\n형식: {"titles":["..."]}';
+         {type:'text', text: promptBase + '\n\n제목 30개를 생성하세요. 규칙: 15자 이내, 숫자·혜택·타겟 활용. 제목1위치추천 10개, 제목2위치추천 10개, 제목3위치추천 10개 순서로.\n형식: {"titles":["..."]}'}]
+      : promptBase + '\n\n제목 30개를 생성하세요. 규칙: 15자 이내, 숫자·혜택·타겟 활용. 제목1위치추천 10개, 제목2위치추천 10개, 제목3위치추천 10개 순서로.\n형식: {"titles":["..."]}';
 
     const [titlesRaw, descsRaw] = await Promise.all([
       callClaude(sysCopy,
@@ -3305,9 +3334,9 @@ async function generate(){
         (full) => {
           if(streamElCopy) {
             const n = (full.match(/"[^"]{1,15}"/g)||[]).length;
-            streamElCopy.innerHTML = `✍️ 제목 생성 중... ${Math.min(n,15)}/15개<span class="ap-stream-cursor"></span>`;
+            streamElCopy.innerHTML = `✍️ 제목 생성 중... ${Math.min(n,30)}/30개<span class="ap-stream-cursor"></span>`;
           }
-          updateStatus(`✍️ 제목 ${Math.min((full.match(/"[^"]{1,15}"/g)||[]).length,15)}/15개 생성 중...`);
+          updateStatus(`✍️ 제목 ${Math.min((full.match(/"[^"]{1,15}"/g)||[]).length,30)}/30개 생성 중...`);
         }
       ),
       callClaude(sysCopy,
