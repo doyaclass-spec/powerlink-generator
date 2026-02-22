@@ -1221,21 +1221,13 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .gen-log-wrap{display:none;flex:1;overflow:hidden;margin-left:10px}
 .gen-log-item{font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .3s}
 .gen-log-item.active{color:var(--g);font-weight:600}
-.ap-stream-label{font-size:10px;font-weight:700;color:var(--g);letter-spacing:.5px;margin-bottom:6px;opacity:.7}
-.ap-stream-text{
-  font-size:11px;color:var(--text3);line-height:1.7;
-  max-height:160px;overflow-y:auto;
-  white-space:pre-wrap;word-break:break-all;
-  font-family:monospace;
-  background:rgba(0,0,0,.2);border-radius:6px;padding:8px;
-  border:1px solid rgba(255,255,255,.06);
-}
-.ap-stream-cursor{
-  display:inline-block;width:2px;height:12px;background:var(--g);
-  margin-left:1px;vertical-align:middle;
-  animation:cursorBlink .6s step-end infinite;
-}
-.ap-analyzing-header{display:flex;align-items:center;gap:10px;padding:8px 14px 10px;border-bottom:1px solid rgba(3,199,90,.12);margin-bottom:8px}
+.ap-unified-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ap-log-box{background:rgba(0,0,0,.25);border:1px solid rgba(3,199,90,.15);border-radius:8px;padding:10px 12px;min-height:100px;max-height:160px;overflow-y:auto;font-family:monospace}
+.ap-log-idle-txt{color:rgba(255,255,255,.18);font-size:11px;font-style:italic;line-height:1.6;padding:4px 0}
+.ap-status-badge{font-size:9px;font-weight:700;letter-spacing:.5px;padding:2px 7px;border-radius:20px;background:rgba(255,255,255,.08);color:var(--text3);flex-shrink:0}
+.ap-status-badge.active{background:rgba(3,199,90,.2);color:var(--g)}
+.ap-status-badge.done{background:rgba(0,102,255,.2);color:#4da3ff}
+
 .inputs-locked .input-grid,
 .inputs-locked .input-grid-b,
 .inputs-locked .enhance-row{position:relative}
@@ -1383,7 +1375,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v6.5</span>
+    <span class="h-version">v6.7</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -1404,7 +1396,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 <section class="hero">
   <div class="hero-eyebrow">✦ Naver Powerlink · AI Copy Generator · Powered by Gemini</div>
   <h1><em>AI가 클릭률 높은 파워링크 소재</em>를 자동으로 만들어 드립니다</h1>
-  <p class="hero-sub"><strong>제목 20개 · 설명 8개</strong> 자동 생성 &nbsp;·&nbsp; 마케터 AI 분석 리포트 &nbsp;·&nbsp; 실시간 네이버 미리보기</p>
+  <p class="hero-sub"><strong>제목 15개 · 설명 6개</strong> 자동 생성 &nbsp;·&nbsp; 마케터 AI 분석 리포트 &nbsp;·&nbsp; 실시간 네이버 미리보기</p>
 </section>
 
 <div id="apiKeyBanner">
@@ -1491,86 +1483,63 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
             <div class="input-col col-analysis analysis-panel-tall" style="grid-row:span 2">
               <div class="icol-head"><span class="icol-num icol-num-5">05</span><div><div class="icol-title">마케터 분석 리포트 <span class="badge-auto">자동</span></div><div class="icol-desc">Gemini AI가 광고 소재 전략을 깊이 분석해드려요</div></div></div>
               <div class="analysis-status" id="analysisSideStatus" style="display:none"></div>
-              <!-- 대기 중 표시 (생성 전) -->
-              <div id="apIdle" style="padding:16px 14px 8px">
-                <div class="ap-idle-gemini">
-                  <div class="ap-idle-logo">
-                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M14 2C14 8.627 8.627 14 2 14C8.627 14 14 19.373 14 26C14 19.373 19.373 14 26 14C19.373 14 14 8.627 14 2Z" fill="url(#gstar)"/>
-                      <defs><linearGradient id="gstar" x1="2" y1="2" x2="26" y2="26" gradientUnits="userSpaceOnUse"><stop stop-color="#03C75A"/><stop offset="1" stop-color="#0066FF"/></linearGradient></defs>
+
+              <!-- ★ 통합 분석 패널 -->
+              <div id="apPanel" style="padding:12px 14px 4px">
+
+                <!-- 헤더 -->
+                <div class="ap-unified-header">
+                  <div class="ap-idle-logo" style="width:30px;height:30px;flex-shrink:0">
+                    <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+                      <path d="M14 2C14 8.627 8.627 14 2 14C8.627 14 14 19.373 14 26C14 19.373 19.373 14 26 14C19.373 14 14 8.627 14 2Z" fill="url(#gstarU)"/>
+                      <defs><linearGradient id="gstarU" x1="2" y1="2" x2="26" y2="26" gradientUnits="userSpaceOnUse"><stop stop-color="#03C75A"/><stop offset="1" stop-color="#0066FF"/></linearGradient></defs>
                     </svg>
                     <div class="ap-idle-pulse"></div>
                   </div>
-                  <div class="ap-idle-txt">
-                    <div class="ap-idle-title">Gemini AI 마케터</div>
-                    <div class="ap-idle-sub">소재 생성 후 자동으로 분석을 시작해요</div>
+                  <div style="flex:1;min-width:0">
+                    <div id="apHeaderTitle" style="font-size:12px;font-weight:700;color:var(--g)">Gemini AI 마케터</div>
+                    <div id="apHeaderSub" style="font-size:10px;color:var(--text3);margin-top:1px">소재 생성 후 자동으로 분석을 시작해요</div>
+                  </div>
+                  <div id="apStatusBadge" class="ap-status-badge">대기</div>
+                </div>
+
+                <!-- ★ 실시간 로그 박스 -->
+                <div id="apLogBox" class="ap-log-box">
+                  <div id="apLogIdle" class="ap-log-idle-txt">분석 로그가 여기에 표시됩니다</div>
+                  <div id="apLogStream" style="display:none;font-size:11px;line-height:1.75;color:var(--text2);white-space:pre-wrap;word-break:break-word"></div>
+                </div>
+
+                <!-- 소재 필드 요약 -->
+                <div id="apFieldRows" style="margin-top:6px">
+                  <div class="ap-field-row pending" id="apf-name">
+                    <span class="ap-f-icon">📦</span><div class="ap-f-content"><span class="ap-f-label">상품명</span><span class="ap-f-value" id="apf-name-val">—</span></div>
+                    <span class="ap-f-status" id="apf-name-st">⏳</span>
+                  </div>
+                  <div class="ap-field-row pending" id="apf-feat">
+                    <span class="ap-f-icon">✏️</span><div class="ap-f-content"><span class="ap-f-label">광고 내용</span><span class="ap-f-value" id="apf-feat-val">—</span></div>
+                    <span class="ap-f-status" id="apf-feat-st">⏳</span>
+                  </div>
+                  <div class="ap-field-row pending" id="apf-img">
+                    <span class="ap-f-icon">🖼️</span><div class="ap-f-content"><span class="ap-f-label">이미지</span><span class="ap-f-value" id="apf-img-val">없음</span></div>
+                    <span class="ap-f-status" id="apf-img-st">⏳</span>
+                  </div>
+                  <div class="ap-field-row pending" id="apf-deny">
+                    <span class="ap-f-icon">🚫</span><div class="ap-f-content"><span class="ap-f-label">금지어</span><span class="ap-f-value" id="apf-deny-val">없음</span></div>
+                    <span class="ap-f-status" id="apf-deny-st">⏳</span>
+                  </div>
+                  <div class="ap-field-row pending" id="apf-season">
+                    <span class="ap-f-icon">📅</span><div class="ap-f-content"><span class="ap-f-label">시즌·이벤트</span><span class="ap-f-value" id="apf-season-val">없음</span></div>
+                    <span class="ap-f-status" id="apf-season-st">⏳</span>
+                  </div>
+                  <div class="ap-field-row pending" id="apf-tone">
+                    <span class="ap-f-icon">🎯</span><div class="ap-f-content"><span class="ap-f-label">광고 어조</span><span class="ap-f-value" id="apf-tone-val">없음</span></div>
+                    <span class="ap-f-status" id="apf-tone-st">⏳</span>
                   </div>
                 </div>
-                <div class="ap-idle-scan">
-                  <div class="ap-scan-item" id="idleScan1"><span class="ap-scan-dot"></span><span>광고 소재 클릭률 패턴 분석</span></div>
-                  <div class="ap-scan-item" id="idleScan2"><span class="ap-scan-dot"></span><span>타겟 심리·구매 동기 파악</span></div>
-                  <div class="ap-scan-item" id="idleScan3"><span class="ap-scan-dot"></span><span>TOP3 클릭률 소재 선정</span></div>
-                  <div class="ap-scan-item" id="idleScan4"><span class="ap-scan-dot"></span><span>A/B 개선 권고안 도출</span></div>
-                </div>
-              </div>
-              <div id="analysisProgress" style="display:none">
-                <!-- 분석 중 Gemini 로고 -->
-                <div class="ap-analyzing-header">
-                  <div class="ap-idle-logo" style="width:28px;height:28px">
-                    <svg width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M14 2C14 8.627 8.627 14 2 14C8.627 14 14 19.373 14 26C14 19.373 19.373 14 26 14C19.373 14 14 8.627 14 2Z" fill="url(#gstar2)"/>
-                      <defs><linearGradient id="gstar2" x1="2" y1="2" x2="26" y2="26" gradientUnits="userSpaceOnUse"><stop stop-color="#03C75A"/><stop offset="1" stop-color="#0066FF"/></linearGradient></defs>
-                    </svg>
-                    <div class="ap-idle-pulse"></div>
-                  </div>
-                  <div>
-                    <div style="font-size:12px;font-weight:700;color:var(--g)">Gemini AI 분석 중</div>
-                    <div id="apAnalyzingSubtxt" style="font-size:10px;color:var(--text3)">소재 전략 깊이 분석하는 중...</div>
-                  </div>
-                </div>
-                <!-- 실시간 스트림 로그 (최상단) -->
-                <div id="apLiveLog" style="display:none" class="ap-live-log">
-                  <div class="ap-stream-label">📡 AI 실시간 출력</div>
-                  <div id="apStreamText" class="ap-stream-text"></div>
-                </div>
-                <!-- field rows (스트림 시작 후 숨겨짐) -->
-                <div id="apFieldRows">
-                <div class="ap-field-row pending" id="apf-name">
-                  <span class="ap-f-icon">📦</span><div class="ap-f-content"><span class="ap-f-label">상품명</span><span class="ap-f-value" id="apf-name-val">—</span></div>
-                  <span class="ap-f-status" id="apf-name-st">⏳</span>
-                </div>
-                <div class="ap-field-row pending" id="apf-feat">
-                  <span class="ap-f-icon">✏️</span><div class="ap-f-content"><span class="ap-f-label">광고 내용</span><span class="ap-f-value" id="apf-feat-val">—</span></div>
-                  <span class="ap-f-status" id="apf-feat-st">⏳</span>
-                </div>
-                <div class="ap-field-row pending" id="apf-img">
-                  <span class="ap-f-icon">🖼️</span><div class="ap-f-content"><span class="ap-f-label">이미지</span><span class="ap-f-value" id="apf-img-val">없음</span></div>
-                  <span class="ap-f-status" id="apf-img-st">⏳</span>
-                </div>
-                <div class="ap-field-row pending" id="apf-deny">
-                  <span class="ap-f-icon">🚫</span><div class="ap-f-content"><span class="ap-f-label">금지어</span><span class="ap-f-value" id="apf-deny-val">없음</span></div>
-                  <span class="ap-f-status" id="apf-deny-st">⏳</span>
-                </div>
-                <div class="ap-field-row pending" id="apf-season">
-                  <span class="ap-f-icon">📅</span><div class="ap-f-content"><span class="ap-f-label">시즌·이벤트</span><span class="ap-f-value" id="apf-season-val">없음</span></div>
-                  <span class="ap-f-status" id="apf-season-st">⏳</span>
-                </div>
-                <div class="ap-field-row pending" id="apf-tone">
-                  <span class="ap-f-icon">🎯</span><div class="ap-f-content"><span class="ap-f-label">광고 어조</span><span class="ap-f-value" id="apf-tone-val">없음</span></div>
-                  <span class="ap-f-status" id="apf-tone-st">⏳</span>
-                </div>
-                </div><!-- /apFieldRows -->
-                <!-- Gemini 심사숙고 -->
-                <div id="apThinking" style="display:none;margin-top:10px">
-                  <div class="ap-thinking-box">
-                    <div class="ap-thinking-icon">✦</div>
-                    <div class="ap-thinking-text" id="apThinkingText">Gemini가 심사숙고 중...</div>
-                  </div>
-                  <div class="ap-thinking-dots"><span></span><span></span><span></span><span></span><span></span></div>
-                </div>
-                <div class="ap-timer" style="margin-top:8px">예상 완료까지: <b id="apTimerVal">--</b></div>
-              </div>
-              <div class="analysis-preview" id="analysisSidePreview" style="display:none"></div>
+
+                <div class="ap-timer" id="apTimerRow" style="margin-top:8px;display:none">예상 완료까지: <b id="apTimerVal">--</b></div>
+              </div><!-- /apPanel -->
+                            <div class="analysis-preview" id="analysisSidePreview" style="display:none"></div>
               <button class="analysis-btn" id="analysisOpenBtn" onclick="openAnalysisModal()" disabled>📄 전체 리포트 보기</button>
             </div>
 
@@ -1636,7 +1605,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
             <div class="analyzing-timer-lbl" id="analyzingTimerLbl">남음</div>
           </div>
         </div>
-        <div class="footer-info" id="footerInfo">Gemini AI · 제목 20개 · 설명 8개 · 무료 API 사용 가능</div>
+        <div class="footer-info" id="footerInfo">Gemini AI · 제목 15개 · 설명 6개 · 무료 API 사용 가능</div>
       </div>
 
     </div><!-- input-card -->
@@ -1706,7 +1675,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="result-card">
     <div id="emptyState" class="empty">
       <div class="empty-icon">✦</div>
-      <div class="empty-txt">상품 정보를 입력하고 <strong>생성 버튼</strong>을 눌러주세요<br><span style="font-size:13px;opacity:.5">✓ 제목 20개 · 설명 8개 · 마케터 분석 리포트</span></div>
+      <div class="empty-txt">상품 정보를 입력하고 <strong>생성 버튼</strong>을 눌러주세요<br><span style="font-size:13px;opacity:.5">✓ 제목 15개 · 설명 6개 · 마케터 분석 리포트</span></div>
     </div>
     <!-- analysisBody: hidden buffer for modal (not shown in main UI) -->
     <div id="analysisBody" style="display:none"></div>
@@ -2249,29 +2218,45 @@ ${toneUsed.includes('action') || toneUsed.includes('행동') ? '- 행동유도·
   // 분석은 카피 텍스트 기반 — 이미지 불필요 (속도 최적화 핵심)
   const userContent = analysisPrompt;
 
-  // 실시간 분석 로그 - 실제 스트리밍 텍스트 표시
-  const streamEl = document.getElementById('apStreamText');
-  const liveLog = document.getElementById('apLiveLog');
-  if(liveLog) liveLog.style.display = 'block';
-  if(streamEl) streamEl.innerHTML = '<span class="ap-stream-cursor"></span>';
+  // 실시간 분석 로그 - 새 통합 패널 사용
+  const idleEl   = document.getElementById('apLogIdle');
+  const streamEl = document.getElementById('apLogStream');
+  const badge    = document.getElementById('apStatusBadge');
+  const headerSub= document.getElementById('apHeaderSub');
+  const fieldRows= document.getElementById('apFieldRows');
+  const timerRow = document.getElementById('apTimerRow');
+
+  // 분석 시작 상태 전환
+  if(idleEl)   idleEl.style.display  = 'none';
+  if(streamEl){ streamEl.style.display = 'block'; streamEl.textContent = ''; }
+  if(badge)  { badge.textContent = '분석 중'; badge.className = 'ap-status-badge active'; }
+  if(headerSub) headerSub.textContent = '소재 전략 심층 분석 중...';
+  if(fieldRows) fieldRows.style.display = 'none';
+  if(timerRow)  timerRow.style.display  = 'block';
 
   function onAnalysisChunk(full) {
     if(!streamEl) return;
-    // 실제 토큰 텍스트를 그대로 표시 (HTML 태그 제거해서 가독성 높임)
     const clean = full
-      .replace(/<section[^>]*>/g, '\n▶ ')
+      .replace(/<section[^>]*title="([^"]*)">/g, '\n━━ $1 ━━\n')
       .replace(/<\/section>/g, '\n')
-      .replace(/<b>/g, '').replace(/<\/b>/g, '')
-      .replace(/<em>/g, '').replace(/<\/em>/g, '')
+      .replace(/<b>|<\/b>|<em>|<\/em>/g, '')
       .replace(/\n{3,}/g, '\n\n')
       .trim();
-    streamEl.innerHTML = clean + '<span class="ap-stream-cursor"></span>';
+    streamEl.textContent = clean;
+    // 커서 깜빡임
+    const cur = document.createElement('span');
+    cur.className = 'ap-stream-cursor';
+    streamEl.appendChild(cur);
     // 자동 스크롤
-    streamEl.scrollTop = streamEl.scrollHeight;
-    // 버튼 옆 로그도 업데이트
+    const box = document.getElementById('apLogBox');
+    if(box) box.scrollTop = box.scrollHeight;
+    // 진행 메시지
     const sectionsDone = (full.match(/<\/section>/g)||[]).length;
-    const msgs = ['🔍 소재 전략 분석 중...', '⚡ TOP3 클릭률 선정 중...', '💡 개선 권고 작성 중...'];
-    if(msgs[sectionsDone]) setGenLog(msgs[sectionsDone]);
+    const msgs = ['🔍 소재 분석 중...', '⚡ TOP3 선정 중...', '💡 개선 권고 작성 중...'];
+    if(msgs[sectionsDone]) {
+      if(headerSub) headerSub.textContent = msgs[sectionsDone];
+      setGenLog(msgs[sectionsDone]);
+    }
   }
 
   const raw = await callClaude('', userContent, onAnalysisChunk);
@@ -2300,21 +2285,7 @@ ${toneUsed.includes('action') || toneUsed.includes('행동') ? '- 행동유도·
 
 
 
-// ── 대기 화면 scan 애니메이션
-let _idleScanTimer = null;
-function startIdleScan() {
-  clearInterval(_idleScanTimer);
-  const items = [1,2,3,4].map(n => document.getElementById('idleScan'+n));
-  let idx = 0;
-  items.forEach(el => { if(el) { el.classList.remove('lit'); } });
-  _idleScanTimer = setInterval(() => {
-    items.forEach(el => { if(el) el.classList.remove('lit'); });
-    if(items[idx]) items[idx].classList.add('lit');
-    idx = (idx+1) % items.length;
-  }, 1800);
-}
-// 페이지 로드 시 자동 시작
-startIdleScan();
+// 분석 로그는 실제 AI 출력으로 대체됨
 
 // ── 입력 강화 기능 ──
 const S_DENY = new Set(); // 금지어
@@ -2475,7 +2446,9 @@ function render(){
     const el=document.getElementById('titleGroup'+g);
     if(!el) return;
     el.innerHTML='';
-    const start=(g-1)*10, end=g*10;
+    const total = S.titles.length;
+    const half = Math.ceil(total/2);
+    const start=(g-1)*half, end=g===1?half:total;
     S.titles.slice(start,end).forEach((t,li)=>{
       const i=start+li, on=S.selT.has(i);
       const len=[...t].length, over=len>15;
@@ -2831,9 +2804,11 @@ async function generate(){
   Object.keys(pinData).forEach(k=>delete pinData[k]);
   Object.keys(descPinData).forEach(k=>delete descPinData[k]);
 
-  // 대기 화면 숨기기
-  const apIdle = document.getElementById('apIdle');
-  if(apIdle) apIdle.style.display='none';
+  // 대기 화면 → 분석 중 전환 (apPanel은 항상 보임, 내부만 업데이트)
+  const badge = document.getElementById('apStatusBadge');
+  if(badge) { badge.textContent = '생성 중'; badge.className = 'ap-status-badge active'; }
+  const headerSub0 = document.getElementById('apHeaderSub');
+  if(headerSub0) headerSub0.textContent = '소재 생성 중...';
 
   // 버튼 옆 로그 표시
   const genLogWrap = document.getElementById('genLogWrap');
@@ -2848,7 +2823,7 @@ async function generate(){
   const sideStatus = document.getElementById('analysisSideStatus');
   const sidePreview=document.getElementById('analysisSidePreview');
   const sideBtn=document.getElementById('analysisOpenBtn');
-  const apProg=document.getElementById('analysisProgress');
+  const apProg=document.getElementById('apPanel');
   if(sideStatus){ sideStatus.style.display='block'; sideStatus.textContent='분석 시작...'; sideStatus.classList.add('running'); }
   setGenLog('Gemini AI 연결 중...');
   if(sidePreview) sidePreview.style.display='none';
@@ -2884,8 +2859,8 @@ async function generate(){
   document.getElementById('genTxt').innerHTML = `<span class="spin"></span> 분석 중... <span class="btn-countdown">${fmtRemain(TOTAL_SEC)}</span>`;
 
   // 패널 타이머 행 업데이트
-  const apTimerRow = document.getElementById('apTimerVal')?.closest('.ap-timer');
-  if(apTimerRow) apTimerRow.innerHTML = `예상 완료까지: <b id="apElapsedVal">${fmtRemain(TOTAL_SEC)}</b>`;
+  const apTimerRowEl = document.getElementById('apTimerRow');
+  if(apTimerRowEl) { apTimerRowEl.style.display='block'; apTimerRowEl.innerHTML = `예상 완료까지: <b id="apElapsedVal">${fmtRemain(TOTAL_SEC)}</b>`; }
   function updatePanelTimer(text){ const el=document.getElementById('apElapsedVal'); if(el) el.textContent=text; }
 
   const countdownInterval = setInterval(()=>{
@@ -2952,7 +2927,7 @@ async function generate(){
   // sideStatus 업데이트 + 분석 중 옆 stepEl에도 동기화
   function updateStatus(msg) {
     if(sideStatus) sideStatus.textContent = msg;
-    const subEl = document.getElementById('apAnalyzingSubtxt');
+    const subEl = document.getElementById('apHeaderSub');
     if(subEl) { subEl.style.opacity='0'; setTimeout(()=>{ subEl.textContent=msg; subEl.style.opacity='1'; },160); }
     setGenLog(msg);
     if(stepEl) { stepEl.style.opacity='0'; setTimeout(()=>{ stepEl.textContent=msg; stepEl.style.opacity='1'; },160); }
@@ -2972,7 +2947,7 @@ async function generate(){
     } else {
       clearInterval(fieldTimer);
       // 전체 스캔 완료 → Gemini 심사숙고 상태
-      const thinkEl = document.getElementById('apThinking');
+      const thinkEl = document.getElementById('apPanel_noop');
       if(thinkEl) thinkEl.style.display = 'block';
       updateStatus(`제목 ${S.titles.length}개 분석 시작...`);
       // 실제 분석 단계 기반 메시지
@@ -2985,7 +2960,7 @@ async function generate(){
         '거의 다 왔어요! 개선 권고사항 정리 중...',
       ];
       let ti = 0;
-      const thinkTxt = document.getElementById('apThinkingText');
+      const thinkTxt = document.getElementById('apPanel_noopText');
       fieldTimer = setInterval(()=>{
         ti = (ti+1) % thinkMsgs.length;
         if(thinkTxt) thinkTxt.textContent = thinkMsgs[ti];
@@ -3019,78 +2994,57 @@ async function generate(){
     pg(1,'done');pg(2,'active');
     document.getElementById('genTxt').innerHTML='<span class="spin"></span> 소재 작성 중...';
 
-    // 소재 생성 중 — 실제 작업 내용 기반 메시지
-    const hasImg = S.imgs.length > 0;
-    const hasFeat = !!feat;
     const phase1Msgs = [
-      `상품명 "${name.slice(0,10)}${name.length>10?'...':''}"의 핵심 키워드 분석 중...`,
-      hasFeat ? `"${feat.split('\n')[0].slice(0,16)}" 등 특징을 광고 문구에 반영 중...` : '광고 포인트를 구성하고 있어요...',
-      hasImg ? `상품 이미지 ${S.imgs.length}장 분석해서 소재에 반영 중...` : '클릭률 높은 제목 30개 구성 중...',
-      target ? `"${target.slice(0,16)}" 타겟에 맞는 언어로 조정 중...` : '제목 15자 이내로 다듬는 중...',
-      denyWords.length ? `금지어 [${denyWords.slice(0,2).join(', ')}] 필터링 적용 중...` : '설명문 45자 이내로 채우는 중...',
-      S_TONE ? `"${S_TONE}" 어조 스타일 반영 중...` : '최종 소재 12개 설명 완성 중...',
+      `상품명 "${name.slice(0,10)}${name.length>10?'...':''}" 핵심 키워드 분석 중...`,
+      '제목·설명 병렬 생성 중... (속도 2배)',
+      target ? `"${target.slice(0,16)}" 타겟에 맞게 조정 중...` : '클릭률 높은 문구 선별 중...',
     ];
-    setPhase('① 소재 30개 작성 중', phase1Msgs, 2800);
+    setPhase('① 소재 작성 중', phase1Msgs, 2800);
 
-    // 실시간 스트리밍 로그 — 실제 토큰이 올 때마다 업데이트
-    let tokenCount = 0;
-    let titlesDone = false;
-    const streamElCopy = document.getElementById('apStreamText');
-    const liveLogCopy = document.getElementById('apLiveLog');
+    const streamElCopy = document.getElementById('apLogStream');
+    const liveLogCopy = document.getElementById('apLogBox');
     const fieldRows = document.getElementById('apFieldRows');
     if(fieldRows) fieldRows.style.display = 'none';
     if(liveLogCopy) liveLogCopy.style.display = 'block';
-    if(streamElCopy) streamElCopy.innerHTML = '<span class="ap-stream-cursor"></span>';
+    if(streamElCopy) streamElCopy.innerHTML = '⚡ 제목 + 설명 병렬 생성 중...<span class="ap-stream-cursor"></span>';
 
-    function onCopyChunk(full, token) {
-      tokenCount += token.length;
-      // 소재 생성 중 JSON 원본을 패널에 표시
-      if(streamElCopy) {
-        const preview = full.slice(-300); // 최근 300자만 표시
-        streamElCopy.innerHTML = '<span style="color:var(--text3);font-size:10px">소재 생성 중...<br></span>' + preview + '<span class="ap-stream-cursor"></span>';
-        streamElCopy.scrollTop = streamElCopy.scrollHeight;
-      }
-      // titles 완료 감지
-      if (!titlesDone && full.includes('"descs"')) {
-        titlesDone = true;
-        updateStatus('📝 제목 20개 완성 · 설명 작성 중...');
-        setGenLog('📝 제목 완성 → 설명 작성 중...');
-      } else if (!titlesDone) {
-        const tCount = (full.match(/"[^"]{1,15}"/g)||[]).length;
-        if (tCount > 0) {
-          updateStatus(`✍️ 제목 작성 중... (${Math.min(tCount, 20)}/20개)`);
-          setGenLog(`✍️ 제목 ${Math.min(tCount,20)}/20개 생성 중...`);
+    const sysCopy = `당신은 네이버 파워링크 광고 전문가입니다.
+반드시 순수 JSON만 응답하세요. 코드블록·설명·다른 텍스트 절대 금지.
+금지 표현: 최고·최저·1위·최상·특가·최대·최저가·압도적·완벽·탁월·보장·무조건 등 최상급 표현.`;
+
+    const promptBase = promptParts.join('\n');
+
+    // ★ 제목과 설명을 병렬로 동시에 생성 — 속도 2배
+    // 이미지가 있으면 제목 생성에만 이미지 첨부 (설명엔 불필요)
+    const titlesContent = S.imgs.length > 0
+      ? [...S.imgs.map(img=>({type:'image',source:{type:'base64',media_type:img.type||'image/jpeg',data:img.b64}})),
+         {type:'text', text: promptBase + '\n\n제목 15개를 생성하세요. 규칙: 15자 이내, 숫자·혜택·타겟 활용.\n형식: {"titles":["..."]}'}]
+      : promptBase + '\n\n제목 15개를 생성하세요. 규칙: 15자 이내, 숫자·혜택·타겟 활용.\n형식: {"titles":["..."]}';
+
+    const [titlesRaw, descsRaw] = await Promise.all([
+      callClaude(sysCopy,
+        titlesContent,
+        (full) => {
+          if(streamElCopy) {
+            const n = (full.match(/"[^"]{1,15}"/g)||[]).length;
+            streamElCopy.innerHTML = `✍️ 제목 생성 중... ${Math.min(n,15)}/15개<span class="ap-stream-cursor"></span>`;
+          }
+          updateStatus(`✍️ 제목 ${Math.min((full.match(/"[^"]{1,15}"/g)||[]).length,15)}/15개 생성 중...`);
         }
-      } else {
-        const dCount = (full.match(/"[^"]{10,45}"/g)||[]).length;
-        if (dCount > 0) {
-          updateStatus(`💬 설명 작성 중... (${Math.min(dCount,8)}/8개)`);
-          setGenLog(`💬 설명 ${Math.min(dCount,8)}/8개 생성 중...`);
-        }
-      }
-    }
+      ),
+      callClaude(sysCopy,
+        promptBase + '\n\n설명 6개를 생성하세요. 규칙: 반드시 45자 이하, 핵심 혜택 구체적으로.\n형식: {"descs":["..."]}',
+        null
+      )
+    ]);
 
-    const raw=await callClaude(
-      `당신은 네이버 파워링크 광고 전문가입니다.
-반드시 순수 JSON만 응답하세요. 코드블록, 설명, 다른 텍스트 절대 금지.
-생성 규칙:
-- 제목: 15자 이내, 정확히 20개. 숫자·혜택·타겟을 활용한 클릭 유도 문구. 다양한 각도로 작성.
-- 설명: 반드시 45자 이하(공백 포함). 정확히 8개. 핵심 혜택을 구체적으로 작성. 45자 초과 절대 금지.
-- 타겟 고객이 있으면 해당 타겟의 언어와 관심사에 맞게 작성.
-- 금지 표현: 최고·최저·1위·최상·특가·최대·최저가·압도적·완벽·탁월·월등·독보적·보장·무조건·100% 효과 등 최상급·과장 표현 절대 금지.
-- 근거 없는 효능 과장 금지. 구체적 수치나 사실 기반으로만 작성.
-형식: {"titles":["..."],"descs":["..."]}`,
-      content,
-      onCopyChunk
-    );
+    let parsedTitles, parsedDescs;
+    try { parsedTitles = JSON.parse(titlesRaw.replace(/```json|```/g,'').trim()); } catch(e) { throw new Error('제목 파싱 실패. 다시 시도해주세요.'); }
+    try { parsedDescs  = JSON.parse(descsRaw.replace(/```json|```/g,'').trim()); } catch(e) { throw new Error('설명 파싱 실패. 다시 시도해주세요.'); }
 
-    let parsed;
-    try{parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());}
-    catch(e){throw new Error('결과 파싱 실패. 다시 시도해주세요.');}
-
-    S.titles=(parsed.titles||[]).map(t=>[...t].slice(0,15).join(''));
-    S.descs=(parsed.descs||[]).map(d=>[...d].slice(0,45).join(''));
-    S.kws=[];
+    S.titles = (parsedTitles.titles || []).map(t=>[...t].slice(0,15).join(''));
+    S.descs  = (parsedDescs.descs   || []).map(d=>[...d].slice(0,45).join(''));
+    S.kws = [];
 
     pg(2,'done');
     // ★ 소재 생성 완료 즉시 결과 표시 (리포트 기다리지 않음)
@@ -3121,9 +3075,9 @@ async function generate(){
     setPhase('② 마케터 리포트 분석', phase2Steps, 2500);
 
     // 라이브 분석 로그 시작
-    const liveLog = document.getElementById('apLiveLog');
+    const liveLog = document.getElementById('apLogBox');
     if(liveLog) liveLog.style.display='block';
-    const thinkEl2 = document.getElementById('apThinking');
+    const thinkEl2 = document.getElementById('apPanel_noop');
     if(thinkEl2) thinkEl2.style.display='none';
     let logStep = 0;
     const logDots  = [1,2,3,4,5,6,7].map(n=>document.getElementById('alog-dot-'+n));
@@ -3158,7 +3112,7 @@ async function generate(){
       document.getElementById('analysisBody').innerHTML=html;
       document.getElementById('analysisBody').style.display='none';
       if(apProg) apProg.style.display='none';
-      const thinkEl = document.getElementById('apThinking');
+      const thinkEl = document.getElementById('apPanel_noop');
       if(thinkEl) thinkEl.style.display='none';
       ['name','feat','img','deny','season','tone'].forEach(id=>setApField(id,null,'done'));
       clearInterval(fieldTimer);
