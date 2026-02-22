@@ -458,15 +458,14 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 /* ══ 섹션 헤더 ══ */
 .section-header{
   display:flex;align-items:center;gap:10px;
-  padding:10px 0 8px;
+  padding:14px 0 10px;
 }
-/* .section-label-placeholder */
 .section-label{
-  font-family:'Noto Sans KR','Pretendard',sans-serif;font-size:11px;font-weight:700;
-  color:var(--text2);letter-spacing:.5px;text-transform:uppercase;
-  display:flex;align-items:center;gap:6px;
+  font-family:'Noto Sans KR','Pretendard',sans-serif;font-size:16px;font-weight:800;
+  color:#fff;letter-spacing:.3px;
+  display:flex;align-items:center;gap:8px;
 }
-.section-label::before{content:'';width:3px;height:14px;background:var(--g);border-radius:2px;box-shadow:0 0 8px var(--g-glow)}
+.section-label::before{content:'';width:4px;height:18px;background:var(--g);border-radius:2px;box-shadow:0 0 10px var(--g-glow)}
 .section-div{flex:1;height:1px;background:var(--border)}
 
 /* ══ 광고 미리보기 ══ */
@@ -1441,7 +1440,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v7.1</span>
+    <span class="h-version">v7.2</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -1475,8 +1474,11 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <!-- ① 입력 패널 (sticky) -->
   <div class="sticky-panel">
     <div class="input-card">
-
-      <!-- 진행 바 (4단계) -->
+      <!-- 상품 정보 입력창 타이틀 -->
+      <div class="section-header" style="padding:10px 0 6px">
+        <div class="section-label" style="font-size:18px">상품 정보 입력창</div>
+        <div class="section-div"></div>
+      </div>
       <div class="pbar-strip">
         <div class="pbar-track"><div class="pbar-fill" id="pbarFill"></div></div>
         <div class="pbar-steps">
@@ -1577,8 +1579,14 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 
                 <div class="ap-timer" id="apTimerRow" style="margin-top:8px;display:none">예상 완료까지: <b id="apTimerVal">--</b></div>
               </div><!-- /apPanel -->
-                            <div class="analysis-preview" id="analysisSidePreview" style="display:none"></div>
-              <button class="analysis-btn" id="analysisOpenBtn" onclick="openAnalysisModal()" disabled>📄 전체 리포트 보기</button>
+
+              <!-- 3줄 요약 (분석 완료 후 표시) -->
+              <div class="analysis-preview" id="analysisSidePreview" style="display:none;margin:0 14px 8px;padding:10px 12px;background:rgba(3,199,90,.05);border:1px solid rgba(3,199,90,.12);border-radius:8px;font-size:12px;line-height:1.8;color:var(--text2)"></div>
+
+              <!-- 전체 리포트 보기 버튼 (아래) -->
+              <div style="padding:0 14px 14px">
+                <button class="analysis-btn" id="analysisOpenBtn" onclick="openAnalysisModal()" disabled>📄 전체 리포트 보기</button>
+              </div>
             </div>
 
             <!-- 하단 Row2: 금지어 / 시즌 / 어조 -->
@@ -1704,6 +1712,85 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
     </div>
   </div>
 
+  <!-- ★ 광고 소재 모니터 (미리보기 ~ 소재 사이) -->
+  <div id="monitorSection" style="display:none">
+    <div class="section-header" style="margin-top:14px">
+      <div class="section-label">광고 소재 모니터</div>
+      <div class="section-div"></div>
+    </div>
+    <!-- ★ 현황판 -->
+    <div class="status-board">
+      <!-- 1행: 선택 현황 -->
+      <div class="sb-row-select">
+        <div class="sb-sel-box sb-title">
+          <div class="sb-sel-icon">📋</div>
+          <div class="sb-sel-info">
+            <div class="sb-sel-label">제목 선택</div>
+            <div class="sb-sel-count">
+              <span class="sb-sel-num" id="sbTitleNum">0</span>
+              <span class="sb-sel-max">/ 15개</span>
+            </div>
+            <div class="sb-bar"><div class="sb-bar-fill sb-title-fill" id="sbTitleBar" style="width:0%"></div></div>
+          </div>
+        </div>
+        <div class="sb-sel-box sb-desc">
+          <div class="sb-sel-icon">📝</div>
+          <div class="sb-sel-info">
+            <div class="sb-sel-label">설명 선택</div>
+            <div class="sb-sel-count">
+              <span class="sb-sel-num" id="sbDescNum">0</span>
+              <span class="sb-sel-max">/ 4개</span>
+            </div>
+            <div class="sb-bar"><div class="sb-bar-fill sb-desc-fill" id="sbDescBar" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+      <!-- 구분선 -->
+      <div class="sb-divider"></div>
+      <!-- 2행: 고정 현황 -->
+      <div class="sb-row-pin">
+        <div class="sb-pin-box sb-t1" id="sbPinT1">
+          <div class="sb-pin-label">제목 1 고정</div>
+          <div class="sb-pin-num" id="sbPinT1Num">0</div>
+          <div class="sb-pin-sub" id="sbPinT1Sub">없음</div>
+        </div>
+        <div class="sb-pin-box sb-t2" id="sbPinT2">
+          <div class="sb-pin-label">제목 2 고정</div>
+          <div class="sb-pin-num" id="sbPinT2Num">0</div>
+          <div class="sb-pin-sub" id="sbPinT2Sub">없음</div>
+        </div>
+        <div class="sb-pin-box sb-t3" id="sbPinT3">
+          <div class="sb-pin-label">제목 3 고정</div>
+          <div class="sb-pin-num" id="sbPinT3Num">0</div>
+          <div class="sb-pin-sub" id="sbPinT3Sub">없음</div>
+        </div>
+        <div class="sb-pin-box sb-d1" id="sbPinD1">
+          <div class="sb-pin-label">설명 1 고정</div>
+          <div class="sb-pin-num" id="sbPinD1Num">0</div>
+          <div class="sb-pin-sub" id="sbPinD1Sub">없음</div>
+        </div>
+        <div class="sb-pin-box sb-d2" id="sbPinD2">
+          <div class="sb-pin-label">설명 2 고정</div>
+          <div class="sb-pin-num" id="sbPinD2Num">0</div>
+          <div class="sb-pin-sub" id="sbPinD2Sub">없음</div>
+        </div>
+      </div>
+      <!-- 구분선 -->
+      <div class="sb-divider"></div>
+      <!-- 선택 목록 -->
+      <div class="sb-lists">
+        <div class="sb-list-col">
+          <div class="sb-list-head">선택된 제목 <span class="sel-cnt" id="sTCnt">0개</span></div>
+          <div id="sTList"><div class="sel-empty">선택 없음</div></div>
+        </div>
+        <div class="sb-list-col">
+          <div class="sb-list-head">선택된 설명 <span class="sel-cnt" id="sDCnt">0개</span></div>
+          <div id="sDList"><div class="sel-empty">선택 없음</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ③ 광고 소재 (아래) -->
   <div class="section-header" style="margin-top:14px">
     <div class="section-label">광고 소재</div>
@@ -1776,77 +1863,6 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
     </div>
   </div>
 
-  <!-- 선택 목록 -->
-  <!-- ★ 현황판 -->
-  <div class="status-board">
-    <!-- 1행: 선택 현황 -->
-    <div class="sb-row-select">
-      <div class="sb-sel-box sb-title">
-        <div class="sb-sel-icon">📋</div>
-        <div class="sb-sel-info">
-          <div class="sb-sel-label">제목 선택</div>
-          <div class="sb-sel-count">
-            <span class="sb-sel-num" id="sbTitleNum">0</span>
-            <span class="sb-sel-max">/ 15개</span>
-          </div>
-          <div class="sb-bar"><div class="sb-bar-fill sb-title-fill" id="sbTitleBar" style="width:0%"></div></div>
-        </div>
-      </div>
-      <div class="sb-sel-box sb-desc">
-        <div class="sb-sel-icon">📝</div>
-        <div class="sb-sel-info">
-          <div class="sb-sel-label">설명 선택</div>
-          <div class="sb-sel-count">
-            <span class="sb-sel-num" id="sbDescNum">0</span>
-            <span class="sb-sel-max">/ 4개</span>
-          </div>
-          <div class="sb-bar"><div class="sb-bar-fill sb-desc-fill" id="sbDescBar" style="width:0%"></div></div>
-        </div>
-      </div>
-    </div>
-    <!-- 구분선 -->
-    <div class="sb-divider"></div>
-    <!-- 2행: 고정 현황 -->
-    <div class="sb-row-pin">
-      <div class="sb-pin-box sb-t1" id="sbPinT1">
-        <div class="sb-pin-label">제목 1 고정</div>
-        <div class="sb-pin-num" id="sbPinT1Num">0</div>
-        <div class="sb-pin-sub" id="sbPinT1Sub">없음</div>
-      </div>
-      <div class="sb-pin-box sb-t2" id="sbPinT2">
-        <div class="sb-pin-label">제목 2 고정</div>
-        <div class="sb-pin-num" id="sbPinT2Num">0</div>
-        <div class="sb-pin-sub" id="sbPinT2Sub">없음</div>
-      </div>
-      <div class="sb-pin-box sb-t3" id="sbPinT3">
-        <div class="sb-pin-label">제목 3 고정</div>
-        <div class="sb-pin-num" id="sbPinT3Num">0</div>
-        <div class="sb-pin-sub" id="sbPinT3Sub">없음</div>
-      </div>
-      <div class="sb-pin-box sb-d1" id="sbPinD1">
-        <div class="sb-pin-label">설명 1 고정</div>
-        <div class="sb-pin-num" id="sbPinD1Num">0</div>
-        <div class="sb-pin-sub" id="sbPinD1Sub">없음</div>
-      </div>
-      <div class="sb-pin-box sb-d2" id="sbPinD2">
-        <div class="sb-pin-label">설명 2 고정</div>
-        <div class="sb-pin-num" id="sbPinD2Num">0</div>
-        <div class="sb-pin-sub" id="sbPinD2Sub">없음</div>
-      </div>
-    </div>
-    <!-- 선택 목록 (접힘) -->
-    <div class="sb-divider"></div>
-    <div class="sb-lists">
-      <div class="sb-list-col">
-        <div class="sb-list-head">선택된 제목 <span class="sel-cnt" id="sTCnt">0개</span></div>
-        <div id="sTList"><div class="sel-empty">선택 없음</div></div>
-      </div>
-      <div class="sb-list-col">
-        <div class="sb-list-head">선택된 설명 <span class="sel-cnt" id="sDCnt">0개</span></div>
-        <div id="sDList"><div class="sel-empty">선택 없음</div></div>
-      </div>
-    </div>
-  </div>
 
 </main>
 
@@ -2316,7 +2332,7 @@ ${inputLines.join('\n')}
 - 상품명에 없는 카테고리나 특성 언급 금지
 - 실제 생성된 소재 외 예시 소재 임의 생성 금지
 
-아래 3개 섹션을 <section title="섹션제목">내용</section> 형태로 작성하세요.
+아래 4개 섹션을 <section title="섹션제목">내용</section> 형태로 작성하세요.
 
 [가독성 규칙]
 - 각 섹션은 짧은 문단으로 나눠서 작성 (한 문단 = 2~3문장)
@@ -2327,7 +2343,8 @@ ${inputLines.join('\n')}
 필수 섹션:
 1. 🔍 상품·소재 분석 — 상품명 키워드 분석, 실제 생성된 제목/설명 구성 평가
 2. ⚡ 클릭률 TOP3 — 실제 생성된 소재 중 클릭 가능성 높은 3개와 구체적 이유
-3. 💡 개선 권고 — 실제 소재 기반 A/B 테스트 2~3개 제안 (구체적 수정안 포함)
+3. ✍️ 소재 표현 선택 이유 — 생성된 제목과 설명에 사용된 주요 표현·단어를 3~5개 직접 인용하고, 각 표현을 왜 선택했는지 마케팅 근거와 함께 상세히 설명 (예: "간냉식"이라는 단어를 쓴 이유, "소상공인 지원"이라는 표현을 넣은 전략적 이유 등)
+4. 💡 개선 권고 — 실제 소재 기반 A/B 테스트 2~3개 제안 (구체적 수정안 포함)
 
 규칙: 마크다운 금지. 마케터 관점 판단은 <em>태그.`;
 
@@ -3197,6 +3214,7 @@ async function generate(){
     render();
     document.getElementById('resultWrap').style.display='block';
     document.getElementById('previewSection').style.display='block';
+    document.getElementById('monitorSection').style.display='block';
     pg(3,'active');
     pg(4,'active');
     document.getElementById('pbarFill').style.width='100%';
@@ -3232,47 +3250,22 @@ async function generate(){
       if(thinkEl) thinkEl.style.display='none';
       clearInterval(fieldTimer);
       
-      // 분석 결과 타이핑 효과로 표시
+      // 3줄 요약 표시
       const preview=document.getElementById('analysisSidePreview');
       if(preview){
         preview.style.display='block';
-        // 텍스트 추출
         const tmp=document.createElement('div'); tmp.innerHTML=html;
-        const allSections=tmp.querySelectorAll('.analysis-section');
         let rawLines=[];
-        allSections.forEach(sec=>{
-          const title=sec.querySelector('.analysis-section-title');
-          const body=sec.querySelector('.analysis-section-content');
-          if(body){
-            body.textContent.split(/[.。]\s+/).map(s=>s.trim()).filter(s=>s.length>10).forEach(s=>{if(rawLines.length<6)rawLines.push(s);});
-          }
-        });
-        if(!rawLines.length){
-          tmp.querySelectorAll('.analysis-section-content').forEach(el=>{
-            el.textContent.split(/[.。]\s+/).map(s=>s.trim()).filter(s=>s.length>10).forEach(s=>{if(rawLines.length<6)rawLines.push(s);});
+        tmp.querySelectorAll('.analysis-section-content').forEach(el=>{
+          el.textContent.split(/[.。]\s+/).map(s=>s.trim()).filter(s=>s.length>10).forEach(s=>{
+            if(rawLines.length<3) rawLines.push(s);
           });
-        }
-        // 타이핑 효과
-        const bullets=['①','②','③','④','⑤','⑥'];
-        const fullText = rawLines.slice(0,6).map((l,i)=>`${bullets[i]} ${l}`).join('\n');
-        preview.innerHTML = '<span id="typingOut"></span><span class="analysis-typing-cursor"></span>';
-        const typingEl = document.getElementById('typingOut');
-        let charIdx = 0;
-        const typeInterval = setInterval(()=>{
-          if(charIdx < fullText.length){
-            const ch = fullText[charIdx];
-            if(ch==='\n') typingEl.innerHTML += '<br>';
-            else typingEl.textContent += ch;
-            charIdx++;
-          } else {
-            clearInterval(typeInterval);
-            // 커서 제거
-            const cursor = preview.querySelector('.analysis-typing-cursor');
-            if(cursor) cursor.remove();
-            // 최종 포맷
-            preview.innerHTML = rawLines.slice(0,6).map((l,i)=>`<span style="color:var(--g);font-weight:700;margin-right:4px">${bullets[i]}</span>${l}`).join('<br>');
-          }
-        }, 18); // 18ms per char
+        });
+        const bullets=['●','●','●'];
+        const colors=['#03C75A','#3385ff','#ff9800'];
+        preview.innerHTML = rawLines.slice(0,3).map((l,i)=>
+          `<div style="display:flex;gap:6px;margin-bottom:5px"><span style="color:${colors[i]};flex-shrink:0;font-size:11px;margin-top:2px">${bullets[i]}</span><span>${l.slice(0,60)}${l.length>60?'...':''}</span></div>`
+        ).join('');
       }
 
       // 리포트 완료 - 결과는 이미 표시됨, 패널만 업데이트
