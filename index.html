@@ -549,7 +549,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .sec-title{font-size:13px;font-weight:700;color:var(--text2);display:flex;align-items:center;gap:5px;flex:1}
 .badge{font-size:11px;background:var(--g-dim);color:var(--g);border:1px solid rgba(3,199,90,.2);border-radius:3px;padding:1px 6px;font-weight:700}
 .badge.sel{background:rgba(0,102,255,.1);color:var(--b2);border-color:rgba(0,102,255,.2)}
-.item{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid var(--border);transition:background .15s;cursor:pointer}
+.item{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid var(--border);transition:background .15s;cursor:pointer;flex-wrap:wrap}
 .item:hover{background:rgba(255,255,255,.03)}
 .item.on{background:rgba(3,199,90,.04)}
 .plus{
@@ -752,7 +752,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 /* ── 결과 + 미리보기 통합 레이아웃 ── */
 .result-layout{display:grid;grid-template-columns:1fr 340px;gap:12px;align-items:start}
 .rl-left{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;min-height:200px}
-.rl-right{display:flex;flex-direction:column;gap:10px;position:sticky;top:calc(var(--hh) + 12px)}
+.rl-right{display:flex;flex-direction:column;gap:10px;position:sticky;top:calc(var(--hh) + 12px);max-height:calc(100vh - var(--hh) - 24px);overflow-y:auto}
 .rl-section-label{
   padding:9px 14px;background:rgba(0,0,0,.2);border-bottom:1px solid var(--border);
   font-size:13px;font-weight:800;color:var(--text2);display:flex;align-items:center;gap:8px;
@@ -1375,7 +1375,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v6.8</span>
+    <span class="h-version">v6.9</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -1474,8 +1474,8 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
                 <div class="upl-count" id="uplCount" style="display:none"></div>
               </div>
               <div class="img-grid" id="imgGrid"></div>
-              <div id="costCurrent" style="display:none;font-size:9px;color:var(--text3);margin-top:3px">
-                현재 <b id="costImgCnt" style="color:var(--g)">0</b>장 → 약 <b id="costAmt" style="color:var(--g)">-</b>
+              <div id="costCurrent" style="display:none;font-size:11px;color:var(--g);margin-top:5px;font-weight:600;text-align:center">
+                📎 <span id="costImgCnt">0</span>장 등록됨
               </div>
             </div>
 
@@ -1647,7 +1647,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="result-card">
     <div id="emptyState" class="empty">
       <div class="empty-icon">✦</div>
-      <div class="empty-txt">상품 정보를 입력하고 <strong>생성 버튼</strong>을 눌러주세요<br><span style="font-size:13px;opacity:.5">✓ 제목 15개 · 설명 6개 · 마케터 분석 리포트</span></div>
+
     </div>
     <!-- analysisBody: hidden buffer for modal (not shown in main UI) -->
     <div id="analysisBody" style="display:none"></div>
@@ -1681,14 +1681,14 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
             <span class="rc-head-label" style="color:#ff9800">제목 3 위치 추천</span>
             <span class="tg-sub" style="margin-left:auto">광고 세 번째 제목에 최적</span>
           </div>
-          <div id="titleGroup3" style="display:none"></div>
+          <div id="titleGroup3"></div>
         </div>
       </div>
       <!-- 설명 영역 -->
       <div class="rc-head" style="border-top:1px solid var(--border)">
-        <span class="rc-head-label">광고 설명</span>
-        <span class="badge" id="dBadge">0</span>
-        <span class="rc-sel-count" id="dSelBadge" style="display:none"><span id="dSelNum">0</span>개 선택</span>
+        <span class="tg-dot tg1" style="background:#03C75A"></span>
+        <span class="rc-head-label">설명 1번 추천</span>
+        <span style="margin-left:auto;font-size:11px;color:var(--text3)">광고 설명란에 활용</span>
       </div>
       <div class="rc-desc-area" id="descItems"></div>
       <!-- tBadge hidden (count in header) -->
@@ -1723,9 +1723,7 @@ const pinData = {};    // {titleIdx: '1'|'2'|'3'|''}
 const descPinData = {}; // {descIdx: '1'|'2'|''}
 
 // ── API Key 관리
-let API_KEY = localStorage.getItem('claude_key') || 'AIzaSyDKjjfsXZ5EVKXi_8F0PGN58ctjeT67zZY';
-// 기본 키가 로드됐으면 localStorage에도 저장
-if (!localStorage.getItem('claude_key') && API_KEY) localStorage.setItem('claude_key', API_KEY);
+let API_KEY = localStorage.getItem('claude_key') || '';
 
 window.addEventListener('DOMContentLoaded', () => {
   if (API_KEY && API_KEY.length > 5) {
@@ -1912,10 +1910,10 @@ function onFile(e) {
 function updateCost() {
   const n = S.imgs.length;
   const el = document.getElementById('costCurrent');
-  if (n === 0) { el.style.display='none'; return; }
-  el.style.display = 'block';
-  if (document.getElementById('costImgCnt')) document.getElementById('costImgCnt').textContent = n;
-  if (document.getElementById('costAmt')) document.getElementById('costAmt').innerHTML = '';
+  if (n === 0) { if(el) el.style.display='none'; return; }
+  if(el) el.style.display = 'block';
+  const cnt = document.getElementById('costImgCnt');
+  if(cnt) cnt.textContent = n;
 }
 
 function removeImg(i) {
@@ -1935,7 +1933,7 @@ function renderImgGrid() {
   }
   zone.classList.add('filled');
   cnt.style.display = 'block';
-  cnt.textContent = `✓ ${S.imgs.length}장 선택됨 (최대 ${MAX_IMGS}장 · 자동 압축)`;
+  cnt.textContent = `${S.imgs.length}장 등록됨`;
   updateCost();
   grid.innerHTML = S.imgs.map((img, i) => `
     <div class="img-thumb">
@@ -2411,27 +2409,27 @@ function openAnalysisModal(){
 
 // ── 렌더링
 function render(){
-  // 2그룹으로 제목 렌더 (20개)
-  [1,2].forEach(g=>{
+  // 제목 3그룹 렌더 (각 5개씩)
+  [1,2,3].forEach(g=>{
     const el=document.getElementById('titleGroup'+g);
     if(!el) return;
     el.innerHTML='';
     const total = S.titles.length;
-    const half = Math.ceil(total/2);
-    const start=(g-1)*half, end=g===1?half:total;
+    const size = Math.ceil(total/3);
+    const start=(g-1)*size;
+    const end=Math.min(g*size, total);
     S.titles.slice(start,end).forEach((t,li)=>{
       const i=start+li, on=S.selT.has(i);
       const len=[...t].length, over=len>15;
       const pin=pinData[i]||'';
-      // item 클래스: 선택 여부 + 핀 색상
       let itemCls='item';
       if(pin) itemCls+=' pin'+pin;
       else if(on) itemCls+=' on';
       el.insertAdjacentHTML('beforeend',`<div class="${itemCls}" id="t${i}">
         <button class="plus" onclick="tog('t',${i})">${on?'✓':'+'}</button>
-        <div class="txt-wrap" style="flex:1">
+        <div class="txt-wrap" style="flex:1;min-width:0">
           <div class="txt" style="font-size:15px">${esc(t)}</div>
-          <div class="meta" style="display:flex;align-items:center;gap:6px;margin-top:3px">
+          <div class="meta" style="display:flex;align-items:center;gap:6px;margin-top:3px;flex-wrap:wrap">
             <span class="grp-badge g${g}">${g}번 추천</span>
             <span class="cc${over?' over':''}" style="font-size:11px">${len}/15자${over?' ⚠️':''}</span>
             ${pin?`<span class="badge-tag" style="font-size:10px;background:${pin==='1'?'rgba(3,199,90,.2)':pin==='2'?'rgba(51,133,255,.2)':'rgba(255,152,0,.2)'};color:${pin==='1'?'#03C75A':pin==='2'?'#3385ff':'#ff9800'}">제목${pin} 고정</span>`:''}
@@ -2465,10 +2463,13 @@ function render(){
   const dEl=document.getElementById('descItems');
   if(dEl){
     dEl.innerHTML='';
+    const dTotal = S.descs.length;
+    const dHalf = Math.ceil(dTotal/2);
     S.descs.forEach((d,i)=>{
       const len=[...d].length, over=len>45;
       const on=S.selD.has(i);
       const pinVal=descPinData[i]||'';
+      const dg = i < dHalf ? 1 : 2; // 설명 그룹 (1번/2번 추천)
       let itemCls='item-desc';
       if(pinVal) itemCls+=' pin'+pinVal;
       else if(on) itemCls+=' on';
@@ -2476,7 +2477,8 @@ function render(){
         <button class="plus" onclick="tog('d',${i})">${on?'✓':'+'}</button>
         <div class="txt-wrap">
           <div class="txt" contenteditable="true" oninput="onDescEdit(${i},this)" onblur="onDescEdit(${i},this)">${esc(d)}</div>
-          <div class="meta">
+          <div class="meta" style="flex-wrap:wrap">
+            <span class="grp-badge g${dg}" style="font-size:10px">설명 ${dg}번 추천</span>
             <span class="cc${over?' over':''}" style="font-size:12px">${len}/45자${over?' ⚠️':''}</span>
             ${pinVal?`<span class="badge-tag" style="font-size:11px;background:${pinVal==='1'?'rgba(3,199,90,.2)':'rgba(51,133,255,.2)'};color:${pinVal==='1'?'#03C75A':'#3385ff'}">설명${pinVal} 고정</span>`:''}
           </div>
@@ -2976,6 +2978,7 @@ async function generate(){
     // 마케터 리포트 분석 — 실제 분석 단계 메시지
     const titleCount = S.titles.length;
     const descCount = S.descs.length;
+    const hasImg = S.imgs.length > 0;
     const phase2Steps = [
       `${titleCount}개 제목의 클릭 유도 방식 분석 중...`,
       `${descCount}개 설명문에서 핵심 메시지 추출 중...`,
