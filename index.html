@@ -587,8 +587,47 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .empty-txt{text-align:center;font-size:15px;color:var(--text3);line-height:1.8}
 .empty-txt strong{color:var(--text2)}
 
-/* 선택 카드 */
-.sel-card{
+/* ── 현황판 */
+.status-board{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.sb-row-select{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sb-sel-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden}
+.sb-sel-box::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:2px 0 0 2px}
+.sb-title::before{background:#a855f7}
+.sb-desc::before{background:#f59e0b}
+.sb-sel-icon{font-size:20px;flex-shrink:0;opacity:.7}
+.sb-sel-info{flex:1;min-width:0}
+.sb-sel-label{font-size:9px;color:rgba(255,255,255,.35);letter-spacing:.4px;text-transform:uppercase;margin-bottom:2px}
+.sb-sel-count{display:flex;align-items:baseline;gap:4px}
+.sb-sel-num{font-size:26px;font-weight:900;line-height:1}
+.sb-title .sb-sel-num{color:#a855f7}
+.sb-desc  .sb-sel-num{color:#f59e0b}
+.sb-sel-max{font-size:11px;color:rgba(255,255,255,.25)}
+.sb-bar{height:3px;background:rgba(255,255,255,.07);border-radius:2px;margin-top:6px;overflow:hidden}
+.sb-bar-fill{height:100%;border-radius:2px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.sb-title-fill{background:linear-gradient(90deg,#a855f7,#c084fc)}
+.sb-desc-fill{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.sb-divider{height:1px;background:rgba(255,255,255,.06)}
+.sb-row-pin{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.sb-pin-box{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:8px 12px;display:flex;flex-direction:column;gap:2px;position:relative;overflow:hidden;transition:background .2s,border-color .2s}
+.sb-pin-box::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;border-radius:0 0 8px 8px}
+.sb-t1::after{background:#03C75A}.sb-t2::after{background:#3385ff}.sb-t3::after{background:#ff9800}
+.sb-d1::after{background:#84cc16}.sb-d2::after{background:#06b6d4}
+.sb-pin-label{font-size:9px;color:rgba(255,255,255,.3);letter-spacing:.3px}
+.sb-pin-num{font-size:22px;font-weight:900;line-height:1.1;color:rgba(255,255,255,.15);transition:color .2s}
+.sb-pin-box.active .sb-pin-num{color:var(--pin-color)}
+.sb-t1{--pin-color:#03C75A}.sb-t2{--pin-color:#3385ff}.sb-t3{--pin-color:#ff9800}
+.sb-d1{--pin-color:#84cc16}.sb-d2{--pin-color:#06b6d4}
+.sb-pin-box.active{border-color:rgba(255,255,255,.12)}
+.sb-pin-box.active.sb-t1{background:rgba(3,199,90,.05)}
+.sb-pin-box.active.sb-t2{background:rgba(51,133,255,.05)}
+.sb-pin-box.active.sb-t3{background:rgba(255,152,0,.05)}
+.sb-pin-box.active.sb-d1{background:rgba(132,204,22,.05)}
+.sb-pin-box.active.sb-d2{background:rgba(6,182,212,.05)}
+.sb-pin-sub{font-size:9px;color:rgba(255,255,255,.2)}
+.sb-lists{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.sb-list-col{}
+.sb-list-head{font-size:11px;font-weight:700;color:var(--text3);display:flex;justify-content:space-between;margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+
   background:var(--glass);backdrop-filter:blur(12px);
   border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;
 }
@@ -597,6 +636,9 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .sel-cnt{color:var(--g);font-weight:700}
 .sel-item{font-size:13px;color:var(--text2);background:rgba(0,0,0,.2);border-radius:4px;padding:4px 8px;margin-bottom:3px;display:flex;align-items:center;gap:4px;border:1px solid var(--border)}
 .sel-empty{font-size:10px;color:var(--text3)}
+.sel-copy{background:none;border:none;cursor:pointer;font-size:11px;padding:0 3px;opacity:.4;transition:opacity .15s;flex-shrink:0}
+.sel-copy:hover{opacity:1}
+.sel-copy.copied{opacity:1}
 .sel-x{background:none;border:none;cursor:pointer;color:var(--text3);font-size:11px;margin-left:auto;padding:0 2px;flex-shrink:0;transition:color .15s}
 .sel-x:hover{color:var(--red)}
 
@@ -875,7 +917,19 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 }
 .analysis-section-title::before{content:'';width:3px;height:18px;background:var(--g);border-radius:2px;flex-shrink:0}
 .analysis-section-content{font-size:14px;color:rgba(232,240,254,.82);line-height:1.9}
-.analysis-section-content p{margin-bottom:12px}
+.analysis-section-content p{margin-bottom:10px}
+.analysis-section-content b{color:#fff;font-weight:700}
+.analysis-section-content em{color:#a8d8ff;font-style:normal}
+.ar-body p{margin:0 0 8px}
+.ar-item{
+  padding:8px 12px;margin:6px 0;
+  background:rgba(255,255,255,.03);
+  border-left:2px solid rgba(255,255,255,.1);
+  border-radius:0 6px 6px 0;
+  line-height:1.7;
+}
+.ar-item b{color:#7dd3fc}
+.ar-item em{color:#86efac;font-style:normal}
 
 /* ── 마케터 분석 사이드 패널 */
 .col-analysis{min-height:180px}
@@ -926,11 +980,14 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 
 /* ── 핀 select 색상 (위치별) */
 .pin-sel.pin1{background:#0a2a1a;border-color:rgba(3,199,90,.7);color:#03C75A;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2303C75A'/%3E%3C/svg%3E")}
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2303C75A'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 8px center}
 .pin-sel.pin2{background:#0a1a2a;border-color:rgba(51,133,255,.7);color:#3385ff;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%233385ff'/%3E%3C/svg%3E")}
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%233385ff'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 8px center}
 .pin-sel.pin3{background:#2a1a0a;border-color:rgba(255,152,0,.7);color:#ff9800;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23ff9800'/%3E%3C/svg%3E")}
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23ff9800'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 8px center}
 
 /* ── 헤더 행 */
 .rc-head{
@@ -1384,7 +1441,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v6.9</span>
+    <span class="h-version">v7.1</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -1720,14 +1777,72 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   </div>
 
   <!-- 선택 목록 -->
-  <div class="sel-card">
-    <div class="sel-grid">
-      <div>
-        <div class="sel-head">선택된 제목 <span class="sel-cnt" id="sTCnt">0개</span> <span style="font-size:11px;color:var(--text3)">(최대 15개)</span></div>
+  <!-- ★ 현황판 -->
+  <div class="status-board">
+    <!-- 1행: 선택 현황 -->
+    <div class="sb-row-select">
+      <div class="sb-sel-box sb-title">
+        <div class="sb-sel-icon">📋</div>
+        <div class="sb-sel-info">
+          <div class="sb-sel-label">제목 선택</div>
+          <div class="sb-sel-count">
+            <span class="sb-sel-num" id="sbTitleNum">0</span>
+            <span class="sb-sel-max">/ 15개</span>
+          </div>
+          <div class="sb-bar"><div class="sb-bar-fill sb-title-fill" id="sbTitleBar" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="sb-sel-box sb-desc">
+        <div class="sb-sel-icon">📝</div>
+        <div class="sb-sel-info">
+          <div class="sb-sel-label">설명 선택</div>
+          <div class="sb-sel-count">
+            <span class="sb-sel-num" id="sbDescNum">0</span>
+            <span class="sb-sel-max">/ 4개</span>
+          </div>
+          <div class="sb-bar"><div class="sb-bar-fill sb-desc-fill" id="sbDescBar" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+    <!-- 구분선 -->
+    <div class="sb-divider"></div>
+    <!-- 2행: 고정 현황 -->
+    <div class="sb-row-pin">
+      <div class="sb-pin-box sb-t1" id="sbPinT1">
+        <div class="sb-pin-label">제목 1 고정</div>
+        <div class="sb-pin-num" id="sbPinT1Num">0</div>
+        <div class="sb-pin-sub" id="sbPinT1Sub">없음</div>
+      </div>
+      <div class="sb-pin-box sb-t2" id="sbPinT2">
+        <div class="sb-pin-label">제목 2 고정</div>
+        <div class="sb-pin-num" id="sbPinT2Num">0</div>
+        <div class="sb-pin-sub" id="sbPinT2Sub">없음</div>
+      </div>
+      <div class="sb-pin-box sb-t3" id="sbPinT3">
+        <div class="sb-pin-label">제목 3 고정</div>
+        <div class="sb-pin-num" id="sbPinT3Num">0</div>
+        <div class="sb-pin-sub" id="sbPinT3Sub">없음</div>
+      </div>
+      <div class="sb-pin-box sb-d1" id="sbPinD1">
+        <div class="sb-pin-label">설명 1 고정</div>
+        <div class="sb-pin-num" id="sbPinD1Num">0</div>
+        <div class="sb-pin-sub" id="sbPinD1Sub">없음</div>
+      </div>
+      <div class="sb-pin-box sb-d2" id="sbPinD2">
+        <div class="sb-pin-label">설명 2 고정</div>
+        <div class="sb-pin-num" id="sbPinD2Num">0</div>
+        <div class="sb-pin-sub" id="sbPinD2Sub">없음</div>
+      </div>
+    </div>
+    <!-- 선택 목록 (접힘) -->
+    <div class="sb-divider"></div>
+    <div class="sb-lists">
+      <div class="sb-list-col">
+        <div class="sb-list-head">선택된 제목 <span class="sel-cnt" id="sTCnt">0개</span></div>
         <div id="sTList"><div class="sel-empty">선택 없음</div></div>
       </div>
-      <div>
-        <div class="sel-head">선택된 설명 <span class="sel-cnt" id="sDCnt">0개</span></div>
+      <div class="sb-list-col">
+        <div class="sb-list-head">선택된 설명 <span class="sel-cnt" id="sDCnt">0개</span></div>
         <div id="sDList"><div class="sel-empty">선택 없음</div></div>
       </div>
     </div>
@@ -2062,11 +2177,6 @@ function addSlot() {
 
 
 
-function setNotice(type, msg) {
-  const el = document.getElementById('fetchNotice');
-  el.innerHTML = msg ? `<div class="notice n-${type}">${msg}</div>` : '';
-}
-
 // ── Gemini API 호출
 async function callClaude(sys, userContent, onChunk) {
   // userContent는 string 또는 array (이미지 포함)
@@ -2198,17 +2308,30 @@ ${toneUsed.includes('action') || toneUsed.includes('행동') ? '- 행동유도·
 
   const analysisPrompt = `당신은 네이버 파워링크 광고 전문 마케터입니다.${contextStr}${toneGuide}
 
+[분석 대상 — 아래 데이터만 사용하고, 없는 정보는 절대 추측하지 마세요]
+${inputLines.join('\n')}
+
+⚠️ 절대 금지:
+- 입력되지 않은 정보 추측 (예: 타겟 없으면 타겟 분석 금지)
+- 상품명에 없는 카테고리나 특성 언급 금지
+- 실제 생성된 소재 외 예시 소재 임의 생성 금지
+
 아래 3개 섹션을 <section title="섹션제목">내용</section> 형태로 작성하세요.
-각 섹션: 3~4문장, 실무 인사이트 중심, 간결하게.
+
+[가독성 규칙]
+- 각 섹션은 짧은 문단으로 나눠서 작성 (한 문단 = 2~3문장)
+- 중요 키워드·수치는 <b>태그로 강조
+- 소재 인용 시 따옴표로 명확히 구분
+- 번호 목록은 줄바꿈으로 구분
 
 필수 섹션:
-1. 🔍 상품·소재 분석 — 상품명 핵심 키워드, 제목/설명 구성 평가
-2. ⚡ 클릭률 TOP3 — 가장 클릭 받을 소재 3개와 이유 (제목 직접 인용)
-3. 💡 개선 권고 — 즉시 적용 가능한 A/B 테스트 제안 2~3개
+1. 🔍 상품·소재 분석 — 상품명 키워드 분석, 실제 생성된 제목/설명 구성 평가
+2. ⚡ 클릭률 TOP3 — 실제 생성된 소재 중 클릭 가능성 높은 3개와 구체적 이유
+3. 💡 개선 권고 — 실제 소재 기반 A/B 테스트 2~3개 제안 (구체적 수정안 포함)
 
-규칙: 마크다운 금지. 중요 키워드는 <b>태그. 마케터 판단은 <em>태그. 단순 요약 금지.`;
+규칙: 마크다운 금지. 마케터 관점 판단은 <em>태그.`;
 
-  // 분석은 카피 텍스트 기반 — 이미지 불필요 (속도 최적화 핵심)
+  // 실제 입력 데이터를 userContent에 포함
   const userContent = analysisPrompt;
 
   // 실시간 분석 로그 - 새 통합 패널 사용
@@ -2225,7 +2348,38 @@ ${toneUsed.includes('action') || toneUsed.includes('행동') ? '- 행동유도·
   if(headerSub) headerSub.textContent = '소재 전략 심층 분석 중...';
   if(timerRow)  timerRow.style.display  = 'block';
 
+  // ★ 실시간 단계 로그 (API 대기 중 진행 상황 표시)
+  const logLines = [];
+  function addLog(msg) {
+    logLines.push(msg);
+    if(streamEl) {
+      streamEl.textContent = logLines.join('\n');
+      const cur = document.createElement('span');
+      cur.className = 'ap-stream-cursor';
+      streamEl.appendChild(cur);
+      const box = document.getElementById('apLogBox');
+      if(box) box.scrollTop = box.scrollHeight;
+    }
+  }
+  addLog(`📦 상품명 분석: ${name}`);
+  if(feat) addLog(`✏️ 광고 포인트: ${feat.slice(0,30)}...`);
+  if(target) addLog(`🎯 타겟 고객: ${target}`);
+  addLog(`📋 생성 제목 ${titles.length}개 · 설명 ${descs.length}개 분석 시작`);
+
+  const logSteps = [
+    '🔍 제목 클릭 유도 패턴 분석 중...',
+    '⚡ 클릭률 TOP3 소재 선정 중...',
+    '💡 A/B 개선 권고안 작성 중...',
+    '✅ 분석 마무리 중...'
+  ];
+  let stepIdx = 0;
+  const logTimer = setInterval(()=>{
+    if(stepIdx < logSteps.length) addLog(logSteps[stepIdx++]);
+    else clearInterval(logTimer);
+  }, 3000);
+
   function onAnalysisChunk(full) {
+    clearInterval(logTimer);
     if(!streamEl) return;
     const clean = full
       .replace(/<section[^>]*title="([^"]*)">/g, '\n━━ $1 ━━\n')
@@ -2234,14 +2388,11 @@ ${toneUsed.includes('action') || toneUsed.includes('행동') ? '- 행동유도·
       .replace(/\n{3,}/g, '\n\n')
       .trim();
     streamEl.textContent = clean;
-    // 커서 깜빡임
     const cur = document.createElement('span');
     cur.className = 'ap-stream-cursor';
     streamEl.appendChild(cur);
-    // 자동 스크롤
     const box = document.getElementById('apLogBox');
     if(box) box.scrollTop = box.scrollHeight;
-    // 진행 메시지
     const sectionsDone = (full.match(/<\/section>/g)||[]).length;
     const msgs = ['🔍 소재 분석 중...', '⚡ TOP3 선정 중...', '💡 개선 권고 작성 중...'];
     if(msgs[sectionsDone]) {
@@ -2251,23 +2402,31 @@ ${toneUsed.includes('action') || toneUsed.includes('행동') ? '- 행동유도·
   }
 
   const raw = await callClaude('', userContent, onAnalysisChunk);
+  clearInterval(logTimer);
 
   // 섹션 파싱
   const sections = [...raw.matchAll(/<section title="([^"]+)">([\s\S]*?)<\/section>/g)];
   if (!sections.length) {
-    // fallback - 그냥 텍스트로 표시
-    const cleaned2 = raw.replace(/\*\*([^*]+)\*\*/g,'$1').replace(/\*([^*]+)\*/g,'$1');
-    const escaped = cleaned2.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
-    return `<div class="analysis-section-content">${escaped}</div>`;
+    const cleaned2 = raw.replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\*([^*]+)\*/g,'<em>$1</em>');
+    const escaped = cleaned2.replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>');
+    return `<div class="analysis-section-content"><p>${escaped}</p></div>`;
   }
   return sections.map(([,title,body]) => {
+    // 넘버링 목록 → 줄바꿈 처리
     const cleaned = body.trim()
-      .replace(/\*\*([^*]+)\*\*/g, '$1')  // ** bold 제거
-      .replace(/\*([^*]+)\*/g, '$1');       // * italic 제거
-    const bodyHtml = cleaned.split('\n').join('<br>');
+      .replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>')
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    // 번호로 시작하는 줄 각각 단락으로
+    const lines = cleaned.split('\n').filter(l => l.trim());
+    const bodyHtml = lines.map(line => {
+      if (/^\d+\.\s/.test(line.trim())) {
+        return `<div class="ar-item">${line.trim()}</div>`;
+      }
+      return `<p>${line}</p>`;
+    }).join('');
     return '<div class="analysis-section">'
       + '<div class="analysis-section-title">' + title + '</div>'
-      + '<div class="analysis-section-content">' + bodyHtml + '</div>'
+      + '<div class="analysis-section-content ar-body">' + bodyHtml + '</div>'
       + '</div>';
   }).join('');
 }
@@ -2376,6 +2535,23 @@ function generateProductThumb(name) {
     '강아지':['#AA7722','#884400','🐶'],'고양이':['#996633','#774411','🐱'],
     '가방':['#7A3A0A','#5A2A00','👜'],'신발':['#3A3A3A','#1A1A1A','👟'],
     '청소기':['#0055AA','#003388','🧹'],'공기청정기':['#22AACC','#118899','🌬️'],
+    '업소용':['#1a3a5c','#0d2035','🏭'],'소상공인':['#0d4a2a','#062a18','🏪'],
+    '간냉식':['#0044AA','#002288','❄️'],'냉동고':['#1155AA','#003388','🧊'],
+    '주방':['#884400','#553300','🍳'],'밥솥':['#995522','#663311','🍚'],
+    '전자레인지':['#222244','#111133','📡'],'오븐':['#663300','#441100','🔥'],
+    '믹서':['#116633','#0a4422','🥤'],'정수기':['#006688','#004455','💧'],
+    '선풍기':['#336699','#224477','🌀'],'제습기':['#117799','#005566','💧'],
+    '가구':['#5A3E14','#3a2a0a','🪑'],'조명':['#888833','#666611','💡'],
+    '카메라':['#111111','#000000','📷'],'TV':['#222233','#111122','📺'],
+    '스피커':['#333344','#222233','🔊'],'헤드폰':['#222222','#111111','🎧'],
+    '골프':['#115522','#0a3318','⛳'],'자전거':['#CC4400','#AA2200','🚴'],
+    '등산':['#3A6622','#264411','🏔️'],'수영':['#0066CC','#004499','🏊'],
+    '비타민':['#EE8800','#CC6600','💊'],'건강식품':['#228833','#116622','🌿'],
+    '마스크':['#888888','#666666','😷'],'의약품':['#CC3333','#AA1111','💊'],
+    '유아':['#FF9999','#FF6666','👶'],'장난감':['#FF6600','#CC4400','🧸'],
+    '책':['#8B4513','#5C2D0A','📚'],'문구':['#2255AA','#1133AA','✏️'],
+    '꽃':['#CC33AA','#AA1188','💐'],'식물':['#228833','#116622','🌱'],
+    '펫':['#AA7722','#884400','🐾'],'사료':['#AA8833','#776622','🦴'],
   };
   let bg=['#1a3a5c','#0d2035'], icon='🏪';
   for(const [k,[c1,c2,em]] of Object.entries(MAP)){
@@ -2391,10 +2567,8 @@ function generateProductThumb(name) {
   if(ctx.roundRect) ctx.roundRect(0,0,160,160,12);
   else ctx.rect(0,0,160,160);
   ctx.fill();
-  ctx.font='68px serif';ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText(icon,80,72);
-  ctx.font='bold 13px sans-serif';ctx.fillStyle='rgba(255,255,255,.8)';
-  ctx.fillText((name||'').slice(0,8),80,128);
+  ctx.font='72px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(icon,80,80);
   return cv.toDataURL();
 }
 
@@ -2407,6 +2581,15 @@ function updatePreviewThumbs() {
 }
 
 function cpKw(el){ el.textContent && navigator.clipboard && navigator.clipboard.writeText(el.textContent); el.classList.add('kw-on'); setTimeout(()=>el.classList.remove('kw-on'),1200); }
+
+function copySelItem(btn, text) {
+  const decoded = text.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"');
+  navigator.clipboard && navigator.clipboard.writeText(decoded).then(()=>{
+    btn.textContent = '✅';
+    btn.classList.add('copied');
+    setTimeout(()=>{ btn.textContent='📋'; btn.classList.remove('copied'); }, 1500);
+  });
+}
 
 // ── 시계
 (function initClock(){
@@ -2538,10 +2721,34 @@ function updateSelList(){
   const tc=document.getElementById('sTCnt');
   const dl=document.getElementById('sDList');
   const dc=document.getElementById('sDCnt');
-  if(tl) tl.innerHTML=ts.length?ts.map(i=>`<div class="sel-item"><span>${esc(S.titles[i])}</span><button class="sel-x" onclick="tog('t',${i})">✕</button></div>`).join(''):'<div class="sel-empty">선택 없음</div>';
+  if(tl) tl.innerHTML=ts.length?ts.map(i=>`<div class="sel-item"><span>${esc(S.titles[i])}</span><button class="sel-copy" onclick="copySelItem(this,'${esc(S.titles[i])}')" title="복사">📋</button><button class="sel-x" onclick="tog('t',${i})">✕</button></div>`).join(''):'<div class="sel-empty">선택 없음</div>';
   if(tc) tc.textContent=ts.length+'개';
-  if(dl) dl.innerHTML=ds.length?ds.map(i=>`<div class="sel-item"><span>${esc(S.descs[i])}</span><button class="sel-x" onclick="tog('d',${i})">✕</button></div>`).join(''):'<div class="sel-empty">선택 없음</div>';
+  if(dl) dl.innerHTML=ds.length?ds.map(i=>`<div class="sel-item"><span>${esc(S.descs[i])}</span><button class="sel-copy" onclick="copySelItem(this,'${esc(S.descs[i])}')" title="복사">📋</button><button class="sel-x" onclick="tog('d',${i})">✕</button></div>`).join(''):'<div class="sel-empty">선택 없음</div>';
   if(dc) dc.textContent=ds.length+'개';
+
+  // ── 현황판 업데이트
+  const sbTN=document.getElementById('sbTitleNum');
+  const sbDN=document.getElementById('sbDescNum');
+  const sbTB=document.getElementById('sbTitleBar');
+  const sbDB=document.getElementById('sbDescBar');
+  if(sbTN) sbTN.textContent=ts.length;
+  if(sbDN) sbDN.textContent=ds.length;
+  if(sbTB) sbTB.style.width=(ts.length/15*100)+'%';
+  if(sbDB) sbDB.style.width=(ds.length/4*100)+'%';
+
+  // 고정 현황
+  const pinCounts={t1:0,t2:0,t3:0,d1:0,d2:0};
+  Object.values(pinData).forEach(v=>{ if(v==='1')pinCounts.t1++; else if(v==='2')pinCounts.t2++; else if(v==='3')pinCounts.t3++; });
+  Object.values(descPinData).forEach(v=>{ if(v==='1')pinCounts.d1++; else if(v==='2')pinCounts.d2++; });
+  ['t1','t2','t3','d1','d2'].forEach(k=>{
+    const box=document.getElementById('sbPin'+k.toUpperCase());
+    const num=document.getElementById('sbPin'+k.toUpperCase()+'Num');
+    const sub=document.getElementById('sbPin'+k.toUpperCase()+'Sub');
+    const n=pinCounts[k];
+    if(num) num.textContent=n;
+    if(sub) sub.textContent=n?`${n}개 고정됨`:'없음';
+    if(box){ if(n>0) box.classList.add('active'); else box.classList.remove('active'); }
+  });
 }
 
 // ── 선택 토글
@@ -2637,7 +2844,7 @@ function sync(){
   if(pvPcChips) pvPcChips.innerHTML=allSlots.flatMap(t=>t.split(/[\s]+/).filter(w=>w.length>1).slice(0,2)).slice(0,4).map(w=>`<span class="naver-ad-chip">${esc(w)}</span>`).join('');
   const pvPcThumb=document.getElementById('pvPcThumb');
   if(pvPcThumb){
-    const pcUrl=S.imgs.length?S.imgs[0].url:generateProductThumb(document.getElementById('productName')?.value?.trim()||'');
+    const pcUrl=generateProductThumb(document.getElementById('productName')?.value?.trim()||'');
     pvPcThumb.innerHTML=`<img src="${pcUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:4px"/>`;
   }
 
@@ -2645,7 +2852,7 @@ function sync(){
   const mobContainer=document.getElementById('pvMobTitleList');
   if(mobContainer){
     if(allSlots.length){
-      const thumbUrl = S.imgs.length ? S.imgs[0].url : generateProductThumb(document.getElementById('productName')?.value?.trim()||'');
+      const thumbUrl = generateProductThumb(document.getElementById('productName')?.value?.trim()||'');
       const thumbHtml=`<div class="naver-mob-thumb"><img src="${thumbUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:5px"/></div>`;
       const chips=allSlots.flatMap(t=>t.split(/[\s]+/).filter(w=>w.length>1).slice(0,2)).slice(0,4).map(w=>`<span class="naver-mob-chip">${esc(w)}</span>`).join('');
       const titleLine=allSlots.map(t=>esc(t)).join('<span style="color:#aaa;margin:0 3px">·</span>');
