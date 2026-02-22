@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>파워링크 광고 소재 생성기 | AI마케팅전략연구소</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css" rel="stylesheet">
 <style>
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+/* Pretendard Variable loaded via link tag */
 
 /* ── 리셋 & 기본 ── */
 *{box-sizing:border-box;margin:0;padding:0}
@@ -25,7 +25,7 @@
 }
 html{scroll-behavior:smooth}
 body{
-  font-family:'Pretendard',-apple-system,sans-serif;
+  font-family:'Pretendard Variable','Pretendard',-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
   background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;
   min-height:100vh;overflow-x:hidden;
 }
@@ -72,8 +72,8 @@ body{
 .key-modal{background:linear-gradient(160deg,#0a1628,#0f1f38);border:1px solid var(--border2);border-radius:20px;max-width:480px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,.6),0 0 0 1px rgba(3,199,90,.08);animation:slideUp .3s cubic-bezier(.34,1.56,.64,1);overflow:hidden}
 .key-modal-head{background:linear-gradient(135deg,#0a1628 0%,rgba(3,199,90,.06) 100%);padding:26px 28px 22px;position:relative;border-bottom:1px solid var(--border)}
 .key-modal-head::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top right,rgba(3,199,90,.08),transparent 60%);pointer-events:none}
-.key-modal-head .logo-mark{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#029e48,var(--g));display:flex;align-items:center;justify-content:center;font-family:'Noto Sans KR','Pretendard',sans-serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:14px;box-shadow:0 4px 16px var(--g-glow)}
-.key-modal-head h2{font-family:'Noto Sans KR','Pretendard',sans-serif;font-size:19px;font-weight:800;color:#fff;margin-bottom:5px}
+.key-modal-head .logo-mark{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#029e48,var(--g));display:flex;align-items:center;justify-content:center;font-family:'Pretendard Variable','Pretendard',sans-serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:14px;box-shadow:0 4px 16px var(--g-glow)}
+.key-modal-head h2{font-family:'Pretendard Variable','Pretendard',sans-serif;font-size:19px;font-weight:800;color:#fff;margin-bottom:5px}
 .key-modal-head p{font-size:12px;color:var(--text3);line-height:1.6}
 .key-modal-body{padding:20px 28px}
 .step-guide{margin-bottom:16px}
@@ -131,14 +131,14 @@ body{
   width:28px;height:28px;border-radius:8px;
   background:linear-gradient(135deg,#029e48,var(--g));
   display:flex;align-items:center;justify-content:center;
-  font-family:'Noto Sans KR','Pretendard',sans-serif;font-size:15px;font-weight:900;color:#fff;
+  font-family:'Pretendard Variable','Pretendard',sans-serif;font-size:15px;font-weight:900;color:#fff;
   box-shadow:0 2px 10px var(--g-glow);
 }
-.h-title{font-family:'Noto Sans KR','Pretendard',sans-serif;font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.3px}
+.h-title{font-family:'Pretendard Variable','Pretendard',sans-serif;font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.3px}
 .h-version{font-size:11px;background:var(--g-dim);color:var(--g);border:1px solid rgba(3,199,90,.2);border-radius:4px;padding:2px 7px;font-weight:700;letter-spacing:.3px}
 .header-right{display:flex;align-items:center;gap:12px}
 .h-clock{display:flex;flex-direction:column;align-items:flex-end;line-height:1.2}
-.h-clock-time{font-family:'Noto Sans KR','Pretendard',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;color:var(--g);font-variant-numeric:tabular-nums;filter:drop-shadow(0 0 8px var(--g-glow))}
+.h-clock-time{font-family:'Pretendard Variable','Pretendard',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;color:var(--g);font-variant-numeric:tabular-nums;filter:drop-shadow(0 0 8px var(--g-glow))}
 .h-clock-date{font-size:9px;color:var(--text3);letter-spacing:.3px}
 .h-div{width:1px;height:24px;background:var(--border)}
 .api-status{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--text3)}
@@ -160,7 +160,7 @@ body{
   animation:fadeSlideUp .6s ease .1s both;
 }
 .hero h1{
-  font-family:'Pretendard',-apple-system,sans-serif;font-size:22px;font-weight:900;
+  font-family:'Pretendard Variable','Pretendard',-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;font-size:22px;font-weight:900;
   color:#fff;line-height:1.3;margin-bottom:5px;letter-spacing:-0.8px;
   max-width:100%;
   animation:fadeSlideUp .6s ease .2s both;
@@ -272,11 +272,6 @@ body{
   padding:4px 12px 10px;
   display:flex;flex-direction:column;
   gap:6px;flex:1;
-}
-  display:grid;
-  grid-template-columns:1fr 260px;
-  gap:8px;
-  padding:8px 12px 0;
 }
 .left-input-section{
   display:flex;flex-direction:column;gap:8px;min-width:0;
@@ -437,7 +432,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   padding:13px 32px;
   background:linear-gradient(135deg,#029e48,var(--g));
   border:none;border-radius:var(--r2);
-  font-family:'Noto Sans KR','Pretendard',sans-serif;font-size:15px;font-weight:800;color:#fff;
+  font-family:'Pretendard Variable','Pretendard',sans-serif;font-size:15px;font-weight:800;color:#fff;
   cursor:pointer;letter-spacing:.3px;transition:all .2s;
   box-shadow:0 4px 16px var(--g-glow);white-space:nowrap;
   position:relative;overflow:hidden;
@@ -461,7 +456,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   padding:14px 0 10px;
 }
 .section-label{
-  font-family:'Noto Sans KR','Pretendard',sans-serif;font-size:16px;font-weight:800;
+  font-family:'Pretendard Variable','Pretendard',sans-serif;font-size:16px;font-weight:800;
   color:#fff;letter-spacing:.3px;
   display:flex;align-items:center;gap:8px;
 }
@@ -477,7 +472,11 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   z-index:10;
   background:var(--bg);
   padding-bottom:6px;
+  max-height:55vh;
+  overflow-y:auto;
 }
+#previewMonitorWrap::-webkit-scrollbar{width:3px}
+#previewMonitorWrap::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px}
 #previewSection{background:transparent}
 .pv-card{
   background:var(--glass);backdrop-filter:blur(12px);
@@ -485,51 +484,51 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   overflow:hidden;transition:border-color .2s,box-shadow .2s;
 }
 .pv-card:hover{border-color:var(--border2);box-shadow:0 4px 24px rgba(0,0,0,.3)}
-.pv-head{padding:5px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.15)}
-.pv-head h4{font-size:12px;font-weight:700;color:var(--text2);flex:1}
+.pv-head{padding:4px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.15)}
+.pv-head h4{font-size:11px;font-weight:700;color:var(--text2);flex:1}
 .pv-live{font-size:11px;background:var(--g-dim);color:var(--g);border:1px solid rgba(3,199,90,.2);border-radius:3px;padding:1px 5px;font-weight:700;animation:blink 2s ease infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.6}}
-.pv-body{padding:8px 10px}
+.pv-body{padding:5px 8px}
 
 /* 네이버 PC 광고 — 45자 전체 표시, 줄바꿈 허용 */
-.naver-ad{background:#fff;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)}
-.naver-ad-inner{padding:8px 12px}
-.naver-ad-header{display:flex;align-items:center;gap:3px;margin-bottom:5px;flex-wrap:wrap}
-.naver-ad-logo{width:14px;height:14px;border-radius:3px;background:#03C75A;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#fff;flex-shrink:0}
-.naver-ad-store{font-size:10px;color:#555;font-weight:500}
-.naver-ad-url{font-size:10px;color:#777}
+.naver-ad{background:#fff;border:1px solid #e2e8f0;border-radius:6px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+.naver-ad-inner{padding:6px 10px}
+.naver-ad-header{display:flex;align-items:center;gap:3px;margin-bottom:4px;flex-wrap:wrap}
+.naver-ad-logo{width:12px;height:12px;border-radius:3px;background:#03C75A;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:900;color:#fff;flex-shrink:0}
+.naver-ad-store{font-size:9px;color:#555;font-weight:500}
+.naver-ad-url{font-size:9px;color:#777}
 .naver-ad-badge{font-size:7px;color:#888;border:1px solid #ccc;border-radius:2px;padding:1px 3px;line-height:1.2;margin-left:2px}
-.naver-ad-row{display:flex;gap:8px;align-items:flex-start}
+.naver-ad-row{display:flex;gap:7px;align-items:flex-start}
 .naver-ad-body{flex:1;min-width:0}
-.naver-ad-title{font-size:13px;font-weight:700;color:#1a73e8;line-height:1.4;margin-bottom:3px;word-break:keep-all;white-space:normal;overflow:visible}
-.naver-ad-title.empty{color:#ccc;font-weight:400;font-size:11px}
-.naver-ad-desc{font-size:11px;color:#444;line-height:1.55;word-break:keep-all;white-space:normal;overflow:visible}
-.naver-ad-desc.empty{color:#ccc;font-size:10px}
-.naver-ad-thumb{width:60px;height:60px;border-radius:5px;background:#f8f8f8;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden;border:1px solid #eee}
+.naver-ad-title{font-size:12px;font-weight:700;color:#1a73e8;line-height:1.4;margin-bottom:2px;word-break:keep-all;white-space:normal;overflow:visible}
+.naver-ad-title.empty{color:#ccc;font-weight:400;font-size:10px}
+.naver-ad-desc{font-size:10px;color:#444;line-height:1.5;word-break:keep-all;white-space:normal;overflow:visible}
+.naver-ad-desc.empty{color:#ccc;font-size:9px}
+.naver-ad-thumb{width:44px;height:44px;border-radius:4px;background:#f8f8f8;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;overflow:hidden;border:1px solid #eee}
 .naver-ad-thumb img{width:100%;height:100%;object-fit:cover}
-.naver-ad-chips{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px}
-.naver-ad-chip{background:#f3f3f3;border:1px solid #e5e5e5;border-radius:2px;padding:2px 5px;font-size:9px;color:#555}
+.naver-ad-chips{display:flex;flex-wrap:wrap;gap:3px;margin-top:3px}
+.naver-ad-chip{background:#f3f3f3;border:1px solid #e5e5e5;border-radius:2px;padding:1px 4px;font-size:8px;color:#555}
 
 /* 네이버 모바일 — 45자 전체 표시 */
-.naver-mob-ad{background:#fff;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)}
-.naver-mob-ad-inner{padding:8px 12px}
-.naver-mob-meta{display:flex;align-items:center;gap:4px;margin-bottom:6px;flex-wrap:wrap}
-.naver-mob-logo{width:16px;height:16px;border-radius:50%;background:#03C75A;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#fff;flex-shrink:0}
-.naver-mob-store{font-size:11px;color:#555;font-weight:500}
-.naver-mob-url{font-size:10px;color:#888}
-.naver-mob-badge{font-size:8px;color:#888;border:1px solid #ccc;border-radius:2px;padding:1px 3px;line-height:1.2;margin-left:2px}
-.naver-mob-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px}
+.naver-mob-ad{background:#fff;border:1px solid #e2e8f0;border-radius:6px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+.naver-mob-ad-inner{padding:6px 10px}
+.naver-mob-meta{display:flex;align-items:center;gap:3px;margin-bottom:4px;flex-wrap:wrap}
+.naver-mob-logo{width:13px;height:13px;border-radius:50%;background:#03C75A;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:900;color:#fff;flex-shrink:0}
+.naver-mob-store{font-size:9px;color:#555;font-weight:500}
+.naver-mob-url{font-size:9px;color:#888}
+.naver-mob-badge{font-size:7px;color:#888;border:1px solid #ccc;border-radius:2px;padding:1px 3px;line-height:1.2;margin-left:2px}
+.naver-mob-row{display:flex;gap:7px;align-items:flex-start;margin-bottom:4px}
 .naver-mob-body{flex:1;min-width:0}
-.naver-mob-title{font-size:14px;font-weight:700;color:#1a73e8;line-height:1.4;margin-bottom:4px;word-break:keep-all;white-space:normal;overflow:visible}
-.naver-mob-title.empty{color:#ccc;font-weight:400;font-size:12px}
-.naver-mob-desc{font-size:11px;color:#444;line-height:1.55;word-break:keep-all;white-space:normal;overflow:visible}
-.naver-mob-desc.empty{color:#ccc;font-size:11px}
-.naver-mob-thumb{width:60px;height:60px;border-radius:6px;background:#f8f8f8;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden;border:1px solid #eee}
+.naver-mob-title{font-size:12px;font-weight:700;color:#1a73e8;line-height:1.4;margin-bottom:2px;word-break:keep-all;white-space:normal;overflow:visible}
+.naver-mob-title.empty{color:#ccc;font-weight:400;font-size:10px}
+.naver-mob-desc{font-size:10px;color:#444;line-height:1.5;word-break:keep-all;white-space:normal;overflow:visible}
+.naver-mob-desc.empty{color:#ccc;font-size:10px}
+.naver-mob-thumb{width:44px;height:44px;border-radius:5px;background:#f8f8f8;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;overflow:hidden;border:1px solid #eee}
 .naver-mob-thumb img{width:100%;height:100%;object-fit:cover}
 /*chips removed*/
 /*chips removed*/
 /*chips removed*/
-.pv-note{font-size:8px;color:var(--text3);margin-top:4px;text-align:center}
+.pv-note{font-size:8px;color:var(--text3);margin-top:3px;text-align:center}
 
 /* ══ 결과 카드 ══ */
 .result-wrap{margin-bottom:14px}
@@ -1401,6 +1400,853 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 }
 .ap-live-log .ap-log-dot.done{background:var(--g)}
 .ap-live-log .ap-log-dot.active{background:var(--g);animation:apPulse .8s ease infinite}
+
+/* ═══════════════════════════════════════════════════════════════
+   v8.0  DESIGN OVERRIDE — 2026 Editorial Precision
+   Pretendard Variable 단일 폰트, 가독성 우선 타이포그래피 시스템
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 0. CSS 변수 재정의 ── */
+:root {
+  --bg:#04080f;
+  --bg2:#070d18;
+  --bg3:#0a1320;
+  --glass:rgba(255,255,255,.035);
+  --glass2:rgba(255,255,255,.06);
+  --border:rgba(255,255,255,.075);
+  --border2:rgba(255,255,255,.13);
+  --text:#dce8f8;
+  --text2:rgba(220,232,248,.88);
+  --text3:rgba(220,232,248,.42);
+  --hh:52px;
+  --r:14px;
+  --r2:9px;
+  /* 타이포 스케일 */
+  --fs-xs:10px;
+  --fs-sm:11.5px;
+  --fs-base:13px;
+  --fs-md:14px;
+  --fs-lg:15px;
+  --fs-xl:17px;
+}
+
+/* ── 1. 기본 body ── */
+body {
+  font-family:'Pretendard Variable','Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif !important;
+  font-size:14px;
+  line-height:1.65;
+  letter-spacing:-0.01em;
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  word-break:keep-all;
+}
+
+/* ── 2. 헤더 정제 ── */
+.site-header {
+  height:var(--hh);
+  background:rgba(4,8,15,.92);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  padding:0 24px;
+  backdrop-filter:blur(24px) saturate(200%);
+}
+.h-logo {
+  width:32px;height:32px;border-radius:9px;
+  font-size:16px;font-weight:900;
+  box-shadow:0 2px 12px rgba(3,199,90,.3);
+}
+.h-title {
+  font-size:14.5px;font-weight:700;
+  letter-spacing:-0.3px;
+}
+.h-version {
+  font-size:10px;font-weight:700;letter-spacing:.5px;
+  padding:2px 8px;border-radius:20px;
+}
+.h-clock-time {
+  font-size:15px;font-weight:700;letter-spacing:1.5px;
+}
+.h-clock-date {
+  font-size:9.5px;letter-spacing:.4px;
+}
+.h-btn {
+  font-size:12px;font-weight:600;
+  padding:6px 14px;border-radius:8px;
+  letter-spacing:-0.1px;
+}
+
+/* ── 3. 히어로 ── */
+.hero {
+  padding:18px 20px 14px;
+}
+.hero-eyebrow {
+  font-size:10px;font-weight:700;letter-spacing:2.5px;
+  padding:4px 14px;border-radius:20px;
+}
+.hero h1 {
+  font-size:21px;font-weight:900;letter-spacing:-0.8px;
+  line-height:1.35;margin-bottom:6px;
+}
+.hero-sub {
+  font-size:13px;color:var(--text3);
+  line-height:1.6;margin-bottom:0;
+}
+
+/* ── 4. 섹션 헤더 ── */
+.section-label {
+  font-size:15px;font-weight:800;
+  letter-spacing:-0.3px;
+}
+.section-label::before {
+  width:3px;height:17px;
+}
+
+/* ── 5. 입력 카드 전체 ── */
+.input-card {
+  border-radius:var(--r);
+  border:1px solid var(--border2);
+  background:linear-gradient(160deg,rgba(7,13,24,.97),rgba(10,19,35,.97));
+  box-shadow:0 12px 48px rgba(0,0,0,.45), 0 0 0 1px rgba(3,199,90,.035);
+}
+
+/* ── 6. 진행 바 (progress bar) ── */
+.pbar-strip {
+  padding:10px 22px;
+  background:rgba(0,0,0,.3);
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.pstep-lbl {
+  font-size:11.5px;font-weight:600;
+  letter-spacing:-.1px;
+}
+.pbar-msg {
+  font-size:11.5px;font-weight:600;
+  letter-spacing:-.2px;
+}
+
+/* ── 7. 입력 칼럼 (input-col) 정제 ── */
+.input-col {
+  border-radius:11px !important;
+  background:rgba(5,10,20,.75) !important;
+  border:1px solid rgba(255,255,255,.07) !important;
+}
+.input-col:hover {
+  border-color:rgba(255,255,255,.15) !important;
+  background:rgba(6,12,24,.8) !important;
+}
+
+/* 카드 헤더 (icol-head) */
+.input-col > .icol-head,
+.analysis-panel-tall > .icol-head {
+  padding:14px 16px 8px !important;
+}
+.icol-head {
+  gap:10px;
+  margin-bottom:0 !important;
+}
+
+/* 번호 뱃지 — 더 크고 선명하게 */
+.icol-num {
+  font-size:9.5px !important;
+  font-weight:900 !important;
+  padding:3px 6px !important;
+  border-radius:5px !important;
+  letter-spacing:.3px !important;
+  min-width:24px !important;
+  text-align:center !important;
+  flex-shrink:0 !important;
+  margin-top:2px !important;
+}
+
+/* 카드 타이틀 — 가독성 최우선 */
+.icol-title {
+  font-size:13.5px !important;
+  font-weight:800 !important;
+  color:var(--text) !important;
+  letter-spacing:-.25px !important;
+  line-height:1.4 !important;
+  margin-bottom:2px !important;
+}
+
+/* 설명 텍스트 — 너무 작으면 안 읽힘 */
+.icol-desc {
+  font-size:11.5px !important;
+  color:var(--text3) !important;
+  line-height:1.45 !important;
+  word-break:keep-all !important;
+}
+
+/* ── 8. 강화 칼럼 (enhance-col) ── */
+.enhance-col {
+  border-radius:11px !important;
+  background:rgba(5,10,20,.75) !important;
+  border:1px solid rgba(255,255,255,.07) !important;
+}
+.enhance-col:hover {
+  border-color:rgba(255,255,255,.14) !important;
+}
+.enhance-head {
+  padding:14px 16px 6px !important;
+  gap:9px !important;
+}
+.enhance-icon {
+  font-size:15px !important;
+}
+.enhance-title {
+  font-size:13px !important;
+  font-weight:800 !important;
+  color:var(--text) !important;
+  letter-spacing:-.2px !important;
+  margin-bottom:1px !important;
+}
+.enhance-desc {
+  font-size:11.5px !important;
+  color:var(--text3) !important;
+  line-height:1.4 !important;
+}
+.enhance-inner {
+  padding:4px 16px 12px !important;
+}
+
+/* ── 9. 입력 필드 ── */
+.inp {
+  font-family:'Pretendard Variable','Pretendard',sans-serif !important;
+  font-size:13.5px !important;
+  font-weight:500 !important;
+  letter-spacing:-.15px !important;
+  line-height:1.55 !important;
+  padding:8px 12px !important;
+  border-radius:var(--r2) !important;
+  background:rgba(0,0,0,.35) !important;
+  border:1.5px solid rgba(255,255,255,.08) !important;
+  color:var(--text) !important;
+  transition:border-color .2s, box-shadow .2s, background .2s !important;
+}
+.inp:focus {
+  border-color:rgba(3,199,90,.5) !important;
+  box-shadow:0 0 0 3px rgba(3,199,90,.08) !important;
+  background:rgba(0,0,0,.42) !important;
+  outline:none !important;
+}
+.inp::placeholder {
+  color:rgba(220,232,248,.22) !important;
+  font-size:13px !important;
+}
+.inp-ta {
+  min-height:78px !important;
+  resize:none !important;
+}
+
+/* ── 10. feat-slot (특징 입력) ── */
+.feat-slot {
+  background:rgba(0,0,0,.25) !important;
+  border:1.5px solid rgba(255,255,255,.07) !important;
+  border-radius:7px !important;
+  padding:5px 10px !important;
+  margin-bottom:4px !important;
+  gap:8px !important;
+}
+.feat-slot:focus-within {
+  border-color:rgba(3,199,90,.35) !important;
+  background:rgba(3,199,90,.03) !important;
+}
+.feat-slot-num {
+  font-size:10px !important;
+  font-weight:800 !important;
+  width:16px !important;
+}
+.feat-slot input {
+  font-family:'Pretendard Variable','Pretendard',sans-serif !important;
+  font-size:13px !important;
+  font-weight:500 !important;
+  color:var(--text) !important;
+  letter-spacing:-.15px !important;
+}
+.feat-slot input::placeholder {
+  color:rgba(220,232,248,.2) !important;
+  font-size:12px !important;
+}
+.feat-add-btn {
+  font-family:'Pretendard Variable','Pretendard',sans-serif !important;
+  font-size:11.5px !important;
+  font-weight:600 !important;
+  padding:4px 0 !important;
+  border-radius:7px !important;
+  border-style:dashed !important;
+  letter-spacing:-.1px !important;
+}
+
+/* ── 11. 뱃지 (필수/선택/자동) ── */
+.badge-req {
+  font-size:9px !important;
+  font-weight:800 !important;
+  padding:2px 6px !important;
+  border-radius:4px !important;
+  letter-spacing:.2px !important;
+  line-height:1.5 !important;
+}
+.badge-opt {
+  font-size:9px !important;
+  font-weight:600 !important;
+  padding:2px 6px !important;
+  border-radius:4px !important;
+  letter-spacing:.2px !important;
+  line-height:1.5 !important;
+}
+.badge-auto {
+  font-size:9px !important;
+  font-weight:700 !important;
+  padding:2px 6px !important;
+  border-radius:4px !important;
+  letter-spacing:.2px !important;
+  line-height:1.5 !important;
+}
+
+/* ── 12. 시즌 칩 ── */
+.schip {
+  font-family:'Pretendard Variable','Pretendard',sans-serif !important;
+  font-size:11px !important;
+  font-weight:600 !important;
+  padding:4px 10px !important;
+  border-radius:20px !important;
+  letter-spacing:-.1px !important;
+  transition:all .18s !important;
+}
+.schip.on {
+  font-weight:700 !important;
+  box-shadow:0 0 10px rgba(3,199,90,.15) !important;
+}
+.schip:hover {
+  background:rgba(3,199,90,.06) !important;
+}
+
+/* ── 13. 어조 버튼 ── */
+.tone-grid {
+  gap:5px !important;
+}
+.tone-btn {
+  font-family:'Pretendard Variable','Pretendard',sans-serif !important;
+  font-size:11.5px !important;
+  font-weight:700 !important;
+  padding:7px 8px !important;
+  border-radius:7px !important;
+  letter-spacing:-.1px !important;
+  line-height:1.3 !important;
+  transition:all .18s !important;
+  white-space:nowrap !important;
+}
+.tone-btn.on {
+  box-shadow:0 0 12px rgba(3,199,90,.15) !important;
+}
+
+/* ── 14. 금지어 태그 ── */
+.deny-tag {
+  font-family:'Pretendard Variable','Pretendard',sans-serif !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  padding:4px 10px !important;
+  border-radius:6px !important;
+  letter-spacing:-.1px !important;
+}
+
+/* ── 15. 이미지 업로드 존 ── */
+.upload-zone {
+  border-radius:9px !important;
+  padding:12px !important;
+  min-height:64px !important;
+}
+.upl-icon { font-size:20px !important; }
+.upl-text {
+  font-size:11px !important;
+  font-weight:600 !important;
+  letter-spacing:-.1px !important;
+}
+
+/* ── 16. 생성 버튼 ── */
+.gen-btn {
+  font-family:'Pretendard Variable','Pretendard',sans-serif !important;
+  font-size:14.5px !important;
+  font-weight:900 !important;
+  letter-spacing:-.3px !important;
+  padding:13px 36px !important;
+  border-radius:10px !important;
+}
+.footer-info {
+  font-size:12px !important;
+  font-weight:500 !important;
+  letter-spacing:-.1px !important;
+  color:var(--text3) !important;
+}
+
+/* ── 17. input-footer ── */
+.input-footer {
+  padding:12px 20px 16px !important;
+  background:rgba(0,0,0,.18) !important;
+  border-top:1px solid rgba(255,255,255,.05) !important;
+  gap:14px !important;
+}
+
+/* ── 18. 분석 패널 내부 ── */
+.ap-unified-header { margin-bottom:12px !important; }
+#apHeaderTitle {
+  font-size:13px !important;
+  font-weight:800 !important;
+  letter-spacing:-.2px !important;
+}
+#apHeaderSub {
+  font-size:11px !important;
+  margin-top:2px !important;
+  line-height:1.45 !important;
+}
+.ap-status-badge {
+  font-size:9.5px !important;
+  font-weight:700 !important;
+  letter-spacing:.3px !important;
+  padding:3px 8px !important;
+  border-radius:20px !important;
+}
+.ap-log-box {
+  border-radius:9px !important;
+  padding:10px 14px !important;
+  font-family:'Pretendard Variable',monospace !important;
+  font-size:11.5px !important;
+  line-height:1.65 !important;
+  min-height:96px !important;
+}
+.ap-log-idle-txt {
+  font-size:11.5px !important;
+  letter-spacing:-.1px !important;
+}
+
+/* ── 19. 분석 버튼 ── */
+.analysis-btn {
+  font-family:'Pretendard Variable','Pretendard',sans-serif !important;
+  font-size:13px !important;
+  font-weight:800 !important;
+  letter-spacing:-.2px !important;
+  padding:10px 14px !important;
+  border-radius:8px !important;
+}
+
+/* ── 20. 미리보기 섹션 ── */
+.pv-head h4 {
+  font-size:11.5px !important;
+  font-weight:700 !important;
+  letter-spacing:-.1px !important;
+}
+.pv-live {
+  font-size:10px !important;
+  font-weight:700 !important;
+  padding:2px 7px !important;
+  border-radius:4px !important;
+}
+
+/* ── 21. 광고 소재 결과 카드 ── */
+.rc-head {
+  padding:11px 18px !important;
+}
+.rc-head-label {
+  font-size:13.5px !important;
+  font-weight:900 !important;
+  letter-spacing:-.25px !important;
+}
+.tg-sub {
+  font-size:10.5px !important;
+  font-weight:500 !important;
+}
+.grp-badge {
+  font-size:10px !important;
+  font-weight:700 !important;
+  padding:2px 8px !important;
+  border-radius:5px !important;
+  letter-spacing:-.1px !important;
+}
+
+/* ── 22. 제목/설명 item ── */
+.item {
+  padding:10px 18px !important;
+  gap:10px !important;
+}
+.txt {
+  font-size:14px !important;
+  font-weight:500 !important;
+  letter-spacing:-.2px !important;
+  line-height:1.5 !important;
+}
+.item.on .txt {
+  font-weight:700 !important;
+  letter-spacing:-.25px !important;
+}
+.plus {
+  width:26px !important; height:26px !important;
+  border-radius:50% !important;
+  font-size:13px !important;
+  font-weight:900 !important;
+  flex-shrink:0 !important;
+}
+.cc {
+  font-size:10.5px !important;
+  font-weight:600 !important;
+  letter-spacing:-.1px !important;
+}
+.meta {
+  gap:6px !important;
+  margin-top:4px !important;
+}
+
+/* ── 23. 설명 item ── */
+.item-desc {
+  padding:12px 18px !important;
+  gap:10px !important;
+}
+.item-desc .txt {
+  font-size:13.5px !important;
+  font-weight:500 !important;
+  letter-spacing:-.2px !important;
+  line-height:1.65 !important;
+}
+
+/* ── 24. pin-sel (위치 고정 드롭다운) ── */
+.pin-sel {
+  font-family:'Pretendard Variable','Pretendard',sans-serif !important;
+  font-size:11.5px !important;
+  font-weight:600 !important;
+  padding:5px 26px 5px 10px !important;
+  border-radius:6px !important;
+  letter-spacing:-.1px !important;
+}
+
+/* ── 25. 현황판 (status-board) ── */
+.status-board {
+  border-radius:13px !important;
+  padding:16px 18px !important;
+  gap:12px !important;
+}
+.sb-sel-label {
+  font-size:9.5px !important;
+  font-weight:700 !important;
+  letter-spacing:.6px !important;
+}
+.sb-sel-num {
+  font-size:28px !important;
+  font-weight:900 !important;
+  letter-spacing:-1px !important;
+  line-height:1 !important;
+}
+.sb-sel-max {
+  font-size:11.5px !important;
+  font-weight:500 !important;
+}
+.sb-pin-label {
+  font-size:9.5px !important;
+  font-weight:600 !important;
+  letter-spacing:.2px !important;
+}
+.sb-pin-num {
+  font-size:20px !important;
+  font-weight:900 !important;
+  letter-spacing:-1px !important;
+}
+.sb-pin-sub {
+  font-size:10px !important;
+  font-weight:500 !important;
+  letter-spacing:-.1px !important;
+}
+.sb-list-head {
+  font-size:11px !important;
+  font-weight:700 !important;
+  letter-spacing:.2px !important;
+}
+.sel-item {
+  font-size:12.5px !important;
+  font-weight:500 !important;
+  letter-spacing:-.15px !important;
+}
+.sel-empty {
+  font-size:11.5px !important;
+  letter-spacing:-.1px !important;
+}
+.sel-limit-badge {
+  font-size:10.5px !important;
+  font-weight:700 !important;
+  padding:2px 8px !important;
+  border-radius:5px !important;
+}
+
+/* ── 26. 섹션 헤더 ── */
+.sec-title {
+  font-size:13.5px !important;
+  font-weight:800 !important;
+  letter-spacing:-.25px !important;
+}
+.badge {
+  font-size:11px !important;
+  font-weight:700 !important;
+  padding:1px 7px !important;
+  border-radius:4px !important;
+  letter-spacing:-.1px !important;
+}
+
+/* ── 27. input-grid-b 레이아웃 내부 패딩 정규화 ── */
+.input-grid-b {
+  padding:10px 14px 0 !important;
+  gap:10px !important;
+}
+
+/* ── 28. 모달 폰트 ── */
+.key-modal-head h2 {
+  font-size:18px !important;
+  font-weight:900 !important;
+  letter-spacing:-.4px !important;
+}
+.key-modal-head p {
+  font-size:12.5px !important;
+  line-height:1.6 !important;
+}
+.step-text {
+  font-size:12.5px !important;
+  line-height:1.65 !important;
+}
+.key-input-wrap input {
+  font-family:'Pretendard Variable','Pretendard',sans-serif !important;
+  font-size:13px !important;
+  font-weight:500 !important;
+  letter-spacing:.2px !important;
+}
+.key-notice {
+  font-size:11.5px !important;
+  line-height:1.75 !important;
+}
+.key-confirm-btn {
+  font-family:'Pretendard Variable','Pretendard',sans-serif !important;
+  font-size:13.5px !important;
+  font-weight:800 !important;
+  letter-spacing:-.2px !important;
+  padding:12px !important;
+  border-radius:10px !important;
+}
+
+/* ── 29. 분석 모달 ── */
+.analysis-modal-head {
+  padding:22px 26px !important;
+}
+.analysis-modal-body {
+  padding:22px 26px !important;
+}
+.analysis-section-title {
+  font-size:15px !important;
+  font-weight:900 !important;
+  letter-spacing:-.35px !important;
+  margin-bottom:12px !important;
+}
+.analysis-section-content {
+  font-size:14px !important;
+  line-height:1.9 !important;
+  letter-spacing:-.15px !important;
+}
+
+/* ── 30. refresh 버튼 ── */
+.refresh-btn {
+  font-family:'Pretendard Variable','Pretendard',sans-serif !important;
+  font-size:12.5px !important;
+  font-weight:700 !important;
+  padding:6px 16px !important;
+  border-radius:7px !important;
+  letter-spacing:-.1px !important;
+}
+
+/* ── 31. 상태 카드 테두리 강화 ── */
+.input-col:nth-child(1) { border-top:2px solid rgba(3,199,90,.6) !important; }
+.input-col:nth-child(2) { border-top:2px solid rgba(180,60,255,.55) !important; }
+.input-col:nth-child(3) { border-top:2px solid rgba(255,150,0,.55) !important; }
+.col-analysis { border-top:2px solid rgba(255,150,0,.55) !important; }
+.enhance-col:nth-child(1) { border-top:2px solid rgba(255,77,109,.45) !important; }
+.enhance-col:nth-child(2) { border-top:2px solid rgba(51,200,170,.45) !important; }
+.enhance-col:nth-child(3) { border-top:2px solid rgba(150,100,255,.45) !important; }
+
+/* ── 32. 글로벌 스크롤바 정제 ── */
+::-webkit-scrollbar { width:4px; height:4px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:rgba(255,255,255,.1); border-radius:4px; }
+::-webkit-scrollbar-thumb:hover { background:rgba(255,255,255,.18); }
+
+/* ── 33. 포커스 ring 통일 ── */
+button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline:2px solid rgba(3,199,90,.5);
+  outline-offset:2px;
+}
+
+/* ── 34. 분석 중 진행 텍스트 ── */
+.analyzing-phase {
+  font-size:12px !important;
+  font-weight:900 !important;
+  letter-spacing:-.1px !important;
+}
+.analyzing-step {
+  font-size:11.5px !important;
+  font-weight:500 !important;
+}
+.analyzing-timer-remain {
+  font-size:18px !important;
+  font-weight:900 !important;
+  letter-spacing:-1px !important;
+}
+.analyzing-timer-lbl {
+  font-size:9.5px !important;
+  font-weight:700 !important;
+  letter-spacing:.3px !important;
+}
+
+/* ── 35. 네이버 미리보기 내 폰트 ── */
+.naver-ad-store, .naver-mob-store {
+  font-family:'Pretendard Variable','Pretendard',sans-serif !important;
+  font-size:9.5px !important;
+  font-weight:600 !important;
+}
+.naver-ad-title, .naver-mob-title {
+  font-family:'Pretendard Variable','Pretendard',sans-serif !important;
+  font-size:12.5px !important;
+  font-weight:800 !important;
+}
+.naver-ad-desc, .naver-mob-desc {
+  font-family:'Pretendard Variable','Pretendard',sans-serif !important;
+  font-size:10.5px !important;
+  font-weight:500 !important;
+  line-height:1.6 !important;
+}
+
+/* ── 36. 경고 토스트 ── */
+#limitToast {
+  font-family:'Pretendard Variable','Pretendard',sans-serif !important;
+  font-size:13px !important;
+  font-weight:700 !important;
+  letter-spacing:-.2px !important;
+  border-radius:10px !important;
+  padding:12px 20px !important;
+}
+
+/* ── 37. 결과 카드 배지 (sel-count) ── */
+.rc-sel-count {
+  font-size:11px !important;
+  font-weight:700 !important;
+  padding:2px 10px !important;
+  border-radius:20px !important;
+  letter-spacing:-.1px !important;
+}
+
+/* ── 38. input-grid-b 4열 레이아웃 통일 ── */
+.input-grid-b {
+  display:grid !important;
+  grid-template-columns:1fr 1fr 1fr 260px !important;
+  grid-template-rows:auto auto !important;
+  gap:10px !important;
+  padding:10px 14px 0 !important;
+}
+
+/* ── 39. 전체 폰트 상속 강제 ── */
+button, input, textarea, select, option {
+  font-family:'Pretendard Variable','Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif !important;
+}
+
+/* ── 40. pbar steps 텍스트 ── */
+.pstep-lbl {
+  font-weight:600 !important;
+  font-size:11.5px !important;
+  letter-spacing:-.15px !important;
+}
+
+/* ─── 41. 헤더 API 상태 ─── */
+.api-status {
+  font-size:12.5px !important;
+  font-weight:500 !important;
+  letter-spacing:-.1px !important;
+}
+
+/* ─── 42. section-header padding ─── */
+.section-header {
+  padding:16px 0 10px !important;
+}
+
+/* ─── 43. 리포트 사이드 미리보기 ─── */
+#analysisSidePreview {
+  font-size:12px !important;
+  line-height:1.75 !important;
+  letter-spacing:-.1px !important;
+}
+
+/* ─── 44. h-version 정제 ─── */
+.h-version {
+  font-size:10px !important;
+  letter-spacing:.8px !important;
+  font-weight:800 !important;
+  padding:3px 9px !important;
+}
+
+/* ─── 45. analysis-modal 제목 ─── */
+.analysis-modal-head > div > div > div:first-child {
+  font-size:15.5px !important;
+  font-weight:900 !important;
+  letter-spacing:-.4px !important;
+}
+
+/* ─── 46. analysis-panel-tall 패딩 ─── */
+.analysis-panel-tall > .icol-head { padding:14px 16px 8px !important; }
+.analysis-panel-tall > .analysis-status { padding:0 16px 4px !important; }
+.analysis-panel-tall > #analysisProgress { padding:0 16px 0 !important; }
+.analysis-panel-tall > .analysis-btn { margin:8px 16px 14px !important; width:calc(100% - 32px) !important; }
+
+/* ─── 47. input-col 내부 직접 자식 패딩 통일 ─── */
+.input-col > textarea.inp,
+.input-col > input.inp {
+  padding:7px 12px !important;
+  margin:4px 14px 4px !important;
+  width:calc(100% - 28px) !important;
+}
+.input-col > #featSlots {
+  padding:4px 14px 2px !important;
+  width:100% !important;
+}
+.input-col > button.feat-add-btn {
+  margin:0 14px 10px !important;
+  width:calc(100% - 28px) !important;
+}
+.input-col > .upload-zone {
+  margin:4px 14px !important;
+  width:calc(100% - 28px) !important;
+}
+.input-col > .img-grid {
+  padding:0 14px 6px !important;
+}
+.input-col > #costCurrent {
+  padding:0 14px 6px !important;
+}
+
+/* ─── 48. enhance-col 내부 패딩 통일 ─── */
+.enhance-col > .enhance-inner {
+  padding:4px 16px 12px !important;
+}
+.enhance-col > .deny-list {
+  padding:2px 16px 4px !important; width:100% !important;
+}
+.enhance-col > .season-chips {
+  padding:2px 16px 4px !important; width:100% !important;
+}
+.enhance-col > input.inp {
+  margin:2px 16px 8px !important; width:calc(100% - 32px) !important;
+}
+.enhance-col > .tone-grid {
+  padding:2px 16px 10px !important; width:100% !important;
+}
+
+/* ─── 49. 타이포그래피 전체 one-shot 정규화 ─── */
+h1,h2,h3,h4,h5,h6 {
+  font-family:'Pretendard Variable','Pretendard',sans-serif !important;
+  word-break:keep-all !important;
+}
+p, span, div, label, li {
+  font-family:'Pretendard Variable','Pretendard',sans-serif;
+}
+
 </style>
 </head>
 <body>
@@ -1483,7 +2329,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
       <div style="display:flex;align-items:center;gap:12px">
         <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,rgba(3,199,90,.2),rgba(0,102,255,.15));border:1px solid rgba(3,199,90,.3);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 20px rgba(3,199,90,.2)">🧠</div>
         <div>
-          <div style="font-family:'Noto Sans KR','Pretendard',sans-serif;font-size:15px;font-weight:800;color:#fff">마케터 분석 리포트</div>
+          <div style="font-family:'Pretendard Variable','Pretendard',sans-serif;font-size:15px;font-weight:800;color:#fff">마케터 분석 리포트</div>
           <div style="font-size:10px;color:var(--text3);margin-top:2px">10년차 네이버 파워링크 전문가의 소재 전략 분석</div>
         </div>
       </div>
@@ -1500,7 +2346,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v7.6</span>
+    <span class="h-version">v8.0</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -1711,7 +2557,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
             <div class="analyzing-timer-lbl" id="analyzingTimerLbl">남음</div>
           </div>
         </div>
-        <div class="footer-info" id="footerInfo">Gemini AI · 제목 15개 · 설명 6개 · 무료 API 사용 가능</div>
+        <div class="footer-info" id="footerInfo">Gemini AI · 제목 30개 · 설명 10개 · 무료 API 사용 가능</div>
       </div>
 
     </div><!-- input-card -->
@@ -1906,6 +2752,8 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
           <div class="rc-head">
             <span class="tg-dot tg1" style="background:#03C75A"></span>
             <span class="rc-head-label" style="color:#03C75A">설명 1번 추천</span>
+            <span class="rc-sel-count" id="dSelBadge" style="display:none"><span id="dSelNum">0</span>개 선택</span>
+            <span class="sel-limit-badge" id="dLimitBadge">0/4</span>
             <span class="tg-sub" style="margin-left:auto">설명 첫 번째 자리</span>
           </div>
           <div class="rc-desc-area" id="descGroup1"></div>
@@ -1920,8 +2768,9 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
           <div class="rc-desc-area" id="descGroup2"></div>
         </div>
       </div>
-      <!-- tBadge hidden (count in header) -->
+      <!-- badge hidden spans -->
       <span id="tBadge" style="display:none">0</span>
+      <span id="dBadge" style="display:none">0</span>
     </div>
   </div>
 
@@ -2805,6 +3654,12 @@ function render(){
     if(dSel){
       dSel.style.display=S.selD.size?'':'none';
       if(dNum) dNum.textContent=S.selD.size;
+    }
+    const dlb=document.getElementById('dLimitBadge');
+    if(dlb){
+      const isFull=S.selD.size>=MAX_DESC_SEL;
+      dlb.textContent=S.selD.size+'/4';
+      dlb.className=isFull?'sel-limit-badge full':'sel-limit-badge';
     }
   }
 
