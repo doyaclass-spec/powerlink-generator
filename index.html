@@ -1239,7 +1239,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 /* ── 필수/선택/자동 뱃지 */
 .badge-req{
   display:inline-flex;align-items:center;gap:2px;
-  font-size:8.5px;font-weight:800;padding:1px 5px;border-radius:3px;
+  font-size:7.5px;font-weight:800;padding:0px 4px;border-radius:3px;
   background:rgba(255,60,80,.18);color:#ff4d6d;
   border:1px solid rgba(255,60,80,.35);vertical-align:middle;
   line-height:1.4;
@@ -1247,14 +1247,14 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .badge-req::before{content:'✱';font-size:8px}
 
 .badge-opt{
-  font-size:8.5px;font-weight:600;padding:1px 5px;border-radius:3px;
+  font-size:7.5px;font-weight:600;padding:0px 4px;border-radius:3px;
   background:rgba(255,255,255,.07);color:rgba(232,240,254,.5);
   border:1px solid rgba(255,255,255,.1);vertical-align:middle;
   line-height:1.4;
 }
 
 .badge-auto{
-  font-size:8.5px;font-weight:700;padding:1px 5px;border-radius:3px;
+  font-size:7.5px;font-weight:700;padding:0px 4px;border-radius:3px;
   background:rgba(255,152,0,.12);color:#ff9800;
   border:1px solid rgba(255,152,0,.25);vertical-align:middle;
   line-height:1.4;
@@ -1699,28 +1699,28 @@ body {
 
 /* ── 11. 뱃지 (필수/선택/자동) ── */
 .badge-req {
-  font-size:9px !important;
+  font-size:7.5px !important;
   font-weight:800 !important;
-  padding:2px 6px !important;
-  border-radius:4px !important;
-  letter-spacing:.2px !important;
-  line-height:1.5 !important;
+  padding:0px 4px !important;
+  border-radius:3px !important;
+  letter-spacing:.1px !important;
+  line-height:1.4 !important;
 }
 .badge-opt {
-  font-size:9px !important;
+  font-size:7.5px !important;
   font-weight:600 !important;
-  padding:2px 6px !important;
-  border-radius:4px !important;
-  letter-spacing:.2px !important;
-  line-height:1.5 !important;
+  padding:0px 4px !important;
+  border-radius:3px !important;
+  letter-spacing:.1px !important;
+  line-height:1.4 !important;
 }
 .badge-auto {
-  font-size:9px !important;
+  font-size:7.5px !important;
   font-weight:700 !important;
-  padding:2px 6px !important;
-  border-radius:4px !important;
-  letter-spacing:.2px !important;
-  line-height:1.5 !important;
+  padding:0px 4px !important;
+  border-radius:3px !important;
+  letter-spacing:.1px !important;
+  line-height:1.4 !important;
 }
 
 /* ── 12. 시즌 칩 ── */
@@ -2502,6 +2502,33 @@ p, span, div, label, li {
 .h-api-dot.on-g{background:#03C75A;box-shadow:0 0 5px rgba(3,199,90,.7)}
 .h-api-dot.on-c{background:#ff9800;box-shadow:0 0 5px rgba(255,140,0,.6)}
 .h-api-dot.on-o{background:#3385ff;box-shadow:0 0 5px rgba(51,133,255,.6)}
+
+/* ─── 헤더 3AI 상태 표시 ─── */
+.h3-dots{display:flex;align-items:center;gap:10px}
+.h3-api-item{display:flex;align-items:center;gap:4px;cursor:default}
+.h3-api-dot{width:8px;height:8px;border-radius:50%;background:#ff4d6d;box-shadow:0 0 6px rgba(255,77,109,.7);flex-shrink:0;transition:background .3s,box-shadow .3s}
+.h3-api-name{font-size:11px;font-weight:700;color:rgba(220,232,248,.55);transition:color .3s}
+.h3-api-item.on .h3-api-dot{background:#03C75A;box-shadow:0 0 7px rgba(3,199,90,.8)}
+.h3-api-item.on .h3-api-name{color:rgba(220,232,248,.85)}
+
+/* ─── 상품명 툴팁 ─── */
+.name-tooltip-wrap{position:relative;display:inline-flex;align-items:center;margin-left:5px;vertical-align:middle}
+.name-tip-icon{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.12);color:rgba(255,255,255,.5);font-size:9px;font-weight:800;cursor:default;border:1px solid rgba(255,255,255,.15);transition:all .15s;font-style:normal}
+.name-tooltip-wrap:hover .name-tip-icon{background:rgba(3,199,90,.2);color:#03C75A;border-color:rgba(3,199,90,.4)}
+.name-tip-box{position:absolute;left:50%;top:calc(100% + 7px);transform:translateX(-50%);background:#0d1f35;border:1px solid rgba(3,199,90,.25);border-radius:8px;padding:8px 11px;font-size:11px;font-weight:400;color:rgba(220,232,248,.8);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:200;line-height:1.6;box-shadow:0 6px 20px rgba(0,0,0,.5)}
+.name-tip-box::before{content:'';position:absolute;bottom:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-bottom-color:#0d1f35}
+.name-tooltip-wrap:hover .name-tip-box{opacity:1}
+
+/* ─── 공용 ? 툴팁 ─── */
+.tip-wrap{position:relative;display:inline-flex;align-items:center;margin-left:4px;vertical-align:middle}
+.tip-q{display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;border-radius:50%;background:rgba(255,255,255,.1);color:rgba(255,255,255,.4);font-size:8px;font-weight:800;cursor:default;border:1px solid rgba(255,255,255,.12);transition:all .15s;font-style:normal;flex-shrink:0}
+.tip-wrap:hover .tip-q{background:rgba(3,199,90,.18);color:#03C75A;border-color:rgba(3,199,90,.35)}
+.tip-box{position:absolute;left:50%;top:calc(100% + 7px);transform:translateX(-50%);background:#0b1a2e;border:1px solid rgba(3,199,90,.2);border-radius:8px;padding:8px 11px;font-size:10.5px;font-weight:400;color:rgba(220,232,248,.78);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:300;line-height:1.65;box-shadow:0 6px 24px rgba(0,0,0,.55)}
+.tip-box::before{content:'';position:absolute;bottom:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-bottom-color:#0b1a2e}
+.tip-wrap:hover .tip-box{opacity:1}
+
+/* ─── enhance-num (06~08 번호) ─── */
+.enhance-num{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:5px;background:rgba(255,255,255,.07);color:rgba(220,232,248,.45);font-size:9.5px;font-weight:800;flex-shrink:0;font-family:'Pretendard Variable','Pretendard',sans-serif}
 </style>
 </head>
 <body>
@@ -2527,10 +2554,10 @@ p, span, div, label, li {
           <div class="mk-api-header">
             <span class="mk-badge mk-badge-g">필수</span>
             <span class="mk-api-name">🟢 Gemini API Key</span>
-            <span class="mk-api-role">마케터 분석 · 무료</span>
+            
           </div>
           <input type="password" class="mk-input" id="modalKeyGemini" placeholder="AIzaSy..." oninput="onKeyInput()" onpaste="setTimeout(onKeyInput,10)" />
-          <div class="mk-link-row"><a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a> → Create API Key · 하루 1,500회 무료</div>
+          <div class="mk-link-row"><a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a> → Create API Key</div>
         </div>
 
         <!-- Claude (권장) -->
@@ -2538,7 +2565,7 @@ p, span, div, label, li {
           <div class="mk-api-header">
             <span class="mk-badge mk-badge-c">권장</span>
             <span class="mk-api-name">🟠 Claude API Key</span>
-            <span class="mk-api-role">광고 문구 생성 전담</span>
+            
           </div>
           <input type="password" class="mk-input" id="modalKeyClaude" placeholder="sk-ant-..." oninput="onKeyInput()" onpaste="setTimeout(onKeyInput,10)" />
           <div class="mk-link-row"><a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → Billing $5 충전 → API Keys</div>
@@ -2549,7 +2576,7 @@ p, span, div, label, li {
           <div class="mk-api-header">
             <span class="mk-badge mk-badge-o">선택</span>
             <span class="mk-api-name">🔵 GPT-4o API Key</span>
-            <span class="mk-api-role">이미지 분석 전담</span>
+            
           </div>
           <input type="password" class="mk-input" id="modalKeyOpenai" placeholder="sk-proj-..." oninput="onKeyInput()" onpaste="setTimeout(onKeyInput,10)" />
           <div class="mk-link-row"><a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a> → Billing $5 충전 → API Keys</div>
@@ -2557,7 +2584,7 @@ p, span, div, label, li {
 
         <div class="key-notice" style="margin-top:4px">
           🔒 API Key는 <span>브라우저에만 저장</span>되며 서버로 전송되지 않아요.<br>
-          ✨ Claude 없으면 Gemini 사용 · GPT-4o 없으면 이미지 분석 건너뜀
+          🔒 API Key는 <span>브라우저에만 저장</span>되며 서버로 전송되지 않아요.
         </div>
       </div>
 
@@ -2601,11 +2628,6 @@ p, span, div, label, li {
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <div class="h-api-dots" id="hApiDots">
-      <div class="h-api-dot" id="dotG" title="Gemini · 마케터 분석"></div>
-      <div class="h-api-dot" id="dotC" title="Claude · 광고 문구"></div>
-      <div class="h-api-dot" id="dotO" title="GPT-4o · 이미지 분석"></div>
-    </div>
     <span class="h-version">v9.0</span>
   </div>
   <div class="header-right">
@@ -2614,10 +2636,18 @@ p, span, div, label, li {
       <div class="h-clock-date" id="hClockDate"></div>
     </div>
     <div class="h-div"></div>
-    <div class="api-status">
-      <span class="s-dot off" id="claudeDot" style="background:#ff4d6d;box-shadow:0 0 8px rgba(255,77,109,.6);animation:pulse 1.5s ease infinite"></span>
-      <span>Gemini API</span>
-      <span id="apiStatusLbl" style="font-size:11px;font-weight:700;color:#ff4d6d;margin-left:2px">미설정</span>
+    <div class="api-status" style="gap:10px">
+      <div class="h3-dots">
+        <div class="h3-api-item" id="dotG">
+          <span class="h3-api-dot"></span><span class="h3-api-name">Gemini</span>
+        </div>
+        <div class="h3-api-item" id="dotC">
+          <span class="h3-api-dot"></span><span class="h3-api-name">Claude</span>
+        </div>
+        <div class="h3-api-item" id="dotO">
+          <span class="h3-api-dot"></span><span class="h3-api-name">GPT-4o</span>
+        </div>
+      </div>
     </div>
     <button class="h-btn" onclick="openKeyModal()">⚙ 설정</button>
   </div>
@@ -2625,13 +2655,13 @@ p, span, div, label, li {
 
 <!-- 히어로 -->
 <section class="hero">
-  <div class="hero-eyebrow">✦ Naver Powerlink · AI Copy Generator · Powered by Gemini</div>
+  <div class="hero-eyebrow">✦ Naver Powerlink · AI Copy Generator · Powered by Claude × Gemini × GPT-4o</div>
   <h1><em>AI가 클릭률 높은 파워링크 소재</em>를 자동으로 만들어 드립니다</h1>
-  <p class="hero-sub"><strong>제목 30개 · 설명 6개</strong> 자동 생성 &nbsp;·&nbsp; 마케터 AI 분석 리포트 &nbsp;·&nbsp; 실시간 네이버 미리보기</p>
+  <p class="hero-sub"><strong>제목 30개 · 설명 10개</strong> 자동 생성 &nbsp;·&nbsp; 마케터 AI 분석 리포트 &nbsp;·&nbsp; 실시간 네이버 미리보기</p>
 </section>
 
 <div id="apiKeyBanner">
-  <span>⚠️ Gemini API Key가 설정되지 않았어요.</span>
+  <span>⚠️ API Key를 설정해주세요.</span>
   <button onclick="openKeyModal()" style="background:rgba(245,158,11,.2);border:1px solid rgba(245,158,11,.4);border-radius:5px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--amber);margin-left:8px">🔑 설정하기</button>
 </div>
 
@@ -2678,15 +2708,15 @@ p, span, div, label, li {
 
             <!-- 01+02: 상품명 + 타겟 -->
             <div class="input-col" style="border-top:2px solid rgba(3,199,90,.55)">
-              <div class="icol-head"><span class="icol-num icol-num-1">01</span><div><div class="icol-title">상품명 <span class="badge-req">필수</span></div><div class="icol-desc">네이버 검색에 노출되는 핵심 키워드를 포함하세요</div></div></div>
+              <div class="icol-head"><span class="icol-num icol-num-1">01</span><div><div class="icol-title">상품명<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">네이버 검색에 노출되는 핵심 키워드를 포함하세요<br><span style="color:rgba(3,199,90,.8)">예) 국산 냉장 블루베리 1kg 당일수확</span></span></span> <span class="badge-req">필수</span></div></div></div>
               <textarea class="inp inp-ta" id="productName" rows="3" oninput="this.classList.remove('empty-req');this.closest('.input-col')?.classList.remove('req-error')" placeholder=""></textarea>
-              <div class="icol-head" style="margin-top:8px"><span class="icol-num icol-num-2">02</span><div><div class="icol-title">타겟 고객 <span class="badge-opt">선택</span></div><div class="icol-desc">광고를 보여줄 주요 고객층</div></div></div>
+              <div class="icol-head" style="margin-top:8px"><span class="icol-num icol-num-2">02</span><div><div class="icol-title">타겟 고객<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">광고를 보여줄 주요 고객층을 입력하세요<br><span style="color:rgba(3,199,90,.8)">예) 30대 직장인 여성, 소상공인</span></span></span> <span class="badge-opt">선택</span></div></div></div>
               <input type="text" class="inp" id="target" placeholder="" />
             </div>
 
             <!-- 03: 광고 내용 -->
             <div class="input-col" style="border-top:2px solid rgba(180,60,255,.55)">
-              <div class="icol-head"><span class="icol-num icol-num-3">03</span><div><div class="icol-title">광고에 넣고 싶은 내용 <span class="badge-req">필수</span></div><div class="req-hint" id="featReqHint">최소 2개 이상 작성해주세요</div><div class="icol-desc">강조하고 싶은 특징·혜택·가격 포인트</div></div></div>
+              <div class="icol-head"><span class="icol-num icol-num-3">03</span><div><div class="icol-title">광고에 넣고 싶은 내용<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">강조하고 싶은 특징·혜택·가격 포인트<br><span style="color:rgba(3,199,90,.8)">예) 당일배송, 무료 증정품, 10년 AS 보장</span></span></span> <span class="badge-opt">선택</span></div></div></div>
               <div id="featSuggestWrap" style="display:none">
                 <div class="feat-suggest-lbl" id="featSuggestLbl">💡 AI 추천</div>
                 <div class="feat-suggest" id="featSuggest"></div>
@@ -2694,13 +2724,14 @@ p, span, div, label, li {
               <div class="feat-slots" id="featSlots">
                 <div class="feat-slot"><span class="feat-slot-num">1</span><input type="text" placeholder="" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
                 <div class="feat-slot"><span class="feat-slot-num">2</span><input type="text" placeholder="" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
+                <div class="feat-slot"><span class="feat-slot-num">3</span><input type="text" placeholder="" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
               </div>
               <button class="feat-add-btn" id="featAddBtn" onclick="addSlot()">+ 항목 추가</button>
             </div>
 
             <!-- 04: 이미지 -->
             <div class="input-col" style="border-top:2px solid rgba(255,150,0,.55)">
-              <div class="icol-head"><span class="icol-num icol-num-4">04</span><div><div class="icol-title">상세페이지 이미지 <span class="badge-opt">선택</span></div><div class="icol-desc">AI가 이미지를 직접 보고 광고 소재를 최적화해요</div></div></div>
+              <div class="icol-head"><span class="icol-num icol-num-4">04</span><div><div class="icol-title">상세페이지 이미지<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">AI가 이미지를 직접 보고 광고 포인트를 추출해요<br><span style="color:rgba(3,199,90,.8)">GPT-4o가 상품 특징을 자동 분석합니다</span></span></span> <span class="badge-opt">선택</span></div></div></div>
               <div class="upload-zone" id="uploadZone">
                 <input type="file" id="fileInput" accept="image/*" multiple onchange="onFile(event)" />
                 <div class="upl-icon">🖼️</div>
@@ -2715,7 +2746,7 @@ p, span, div, label, li {
 
             <!-- 05: 분석 패널 (2행 span) -->
             <div class="input-col col-analysis analysis-panel-tall" style="grid-row:span 2">
-              <div class="icol-head"><span class="icol-num icol-num-5">05</span><div><div class="icol-title">마케터 분석 리포트 <span class="badge-auto">자동</span></div><div class="icol-desc">Gemini AI가 광고 소재 전략을 깊이 분석해드려요</div></div></div>
+              <div class="icol-head"><span class="icol-num icol-num-5">05</span><div><div class="icol-title">마케터 분석 리포트<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">소재 생성 후 Gemini AI가 자동으로<br>클릭률·전략·개선안을 분석해드려요</span></span> <span class="badge-auto">자동</span></div></div></div>
               <div class="analysis-status" id="analysisSideStatus" style="display:none"></div>
 
               <!-- ★ 통합 분석 패널 -->
@@ -2757,14 +2788,14 @@ p, span, div, label, li {
 
             <!-- 하단 Row2: 금지어 / 시즌 / 어조 -->
             <div class="enhance-col" style="border-top:2px solid rgba(255,77,109,.4)">
-              <div class="enhance-head"><span class="enhance-icon">🚫</span><div><div class="enhance-title">금지어 설정 <span class="badge-opt">선택</span></div><div class="enhance-desc">입력 후 Enter로 여러 개 추가 가능</div></div></div>
+              <div class="enhance-head"><span class="enhance-num">06</span><div><div class="enhance-title">금지어 설정<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">광고에 절대 쓰지 않을 단어를 지정해요<br><span style="color:rgba(3,199,90,.8)">예) 최고, 1위, 최저가</span><br><span style="color:rgba(220,232,248,.4)">입력 후 Enter로 추가</span></span></span> <span class="badge-opt">선택</span></div></div></div>
               <div class="enhance-inner">
                 <input type="text" class="inp" id="denyInput" placeholder="금지어 입력 후 Enter" onkeydown="addDenyEnter(event)" />
                 <div id="denyList" class="deny-list"></div>
               </div>
             </div>
             <div class="enhance-col" style="border-top:2px solid rgba(51,200,170,.4)">
-              <div class="enhance-head"><span class="enhance-icon">📅</span><div><div class="enhance-title">시즌 · 이벤트 <span class="badge-opt">선택</span></div><div class="enhance-desc">시즌에 맞는 문구를 자동 반영해요</div></div></div>
+              <div class="enhance-head"><span class="enhance-num">07</span><div><div class="enhance-title">시즌 · 이벤트<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">시즌 키워드를 선택하면 관련 문구가 반영돼요<br><span style="color:rgba(3,199,90,.8)">직접 입력도 가능합니다</span></span></span> <span class="badge-opt">선택</span></div></div></div>
               <div class="enhance-inner">
                 <div class="season-chips" id="seasonChips">
                   <button class="schip" onclick="toggleSeason(this)">봄 시즌</button>
@@ -2779,7 +2810,7 @@ p, span, div, label, li {
               </div>
             </div>
             <div class="enhance-col" style="border-top:2px solid rgba(150,100,255,.4)">
-              <div class="enhance-head"><span class="enhance-icon">🎯</span><div><div class="enhance-title">광고 어조 <span class="badge-opt">선택</span></div><div class="enhance-desc">최대 2개 선택 · 타겟에 맞는 어조로 효과↑</div></div></div>
+              <div class="enhance-head"><span class="enhance-num">08</span><div><div class="enhance-title">광고 어조<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">광고의 감성 방향을 설정해요<br><span style="color:rgba(3,199,90,.8)">최대 2개 선택 가능</span><br><span style="color:rgba(220,232,248,.4)">선택할수록 타겟에 맞는 문구가 생성돼요</span></span></span> <span class="badge-opt">선택</span></div></div></div>
               <div class="enhance-inner">
                 <div class="tone-grid" id="toneGrid">
                   <button class="tone-btn" onclick="toggleTone(this)" data-tone="긴급·희소성">⚡ 긴급·희소성</button>
@@ -3096,9 +3127,18 @@ function updateApiDots() {
   const dG = document.getElementById('dotG');
   const dC = document.getElementById('dotC');
   const dO = document.getElementById('dotO');
-  if(dG) dG.className = 'h-api-dot' + (API_KEY    ? ' on-g' : '');
-  if(dC) dC.className = 'h-api-dot' + (CLAUDE_KEY ? ' on-c' : '');
-  if(dO) dO.className = 'h-api-dot' + (OPENAI_KEY ? ' on-o' : '');
+  // 설정됨→초록(on), 미설정→빨간불(off)
+  if(dG) dG.className = 'h3-api-item' + (API_KEY    ? ' on' : '');
+  if(dC) dC.className = 'h3-api-item' + (CLAUDE_KEY ? ' on' : '');
+  if(dO) dO.className = 'h3-api-item' + (OPENAI_KEY ? ' on' : '');
+
+  // 기존 단일 도트 호환
+  const dot = document.getElementById('claudeDot');
+  if(dot) {
+    dot.style.background = API_KEY ? '#03C75A' : '#ff4d6d';
+    dot.style.boxShadow  = API_KEY ? '0 0 8px rgba(3,199,90,.6)' : '0 0 8px rgba(255,77,109,.6)';
+    dot.style.animation  = API_KEY ? '' : 'pulse 1.5s ease infinite';
+  }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -3194,68 +3234,21 @@ function confirmKey() {
 }
 
 function openKeyModal() {
-  const inp = document.getElementById('modalKey');
-  const iconOn  = document.getElementById('eyeIconOn');
-  const iconOff = document.getElementById('eyeIconOff');
-  // 아이콘 초기화 (항상 눈 아이콘 = 숨김 상태)
-  if(iconOn)  iconOn.style.display  = '';
-  if(iconOff) iconOff.style.display = 'none';
-  inp.type = 'password';
-  inp.dataset.revealed = 'false';
-  // 키가 등록된 상태면 마스킹된 별표로 표시
-  if (API_KEY && API_KEY.length > 5) {
-    inp.value = '●'.repeat(Math.min(API_KEY.length, 32));
-    inp.dataset.masked = 'true';
-    // 클릭하면 지워지고 새로 입력 가능
-    inp.onclick = function() {
-      if (inp.dataset.masked === 'true') {
-        inp.value = '';
-        inp.type = 'password';
-        inp.dataset.masked = 'false';
-        inp.dataset.revealed = 'false';
-        inp.placeholder = 'AIzaSy...';
-        inp.onclick = null;
-        if(iconOn)  iconOn.style.display = '';
-        if(iconOff) iconOff.style.display = 'none';
-        updateConfirmBtn();
-      }
-    };
-  } else {
-    inp.value = '';
-    inp.dataset.masked = 'false';
-    inp.placeholder = 'AIzaSy...';
-    inp.onclick = null;
-  }
-  document.getElementById('keyModal').classList.remove('hidden');
-  updateConfirmBtn();
-  inp.focus();
-  // 기존 저장된 키 미리 채우기 (마스킹)
+  // 기존 저장된 키 미리 채우기
   const gEl = document.getElementById('modalKeyGemini');
   const cEl = document.getElementById('modalKeyClaude');
   const oEl = document.getElementById('modalKeyOpenai');
-  if(gEl && API_KEY)    gEl.value = API_KEY;
-  if(cEl && CLAUDE_KEY) cEl.value = CLAUDE_KEY;
-  if(oEl && OPENAI_KEY) oEl.value = OPENAI_KEY;
+  if(gEl) gEl.value = API_KEY    || '';
+  if(cEl) cEl.value = CLAUDE_KEY || '';
+  if(oEl) oEl.value = OPENAI_KEY || '';
   onKeyInput();
+  document.getElementById('keyModal').classList.remove('hidden');
+  if(gEl) gEl.focus();
 }
 
 function updateKeyHeader(ok) {
-  const dot = document.getElementById('claudeDot');
-  const lbl = document.getElementById('apiStatusLbl');
-  if(dot){
-    dot.className = 's-dot' + (ok ? '' : ' off');
-    // 색상: ok→초록, 미설정→빨강
-    if(!ok){
-      dot.style.background = '#ff4d6d';
-      dot.style.boxShadow = '0 0 8px rgba(255,77,109,.6)';
-      dot.style.animation = 'pulse 1.5s ease infinite';
-    } else {
-      dot.style.background = '';
-      dot.style.boxShadow = '';
-      dot.style.animation = '';
-    }
-  }
-  if(lbl) lbl.textContent = ok ? '연결됨' : '미설정';
+  updateApiDots();
+  hideApiKeyBanner();
 }
 
 // ── 이미지 업로드 (최대 10장, 자동 압축)
@@ -3819,17 +3812,8 @@ function toggleTone(btn) {
     btn.classList.add('on');
   }
   S_TONE = S_TONE_ARR.join(' + ');
-} {
-  const filled = [...document.querySelectorAll('#featSlots .feat-slot input')].map(el=>el.value.trim()).filter(Boolean).length;
-  const hint = document.getElementById('featReqHint');
-  const featCol = document.getElementById('featSlots')?.closest('.input-col');
-  if(filled >= 2){
-    if(hint) hint.classList.remove('show');
-    featCol?.classList.remove('req-error');
-  } else {
-    if(hint) { hint.classList.add('show'); hint.textContent = `현재 ${filled}개 입력됨 → 최소 2개 이상 작성해주세요`; }
-  }
 }
+// feat 힌트 제거됨 (선택 항목)
 
 function addDenyEnter(e) {
   if (e.key !== 'Enter') return;
@@ -4355,19 +4339,7 @@ async function generate(){
     nameCol?.classList.remove('req-error');
   }
 
-  // 광고 내용 최소 2개 필수
-  const featHint = document.getElementById('featReqHint');
-  const featSlotsEls = document.querySelectorAll('#featSlots .feat-slot');
-  const featCol = document.getElementById('featSlots')?.closest('.input-col');
-  if(featInputs.length < 2){
-    featCol?.classList.add('req-error');
-    if(featHint){ featHint.classList.add('show'); featHint.textContent = `현재 ${featInputs.length}개 입력됨 → 최소 2개 이상 작성해주세요`; }
-    valid = false;
-    if(!focusEl) focusEl = document.querySelector('#featSlots .feat-slot input');
-  } else {
-    featCol?.classList.remove('req-error');
-    if(featHint){ featHint.classList.remove('show'); }
-  }
+  // 광고 내용 — 선택 항목, 유효성 검사 없음
 
   if(!valid){
     if(focusEl) { focusEl.focus(); focusEl.scrollIntoView({behavior:'smooth',block:'center'}); }
