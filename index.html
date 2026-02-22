@@ -469,59 +469,67 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .section-div{flex:1;height:1px;background:var(--border)}
 
 /* ══ 광고 미리보기 ══ */
-.preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-#previewSection{position:sticky;top:calc(var(--hh) + 6px);z-index:10;background:var(--bg);padding-bottom:4px}
+.preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+/* 미리보기 + 소재 모니터 sticky 컨테이너 */
+#previewMonitorWrap{
+  position:sticky;
+  top:calc(var(--hh) + 6px);
+  z-index:10;
+  background:var(--bg);
+  padding-bottom:6px;
+}
+#previewSection{background:transparent}
 .pv-card{
   background:var(--glass);backdrop-filter:blur(12px);
   border:1px solid var(--border);border-radius:var(--r);
   overflow:hidden;transition:border-color .2s,box-shadow .2s;
 }
 .pv-card:hover{border-color:var(--border2);box-shadow:0 4px 24px rgba(0,0,0,.3)}
-.pv-head{padding:8px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.15)}
-.pv-head h4{font-size:13px;font-weight:700;color:var(--text2);flex:1}
+.pv-head{padding:5px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.15)}
+.pv-head h4{font-size:12px;font-weight:700;color:var(--text2);flex:1}
 .pv-live{font-size:11px;background:var(--g-dim);color:var(--g);border:1px solid rgba(3,199,90,.2);border-radius:3px;padding:1px 5px;font-weight:700;animation:blink 2s ease infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.6}}
-.pv-body{padding:12px 14px}
+.pv-body{padding:8px 10px}
 
-/* 네이버 PC 광고 */
+/* 네이버 PC 광고 — 45자 전체 표시, 줄바꿈 허용 */
 .naver-ad{background:#fff;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)}
-.naver-ad-inner{padding:12px 14px}
-.naver-ad-header{display:flex;align-items:center;gap:3px;margin-bottom:7px;flex-wrap:wrap}
+.naver-ad-inner{padding:8px 12px}
+.naver-ad-header{display:flex;align-items:center;gap:3px;margin-bottom:5px;flex-wrap:wrap}
 .naver-ad-logo{width:14px;height:14px;border-radius:3px;background:#03C75A;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#fff;flex-shrink:0}
 .naver-ad-store{font-size:10px;color:#555;font-weight:500}
 .naver-ad-url{font-size:10px;color:#777}
 .naver-ad-badge{font-size:7px;color:#888;border:1px solid #ccc;border-radius:2px;padding:1px 3px;line-height:1.2;margin-left:2px}
-.naver-ad-row{display:flex;gap:10px;align-items:flex-start}
+.naver-ad-row{display:flex;gap:8px;align-items:flex-start}
 .naver-ad-body{flex:1;min-width:0}
-.naver-ad-title{font-size:14px;font-weight:700;color:#1a73e8;line-height:1.4;margin-bottom:4px}
+.naver-ad-title{font-size:13px;font-weight:700;color:#1a73e8;line-height:1.4;margin-bottom:3px;word-break:keep-all;white-space:normal;overflow:visible}
 .naver-ad-title.empty{color:#ccc;font-weight:400;font-size:11px}
-.naver-ad-desc{font-size:11px;color:#444;line-height:1.55}
+.naver-ad-desc{font-size:11px;color:#444;line-height:1.55;word-break:keep-all;white-space:normal;overflow:visible}
 .naver-ad-desc.empty{color:#ccc;font-size:10px}
-.naver-ad-thumb{width:72px;height:72px;border-radius:5px;background:#f8f8f8;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden;border:1px solid #eee}
+.naver-ad-thumb{width:60px;height:60px;border-radius:5px;background:#f8f8f8;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden;border:1px solid #eee}
 .naver-ad-thumb img{width:100%;height:100%;object-fit:cover}
-.naver-ad-chips{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px}
-.naver-ad-chip{background:#f3f3f3;border:1px solid #e5e5e5;border-radius:2px;padding:2px 6px;font-size:9px;color:#555}
+.naver-ad-chips{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px}
+.naver-ad-chip{background:#f3f3f3;border:1px solid #e5e5e5;border-radius:2px;padding:2px 5px;font-size:9px;color:#555}
 
-/* 네이버 모바일 */
+/* 네이버 모바일 — 45자 전체 표시 */
 .naver-mob-ad{background:#fff;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)}
-.naver-mob-ad-inner{padding:12px 14px}
-.naver-mob-meta{display:flex;align-items:center;gap:4px;margin-bottom:8px;flex-wrap:wrap}
+.naver-mob-ad-inner{padding:8px 12px}
+.naver-mob-meta{display:flex;align-items:center;gap:4px;margin-bottom:6px;flex-wrap:wrap}
 .naver-mob-logo{width:16px;height:16px;border-radius:50%;background:#03C75A;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#fff;flex-shrink:0}
 .naver-mob-store{font-size:11px;color:#555;font-weight:500}
 .naver-mob-url{font-size:10px;color:#888}
 .naver-mob-badge{font-size:8px;color:#888;border:1px solid #ccc;border-radius:2px;padding:1px 3px;line-height:1.2;margin-left:2px}
-.naver-mob-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
+.naver-mob-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px}
 .naver-mob-body{flex:1;min-width:0}
-.naver-mob-title{font-size:15px;font-weight:700;color:#1a73e8;line-height:1.4;margin-bottom:5px;word-break:keep-all}
+.naver-mob-title{font-size:14px;font-weight:700;color:#1a73e8;line-height:1.4;margin-bottom:4px;word-break:keep-all;white-space:normal;overflow:visible}
 .naver-mob-title.empty{color:#ccc;font-weight:400;font-size:12px}
-.naver-mob-desc{font-size:12px;color:#444;line-height:1.55}
+.naver-mob-desc{font-size:11px;color:#444;line-height:1.55;word-break:keep-all;white-space:normal;overflow:visible}
 .naver-mob-desc.empty{color:#ccc;font-size:11px}
-.naver-mob-thumb{width:72px;height:72px;border-radius:6px;background:#f8f8f8;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden;border:1px solid #eee}
+.naver-mob-thumb{width:60px;height:60px;border-radius:6px;background:#f8f8f8;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden;border:1px solid #eee}
 .naver-mob-thumb img{width:100%;height:100%;object-fit:cover}
-.naver-mob-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
-.naver-mob-chip{background:#f5f5f5;border:1px solid #e0e0e0;border-radius:14px;padding:3px 11px;font-size:11px;color:#444;cursor:pointer;transition:background .1s}
-.naver-mob-chip:hover{background:#ebebeb}
-.pv-note{font-size:8px;color:var(--text3);margin-top:6px;text-align:center}
+/*chips removed*/
+/*chips removed*/
+/*chips removed*/
+.pv-note{font-size:8px;color:var(--text3);margin-top:4px;text-align:center}
 
 /* ══ 결과 카드 ══ */
 .result-wrap{margin-bottom:14px}
@@ -624,9 +632,59 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .sb-pin-box.active.sb-d2{background:rgba(6,182,212,.05)}
 .sb-pin-sub{font-size:9px;color:rgba(255,255,255,.2)}
 .sb-lists{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* ── compact 소재 모니터 (sticky 내부) ── */
+.sb-compact-row{
+  display:flex;align-items:center;gap:6px;flex-wrap:nowrap;
+  background:var(--glass);border:1px solid var(--border);
+  border-radius:var(--r);padding:7px 12px;overflow-x:auto;
+}
+.sb-c-sel{
+  display:flex;align-items:center;gap:4px;
+  background:rgba(255,255,255,.04);border-radius:6px;
+  padding:5px 10px;flex-shrink:0;position:relative;min-width:70px;
+}
+.sb-c-icon{font-size:14px;line-height:1}
+.sb-c-num{font-size:18px;font-weight:900;line-height:1}
+.sb-c-title .sb-c-num{color:#a855f7}
+.sb-c-desc  .sb-c-num{color:#f59e0b}
+.sb-c-label{font-size:10px;color:rgba(255,255,255,.3)}
+.sb-c-bar{position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(255,255,255,.07);border-radius:0 0 6px 6px;overflow:hidden}
+.sb-c-fill{height:100%;border-radius:2px;transition:width .4s}
+.sb-c-fill-t{background:linear-gradient(90deg,#a855f7,#c084fc)}
+.sb-c-fill-d{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.sb-c-pin{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:1px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
+  border-radius:6px;padding:5px 8px;flex-shrink:0;min-width:52px;
+  position:relative;overflow:hidden;transition:background .2s,border-color .2s;
+}
+.sb-c-pin::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;border-radius:0 0 6px 6px}
+.sb-c-t1::after{background:#03C75A}.sb-c-t2::after{background:#3385ff}.sb-c-t3::after{background:#ff9800}
+.sb-c-d1::after{background:#84cc16}.sb-c-d2::after{background:#06b6d4}
+.sb-c-pin-num{font-size:16px;font-weight:900;color:rgba(255,255,255,.15);transition:color .2s;line-height:1}
+.sb-c-pin.active .sb-c-pin-num{color:var(--pin-color)}
+.sb-c-t1{--pin-color:#03C75A}.sb-c-t2{--pin-color:#3385ff}.sb-c-t3{--pin-color:#ff9800}
+.sb-c-d1{--pin-color:#84cc16}.sb-c-d2{--pin-color:#06b6d4}
+.sb-c-pin.active{border-color:rgba(255,255,255,.12)}
+.sb-c-pin.active.sb-c-t1{background:rgba(3,199,90,.08)}
+.sb-c-pin.active.sb-c-t2{background:rgba(51,133,255,.08)}
+.sb-c-pin.active.sb-c-t3{background:rgba(255,152,0,.08)}
+.sb-c-pin.active.sb-c-d1{background:rgba(132,204,22,.08)}
+.sb-c-pin.active.sb-c-d2{background:rgba(6,182,212,.08)}
+.sb-c-pin-lbl{font-size:8px;color:rgba(255,255,255,.3);letter-spacing:.2px}
+.sb-c-pin-sub{font-size:8px;color:rgba(255,255,255,.15);max-width:50px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sb-c-list{
+  flex:1;min-width:100px;max-height:38px;overflow-y:auto;
+  background:rgba(0,0,0,.2);border-radius:5px;padding:3px 6px;
+  font-size:10px;color:var(--text2);line-height:1.6;
+  border:1px solid rgba(255,255,255,.04);
+}
+.sb-c-list::-webkit-scrollbar{width:2px}
+.sb-c-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}
 .sb-list-col{}
 .sb-list-head{font-size:11px;font-weight:700;color:var(--text3);display:flex;justify-content:space-between;margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
-
+.sel-card{
   background:var(--glass);backdrop-filter:blur(12px);
   border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;
 }
@@ -1287,7 +1345,9 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .gen-log-item{font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .3s}
 .gen-log-item.active{color:var(--g);font-weight:600}
 .ap-unified-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.ap-log-box{background:rgba(0,0,0,.25);border:1px solid rgba(3,199,90,.15);border-radius:8px;padding:10px 12px;min-height:100px;max-height:160px;overflow-y:auto;font-family:monospace}
+.ap-log-box{background:rgba(0,0,0,.25);border:1px solid rgba(3,199,90,.15);border-radius:8px;padding:10px 12px;min-height:100px;max-height:180px;overflow-y:auto;font-family:monospace;transition:border-color .3s}
+.ap-log-box.analyzing{border-color:rgba(3,199,90,.45);animation:logPulse 2s ease infinite}
+@keyframes logPulse{0%,100%{border-color:rgba(3,199,90,.3);box-shadow:0 0 0 rgba(3,199,90,0)}50%{border-color:rgba(3,199,90,.6);box-shadow:0 0 8px rgba(3,199,90,.15)}}
 .ap-log-idle-txt{color:rgba(255,255,255,.18);font-size:11px;font-style:italic;line-height:1.6;padding:4px 0}
 .ap-status-badge{font-size:9px;font-weight:700;letter-spacing:.5px;padding:2px 7px;border-radius:20px;background:rgba(255,255,255,.08);color:var(--text3);flex-shrink:0}
 .ap-status-badge.active{background:rgba(3,199,90,.2);color:var(--g)}
@@ -1440,7 +1500,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v7.2</span>
+    <span class="h-version">v7.4</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -1473,12 +1533,12 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 
   <!-- ① 입력 패널 (sticky) -->
   <div class="sticky-panel">
+    <!-- 상품 정보 입력창 헤더 — input-card 밖 -->
+    <div class="section-header">
+      <div class="section-label">상품 정보 입력창</div>
+      <div class="section-div"></div>
+    </div>
     <div class="input-card">
-      <!-- 상품 정보 입력창 타이틀 -->
-      <div class="section-header" style="padding:10px 0 6px">
-        <div class="section-label" style="font-size:18px">상품 정보 입력창</div>
-        <div class="section-div"></div>
-      </div>
       <div class="pbar-strip">
         <div class="pbar-track"><div class="pbar-fill" id="pbarFill"></div></div>
         <div class="pbar-steps">
@@ -1657,139 +1717,117 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
     </div><!-- input-card -->
   </div><!-- sticky-panel -->
 
-  <!-- ② 광고 미리보기 (위) -->
-  <div id="previewSection" style="display:none">
-    <div class="section-header">
-      <div class="section-label">광고 미리보기</div>
-      <div class="section-div"></div>
-      <span class="pv-live" style="font-size:13px">실시간</span>
-    </div>
-    <div class="preview-grid">
-      <!-- PC -->
-      <div class="pv-card">
-        <div class="pv-head"><h4>🖥 PC 미리보기</h4></div>
-        <div class="pv-body">
-          <div class="naver-ad">
-            <div class="naver-ad-inner">
-              <div class="naver-ad-header">
-                <div class="naver-ad-logo">S</div>
-                <span class="naver-ad-store">스마트스토어</span>
-                <span style="color:#ddd;font-size:9px">·</span>
-                <span class="naver-ad-url">smartstore.naver.com</span>
-                <span class="naver-ad-badge">광고</span>
-              </div>
-              <div class="naver-ad-row">
-                <div class="naver-ad-body">
-                  <div class="naver-ad-title empty" id="pvPcTitles">제목을 선택하면 표시됩니다</div>
-                  <div class="naver-ad-desc empty" id="pvPcDesc">설명을 선택하면 표시됩니다</div>
-                  <div class="naver-ad-chips" id="pvPcChips"></div>
-                </div>
-                <div class="naver-ad-thumb" id="pvPcThumb">🏪</div>
-              </div>
-            </div>
-          </div>
-          <div class="pv-note">※ 키워드에 따라 이미지 미노출 가능</div>
-        </div>
-      </div>
-      <!-- 모바일 -->
-      <div class="pv-card">
-        <div class="pv-head"><h4>📱 모바일 미리보기</h4></div>
-        <div class="pv-body">
-          <div class="naver-mob-ad">
-            <div class="naver-mob-ad-inner" style="padding:0">
-              <div id="pvMobTitleList">
-                <div class="mob-ad-empty">
-                  <div class="naver-mob-meta"><div class="naver-mob-logo">S</div><span class="naver-mob-store">스마트스토어</span><span class="naver-mob-badge">광고</span></div>
-                  <div class="naver-mob-title empty">제목을 선택하면 표시됩니다</div>
-                  <div class="naver-mob-desc empty">설명을 선택하면 표시됩니다</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="pv-note">※ 핀 기능으로 원하는 애셋 고정 권장</div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- ② 미리보기 + 소재 모니터 sticky 묶음 -->
+  <div id="previewMonitorWrap" style="display:none">
 
-  <!-- ★ 광고 소재 모니터 (미리보기 ~ 소재 사이) -->
-  <div id="monitorSection" style="display:none">
-    <div class="section-header" style="margin-top:14px">
-      <div class="section-label">광고 소재 모니터</div>
-      <div class="section-div"></div>
-    </div>
-    <!-- ★ 현황판 -->
-    <div class="status-board">
-      <!-- 1행: 선택 현황 -->
-      <div class="sb-row-select">
-        <div class="sb-sel-box sb-title">
-          <div class="sb-sel-icon">📋</div>
-          <div class="sb-sel-info">
-            <div class="sb-sel-label">제목 선택</div>
-            <div class="sb-sel-count">
-              <span class="sb-sel-num" id="sbTitleNum">0</span>
-              <span class="sb-sel-max">/ 15개</span>
+    <!-- 광고 미리보기 -->
+    <div id="previewSection">
+      <div class="section-header">
+        <div class="section-label">광고 미리보기</div>
+        <div class="section-div"></div>
+        <span class="pv-live" style="font-size:13px">실시간</span>
+      </div>
+      <div class="preview-grid">
+        <!-- PC -->
+        <div class="pv-card">
+          <div class="pv-head"><h4>🖥 PC 미리보기</h4></div>
+          <div class="pv-body">
+            <div class="naver-ad">
+              <div class="naver-ad-inner">
+                <div class="naver-ad-header">
+                  <div class="naver-ad-logo">S</div>
+                  <span class="naver-ad-store">스마트스토어</span>
+                  <span style="color:#ddd;font-size:9px">·</span>
+                  <span class="naver-ad-url">smartstore.naver.com</span>
+                  <span class="naver-ad-badge">광고</span>
+                </div>
+                <div class="naver-ad-row">
+                  <div class="naver-ad-body">
+                    <div class="naver-ad-title empty" id="pvPcTitles">제목을 선택하면 표시됩니다</div>
+                    <div class="naver-ad-desc empty" id="pvPcDesc">설명을 선택하면 표시됩니다</div>
+                    <div class="naver-ad-chips" id="pvPcChips"></div>
+                  </div>
+                  <div class="naver-ad-thumb" id="pvPcThumb">🏪</div>
+                </div>
+              </div>
             </div>
-            <div class="sb-bar"><div class="sb-bar-fill sb-title-fill" id="sbTitleBar" style="width:0%"></div></div>
+
           </div>
         </div>
-        <div class="sb-sel-box sb-desc">
-          <div class="sb-sel-icon">📝</div>
-          <div class="sb-sel-info">
-            <div class="sb-sel-label">설명 선택</div>
-            <div class="sb-sel-count">
-              <span class="sb-sel-num" id="sbDescNum">0</span>
-              <span class="sb-sel-max">/ 4개</span>
+        <!-- 모바일 -->
+        <div class="pv-card">
+          <div class="pv-head"><h4>📱 모바일 미리보기</h4></div>
+          <div class="pv-body">
+            <div class="naver-mob-ad">
+              <div class="naver-mob-ad-inner" style="padding:0">
+                <div id="pvMobTitleList">
+                  <div class="mob-ad-empty">
+                    <div class="naver-mob-meta"><div class="naver-mob-logo">S</div><span class="naver-mob-store">스마트스토어</span><span class="naver-mob-badge">광고</span></div>
+                    <div class="naver-mob-title empty">제목을 선택하면 표시됩니다</div>
+                    <div class="naver-mob-desc empty">설명을 선택하면 표시됩니다</div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="sb-bar"><div class="sb-bar-fill sb-desc-fill" id="sbDescBar" style="width:0%"></div></div>
+
           </div>
-        </div>
-      </div>
-      <!-- 구분선 -->
-      <div class="sb-divider"></div>
-      <!-- 2행: 고정 현황 -->
-      <div class="sb-row-pin">
-        <div class="sb-pin-box sb-t1" id="sbPinT1">
-          <div class="sb-pin-label">제목 1 고정</div>
-          <div class="sb-pin-num" id="sbPinT1Num">0</div>
-          <div class="sb-pin-sub" id="sbPinT1Sub">없음</div>
-        </div>
-        <div class="sb-pin-box sb-t2" id="sbPinT2">
-          <div class="sb-pin-label">제목 2 고정</div>
-          <div class="sb-pin-num" id="sbPinT2Num">0</div>
-          <div class="sb-pin-sub" id="sbPinT2Sub">없음</div>
-        </div>
-        <div class="sb-pin-box sb-t3" id="sbPinT3">
-          <div class="sb-pin-label">제목 3 고정</div>
-          <div class="sb-pin-num" id="sbPinT3Num">0</div>
-          <div class="sb-pin-sub" id="sbPinT3Sub">없음</div>
-        </div>
-        <div class="sb-pin-box sb-d1" id="sbPinD1">
-          <div class="sb-pin-label">설명 1 고정</div>
-          <div class="sb-pin-num" id="sbPinD1Num">0</div>
-          <div class="sb-pin-sub" id="sbPinD1Sub">없음</div>
-        </div>
-        <div class="sb-pin-box sb-d2" id="sbPinD2">
-          <div class="sb-pin-label">설명 2 고정</div>
-          <div class="sb-pin-num" id="sbPinD2Num">0</div>
-          <div class="sb-pin-sub" id="sbPinD2Sub">없음</div>
-        </div>
-      </div>
-      <!-- 구분선 -->
-      <div class="sb-divider"></div>
-      <!-- 선택 목록 -->
-      <div class="sb-lists">
-        <div class="sb-list-col">
-          <div class="sb-list-head">선택된 제목 <span class="sel-cnt" id="sTCnt">0개</span></div>
-          <div id="sTList"><div class="sel-empty">선택 없음</div></div>
-        </div>
-        <div class="sb-list-col">
-          <div class="sb-list-head">선택된 설명 <span class="sel-cnt" id="sDCnt">0개</span></div>
-          <div id="sDList"><div class="sel-empty">선택 없음</div></div>
         </div>
       </div>
     </div>
-  </div>
+
+    <!-- 광고 소재 모니터 (compact — sticky 안에서 항상 노출) -->
+    <div id="monitorSection">
+      <div class="section-header" style="margin-top:6px;padding:6px 0 4px">
+        <div class="section-label" style="font-size:13px">광고 소재 모니터</div>
+        <div class="section-div"></div>
+      </div>
+      <div class="sb-compact-row">
+        <!-- 선택 현황 -->
+        <div class="sb-c-sel sb-c-title">
+          <span class="sb-c-icon">📋</span>
+          <span class="sb-c-num" id="sbTitleNum">0</span>
+          <span class="sb-c-label">/15</span>
+          <div class="sb-c-bar"><div class="sb-c-fill sb-c-fill-t" id="sbTitleBar" style="width:0%"></div></div>
+        </div>
+        <div class="sb-c-sel sb-c-desc">
+          <span class="sb-c-icon">📝</span>
+          <span class="sb-c-num" id="sbDescNum">0</span>
+          <span class="sb-c-label">/4</span>
+          <div class="sb-c-bar"><div class="sb-c-fill sb-c-fill-d" id="sbDescBar" style="width:0%"></div></div>
+        </div>
+        <!-- 고정 현황 (5칸) -->
+        <div class="sb-c-pin sb-c-t1" id="sbPinT1">
+          <div class="sb-c-pin-num" id="sbPinT1Num">0</div>
+          <div class="sb-c-pin-lbl">T1 고정</div>
+          <div class="sb-c-pin-sub" id="sbPinT1Sub"></div>
+        </div>
+        <div class="sb-c-pin sb-c-t2" id="sbPinT2">
+          <div class="sb-c-pin-num" id="sbPinT2Num">0</div>
+          <div class="sb-c-pin-lbl">T2 고정</div>
+          <div class="sb-c-pin-sub" id="sbPinT2Sub"></div>
+        </div>
+        <div class="sb-c-pin sb-c-t3" id="sbPinT3">
+          <div class="sb-c-pin-num" id="sbPinT3Num">0</div>
+          <div class="sb-c-pin-lbl">T3 고정</div>
+          <div class="sb-c-pin-sub" id="sbPinT3Sub"></div>
+        </div>
+        <div class="sb-c-pin sb-c-d1" id="sbPinD1">
+          <div class="sb-c-pin-num" id="sbPinD1Num">0</div>
+          <div class="sb-c-pin-lbl">D1 고정</div>
+          <div class="sb-c-pin-sub" id="sbPinD1Sub"></div>
+        </div>
+        <div class="sb-c-pin sb-c-d2" id="sbPinD2">
+          <div class="sb-c-pin-num" id="sbPinD2Num">0</div>
+          <div class="sb-c-pin-lbl">D2 고정</div>
+          <div class="sb-c-pin-sub" id="sbPinD2Sub"></div>
+        </div>
+        <!-- 선택된 소재 목록 축약 -->
+        <div class="sb-c-list" id="sTList_compact"></div>
+        <div class="sb-c-list" id="sDList_compact"></div>
+      </div>
+    </div>
+
+  </div><!-- /previewMonitorWrap -->
 
   <!-- ③ 광고 소재 (아래) -->
   <div class="section-header" style="margin-top:14px">
@@ -2364,52 +2402,82 @@ ${inputLines.join('\n')}
   if(badge)  { badge.textContent = '분석 중'; badge.className = 'ap-status-badge active'; }
   if(headerSub) headerSub.textContent = '소재 전략 심층 분석 중...';
   if(timerRow)  timerRow.style.display  = 'block';
+  const logBox = document.getElementById('apLogBox');
+  if(logBox) logBox.classList.add('analyzing');
 
-  // ★ 실시간 단계 로그 (API 대기 중 진행 상황 표시)
+  // ★ 실시간 단계 로그 — API 대기 중 단계별 표시
   const logLines = [];
-  function addLog(msg) {
-    logLines.push(msg);
+  let logDone = false;
+  function addLog(msg, color) {
+    logLines.push({msg, color:color||null});
     if(streamEl) {
-      streamEl.textContent = logLines.join('\n');
-      const cur = document.createElement('span');
-      cur.className = 'ap-stream-cursor';
-      streamEl.appendChild(cur);
+      streamEl.innerHTML = logLines.map(l=>
+        l.color
+          ? `<div style="color:${l.color};font-weight:600">${l.msg}</div>`
+          : `<div>${l.msg}</div>`
+      ).join('') + '<span class="ap-stream-cursor"></span>';
       const box = document.getElementById('apLogBox');
       if(box) box.scrollTop = box.scrollHeight;
     }
   }
-  addLog(`📦 상품명 분석: ${name}`);
-  if(feat) addLog(`✏️ 광고 포인트: ${feat.slice(0,30)}...`);
-  if(target) addLog(`🎯 타겟 고객: ${target}`);
-  addLog(`📋 생성 제목 ${titles.length}개 · 설명 ${descs.length}개 분석 시작`);
 
+  // 초기 입력 정보 로그
+  addLog(`━━ 분석 시작 ━━`, '#03C75A');
+  addLog(`📦 상품: ${name}`);
+  if(feat) addLog(`✏️ 포인트: ${feat.slice(0,25)}...`);
+  if(target) addLog(`🎯 타겟: ${target}`);
+  addLog(`📋 제목 ${titles.length}개 · 설명 ${descs.length}개 준비됨`);
+
+  // 단계별 로그 - 2초 간격, 총 ~40초 커버
   const logSteps = [
-    '🔍 제목 클릭 유도 패턴 분석 중...',
-    '⚡ 클릭률 TOP3 소재 선정 중...',
-    '💡 A/B 개선 권고안 작성 중...',
-    '✅ 분석 마무리 중...'
+    {msg:`🔍 제목 ${titles.length}개 키워드 패턴 추출 중...`},
+    {msg:`📊 상품명에서 핵심 검색어 분리 중...`},
+    {msg:`⚡ 클릭률 높은 제목 3개 선별 중...`},
+    {msg:`🧠 소비자 심리 반영도 평가 중...`},
+    {msg:`📝 설명 ${descs.length}개 메시지 전달력 분석 중...`},
+    {msg:`🔎 CTA(클릭유도) 표현 효과 측정 중...`},
+    {msg:`💡 A/B 테스트 가설 수립 중...`},
+    {msg:`📌 소재 표현 선택 이유 정리 중...`},
+    {msg:`✍️ 개선 권고안 초안 작성 중...`},
+    {msg:`🔄 마케터 관점 최종 검토 중...`},
+    {msg:`📄 리포트 포맷 구성 중...`},
+    {msg:`⏳ Gemini AI 응답 대기 중... (30~60초 소요)`, color:'#f59e0b'},
+    {msg:`⏳ 계속 분석 중입니다...`, color:'#f59e0b'},
+    {msg:`⏳ 거의 다 됐어요. 잠시만 기다려주세요`, color:'#f59e0b'},
   ];
   let stepIdx = 0;
   const logTimer = setInterval(()=>{
-    if(stepIdx < logSteps.length) addLog(logSteps[stepIdx++]);
-    else clearInterval(logTimer);
-  }, 3000);
+    if(logDone) return clearInterval(logTimer);
+    if(stepIdx < logSteps.length){
+      const s = logSteps[stepIdx++];
+      addLog(s.msg, s.color||null);
+    } else {
+      // 루프: 마지막 대기 메시지 반복
+      addLog(`⏳ AI가 열심히 작성 중...`, '#f59e0b');
+    }
+  }, 2200);
 
   function onAnalysisChunk(full) {
+    logDone = true;
     clearInterval(logTimer);
     if(!streamEl) return;
+    addLog(`━━ 분석 완료 · 리포트 생성됨 ━━`, '#03C75A');
     const clean = full
       .replace(/<section[^>]*title="([^"]*)">/g, '\n━━ $1 ━━\n')
       .replace(/<\/section>/g, '\n')
       .replace(/<b>|<\/b>|<em>|<\/em>/g, '')
       .replace(/\n{3,}/g, '\n\n')
       .trim();
-    streamEl.textContent = clean;
-    const cur = document.createElement('span');
-    cur.className = 'ap-stream-cursor';
-    streamEl.appendChild(cur);
-    const box = document.getElementById('apLogBox');
-    if(box) box.scrollTop = box.scrollHeight;
+    // 완성된 분석 내용을 로그박스에 미리보기로 표시
+    if(streamEl){
+      streamEl.innerHTML = logLines.map(l=>
+        l.color
+          ? `<div style="color:${l.color};font-weight:600">${l.msg}</div>`
+          : `<div>${l.msg}</div>`
+      ).join('')+`<div style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,.08);color:var(--text2);white-space:pre-wrap;font-size:10px">${esc(clean).replace(/\n/g,'<br>')}</div>`;
+      const box = document.getElementById('apLogBox');
+      if(box) box.scrollTop = box.scrollHeight;
+    }
     const sectionsDone = (full.match(/<\/section>/g)||[]).length;
     const msgs = ['🔍 소재 분석 중...', '⚡ TOP3 선정 중...', '💡 개선 권고 작성 중...'];
     if(msgs[sectionsDone]) {
@@ -2419,6 +2487,7 @@ ${inputLines.join('\n')}
   }
 
   const raw = await callClaude('', userContent, onAnalysisChunk);
+  logDone = true;
   clearInterval(logTimer);
 
   // 섹션 파싱
@@ -2734,14 +2803,16 @@ function render(){
 function updateSelList(){
   const ts=[...S.selT].sort((a,b)=>a-b);
   const ds=[...S.selD].sort((a,b)=>a-b);
-  const tl=document.getElementById('sTList');
-  const tc=document.getElementById('sTCnt');
-  const dl=document.getElementById('sDList');
-  const dc=document.getElementById('sDCnt');
-  if(tl) tl.innerHTML=ts.length?ts.map(i=>`<div class="sel-item"><span>${esc(S.titles[i])}</span><button class="sel-copy" onclick="copySelItem(this,'${esc(S.titles[i])}')" title="복사">📋</button><button class="sel-x" onclick="tog('t',${i})">✕</button></div>`).join(''):'<div class="sel-empty">선택 없음</div>';
-  if(tc) tc.textContent=ts.length+'개';
-  if(dl) dl.innerHTML=ds.length?ds.map(i=>`<div class="sel-item"><span>${esc(S.descs[i])}</span><button class="sel-copy" onclick="copySelItem(this,'${esc(S.descs[i])}')" title="복사">📋</button><button class="sel-x" onclick="tog('d',${i})">✕</button></div>`).join(''):'<div class="sel-empty">선택 없음</div>';
-  if(dc) dc.textContent=ds.length+'개';
+
+  // compact 선택 목록 업데이트
+  const tl=document.getElementById('sTList_compact');
+  const dl=document.getElementById('sDList_compact');
+  if(tl) tl.innerHTML=ts.length
+    ? ts.map(i=>`<span style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer" onclick="tog('t',${i})" title="${esc(S.titles[i])}">✓ ${esc(S.titles[i])}</span>`).join('')
+    : '<span style="color:rgba(255,255,255,.2)">선택 없음</span>';
+  if(dl) dl.innerHTML=ds.length
+    ? ds.map(i=>`<span style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer" onclick="tog('d',${i})" title="${esc(S.descs[i])}">✓ ${esc(S.descs[i])}</span>`).join('')
+    : '<span style="color:rgba(255,255,255,.2)">선택 없음</span>';
 
   // ── 현황판 업데이트
   const sbTN=document.getElementById('sbTitleNum');
@@ -2753,31 +2824,60 @@ function updateSelList(){
   if(sbTB) sbTB.style.width=(ts.length/15*100)+'%';
   if(sbDB) sbDB.style.width=(ds.length/4*100)+'%';
 
-  // 고정 현황
+  // 고정 현황 (compact 패널 IDs)
   const pinCounts={t1:0,t2:0,t3:0,d1:0,d2:0};
   Object.values(pinData).forEach(v=>{ if(v==='1')pinCounts.t1++; else if(v==='2')pinCounts.t2++; else if(v==='3')pinCounts.t3++; });
   Object.values(descPinData).forEach(v=>{ if(v==='1')pinCounts.d1++; else if(v==='2')pinCounts.d2++; });
+
+  // 고정된 소재 텍스트 구하기
+  const pinnedT={t1:'',t2:'',t3:''};
+  Object.entries(pinData).forEach(([idx,v])=>{if(v&&S.titles[idx])pinnedT['t'+v]=S.titles[idx];});
+  const pinnedD={d1:'',d2:''};
+  Object.entries(descPinData).forEach(([idx,v])=>{if(v&&S.descs[idx])pinnedD['d'+v]=S.descs[idx];});
+
   ['t1','t2','t3','d1','d2'].forEach(k=>{
     const box=document.getElementById('sbPin'+k.toUpperCase());
     const num=document.getElementById('sbPin'+k.toUpperCase()+'Num');
     const sub=document.getElementById('sbPin'+k.toUpperCase()+'Sub');
     const n=pinCounts[k];
+    const txt=(k.startsWith('t')?pinnedT[k]:pinnedD[k])||'';
     if(num) num.textContent=n;
-    if(sub) sub.textContent=n?`${n}개 고정됨`:'없음';
-    if(box){ if(n>0) box.classList.add('active'); else box.classList.remove('active'); }
+    if(sub) sub.textContent=txt?txt.slice(0,6)+(txt.length>6?'…':''):'';
+    if(box){ if(n>0){box.classList.add('active');}else{box.classList.remove('active');} }
   });
 }
 
 // ── 선택 토글
 const MAX_TITLE_SEL = 15;
+const MAX_DESC_SEL  = 4;
+
+// ── 경고 토스트
+function showLimitToast(msg){
+  let t=document.getElementById('limitToast');
+  if(!t){
+    t=document.createElement('div'); t.id='limitToast';
+    t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:#1a1a2e;border:1px solid rgba(255,77,100,.5);color:#ff6b6b;font-size:13px;font-weight:700;padding:10px 22px;border-radius:30px;z-index:9999;opacity:0;transition:all .25s;box-shadow:0 8px 32px rgba(0,0,0,.5);text-align:center;white-space:nowrap';
+    document.body.appendChild(t);
+  }
+  t.textContent=msg;
+  t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)';
+  clearTimeout(t._tid);
+  t._tid=setTimeout(()=>{t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(20px)';},2500);
+}
+
 function tog(type, i){
   const set=type==='t'?S.selT:S.selD;
   if(set.has(i)){
     set.delete(i);
   } else {
     if(type==='t' && S.selT.size >= MAX_TITLE_SEL){
+      showLimitToast('⚠️ 광고 제목은 최대 15개까지 선택 가능합니다');
       const lb=document.getElementById('tLimitBadge');
-      if(lb){lb.textContent='15개 초과!';lb.classList.add('full');setTimeout(()=>{lb.textContent='최대 15개';lb.classList.remove('full');},2000);}
+      if(lb){lb.textContent='15개 초과!';lb.classList.add('full');setTimeout(()=>{lb.textContent=S.selT.size+'/15';lb.classList.remove('full');},2000);}
+      return;
+    }
+    if(type==='d' && S.selD.size >= MAX_DESC_SEL){
+      showLimitToast('⚠️ 광고 설명은 최대 4개까지 선택 가능합니다');
       return;
     }
     set.add(i);
@@ -2842,7 +2942,8 @@ function sync(){
     ...(pinMap[3].length?pinMap[3]:unpinned.slice(2,3))
   ].slice(0,3);
 
-  const pvDTxt=descPinMap[1]||(ds[0]||'');
+  const pvDTxt1 = descPinMap[1]||(ds[0]||'');
+  const pvDTxt2 = descPinMap[2]||(ds[1]||'');
 
   // ── PC 미리보기: 제목을 · 로 연결해서 한 줄로 (실제 네이버 파워링크 UI)
   const pvPcT=document.getElementById('pvPcTitles');
@@ -2856,9 +2957,19 @@ function sync(){
     }
   }
   const pvPcD=document.getElementById('pvPcDesc');
-  if(pvPcD){pvPcD.textContent=pvDTxt||'설명을 선택하면 표시됩니다';pvPcD.className=pvDTxt?'naver-ad-desc':'naver-ad-desc empty';}
+  if(pvPcD){
+    if(pvDTxt1||pvDTxt2){
+      pvPcD.className='naver-ad-desc';
+      pvPcD.innerHTML=(pvDTxt1?`<div style="margin-bottom:${pvDTxt2?'4px':'0'}">${esc(pvDTxt1)}</div>`:'')
+        +(pvDTxt2?`<div style="border-top:1px dashed #e0e0e0;padding-top:4px;color:#666">${esc(pvDTxt2)}</div>`:'');
+    } else {
+      pvPcD.className='naver-ad-desc empty';
+      pvPcD.textContent='설명을 선택하면 표시됩니다';
+    }
+  }
+  // 칩(키워드 네모칸) 제거
   const pvPcChips=document.getElementById('pvPcChips');
-  if(pvPcChips) pvPcChips.innerHTML=allSlots.flatMap(t=>t.split(/[\s]+/).filter(w=>w.length>1).slice(0,2)).slice(0,4).map(w=>`<span class="naver-ad-chip">${esc(w)}</span>`).join('');
+  if(pvPcChips) pvPcChips.innerHTML='';
   const pvPcThumb=document.getElementById('pvPcThumb');
   if(pvPcThumb){
     const pcUrl=generateProductThumb(document.getElementById('productName')?.value?.trim()||'');
@@ -2871,8 +2982,13 @@ function sync(){
     if(allSlots.length){
       const thumbUrl = generateProductThumb(document.getElementById('productName')?.value?.trim()||'');
       const thumbHtml=`<div class="naver-mob-thumb"><img src="${thumbUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:5px"/></div>`;
-      const chips=allSlots.flatMap(t=>t.split(/[\s]+/).filter(w=>w.length>1).slice(0,2)).slice(0,4).map(w=>`<span class="naver-mob-chip">${esc(w)}</span>`).join('');
       const titleLine=allSlots.map(t=>esc(t)).join('<span style="color:#aaa;margin:0 3px">·</span>');
+      const descHtml=(pvDTxt1||pvDTxt2)?`
+        <div style="font-size:11px;color:#444;line-height:1.55;word-break:keep-all;margin-top:4px">
+          ${pvDTxt1?`<div>${esc(pvDTxt1)}</div>`:''}
+          ${pvDTxt2?`<div style="border-top:1px dashed #e0e0e0;padding-top:3px;margin-top:3px;color:#666">${esc(pvDTxt2)}</div>`:''}
+        </div>`:
+        `<div class="naver-mob-desc empty" style="margin-top:4px">설명을 선택하면 표시됩니다</div>`;
       mobContainer.innerHTML=`
         <div class="mob-ad-card">
           <div class="naver-mob-meta">
@@ -2885,11 +3001,10 @@ function sync(){
           <div class="naver-mob-row">
             <div class="naver-mob-body">
               <div class="naver-mob-title" style="word-break:keep-all;line-height:1.55">${titleLine}</div>
-              ${pvDTxt?`<div class="naver-mob-desc" style="margin-top:4px">${esc(pvDTxt)}</div>`:''}
+              ${descHtml}
             </div>
             ${thumbHtml}
           </div>
-          ${chips?`<div class="naver-mob-chips" style="margin-top:6px">${chips}</div>`:''}
         </div>`;
     } else {
       mobContainer.innerHTML=`<div class="mob-ad-empty">
@@ -3196,7 +3311,7 @@ async function generate(){
         }
       ),
       callClaude(sysCopy,
-        promptBase + '\n\n설명 10개를 생성하세요. 규칙: 40~45자 사이로 최대한 채워서 작성. 절대 45자 초과 금지. 핵심 혜택 구체적으로.\n형식: {"descs":["..."]}',
+        promptBase + '\n\n설명 10개를 생성하세요.\n규칙:\n- 반드시 40~45자 사이로 작성 (초과 금지)\n- 문장이 완결되어야 함. 단어 중간에 절대 끊으면 안 됨\n- 마지막 글자가 조사·명사·동사 어미로 자연스럽게 끝나야 함\n- 예시 나쁨: "소상공인을 위한 간냉식 45박스 냉장고, 지금 구" → 단어 끊김\n- 예시 좋음: "소상공인을 위한 간냉식 냉장고, 지금 바로 확인하세요"\n형식: {"descs":["..."]}',
         null
       )
     ]);
@@ -3213,8 +3328,8 @@ async function generate(){
     // ★ 소재 생성 완료 즉시 결과 표시 (리포트 기다리지 않음)
     render();
     document.getElementById('resultWrap').style.display='block';
-    document.getElementById('previewSection').style.display='block';
-    document.getElementById('monitorSection').style.display='block';
+    document.getElementById('previewMonitorWrap').style.display='block';
+    document.getElementById('emptyState').style.display='none';
     pg(3,'active');
     pg(4,'active');
     document.getElementById('pbarFill').style.width='100%';
@@ -3279,6 +3394,7 @@ async function generate(){
       const openBtn=document.getElementById('analysisOpenBtn');
       if(status){ status.textContent='✓ 분석 완료'; status.classList.remove('running'); }
       if(openBtn){openBtn.disabled=false;openBtn.classList.add('done');setTimeout(()=>openBtn.classList.remove('done'),5000);}
+      const lb=document.getElementById('apLogBox'); if(lb) lb.classList.remove('analyzing');
     }).catch(()=>{
       document.getElementById('analysisBody').innerHTML='<div>분석을 불러오지 못했어요.</div>';
       pg(3,'done');pg(4,'done');
