@@ -1375,7 +1375,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v6.7</span>
+    <span class="h-version">v6.8</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -1507,34 +1507,6 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
                 <div id="apLogBox" class="ap-log-box">
                   <div id="apLogIdle" class="ap-log-idle-txt">분석 로그가 여기에 표시됩니다</div>
                   <div id="apLogStream" style="display:none;font-size:11px;line-height:1.75;color:var(--text2);white-space:pre-wrap;word-break:break-word"></div>
-                </div>
-
-                <!-- 소재 필드 요약 -->
-                <div id="apFieldRows" style="margin-top:6px">
-                  <div class="ap-field-row pending" id="apf-name">
-                    <span class="ap-f-icon">📦</span><div class="ap-f-content"><span class="ap-f-label">상품명</span><span class="ap-f-value" id="apf-name-val">—</span></div>
-                    <span class="ap-f-status" id="apf-name-st">⏳</span>
-                  </div>
-                  <div class="ap-field-row pending" id="apf-feat">
-                    <span class="ap-f-icon">✏️</span><div class="ap-f-content"><span class="ap-f-label">광고 내용</span><span class="ap-f-value" id="apf-feat-val">—</span></div>
-                    <span class="ap-f-status" id="apf-feat-st">⏳</span>
-                  </div>
-                  <div class="ap-field-row pending" id="apf-img">
-                    <span class="ap-f-icon">🖼️</span><div class="ap-f-content"><span class="ap-f-label">이미지</span><span class="ap-f-value" id="apf-img-val">없음</span></div>
-                    <span class="ap-f-status" id="apf-img-st">⏳</span>
-                  </div>
-                  <div class="ap-field-row pending" id="apf-deny">
-                    <span class="ap-f-icon">🚫</span><div class="ap-f-content"><span class="ap-f-label">금지어</span><span class="ap-f-value" id="apf-deny-val">없음</span></div>
-                    <span class="ap-f-status" id="apf-deny-st">⏳</span>
-                  </div>
-                  <div class="ap-field-row pending" id="apf-season">
-                    <span class="ap-f-icon">📅</span><div class="ap-f-content"><span class="ap-f-label">시즌·이벤트</span><span class="ap-f-value" id="apf-season-val">없음</span></div>
-                    <span class="ap-f-status" id="apf-season-st">⏳</span>
-                  </div>
-                  <div class="ap-field-row pending" id="apf-tone">
-                    <span class="ap-f-icon">🎯</span><div class="ap-f-content"><span class="ap-f-label">광고 어조</span><span class="ap-f-value" id="apf-tone-val">없음</span></div>
-                    <span class="ap-f-status" id="apf-tone-st">⏳</span>
-                  </div>
                 </div>
 
                 <div class="ap-timer" id="apTimerRow" style="margin-top:8px;display:none">예상 완료까지: <b id="apTimerVal">--</b></div>
@@ -1751,11 +1723,11 @@ const pinData = {};    // {titleIdx: '1'|'2'|'3'|''}
 const descPinData = {}; // {descIdx: '1'|'2'|''}
 
 // ── API Key 관리
-let API_KEY     = localStorage.getItem('claude_key') || '';
-
+let API_KEY = localStorage.getItem('claude_key') || 'AIzaSyDKjjfsXZ5EVKXi_8F0PGN58ctjeT67zZY';
+// 기본 키가 로드됐으면 localStorage에도 저장
+if (!localStorage.getItem('claude_key') && API_KEY) localStorage.setItem('claude_key', API_KEY);
 
 window.addEventListener('DOMContentLoaded', () => {
-  // 모달은 HTML에서 hidden으로 시작 - 자동으로 열지 않음
   if (API_KEY && API_KEY.length > 5) {
     updateKeyHeader(true);
   } else {
@@ -2223,7 +2195,6 @@ ${toneUsed.includes('action') || toneUsed.includes('행동') ? '- 행동유도·
   const streamEl = document.getElementById('apLogStream');
   const badge    = document.getElementById('apStatusBadge');
   const headerSub= document.getElementById('apHeaderSub');
-  const fieldRows= document.getElementById('apFieldRows');
   const timerRow = document.getElementById('apTimerRow');
 
   // 분석 시작 상태 전환
@@ -2231,7 +2202,6 @@ ${toneUsed.includes('action') || toneUsed.includes('행동') ? '- 행동유도·
   if(streamEl){ streamEl.style.display = 'block'; streamEl.textContent = ''; }
   if(badge)  { badge.textContent = '분석 중'; badge.className = 'ap-status-badge active'; }
   if(headerSub) headerSub.textContent = '소재 전략 심층 분석 중...';
-  if(fieldRows) fieldRows.style.display = 'none';
   if(timerRow)  timerRow.style.display  = 'block';
 
   function onAnalysisChunk(full) {
@@ -2905,26 +2875,7 @@ async function generate(){
 
   window._startPhase2Timer = ()=>{ phase2Started = true; };
 
-  // ── 필드 스캔 애니메이션 (1.2초씩 → 총 ~7초)
-  function setApField(id, value, state) {
-    const row = document.getElementById('apf-'+id);
-    const val = document.getElementById('apf-'+id+'-val');
-    const st  = document.getElementById('apf-'+id+'-st');
-    if(!row) return;
-    if(val && value) val.textContent = value;
-    row.className = 'ap-field-row ' + state;
-    if(st) st.textContent = state==='done'?'✓':state==='active'?'🔍':state==='skip'?'—':'⏳';
-  }
-
-  // 초기값 설정 (pending 상태)
-  setApField('name', name||'—', 'pending');
-  setApField('feat', feat||'—', 'pending');
-  setApField('img', S.imgs.length ? `${S.imgs.length}장` : '없음', 'pending');
-  setApField('deny', denyWords.length ? denyWords.join(', ') : '없음', 'pending');
-  setApField('season', (S_SEASON||(document.getElementById('eventInput')?.value.trim()||'')) || '없음', 'pending');
-  setApField('tone', S_TONE||'없음', 'pending');
-
-  // sideStatus 업데이트 + 분석 중 옆 stepEl에도 동기화
+  // sideStatus 업데이트
   function updateStatus(msg) {
     if(sideStatus) sideStatus.textContent = msg;
     const subEl = document.getElementById('apHeaderSub');
@@ -2932,42 +2883,6 @@ async function generate(){
     setGenLog(msg);
     if(stepEl) { stepEl.style.opacity='0'; setTimeout(()=>{ stepEl.textContent=msg; stepEl.style.opacity='1'; },160); }
   }
-
-  const fieldSeq = ['name','feat','img','deny','season'];
-  const fieldMsgs = ['상품명 분석 중...','광고 포인트 적용 중...','이미지 분석 중...','금지어 적용 중...','시즌 설정 적용 중...'];
-  let fieldIdx = 0;
-
-  // 1.2초 간격 스캔 → 완료 후 심사숙고 상태
-  fieldTimer = setInterval(()=>{
-    if(fieldIdx > 0) setApField(fieldSeq[fieldIdx-1], null, 'done');
-    if(fieldIdx < fieldSeq.length){
-      setApField(fieldSeq[fieldIdx], null, 'active');
-      updateStatus(fieldMsgs[fieldIdx] || '분석 중...');
-      fieldIdx++;
-    } else {
-      clearInterval(fieldTimer);
-      // 전체 스캔 완료 → Gemini 심사숙고 상태
-      const thinkEl = document.getElementById('apPanel_noop');
-      if(thinkEl) thinkEl.style.display = 'block';
-      updateStatus(`제목 ${S.titles.length}개 분석 시작...`);
-      // 실제 분석 단계 기반 메시지
-      const thinkMsgs = [
-        `제목 ${S.titles.length}개 클릭 패턴 분석 중...`,
-        `설명 ${S.descs.length}개 메시지 효과 검토 중...`,
-        target ? `"${target.slice(0,14)}" 타겟 관점으로 소재 재평가 중...` : '검색 키워드 커버리지 확인 중...',
-        S_TONE ? `"${S_TONE}" 어조 전략 효과 측정 중...` : 'TOP3 소재 선정 기준 검토 중...',
-        hasImg ? '이미지 반영 결과 적합도 확인 중...' : '클릭률 예측 점수 계산 중...',
-        '거의 다 왔어요! 개선 권고사항 정리 중...',
-      ];
-      let ti = 0;
-      const thinkTxt = document.getElementById('apPanel_noopText');
-      fieldTimer = setInterval(()=>{
-        ti = (ti+1) % thinkMsgs.length;
-        if(thinkTxt) thinkTxt.textContent = thinkMsgs[ti];
-        updateStatus(thinkMsgs[ti]);
-      }, 2000);
-    }
-  }, 1200);
 
   let fieldTimer = null;
   pg(1,'active');
@@ -3003,9 +2918,7 @@ async function generate(){
 
     const streamElCopy = document.getElementById('apLogStream');
     const liveLogCopy = document.getElementById('apLogBox');
-    const fieldRows = document.getElementById('apFieldRows');
-    if(fieldRows) fieldRows.style.display = 'none';
-    if(liveLogCopy) liveLogCopy.style.display = 'block';
+      if(liveLogCopy) liveLogCopy.style.display = 'block';
     if(streamElCopy) streamElCopy.innerHTML = '⚡ 제목 + 설명 병렬 생성 중...<span class="ap-stream-cursor"></span>';
 
     const sysCopy = `당신은 네이버 파워링크 광고 전문가입니다.
@@ -3114,7 +3027,6 @@ async function generate(){
       if(apProg) apProg.style.display='none';
       const thinkEl = document.getElementById('apPanel_noop');
       if(thinkEl) thinkEl.style.display='none';
-      ['name','feat','img','deny','season','tone'].forEach(id=>setApField(id,null,'done'));
       clearInterval(fieldTimer);
       
       // 분석 결과 타이핑 효과로 표시
@@ -3163,8 +3075,6 @@ async function generate(){
       // 리포트 완료 - 결과는 이미 표시됨, 패널만 업데이트
       pg(3,'done');pg(4,'done');
       // fieldRows 다시 표시
-      const fr = document.getElementById('apFieldRows');
-      if(fr) fr.style.display = 'block';
       document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
       btn.disabled=false;
       stopAnalyzingUI();
