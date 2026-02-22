@@ -465,15 +465,20 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 
 /* ══ 광고 미리보기 ══ */
 .preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
-/* 미리보기 + 소재 모니터 sticky 컨테이너 */
+/* 미리보기 + 소재 모니터 — 기본 static, .pinned 시 sticky */
 #previewMonitorWrap{
-  position:sticky;
-  top:calc(var(--hh) + 6px);
+  position:relative;
   z-index:10;
   background:var(--bg);
   padding-bottom:6px;
-  max-height:55vh;
+  transition:box-shadow .25s;
+}
+#previewMonitorWrap.pinned{
+  position:sticky;
+  top:calc(var(--hh) + 6px);
+  max-height:calc(100vh - var(--hh) - 16px);
   overflow-y:auto;
+  box-shadow:0 8px 32px rgba(0,0,0,.45);
 }
 #previewMonitorWrap::-webkit-scrollbar{width:3px}
 #previewMonitorWrap::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px}
@@ -1402,7 +1407,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .ap-live-log .ap-log-dot.active{background:var(--g);animation:apPulse .8s ease infinite}
 
 /* ═══════════════════════════════════════════════════════════════
-   v8.0  DESIGN OVERRIDE — 2026 Editorial Precision
+   v8.3  DESIGN OVERRIDE — 2026 Editorial Precision
    Pretendard Variable 단일 폰트, 가독성 우선 타이포그래피 시스템
    ═══════════════════════════════════════════════════════════════ */
 
@@ -2331,60 +2336,7 @@ p, span, div, label, li {
 .pin-section-btn .pin-icon { font-size:11px; transition:transform .2s; }
 .pin-section-btn.pinned .pin-icon { transform:rotate(45deg); }
 
-/* ══ 플로팅 고정 패널 ══ */
-.floating-wrap {
-  position:fixed;
-  right:18px;
-  z-index:200;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  pointer-events:none;
-  transition:top .3s cubic-bezier(.4,0,.2,1);
-}
-.floating-wrap.visible { pointer-events:all; }
 
-.float-panel {
-  background:rgba(7,13,24,.96);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:14px;
-  box-shadow:0 16px 48px rgba(0,0,0,.6), 0 0 0 1px rgba(3,199,90,.06);
-  backdrop-filter:blur(24px) saturate(180%);
-  width:360px;
-  overflow:hidden;
-  transition:all .3s cubic-bezier(.4,0,.2,1);
-  opacity:0;transform:translateX(20px) scale(.97);
-  pointer-events:none;
-}
-.float-panel.show {
-  opacity:1;transform:translateX(0) scale(1);
-  pointer-events:all;
-}
-.float-panel-head {
-  padding:9px 14px;
-  background:rgba(0,0,0,.3);
-  border-bottom:1px solid rgba(255,255,255,.07);
-  display:flex;align-items:center;gap:8px;
-}
-.float-panel-head h4 {
-  font-size:12px;font-weight:800;color:var(--text);
-  flex:1;letter-spacing:-.2px;
-}
-.float-panel-close {
-  width:22px;height:22px;border-radius:50%;
-  background:rgba(255,255,255,.07);border:none;
-  color:rgba(220,232,248,.5);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-family:inherit;
-  transition:all .15s;flex-shrink:0;
-}
-.float-panel-close:hover { background:rgba(255,77,109,.15);color:#ff6b85; }
-.float-drag-handle {
-  cursor:grab;padding:0 4px;color:rgba(220,232,248,.25);
-  font-size:13px;user-select:none;
-}
-.float-drag-handle:active { cursor:grabbing; }
-.float-panel-body { padding:0; }
 
 /* ══ 더보기 버튼 ══ */
 .more-sel-btn {
@@ -2608,7 +2560,7 @@ p, span, div, label, li {
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v8.0</span>
+    <span class="h-version">v8.3</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -2834,7 +2786,7 @@ p, span, div, label, li {
         <div class="section-label">광고 미리보기</div>
         <div class="section-div"></div>
         <span class="pv-live" style="font-size:13px">실시간</span>
-        <button class="pin-section-btn" id="pinPreviewBtn" onclick="togglePinPanel('preview')">
+        <button class="pin-section-btn" id="pinWrapBtn" onclick="toggleStickyWrap()">
           <span class="pin-icon">📌</span> 고정하기
         </button>
       </div>
@@ -2891,9 +2843,7 @@ p, span, div, label, li {
       <div class="section-header" style="margin-top:8px">
         <div class="section-label">광고 소재 모니터</div>
         <div class="section-div"></div>
-        <button class="pin-section-btn" id="pinMonitorBtn" onclick="togglePinPanel('monitor')">
-          <span class="pin-icon">📌</span> 고정하기
-        </button>
+
       </div>
       <div class="status-board">
         <!-- 1행: 선택 현황 -->
@@ -3049,100 +2999,6 @@ p, span, div, label, li {
   </div>
 
 
-<!-- ══ 플로팅 고정 패널 ══ -->
-<div class="floating-wrap" id="floatingWrap">
-
-  <!-- 미리보기 플로팅 패널 -->
-  <div class="float-panel" id="floatPreview">
-    <div class="float-panel-head" id="floatPreviewHead">
-      <span class="float-drag-handle" title="드래그로 이동">⠿</span>
-      <h4>🖥 광고 미리보기</h4>
-      <span class="pv-live" style="font-size:10px">실시간</span>
-      <button class="float-panel-close" onclick="togglePinPanel('preview')">✕</button>
-    </div>
-    <div class="float-panel-body">
-      <div style="padding:8px 10px">
-        <!-- PC 미리보기 복사본 -->
-        <div style="margin-bottom:8px">
-          <div style="font-size:10px;font-weight:700;color:rgba(220,232,248,.4);margin-bottom:4px;letter-spacing:.3px">🖥 PC</div>
-          <div class="naver-ad">
-            <div class="naver-ad-inner">
-              <div class="naver-ad-header">
-                <div class="naver-ad-logo">S</div>
-                <span class="naver-ad-store">스마트스토어</span>
-                <span style="color:#ddd;font-size:9px">·</span>
-                <span class="naver-ad-url">smartstore.naver.com</span>
-                <span class="naver-ad-badge">광고</span>
-              </div>
-              <div class="naver-ad-row">
-                <div class="naver-ad-body">
-                  <div class="naver-ad-title empty" id="fpPcTitle">제목을 선택하면 표시됩니다</div>
-                  <div class="naver-ad-desc empty" id="fpPcDesc">설명을 선택하면 표시됩니다</div>
-                </div>
-                <div class="naver-ad-thumb" id="fpPcThumb">🏪</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- 모바일 미리보기 복사본 -->
-        <div>
-          <div style="font-size:10px;font-weight:700;color:rgba(220,232,248,.4);margin-bottom:4px;letter-spacing:.3px">📱 모바일</div>
-          <div class="naver-mob-ad">
-            <div class="naver-mob-ad-inner" style="padding:0">
-              <div id="fpMobList">
-                <div class="mob-ad-empty">
-                  <div class="naver-mob-meta"><div class="naver-mob-logo">S</div><span class="naver-mob-store">스마트스토어</span><span class="naver-mob-badge">광고</span></div>
-                  <div class="naver-mob-title empty">제목을 선택하면 표시됩니다</div>
-                  <div class="naver-mob-desc empty">설명을 선택하면 표시됩니다</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 모니터 플로팅 패널 -->
-  <div class="float-panel" id="floatMonitor">
-    <div class="float-panel-head" id="floatMonitorHead">
-      <span class="float-drag-handle" title="드래그로 이동">⠿</span>
-      <h4>📊 광고 소재 모니터</h4>
-      <button class="float-panel-close" onclick="togglePinPanel('monitor')">✕</button>
-    </div>
-    <div class="float-panel-body">
-      <div style="padding:10px 12px">
-        <!-- 제목/설명 선택 수 -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
-          <div style="background:rgba(3,199,90,.07);border:1px solid rgba(3,199,90,.15);border-radius:8px;padding:8px 12px;text-align:center">
-            <div style="font-size:22px;font-weight:900;color:#03C75A;letter-spacing:-1px;line-height:1" id="fpTitleNum">0</div>
-            <div style="font-size:10px;color:rgba(220,232,248,.4);margin-top:2px">제목 선택 / 15</div>
-          </div>
-          <div style="background:rgba(51,133,255,.07);border:1px solid rgba(51,133,255,.15);border-radius:8px;padding:8px 12px;text-align:center">
-            <div style="font-size:22px;font-weight:900;color:#3385ff;letter-spacing:-1px;line-height:1" id="fpDescNum">0</div>
-            <div style="font-size:10px;color:rgba(220,232,248,.4);margin-top:2px">설명 선택 / 4</div>
-          </div>
-        </div>
-        <!-- 선택된 제목 목록 -->
-        <div style="margin-bottom:8px">
-          <div style="font-size:10px;font-weight:800;color:rgba(220,232,248,.35);letter-spacing:.4px;text-transform:uppercase;margin-bottom:5px">선택된 제목</div>
-          <div id="fpTitleList" style="max-height:120px;overflow-y:auto">
-            <div class="sel-empty">선택 없음</div>
-          </div>
-        </div>
-        <!-- 선택된 설명 목록 -->
-        <div>
-          <div style="font-size:10px;font-weight:800;color:rgba(220,232,248,.35);letter-spacing:.4px;text-transform:uppercase;margin-bottom:5px">선택된 설명</div>
-          <div id="fpDescList" style="max-height:80px;overflow-y:auto">
-            <div class="sel-empty">선택 없음</div>
-          </div>
-        </div>
-        <button onclick="openSelModal()" style="width:100%;margin-top:10px;padding:7px;background:rgba(3,199,90,.08);border:1px solid rgba(3,199,90,.2);color:#03C75A;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .18s" onmouseover="this.style.background='rgba(3,199,90,.15)'" onmouseout="this.style.background='rgba(3,199,90,.08)'">📋 전체 더보기</button>
-      </div>
-    </div>
-  </div>
-
-</div>
 
 <!-- ══ 더보기 모달 ══ -->
 <div class="sel-modal-overlay" id="selModalOverlay" onclick="closeSelModal(event)">
@@ -4721,117 +4577,48 @@ async function generate(){
   }
 }
 
-// ════════════════════════════════════════════════════════════
-// 플로팅 패널 시스템
-// ════════════════════════════════════════════════════════════
-const _pinState = { preview: false, monitor: false };
-let _floatPos = { x: null, y: null };
 
-function togglePinPanel(type) {
-  _pinState[type] = !_pinState[type];
-  const panelId = type === 'preview' ? 'floatPreview' : 'floatMonitor';
-  const btnId   = type === 'preview' ? 'pinPreviewBtn' : 'pinMonitorBtn';
-  const panel   = document.getElementById(panelId);
-  const btn     = document.getElementById(btnId);
-  const wrap    = document.getElementById('floatingWrap');
 
-  if (_pinState[type]) {
-    panel.classList.add('show');
-    if (btn) { btn.classList.add('pinned'); btn.innerHTML = '<span class="pin-icon">📌</span> 고정 해제'; }
+// ════════════════════════════════════════════════════════════
+// sticky 고정 토글
+// ════════════════════════════════════════════════════════════
+let _stickyPinned = false;
+
+function toggleStickyWrap() {
+  _stickyPinned = !_stickyPinned;
+  const wrap = document.getElementById('previewMonitorWrap');
+  const btn  = document.getElementById('pinWrapBtn');
+
+  if (_stickyPinned) {
+    wrap.classList.add('pinned');
+    if (btn) {
+      btn.classList.add('pinned');
+      btn.innerHTML = '<span class="pin-icon">📌</span> 고정 해제';
+    }
+    // 고정 직후 현재 위치가 이미 지나쳤으면 자동 스크롤
+    const rect = wrap.getBoundingClientRect();
+    const hh   = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--hh')) || 52;
+    if (rect.top < hh) {
+      wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   } else {
-    panel.classList.remove('show');
-    if (btn) { btn.classList.remove('pinned'); btn.innerHTML = '<span class="pin-icon">📌</span> 고정하기'; }
-  }
-
-  // 하나라도 열리면 wrap visible
-  const anyOpen = _pinState.preview || _pinState.monitor;
-  wrap.classList.toggle('visible', anyOpen);
-  _positionFloatWrap();
-
-  // 미리보기 패널 열릴 때 즉시 동기화
-  if (type === 'preview' && _pinState.preview) _syncFloatPreview();
-  if (type === 'monitor' && _pinState.monitor) _syncFloatMonitor();
-}
-
-function _positionFloatWrap() {
-  const wrap = document.getElementById('floatingWrap');
-  const hh = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--hh')) || 52;
-  wrap.style.top = (hh + 12) + 'px';
-}
-
-// ── 플로팅 미리보기 동기화
-function _syncFloatPreview() {
-  if (!_pinState.preview) return;
-
-  // PC 타이틀
-  const mainPcTitle = document.getElementById('pvPcTitles');
-  const fpPcTitle   = document.getElementById('fpPcTitle');
-  if (fpPcTitle && mainPcTitle) {
-    fpPcTitle.textContent = mainPcTitle.textContent;
-    fpPcTitle.className   = mainPcTitle.className;
-  }
-  // PC 설명
-  const mainPcDesc = document.getElementById('pvPcDesc');
-  const fpPcDesc   = document.getElementById('fpPcDesc');
-  if (fpPcDesc && mainPcDesc) {
-    fpPcDesc.textContent = mainPcDesc.textContent;
-    fpPcDesc.className   = mainPcDesc.className;
-  }
-  // PC 썸네일
-  const mainThumb = document.getElementById('pvPcThumb');
-  const fpThumb   = document.getElementById('fpPcThumb');
-  if (fpThumb && mainThumb) fpThumb.innerHTML = mainThumb.innerHTML;
-
-  // 모바일 목록 복사
-  const mainMob = document.getElementById('pvMobTitleList');
-  const fpMob   = document.getElementById('fpMobList');
-  if (fpMob && mainMob) fpMob.innerHTML = mainMob.innerHTML;
-}
-
-// ── 플로팅 모니터 동기화
-function _syncFloatMonitor() {
-  if (!_pinState.monitor) return;
-  const ts = [...S.selT].sort((a,b) => a-b);
-  const ds = [...S.selD].sort((a,b) => a-b);
-
-  const fpTNum = document.getElementById('fpTitleNum');
-  const fpDNum = document.getElementById('fpDescNum');
-  if (fpTNum) fpTNum.textContent = ts.length;
-  if (fpDNum) fpDNum.textContent = ds.length;
-
-  const fpTList = document.getElementById('fpTitleList');
-  if (fpTList) {
-    fpTList.innerHTML = ts.length
-      ? ts.map((i,n) => `<div class="sel-item" style="font-size:12px;padding:4px 8px;margin-bottom:3px">
-          <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(S.titles[i])}</span>
-          <button class="sel-x" style="font-size:10px" onclick="tog('t',${i})">✕</button>
-        </div>`).join('')
-      : '<div class="sel-empty">선택 없음</div>';
-  }
-
-  const fpDList = document.getElementById('fpDescList');
-  if (fpDList) {
-    fpDList.innerHTML = ds.length
-      ? ds.map((i,n) => `<div class="sel-item" style="font-size:12px;padding:4px 8px;margin-bottom:3px">
-          <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(S.descs[i])}</span>
-          <button class="sel-x" style="font-size:10px" onclick="tog('d',${i})">✕</button>
-        </div>`).join('')
-      : '<div class="sel-empty">선택 없음</div>';
+    wrap.classList.remove('pinned');
+    if (btn) {
+      btn.classList.remove('pinned');
+      btn.innerHTML = '<span class="pin-icon">📌</span> 고정하기';
+    }
   }
 }
 
-// ── 더보기 버튼 표시 연동 (updateSelList에서 호출)
+// ── 더보기 버튼 표시 연동
 function _updateMoreBtn() {
-  const btn  = document.getElementById('moreSelBtn');
-  const cnt  = document.getElementById('moreTotalCnt');
+  const btn   = document.getElementById('moreSelBtn');
+  const cnt   = document.getElementById('moreTotalCnt');
   const total = S.selT.size + S.selD.size;
   if (btn) {
     btn.style.display = total > 0 ? 'inline-flex' : 'none';
     if (cnt) cnt.textContent = total;
   }
-  // 플로팅 패널 자동 동기화
-  _syncFloatPreview();
-  _syncFloatMonitor();
 }
 
 // ── 더보기 모달 열기
@@ -4842,14 +4629,13 @@ function openSelModal() {
   const ts = [...S.selT].sort((a,b) => a-b);
   const ds = [...S.selD].sort((a,b) => a-b);
 
-  // 제목 렌더
   const titlesEl = document.getElementById('selModalTitles');
   const titleCnt = document.getElementById('selModalTitleCnt');
   if (titleCnt) titleCnt.textContent = ts.length + '개';
   if (titlesEl) {
     titlesEl.innerHTML = ts.length
       ? ts.map((i,n) => {
-          const pinVal = pinData[i] || '';
+          const pinVal   = pinData[i] || '';
           const pinLabel = pinVal ? `<span class="sel-modal-item-pin">📌 제목${pinVal} 고정</span>` : '';
           return `<div class="sel-modal-item">
             <div class="sel-modal-item-num">#${n+1}</div>
@@ -4863,22 +4649,22 @@ function openSelModal() {
       : '<div class="sel-modal-empty">선택된 제목이 없어요</div>';
   }
 
-  // 설명 렌더
-  const descsEl  = document.getElementById('selModalDescs');
-  const descCnt  = document.getElementById('selModalDescCnt');
+  const descsEl = document.getElementById('selModalDescs');
+  const descCnt = document.getElementById('selModalDescCnt');
   if (descCnt) descCnt.textContent = ds.length + '개';
   if (descsEl) {
     descsEl.innerHTML = ds.length
       ? ds.map((i,n) => {
-          const pinVal = descPinData[i] || '';
+          const pinVal   = descPinData[i] || '';
           const pinLabel = pinVal ? `<span class="sel-modal-item-pin">📌 설명${pinVal} 고정</span>` : '';
           const len = [...S.descs[i]].length;
-          const lenCls = len < 40 ? 'style="background:rgba(245,158,11,.1);color:#f59e0b"' : (len > 45 ? 'style="background:rgba(255,77,109,.1);color:#ff4d6d"' : '');
+          const lenStyle = len < 40 ? 'style="background:rgba(245,158,11,.1);color:#f59e0b"'
+                         : len > 45 ? 'style="background:rgba(255,77,109,.1);color:#ff4d6d"' : '';
           return `<div class="sel-modal-item">
             <div class="sel-modal-item-num">#${n+1}</div>
             <div class="sel-modal-item-txt">${esc(S.descs[i])}</div>
             <div class="sel-modal-item-meta">
-              <span class="sel-modal-item-len" ${lenCls}>${len}자</span>
+              <span class="sel-modal-item-len" ${lenStyle}>${len}자</span>
               ${pinLabel}
             </div>
           </div>`;
@@ -4886,7 +4672,6 @@ function openSelModal() {
       : '<div class="sel-modal-empty">선택된 설명이 없어요</div>';
   }
 
-  // 헤더/푸터 요약
   const total = document.getElementById('selModalTotal');
   if (total) total.textContent = `제목 ${ts.length}개 · 설명 ${ds.length}개`;
   const footerInfo = document.getElementById('selModalFooterInfo');
@@ -4909,67 +4694,17 @@ function copyAllSelected() {
   const ds = [...S.selD].sort((a,b) => a-b).map(i => S.descs[i]);
   const lines = [];
   if (ts.length) { lines.push('▶ 제목'); ts.forEach((t,i) => lines.push(`${i+1}. ${t}`)); }
-  if (ds.length) { if(ts.length) lines.push(''); lines.push('▶ 설명'); ds.forEach((d,i) => lines.push(`${i+1}. ${d}`)); }
+  if (ds.length) { if (ts.length) lines.push(''); lines.push('▶ 설명'); ds.forEach((d,i) => lines.push(`${i+1}. ${d}`)); }
   if (!lines.length) return;
   navigator.clipboard.writeText(lines.join('\n')).then(() => {
     showLimitToast('✓ 전체 소재가 클립보드에 복사되었습니다');
   });
 }
 
-// ── 드래그 이동 (플로팅 패널)
-(function initDrag() {
-  ['floatPreviewHead', 'floatMonitorHead'].forEach(headId => {
-    let startX, startY, initLeft, initTop, isDragging = false;
-    const getPanel = () => document.getElementById(
-      headId === 'floatPreviewHead' ? 'floatPreview' : 'floatMonitor'
-    );
-    document.addEventListener('DOMContentLoaded', () => {
-      const head = document.getElementById(headId);
-      if (!head) return;
-      head.addEventListener('mousedown', e => {
-        if (e.target.closest('button')) return;
-        isDragging = true;
-        const wrap = document.getElementById('floatingWrap');
-        const panel = getPanel();
-        const wRect = wrap.getBoundingClientRect();
-        const pRect = panel.getBoundingClientRect();
-        startX = e.clientX; startY = e.clientY;
-        initLeft = pRect.left; initTop = pRect.top;
-        panel.style.position = 'absolute';
-        panel.style.left = (pRect.left - wRect.left) + 'px';
-        panel.style.top  = (pRect.top  - wRect.top)  + 'px';
-        panel.style.right = 'auto';
-        document.body.style.userSelect = 'none';
-      });
-      document.addEventListener('mousemove', e => {
-        if (!isDragging) return;
-        const panel = getPanel();
-        const dx = e.clientX - startX;
-        const dy = e.clientY - startY;
-        panel.style.left = (initLeft + dx) + 'px';
-        panel.style.top  = (initTop  + dy) + 'px';
-        // 화면 밖으로 나가지 않도록
-        const pr = panel.getBoundingClientRect();
-        if (pr.left < 0) panel.style.left = '0px';
-        if (pr.top  < 52) panel.style.top = '52px';
-        if (pr.right > window.innerWidth) panel.style.left = (window.innerWidth - pr.width) + 'px';
-        if (pr.bottom > window.innerHeight) panel.style.top = (window.innerHeight - pr.height) + 'px';
-      });
-      document.addEventListener('mouseup', () => {
-        if (isDragging) { isDragging = false; document.body.style.userSelect = ''; }
-      });
-    });
-  });
-})();
-
 // ESC 키로 모달 닫기
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    closeSelModal();
-  }
+  if (e.key === 'Escape') closeSelModal();
 });
-
-window.addEventListener('load', _positionFloatWrap);
 
 </script>
 </body>
