@@ -471,6 +471,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 
 /* ══ 광고 미리보기 ══ */
 .preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+#previewSection{position:sticky;top:calc(var(--hh) + 6px);z-index:10;background:var(--bg);padding-bottom:4px}
 .pv-card{
   background:var(--glass);backdrop-filter:blur(12px);
   border:1px solid var(--border);border-radius:var(--r);
@@ -551,7 +552,12 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .badge.sel{background:rgba(0,102,255,.1);color:var(--b2);border-color:rgba(0,102,255,.2)}
 .item{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid var(--border);transition:background .15s;cursor:pointer;flex-wrap:wrap}
 .item:hover{background:rgba(255,255,255,.03)}
-.item.on{background:rgba(3,199,90,.04)}
+.item.on{
+  background:linear-gradient(90deg,rgba(3,199,90,.12),rgba(3,199,90,.03));
+  border-left:3px solid var(--g);
+  padding-left:11px;
+}
+.item.on .txt{color:#4ddb8f;font-weight:600}
 .plus{
   width:22px;height:22px;border-radius:50%;
   border:1.5px solid var(--border);background:none;color:var(--text3);
@@ -895,6 +901,8 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .rc-title-group:last-child{border-right:none}
 .rc-title-group::-webkit-scrollbar{width:3px}
 .rc-title-group::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+.rc-desc-2col{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border)}
+.rc-desc-group{display:flex;flex-direction:column}
 .rc-desc-area{overflow-y:auto;max-height:300px}
 .rc-desc-area::-webkit-scrollbar{width:3px}
 .rc-desc-area::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
@@ -986,8 +994,9 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 }
 .item-desc:hover{background:rgba(255,255,255,.025)}
 .item-desc.on{
-  background:linear-gradient(90deg,rgba(3,199,90,.09),rgba(3,199,90,.02));
+  background:linear-gradient(90deg,rgba(3,199,90,.12),rgba(3,199,90,.02));
   border-left:3px solid var(--g);
+  padding-left:13px;
 }
 .item-desc.on .txt{color:#4ddb8f;font-weight:600}
 .item-desc .txt-wrap{flex:1}
@@ -1684,13 +1693,27 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
           <div id="titleGroup3"></div>
         </div>
       </div>
-      <!-- 설명 영역 -->
-      <div class="rc-head" style="border-top:1px solid var(--border)">
-        <span class="tg-dot tg1" style="background:#03C75A"></span>
-        <span class="rc-head-label">설명 1번 추천</span>
-        <span style="margin-left:auto;font-size:11px;color:var(--text3)">광고 설명란에 활용</span>
+      <!-- 설명 2컬럼 -->
+      <div class="rc-desc-2col">
+        <!-- 설명 추천 1 -->
+        <div class="rc-desc-group" style="border-right:1px solid var(--border)">
+          <div class="rc-head">
+            <span class="tg-dot tg1" style="background:#03C75A"></span>
+            <span class="rc-head-label" style="color:#03C75A">설명 1번 추천</span>
+            <span class="tg-sub" style="margin-left:auto">설명 첫 번째 자리</span>
+          </div>
+          <div class="rc-desc-area" id="descGroup1"></div>
+        </div>
+        <!-- 설명 추천 2 -->
+        <div class="rc-desc-group">
+          <div class="rc-head">
+            <span class="tg-dot tg2" style="background:#3385ff"></span>
+            <span class="rc-head-label" style="color:#3385ff">설명 2번 추천</span>
+            <span class="tg-sub" style="margin-left:auto">설명 두 번째 자리</span>
+          </div>
+          <div class="rc-desc-area" id="descGroup2"></div>
+        </div>
       </div>
-      <div class="rc-desc-area" id="descItems"></div>
       <!-- tBadge hidden (count in header) -->
       <span id="tBadge" style="display:none">0</span>
     </div>
@@ -2460,25 +2483,25 @@ function render(){
   if(tb) tb.textContent=S.titles.length;
 
   // titleItems 없어도 kwCol 렌더는 아래에서 처리
-  const dEl=document.getElementById('descItems');
-  if(dEl){
-    dEl.innerHTML='';
+  const dEl1=document.getElementById('descGroup1');
+  const dEl2=document.getElementById('descGroup2');
+  if(dEl1 && dEl2){
+    dEl1.innerHTML=''; dEl2.innerHTML='';
     const dTotal = S.descs.length;
     const dHalf = Math.ceil(dTotal/2);
     S.descs.forEach((d,i)=>{
       const len=[...d].length, over=len>45;
       const on=S.selD.has(i);
       const pinVal=descPinData[i]||'';
-      const dg = i < dHalf ? 1 : 2; // 설명 그룹 (1번/2번 추천)
+      const dg = i < dHalf ? 1 : 2;
       let itemCls='item-desc';
       if(pinVal) itemCls+=' pin'+pinVal;
       else if(on) itemCls+=' on';
-      dEl.insertAdjacentHTML('beforeend',`<div class="${itemCls}" id="d${i}">
+      const html=`<div class="${itemCls}" id="d${i}">
         <button class="plus" onclick="tog('d',${i})">${on?'✓':'+'}</button>
         <div class="txt-wrap">
           <div class="txt" contenteditable="true" oninput="onDescEdit(${i},this)" onblur="onDescEdit(${i},this)">${esc(d)}</div>
           <div class="meta" style="flex-wrap:wrap">
-            <span class="grp-badge g${dg}" style="font-size:10px">설명 ${dg}번 추천</span>
             <span class="cc${over?' over':''}" style="font-size:12px">${len}/45자${over?' ⚠️':''}</span>
             ${pinVal?`<span class="badge-tag" style="font-size:11px;background:${pinVal==='1'?'rgba(3,199,90,.2)':'rgba(51,133,255,.2)'};color:${pinVal==='1'?'#03C75A':'#3385ff'}">설명${pinVal} 고정</span>`:''}
           </div>
@@ -2488,7 +2511,8 @@ function render(){
           <option value="1"${pinVal==='1'?' selected':''}>설명 1</option>
           <option value="2"${pinVal==='2'?' selected':''}>설명 2</option>
         </select>
-      </div>`);
+      </div>`;
+      (dg===1 ? dEl1 : dEl2).insertAdjacentHTML('beforeend', html);
     });
     const db=document.getElementById('dBadge');
     if(db) db.textContent=S.descs.length;
@@ -2948,7 +2972,7 @@ async function generate(){
         }
       ),
       callClaude(sysCopy,
-        promptBase + '\n\n설명 6개를 생성하세요. 규칙: 반드시 45자 이하, 핵심 혜택 구체적으로.\n형식: {"descs":["..."]}',
+        promptBase + '\n\n설명 10개를 생성하세요. 규칙: 40~45자 사이로 최대한 채워서 작성. 절대 45자 초과 금지. 핵심 혜택 구체적으로.\n형식: {"descs":["..."]}',
         null
       )
     ]);
@@ -2989,37 +3013,6 @@ async function generate(){
       '개선 권고사항 정리 중... 곧 완료됩니다!',
     ];
     setPhase('② 마케터 리포트 분석', phase2Steps, 2500);
-
-    // 라이브 분석 로그 시작
-    const liveLog = document.getElementById('apLogBox');
-    if(liveLog) liveLog.style.display='block';
-    const thinkEl2 = document.getElementById('apPanel_noop');
-    if(thinkEl2) thinkEl2.style.display='none';
-    let logStep = 0;
-    const logDots  = [1,2,3,4,5,6,7].map(n=>document.getElementById('alog-dot-'+n));
-    const logTexts = [1,2,3,4,5,6,7].map(n=>document.getElementById('alog-text-'+n));
-    function advanceLog(){
-      if(logStep < 7){
-        if(logStep > 0){
-          logDots[logStep-1] && logDots[logStep-1].classList.replace('active','done');
-          logTexts[logStep-1] && logTexts[logStep-1].classList.remove('active');
-        }
-        logDots[logStep] && logDots[logStep].classList.add('active');
-        logTexts[logStep] && logTexts[logStep].classList.add('active');
-        logStep++;
-      }
-    }
-    advanceLog();
-    const logInterval = setInterval(advanceLog, Math.floor(estPhase2*1000/8));
-    // 완료 시 정리
-    const origStop = window._stopCountdown;
-    window._stopCountdown = ()=>{
-      clearInterval(logInterval);
-      // 모든 로그 done
-      logDots.forEach(d=>{ if(d){d.classList.remove('active');d.classList.add('done');} });
-      logTexts.forEach(t=>{ if(t) t.classList.remove('active'); });
-      if(origStop) origStop();
-    };
 
     const aBody=document.getElementById('analysisBody');aBody.style.display='none';
     if(sideStatus) sideStatus.textContent='리포트 작성 중...';
