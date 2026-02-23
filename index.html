@@ -2695,7 +2695,7 @@ p, span, div, label, li {
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v1.0</span>
+    <span class="h-version">v1.1</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -3333,7 +3333,7 @@ async function testApiKey(type) {
 
   try {
     if (type === 'gemini') {
-      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contents: [{ role:'user', parts:[{text:'hi'}] }], generationConfig:{ maxOutputTokens:5 } })
@@ -3733,7 +3733,7 @@ async function callGemini(sys, userContent, onChunk, maxTokens) {
   const tokens = maxTokens || 900;
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), tokens > 1000 ? 120000 : 90000);
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
   try {
     const res = await fetch(url, {
