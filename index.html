@@ -2529,6 +2529,47 @@ p, span, div, label, li {
 
 /* ─── enhance-num (06~08 번호) ─── */
 .enhance-num{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:5px;background:rgba(255,255,255,.07);color:rgba(220,232,248,.45);font-size:9.5px;font-weight:800;flex-shrink:0;font-family:'Pretendard Variable','Pretendard',sans-serif}
+
+/* ─── 모달 입력 눈 버튼 ─── */
+.mk-input-wrap{position:relative;display:flex;align-items:center;margin-top:6px}
+.mk-input-wrap .mk-input{padding-right:36px;margin-top:0}
+.mk-eye-btn{position:absolute;right:10px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.3);padding:4px;display:flex;align-items:center;transition:color .15s;flex-shrink:0}
+.mk-eye-btn:hover{color:rgba(255,255,255,.7)}
+
+/* ─── 모달 row 진입 애니메이션 ─── */
+@keyframes mkRowIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.mk-row-anim{animation:mkRowIn .35s cubic-bezier(.34,1.2,.64,1) both}
+
+/* ─── 저장 버튼 활성 강화 ─── */
+.key-confirm-btn{transition:all .25s cubic-bezier(.34,1.2,.64,1) !important}
+.key-confirm-btn:not(:disabled){opacity:1 !important;box-shadow:0 0 0 1px rgba(3,199,90,.4),0 4px 20px rgba(3,199,90,.3) !important;animation:btnPulse 2.5s ease infinite}
+@keyframes btnPulse{0%,100%{box-shadow:0 0 0 1px rgba(3,199,90,.4),0 4px 20px rgba(3,199,90,.3)}50%{box-shadow:0 0 0 2px rgba(3,199,90,.6),0 6px 28px rgba(3,199,90,.45)}}
+.key-confirm-btn:not(:disabled):hover{transform:translateY(-2px) scale(1.01) !important;box-shadow:0 0 0 2px rgba(3,199,90,.6),0 10px 32px rgba(3,199,90,.5) !important;animation:none !important}
+
+/* ─── 모달 오버레이 페이드 ─── */
+.overlay{transition:opacity .2s}
+.overlay.hidden{display:none}
+.key-modal{animation:modalIn .35s cubic-bezier(.34,1.2,.64,1)}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+
+/* ─── 테스트 버튼 ─── */
+.mk-test-row{display:flex;align-items:center;gap:7px;margin-top:4px}
+.mk-test-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(220,232,248,.6);font-size:10px;font-weight:700;padding:3px 9px;border-radius:5px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s;flex-shrink:0}
+.mk-test-btn:hover{background:rgba(255,255,255,.12);color:#fff}
+.mk-test-btn:disabled{opacity:.4;cursor:not-allowed}
+.mk-test-result{font-size:10px;font-weight:700;white-space:nowrap;transition:all .3s}
+.mk-test-result.ok{color:#03C75A}
+.mk-test-result.err{color:#ff4d6d}
+.mk-test-result.testing{color:#ff9800;animation:testPulse .8s ease infinite}
+@keyframes testPulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ─── 토스트 알림 ─── */
+#toastWrap{position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:#0d1f35;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:12px 16px;font-size:12px;color:#fff;font-weight:600;box-shadow:0 8px 28px rgba(0,0,0,.5);animation:toastIn .3s cubic-bezier(.34,1.2,.64,1);pointer-events:auto;max-width:320px;line-height:1.5}
+.toast.error{border-color:rgba(255,77,109,.4);background:#1a0d14}
+.toast.success{border-color:rgba(3,199,90,.35);background:#061a10}
+@keyframes toastIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+@keyframes toastOut{from{opacity:1;transform:none}to{opacity:0;transform:translateX(30px)}}
 </style>
 </head>
 <body>
@@ -2550,40 +2591,62 @@ p, span, div, label, li {
       <div style="padding:18px 22px 6px;display:flex;flex-direction:column;gap:10px">
 
         <!-- Gemini (필수) -->
-        <div class="mk-api-row">
+        <div class="mk-api-row mk-row-anim" style="animation-delay:0ms">
           <div class="mk-api-header">
             <span class="mk-badge mk-badge-g">필수</span>
             <span class="mk-api-name">🟢 Gemini API Key</span>
-            
           </div>
-          <input type="password" class="mk-input" id="modalKeyGemini" placeholder="AIzaSy..." oninput="onKeyInput()" onpaste="setTimeout(onKeyInput,10)" />
+          <div class="mk-input-wrap">
+            <input type="password" class="mk-input" id="modalKeyGemini" placeholder="AIzaSy..." oninput="onKeyInput()" onpaste="setTimeout(onKeyInput,10)" />
+            <button class="mk-eye-btn" type="button" onclick="toggleMkKey('modalKeyGemini',this)" tabindex="-1">
+              <svg class="eye-on" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-off" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+          </div>
           <div class="mk-link-row"><a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a> → Create API Key</div>
         </div>
 
         <!-- Claude (권장) -->
-        <div class="mk-api-row">
+        <div class="mk-api-row mk-row-anim" style="animation-delay:60ms">
           <div class="mk-api-header">
             <span class="mk-badge mk-badge-c">권장</span>
             <span class="mk-api-name">🟠 Claude API Key</span>
-            
           </div>
-          <input type="password" class="mk-input" id="modalKeyClaude" placeholder="sk-ant-..." oninput="onKeyInput()" onpaste="setTimeout(onKeyInput,10)" />
-          <div class="mk-link-row"><a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → Billing $5 충전 → API Keys</div>
+          <div class="mk-input-wrap">
+            <input type="password" class="mk-input" id="modalKeyClaude" placeholder="sk-ant-..." oninput="onKeyInput()" onpaste="setTimeout(onKeyInput,10)" />
+            <button class="mk-eye-btn" type="button" onclick="toggleMkKey('modalKeyClaude',this)" tabindex="-1">
+              <svg class="eye-on" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-off" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+          </div>
+          <div class="mk-test-row">
+            <div class="mk-link-row" style="flex:1"><a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → Billing $5 충전 → API Keys</div>
+            <button class="mk-test-btn" id="testBtnClaude" onclick="testApiKey('claude')" type="button">연결 테스트</button>
+            <span class="mk-test-result" id="testResultClaude"></span>
+          </div>
         </div>
 
         <!-- GPT-4o (선택) -->
-        <div class="mk-api-row">
+        <div class="mk-api-row mk-row-anim" style="animation-delay:120ms">
           <div class="mk-api-header">
             <span class="mk-badge mk-badge-o">선택</span>
             <span class="mk-api-name">🔵 GPT-4o API Key</span>
-            
           </div>
-          <input type="password" class="mk-input" id="modalKeyOpenai" placeholder="sk-proj-..." oninput="onKeyInput()" onpaste="setTimeout(onKeyInput,10)" />
-          <div class="mk-link-row"><a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a> → Billing $5 충전 → API Keys</div>
+          <div class="mk-input-wrap">
+            <input type="password" class="mk-input" id="modalKeyOpenai" placeholder="sk-proj-..." oninput="onKeyInput()" onpaste="setTimeout(onKeyInput,10)" />
+            <button class="mk-eye-btn" type="button" onclick="toggleMkKey('modalKeyOpenai',this)" tabindex="-1">
+              <svg class="eye-on" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-off" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+          </div>
+          <div class="mk-test-row">
+            <div class="mk-link-row" style="flex:1"><a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a> → Billing $5 충전 → API Keys</div>
+            <button class="mk-test-btn" id="testBtnOpenai" onclick="testApiKey('openai')" type="button">연결 테스트</button>
+            <span class="mk-test-result" id="testResultOpenai"></span>
+          </div>
         </div>
 
         <div class="key-notice" style="margin-top:4px">
-          🔒 API Key는 <span>브라우저에만 저장</span>되며 서버로 전송되지 않아요.<br>
           🔒 API Key는 <span>브라우저에만 저장</span>되며 서버로 전송되지 않아요.
         </div>
       </div>
@@ -3176,7 +3239,11 @@ function updateConfirmBtn() {
 function onKeyInput() {
   const geminiVal = (document.getElementById('modalKeyGemini')?.value||'').trim();
   const btn = document.getElementById('keyConfirmBtn');
-  if (btn) btn.disabled = !geminiVal || geminiVal.length < 5;
+  const ok = !!geminiVal && geminiVal.length >= 5;
+  if (btn) {
+    btn.disabled = !ok;
+    btn.classList.toggle('ready', ok);
+  }
 }
 
 
@@ -3210,6 +3277,118 @@ function toggleModalKey() {
   }
 }
 
+
+
+// ── 토스트 알림
+function showToast(msg, type) {
+  const wrap = document.getElementById('toastWrap');
+  if (!wrap) return;
+  const el = document.createElement('div');
+  el.className = 'toast' + (type ? ' ' + type : '');
+  el.textContent = msg;
+  wrap.appendChild(el);
+  setTimeout(() => {
+    el.style.animation = 'toastOut .3s ease forwards';
+    setTimeout(() => el.remove(), 300);
+  }, 4000);
+}
+
+// ── API 키 연결 테스트
+async function testApiKey(type) {
+  const inputId = type === 'claude' ? 'modalKeyClaude' : 'modalKeyOpenai';
+  const btnId   = type === 'claude' ? 'testBtnClaude'  : 'testBtnOpenai';
+  const resId   = type === 'claude' ? 'testResultClaude' : 'testResultOpenai';
+
+  const key = (document.getElementById(inputId)?.value || '').trim();
+  const btn = document.getElementById(btnId);
+  const res = document.getElementById(resId);
+
+  if (!key || key.length < 10) {
+    if(res) { res.textContent = '키를 입력해주세요'; res.className = 'mk-test-result err'; }
+    return;
+  }
+
+  if(btn) btn.disabled = true;
+  if(res) { res.textContent = '테스트 중...'; res.className = 'mk-test-result testing'; }
+
+  try {
+    if (type === 'claude') {
+      // Claude — 최소 요청으로 키 + 과금 확인
+      const r = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': key,
+          'anthropic-version': '2023-06-01'
+        },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 5,
+          messages: [{ role: 'user', content: 'hi' }]
+        })
+      });
+      if (r.ok) {
+        if(res) { res.textContent = '✅ 정상'; res.className = 'mk-test-result ok'; }
+        showToast('✅ Claude 키 정상 — 결제 완료 확인됨', 'success');
+      } else {
+        const e = await r.json();
+        const msg = e.error?.message || '';
+        if (r.status === 401) throw new Error('키가 유효하지 않아요');
+        if (r.status === 403) throw new Error('결제가 필요해요 (크레딧 없음)');
+        if (r.status === 429) throw new Error('한도 초과 — 키는 유효해요');
+        throw new Error(msg || '오류 ' + r.status);
+      }
+    } else {
+      // GPT-4o — 최소 요청
+      const r = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + key
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          max_tokens: 5,
+          messages: [{ role: 'user', content: 'hi' }]
+        })
+      });
+      if (r.ok) {
+        if(res) { res.textContent = '✅ 정상'; res.className = 'mk-test-result ok'; }
+        showToast('✅ GPT-4o 키 정상 — 결제 완료 확인됨', 'success');
+      } else {
+        const e = await r.json();
+        const msg = e.error?.message || '';
+        if (r.status === 401) throw new Error('키가 유효하지 않아요');
+        if (r.status === 429) {
+          // 429는 할당량 초과지만 키는 유효
+          if(res) { res.textContent = '✅ 정상 (한도주의)'; res.className = 'mk-test-result ok'; }
+          showToast('✅ GPT-4o 키 유효 — 단 사용량 한도 확인 필요', 'success');
+          if(btn) btn.disabled = false;
+          return;
+        }
+        if (r.status === 402 || (msg && msg.includes('billing'))) throw new Error('결제가 필요해요 (크레딧 없음)');
+        throw new Error(msg || '오류 ' + r.status);
+      }
+    }
+  } catch(err) {
+    if(res) { res.textContent = '❌ ' + err.message; res.className = 'mk-test-result err'; }
+    showToast('❌ ' + (type === 'claude' ? 'Claude' : 'GPT-4o') + ': ' + err.message, 'error');
+  } finally {
+    if(btn) btn.disabled = false;
+  }
+}
+
+// ── 모달 눈 버튼 토글
+function toggleMkKey(inputId, btn) {
+  const inp = document.getElementById(inputId);
+  if (!inp) return;
+  const isHidden = inp.type === 'password';
+  inp.type = isHidden ? 'text' : 'password';
+  const eyeOn  = btn.querySelector('.eye-on');
+  const eyeOff = btn.querySelector('.eye-off');
+  if (eyeOn)  eyeOn.style.display  = isHidden ? 'none' : '';
+  if (eyeOff) eyeOff.style.display = isHidden ? '' : 'none';
+}
 function confirmKey() {
   const geminiVal = (document.getElementById('modalKeyGemini')?.value||'').trim();
   const claudeVal = (document.getElementById('modalKeyClaude')?.value||'').trim();
@@ -4717,7 +4896,7 @@ async function generate(){
     stopAnalyzingUI();
     if(window._stopCountdown) window._stopCountdown();
     console.error(e);
-    alert('오류: '+e.message);
+    showToast('❌ ' + e.message, 'error');
     btn.disabled=false;
     document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
   }
@@ -4873,5 +5052,7 @@ document.addEventListener('keydown', e => {
 });
 
 </script>
+
+<div id="toastWrap"></div>
 </body>
 </html>
