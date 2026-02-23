@@ -15,7 +15,7 @@
   --b:#0066ff;--b2:#3385ff;
   --bg:#060d17;--bg2:#091320;--bg3:#0d1a2d;
   --glass:rgba(255,255,255,.04);--glass2:rgba(255,255,255,.07);
-  --border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.12);
+  --border:rgba(255,255,255,.13);--border2:rgba(255,255,255,.12);
   --text:#e8f0fe;--text2:rgba(232,240,254,.9);--text3:rgba(232,240,254,.7);
   --red:#ff4d6d;--amber:#f59e0b;
   --shadow:0 8px 32px rgba(0,0,0,.5);
@@ -70,7 +70,7 @@ body{
 
 /* API Key 모달 */
 .key-modal{background:linear-gradient(160deg,#0a1628,#0f1f38);border:1px solid var(--border2);border-radius:20px;max-width:480px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,.6),0 0 0 1px rgba(3,199,90,.08);animation:slideUp .3s cubic-bezier(.34,1.56,.64,1);overflow:hidden}
-.key-modal-head{background:linear-gradient(135deg,#0a1628 0%,rgba(3,199,90,.06) 100%);padding:26px 28px 22px;position:relative;border-bottom:1px solid var(--border)}
+.key-modal-head{background:linear-gradient(135deg,#0a1628 0%,rgba(3,199,90,.06) 100%);padding:26px 28px 22px;position:relative;border-bottom:1px solid rgba(255,255,255,.13)}
 .key-modal-head::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top right,rgba(3,199,90,.08),transparent 60%);pointer-events:none}
 .key-modal-head .logo-mark{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#029e48,var(--g));display:flex;align-items:center;justify-content:center;font-family:'Pretendard Variable','Pretendard',sans-serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:14px;box-shadow:0 4px 16px var(--g-glow)}
 .key-modal-head h2{font-family:'Pretendard Variable','Pretendard',sans-serif;font-size:19px;font-weight:800;color:#fff;margin-bottom:5px}
@@ -99,11 +99,11 @@ body{
 
 /* 분석 모달 */
 .analysis-modal-inner{background:linear-gradient(160deg,#080f1c,#0d1c30);border:1px solid var(--border2);border-radius:18px;max-width:640px;width:100%;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.6),var(--shadow-g)}
-.analysis-modal-head{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:linear-gradient(135deg,rgba(3,199,90,.05),transparent)}
+.analysis-modal-head{padding:20px 24px;border-bottom:1px solid rgba(255,255,255,.13);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:linear-gradient(135deg,rgba(3,199,90,.05),transparent)}
 .analysis-modal-body{padding:20px 24px;overflow-y:auto;flex:1}
 .analysis-modal-body::-webkit-scrollbar{width:4px}
 .analysis-modal-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px}
-.analysis-section{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border);animation:secFadeIn .4s ease both}
+.analysis-section{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid rgba(255,255,255,.13);animation:secFadeIn .4s ease both}
 @keyframes secFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .analysis-section:last-child{border-bottom:none}
 .analysis-section-title{
@@ -123,7 +123,7 @@ body{
 .site-header{
   position:sticky;top:0;z-index:100;height:var(--hh);
   background:rgba(6,13,23,.85);backdrop-filter:blur(20px) saturate(180%);
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid rgba(255,255,255,.13);
   padding:0 20px;display:flex;align-items:center;justify-content:space-between;
 }
 .header-left{display:flex;align-items:center;gap:10px}
@@ -207,7 +207,7 @@ body{
 
 /* 진행 바 */
 .pbar-strip{
-  background:rgba(0,0,0,.25);border-bottom:1px solid var(--border);
+  background:rgba(0,0,0,.25);border-bottom:1px solid rgba(255,255,255,.13);
   padding:8px 20px;display:flex;align-items:center;gap:16px;
 }
 .pbar-track{height:2px;background:rgba(255,255,255,.07);border-radius:1px;flex:1;overflow:hidden}
@@ -237,7 +237,7 @@ body{
 /* 컬럼 라벨 바 */
 .col-labels{
   display:grid;grid-template-columns:1fr 1fr 1fr 1fr;
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid rgba(255,255,255,.13);
 }
 .col-lbl{
   padding:6px 16px;font-size:13px;font-weight:700;
@@ -506,7 +506,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   overflow:hidden;transition:border-color .2s,box-shadow .2s;
 }
 .pv-card:hover{border-color:var(--border2);box-shadow:0 4px 24px rgba(0,0,0,.3)}
-.pv-head{padding:4px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.15)}
+.pv-head{padding:4px 10px;border-bottom:1px solid rgba(255,255,255,.13);display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.15)}
 .pv-head h4{font-size:11px;font-weight:700;color:var(--text2);flex:1}
 .pv-live{font-size:11px;background:var(--g-dim);color:var(--g);border:1px solid rgba(3,199,90,.2);border-radius:3px;padding:1px 5px;font-weight:700;animation:blink 2s ease infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.6}}
@@ -556,9 +556,9 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .result-wrap{margin-bottom:14px}
 .result-card{
   background:var(--glass);backdrop-filter:blur(12px);
-  border:1px solid var(--border);border-radius:var(--r);overflow:hidden;
+  border:1px solid rgba(255,255,255,.15);border-radius:var(--r);overflow:hidden;
 }
-.result-tabs{display:flex;border-bottom:1px solid var(--border);background:rgba(0,0,0,.2)}
+.result-tabs{display:flex;border-bottom:1px solid rgba(255,255,255,.13);background:rgba(0,0,0,.2)}
 .rtab{
   flex:1;padding:11px 0;font-size:14px;font-weight:700;color:var(--text3);
   border:none;background:none;cursor:pointer;
@@ -572,13 +572,13 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 /* 아이템 */
 .sec-bar{
   display:flex;align-items:center;gap:6px;padding:6px 12px;
-  border-bottom:1px solid var(--border);background:rgba(0,0,0,.15);
+  border-bottom:1px solid rgba(255,255,255,.13);background:rgba(0,0,0,.15);
   position:sticky;top:0;z-index:1;
 }
 .sec-title{font-size:13px;font-weight:700;color:var(--text2);display:flex;align-items:center;gap:5px;flex:1}
 .badge{font-size:11px;background:var(--g-dim);color:var(--g);border:1px solid rgba(3,199,90,.2);border-radius:3px;padding:1px 6px;font-weight:700}
 .badge.sel{background:rgba(0,102,255,.1);color:var(--b2);border-color:rgba(0,102,255,.2)}
-.item{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid var(--border);transition:background .15s;cursor:pointer;flex-wrap:wrap}
+.item{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.13);transition:background .15s;cursor:pointer;flex-wrap:wrap}
 .item:hover{background:rgba(255,255,255,.03)}
 .item.on{
   background:linear-gradient(90deg,rgba(3,199,90,.12),rgba(3,199,90,.03));
@@ -741,7 +741,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .r5-col{display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--border)}
 .r5-col:last-child{border-right:none}
 .r5-head{
-  padding:8px 12px;border-bottom:1px solid var(--border);
+  padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.13);
   background:rgba(0,0,0,.2);flex-shrink:0;
   display:flex;align-items:center;gap:6px;min-height:36px;
 }
@@ -772,7 +772,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .icol-num-2{color:#3385ff;background:rgba(51,133,255,.12);border-color:rgba(51,133,255,.3)}
 .icol-num-3{color:#b43cff;background:rgba(180,60,255,.12);border-color:rgba(180,60,255,.3)}
 .icol-num-4{color:#ff9800;background:rgba(255,150,0,.12);border-color:rgba(255,150,0,.3)}
-.icol-num-5{color:#ff9800;background:rgba(255,150,0,.12);border-color:rgba(255,150,0,.3)}
+.icol-num-8{color:#03C75A;background:rgba(3,199,90,.12);border-color:rgba(3,199,90,.35)}
 .icol-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:1px;line-height:1.3;word-break:keep-all}
 .icol-desc{font-size:10px;color:var(--text3);line-height:1.35;word-break:keep-all}
 .inp-ta{resize:none;line-height:1.5;min-height:72px;font-size:13px}
@@ -858,6 +858,11 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 /* 금지어 */
 .deny-list{display:flex;flex-wrap:wrap;gap:4px;min-height:10px}
 .deny-tag{display:inline-flex;align-items:center;gap:4px;background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.2);border-radius:5px;padding:4px 10px;font-size:13px;color:#ff6b85}
+.deny-warn-box{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:8px 10px;margin-bottom:2px}
+.deny-preset-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.deny-preset{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:4px;color:rgba(220,232,248,.7);font-size:10.5px;font-weight:700;padding:3px 8px;cursor:pointer;font-family:inherit;transition:all .15s}
+.deny-preset:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:rgba(220,232,248,1)}
+.deny-preset.added{opacity:.35;text-decoration:line-through;cursor:default}
 .deny-tag-x{background:none;border:none;color:rgba(255,77,109,.5);cursor:pointer;font-size:10px;padding:0;line-height:1;transition:color .15s}
 .deny-tag-x:hover{color:#ff4d6d}
 .deny-input-row{margin-top:2px}
@@ -865,6 +870,13 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 /* 시즌 칩 */
 .season-chips{display:flex;flex-wrap:wrap;gap:3px}
 .schip{font-size:10px;padding:3px 8px;border-radius:12px;border:1px solid var(--border);color:var(--text3);cursor:pointer;background:none;font-family:inherit;transition:all .15s}
+.schip-spring.on,.schip-spring:hover{background:rgba(255,150,150,.12);border-color:rgba(255,150,150,.45);color:#ffaaaa}
+.schip-summer.on,.schip-summer:hover{background:rgba(255,200,50,.12);border-color:rgba(255,200,50,.45);color:#ffd050}
+.schip-fall.on,.schip-fall:hover{background:rgba(255,130,50,.12);border-color:rgba(255,130,50,.45);color:#ff8232}
+.schip-winter.on,.schip-winter:hover{background:rgba(100,150,255,.12);border-color:rgba(100,150,255,.45);color:#8096ff}
+.schip-new.on,.schip-new:hover{background:rgba(255,100,200,.12);border-color:rgba(255,100,200,.45);color:#ff64c8}
+.schip-love.on,.schip-love:hover{background:rgba(255,100,150,.12);border-color:rgba(255,100,150,.45);color:#ff6496}
+.schip-family.on,.schip-family:hover{background:rgba(100,200,150,.12);border-color:rgba(100,200,150,.45);color:#64c896}
 .schip:hover{border-color:rgba(3,199,90,.3);color:var(--g)}
 .schip.on{background:var(--g-dim);border-color:rgba(3,199,90,.35);color:var(--g);font-weight:700}
 
@@ -873,6 +885,12 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .tone-btn{padding:5px 6px;background:rgba(0,0,0,.2);border:1px solid var(--border);border-radius:5px;font-size:10px;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .15s;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tone-btn:hover{border-color:rgba(3,199,90,.3);color:var(--g)}
 .tone-btn.on{background:var(--g-dim);border-color:rgba(3,199,90,.35);color:var(--g);font-weight:700}
+.tone-urgent.on{background:rgba(255,100,50,.1);border-color:rgba(255,100,50,.4);color:#ff6432}
+.tone-trust.on{background:rgba(51,133,255,.1);border-color:rgba(51,133,255,.4);color:#3385ff}
+.tone-benefit.on{background:rgba(255,200,50,.1);border-color:rgba(255,200,50,.4);color:#ffc832}
+.tone-emotion.on{background:rgba(255,100,180,.1);border-color:rgba(255,100,180,.4);color:#ff64b4}
+.tone-number.on{background:rgba(100,220,255,.1);border-color:rgba(100,220,255,.4);color:#64dcff}
+.tone-action.on{background:rgba(150,100,255,.1);border-color:rgba(150,100,255,.4);color:#a06bff}
 
 
 /* ── 결과 + 미리보기 통합 레이아웃 ── */
@@ -880,7 +898,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .rl-left{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;min-height:200px}
 
 .rl-section-label{
-  padding:9px 14px;background:rgba(0,0,0,.2);border-bottom:1px solid var(--border);
+  padding:9px 14px;background:rgba(0,0,0,.2);border-bottom:1px solid rgba(255,255,255,.13);
   font-size:13px;font-weight:800;color:var(--text2);display:flex;align-items:center;gap:8px;
 }
 .rl-divider{height:1px;background:var(--border);margin:4px 0}
@@ -903,7 +921,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .r5-col{display:flex;flex-direction:column;border-right:1px solid var(--border)}
 .r5-col:last-child{border-right:none}
 .r5-head{
-  padding:10px 14px;border-bottom:1px solid var(--border);
+  padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.13);
   background:rgba(0,0,0,.25);
   display:flex;align-items:center;gap:6px;flex-wrap:wrap;
 }
@@ -985,7 +1003,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 /* ── 분석 리포트 박스 (더 길게, 더 풍부하게) */
 .analysis-section{
   margin-bottom:24px;padding-bottom:24px;
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid rgba(255,255,255,.13);
 }
 .analysis-section:last-child{border-bottom:none}
 .analysis-section-title{
@@ -1023,7 +1041,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 /* ── 3컬럼 제목 레이아웃 (가로 나열) */
 .result-titles-3col{
   display:grid;grid-template-columns:1fr 1fr 1fr;
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid rgba(255,255,255,.13);
 }
 .rc-title-group{
   display:flex;flex-direction:column;
@@ -1071,7 +1089,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .rc-head{
   display:flex;align-items:center;gap:6px;
   padding:10px 14px;background:rgba(0,0,0,.25);
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid rgba(255,255,255,.13);
   position:sticky;top:0;z-index:5;
   overflow:hidden;min-height:0;
 }
@@ -2541,6 +2559,9 @@ p, span, div, label, li {
 
 /* ─── enhance-num (06~08 번호) ─── */
 .enhance-num{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:5px;background:rgba(255,255,255,.07);color:rgba(220,232,248,.45);font-size:9.5px;font-weight:800;flex-shrink:0;font-family:'Pretendard Variable','Pretendard',sans-serif}
+.enhance-num-05{background:rgba(255,77,109,.12);color:#ff6b85;border:1px solid rgba(255,77,109,.25)}
+.enhance-num-06{background:rgba(51,200,170,.12);color:#33c8aa;border:1px solid rgba(51,200,170,.25)}
+.enhance-num-07{background:rgba(150,100,255,.12);color:#a06bff;border:1px solid rgba(150,100,255,.25)}
 
 /* ─── 모달 입력 눈 버튼 ─── */
 .mk-input-wrap{position:relative;display:flex;align-items:center;margin-top:6px}
@@ -2587,7 +2608,7 @@ p, span, div, label, li {
 #aiPipeLog{display:none;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px 18px;margin-bottom:16px}
 .pipe-title{font-size:11px;font-weight:800;color:rgba(220,232,248,.4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
 .pipe-steps{display:flex;flex-direction:column;gap:8px}
-.pipe-step{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);transition:all .3s}
+.pipe-step{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);transition:all .3s}
 .pipe-step.done{border-color:rgba(3,199,90,.2);background:rgba(3,199,90,.05)}
 .pipe-step.skip{border-color:rgba(255,255,255,.05);opacity:.5}
 .pipe-step.err{border-color:rgba(255,77,109,.2);background:rgba(255,77,109,.05)}
@@ -2612,6 +2633,15 @@ p, span, div, label, li {
   border-radius:8px;color:rgba(220,232,248,.5);
   font-size:11.5px;font-weight:700;font-family:inherit;
   cursor:pointer;transition:all .2s;letter-spacing:-.1px;
+}
+.log-unified-btn{
+  background:rgba(255,255,255,.04) !important;
+  border-color:rgba(255,255,255,.12) !important;
+  color:rgba(220,232,248,.6) !important;
+}
+.log-unified-btn:hover{
+  background:rgba(255,255,255,.08) !important;
+  border-color:rgba(255,255,255,.2) !important;
 }
 .log-open-btn:not(:disabled):hover{
   background:rgba(255,152,0,.08);border-color:rgba(255,152,0,.3);color:#ff9800;
@@ -2767,7 +2797,7 @@ p, span, div, label, li {
 }
 .rl-pv-header{
   display:flex;align-items:center;justify-content:space-between;
-  padding:10px 14px;border-bottom:1px solid var(--border);
+  padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.13);
   background:rgba(0,0,0,.2);
 }
 .rl-pv-title{font-size:12px;font-weight:800;color:rgba(220,232,248,.8)}
@@ -2793,7 +2823,7 @@ p, span, div, label, li {
 /* ═══ 새 광고 미리보기 디자인 ═══ */
 .pv-new-grid{
   display:grid;grid-template-columns:1fr 1fr;
-  gap:12px;padding:10px 14px 14px;align-items:start;
+  gap:12px;padding:8px 12px 10px;align-items:start;
 }
 .pv-new-col{display:flex;flex-direction:column;gap:7px}
 .pv-new-label{
@@ -2822,15 +2852,16 @@ p, span, div, label, li {
   border-radius:20px;padding:3px 12px;
   font-size:10px;color:#888;
 }
-.pv-pc-body{padding:10px 12px}
+.pv-pc-body{padding:10px 12px;min-height:160px;display:flex;flex-direction:column}
 .pv-pc-result-label{font-size:10px;color:#999;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #f0f0f0}
 
 /* 파워링크 카드 */
 .pv-pl-card{
-  border:1.5px solid #e5e8ec;border-radius:7px;
-  padding:8px 10px;margin-bottom:5px;
+  border:1.5px solid #d0d4db;border-radius:7px;
+  padding:10px 12px;margin-bottom:0;
   transition:border-color .2s,box-shadow .2s;
-  cursor:default;
+  cursor:default;min-height:110px;
+  display:flex;flex-direction:column;justify-content:space-between;
 }
 .pv-pl-card:not(.pv-competitor):hover{border-color:#03C75A;box-shadow:0 2px 12px rgba(3,199,90,.12)}
 .pv-pl-card.pv-competitor{opacity:.35;pointer-events:none}
@@ -2839,12 +2870,12 @@ p, span, div, label, li {
 .pv-pl-store{font-size:11px;font-weight:700;color:#1a1a1a}
 .pv-pl-url{font-size:10px;color:#888}
 .pv-pl-badge{font-size:8.5px;color:#888;border:1px solid #ccc;border-radius:2px;padding:0 3px;margin-left:auto;flex-shrink:0}
-.pv-pl-row{display:flex;gap:10px;align-items:flex-start;width:100%}
-.pv-pl-body{flex:1;min-width:0}
-.pv-pl-title{font-size:13px;font-weight:700;color:#0068c3;line-height:1.4;margin-bottom:5px;word-break:keep-all}
-.pv-pl-title.empty{color:#ccc;font-weight:400;font-size:12px}
-.pv-pl-desc{font-size:11px;color:#4a4a4a;line-height:1.55}
-.pv-pl-desc.empty{color:#ccc;font-size:11px}
+.pv-pl-row{display:flex;gap:10px;align-items:flex-start;width:100%;flex:1}
+.pv-pl-body{flex:1;min-width:0;display:flex;flex-direction:column}
+.pv-pl-title{font-size:14px;font-weight:900;color:#0068c3;line-height:1.35;margin-bottom:6px;word-break:keep-all;letter-spacing:-.3px}
+.pv-pl-title.empty{color:#ccc;font-weight:400;font-size:11px;text-align:center;width:100%;padding:12px 0;display:block;letter-spacing:0}
+.pv-pl-desc{font-size:11px;color:#555;line-height:1.5;white-space:normal;word-break:keep-all}
+.pv-pl-desc.empty{color:#ccc;font-size:10px;text-align:center;width:100%;padding:4px 0;display:block}
 .pv-pl-thumb{
   width:52px;height:52px;border-radius:6px;
   background:#f5f5f5;border:1px solid #eee;
@@ -2857,11 +2888,17 @@ p, span, div, label, li {
 
 /* 모바일 폰 프레임 */
 .pv-mob-frame{
-  background:#222;border-radius:20px;
+  background:#222;border-radius:16px;
   box-shadow:0 4px 20px rgba(0,0,0,.4);
   overflow:hidden;border:4px solid #222;
   width:100%;
 }
+.pv-mob-appbar{background:#fff;border-bottom:1px solid #e8e8e8}
+.pv-mob-appbar-inner{display:flex;align-items:center;justify-content:space-between;padding:8px 12px 4px}
+.pv-mob-naver-logo{display:flex;align-items:center}
+.pv-mob-appbar-icons{display:flex;align-items:center;gap:10px}
+.pv-mob-appbar-search{padding:4px 10px 8px}
+.pv-mob-appbar-searchbar{background:#f2f3f5;border-radius:20px;padding:6px 12px;display:flex;align-items:center;justify-content:space-between}
 .pv-mob-notch{background:#222;height:24px;display:flex;align-items:center;justify-content:center}
 .pv-mob-pill{width:60px;height:5px;background:#444;border-radius:3px}
 .pv-mob-screen{background:#f9fafb;overflow:hidden}
@@ -2871,18 +2908,19 @@ p, span, div, label, li {
 .pv-mob-result-label{font-size:9.5px;color:#999;padding:7px 12px 4px;border-bottom:1px solid #f0f0f0}
 .pv-mob-card{
   background:#fff;border-bottom:1px solid #f0f0f0;
-  padding:7px 10px;
+  padding:10px 12px;min-height:110px;
+  display:flex;flex-direction:column;justify-content:space-between;
 }
 .pv-mob-card.pv-competitor{opacity:.3;pointer-events:none}
 .pv-mob-meta{display:flex;align-items:center;gap:5px;margin-bottom:5px}
 .pv-mob-logo{width:15px;height:15px;border-radius:3px;background:#03C75A;color:#fff;font-size:8.5px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .pv-mob-store{font-size:10.5px;font-weight:700;color:#1a1a1a}
 .pv-mob-badge{font-size:8.5px;color:#888;border:1px solid #ccc;border-radius:2px;padding:0 3px;margin-left:3px}
-.pv-mob-inner{display:flex;gap:8px;align-items:flex-start}
-.pv-mob-body{flex:1;min-width:0}
-.pv-mob-title{font-size:12px;font-weight:700;color:#0068c3;line-height:1.4;margin-bottom:3px;word-break:keep-all}
+.pv-mob-inner{display:flex;gap:8px;align-items:flex-start;flex:1}
+.pv-mob-body{flex:1;min-width:0;display:flex;flex-direction:column}
+.pv-mob-title{font-size:14px;font-weight:900;color:#0068c3;line-height:1.35;margin-bottom:5px;word-break:keep-all;letter-spacing:-.3px}
 .pv-mob-title.empty{color:#ccc;font-weight:400;font-size:11.5px}
-.pv-mob-desc{font-size:10px;color:#555;line-height:1.45}
+.pv-mob-desc{font-size:11px;color:#555;line-height:1.5;white-space:normal;word-break:keep-all}
 .pv-mob-desc.empty{color:#ccc}
 .pv-mob-thumb{width:38px;height:38px;border-radius:5px;background:#f5f5f5;border:1px solid #eee;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;overflow:hidden}
 .pv-mob-thumb img{width:100%;height:100%;object-fit:cover}
@@ -3011,7 +3049,7 @@ p, span, div, label, li {
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v2.5</span>
+    <span class="h-version">v2.8</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -3129,7 +3167,7 @@ p, span, div, label, li {
 
             <!-- 05: 분석 패널 (2행 span) -->
             <div class="input-col col-analysis analysis-panel-tall" style="grid-row:span 2">
-              <div class="icol-head"><span class="icol-num icol-num-5">05</span><div><div class="icol-title">마케터 분석 리포트<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">소재 생성 후 Gemini AI가 자동으로<br>클릭률·전략·개선안을 분석해드려요</span></span> <span class="badge-auto">자동</span></div></div></div>
+              <div class="icol-head"><span class="icol-num icol-num-8">08</span><div><div class="icol-title">마케터 분석 리포트<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">소재 생성 후 Gemini AI가 자동으로<br>클릭률·전략·개선안을 분석해드려요</span></span> <span class="badge-auto">자동</span></div></div></div>
               <div class="analysis-status" id="analysisSideStatus" style="display:none"></div>
 
               <!-- ★ 통합 분석 패널 -->
@@ -3165,42 +3203,61 @@ p, span, div, label, li {
 
               <!-- 전체 리포트 보기 버튼 (아래) -->
               <div style="padding:0 14px 14px;display:flex;flex-direction:column;gap:7px">
-                <button class="analysis-btn" id="analysisOpenBtn" onclick="openAnalysisModal()" disabled>📄 전체 리포트 보기</button>
-                <button class="log-open-btn" id="logOpenBtn" onclick="openLogWindow()" disabled>🔍 실시간 로그 보기</button>
+                <button class="analysis-btn" id="analysisOpenBtn" onclick="openAnalysisNewWindow()" disabled>📄 전체 리포트 보기</button>
+                <button class="analysis-btn log-unified-btn" id="logOpenBtn" onclick="openLogWindow()" disabled>🔍 실시간 로그 보기</button>
               </div>
             </div>
 
             <!-- 하단 Row2: 금지어 / 시즌 / 어조 -->
             <div class="enhance-col" style="border-top:2px solid rgba(255,77,109,.4)">
-              <div class="enhance-head"><span class="enhance-num">06</span><div><div class="enhance-title">금지어 설정<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">광고에 절대 쓰지 않을 단어를 지정해요<br><span style="color:rgba(3,199,90,.8)">예) 최고, 1위, 최저가</span><br><span style="color:rgba(220,232,248,.4)">입력 후 Enter로 추가</span></span></span> <span class="badge-opt">선택</span></div></div></div>
+              <div class="enhance-head"><span class="enhance-num enhance-num-05">05</span><div><div class="enhance-title">금지어 설정<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">광고에 절대 쓰지 않을 단어를 지정해요<br><span style="color:rgba(3,199,90,.8)">예) 최고, 1위, 최저가</span><br><span style="color:rgba(220,232,248,.4)">입력 후 Enter로 추가</span></span></span> <span class="badge-opt">선택</span></div></div></div>
               <div class="enhance-inner">
-                <input type="text" class="inp" id="denyInput" placeholder="금지어 입력 후 Enter" onkeydown="addDenyEnter(event)" />
+                <div class="deny-warn-box">
+                  <span style="font-size:10px;font-weight:700;color:rgba(220,232,248,.5)">⚠️ 네이버 반려 주의 표현 — 클릭해서 추가</span>
+                  <div class="deny-preset-chips">
+                    <button class="deny-preset" onclick="addDenyPreset(this)">최고</button>
+                    <button class="deny-preset" onclick="addDenyPreset(this)">최상급</button>
+                    <button class="deny-preset" onclick="addDenyPreset(this)">최저가</button>
+                    <button class="deny-preset" onclick="addDenyPreset(this)">압도적</button>
+                    <button class="deny-preset" onclick="addDenyPreset(this)">완벽한</button>
+                    <button class="deny-preset" onclick="addDenyPreset(this)">특가</button>
+                    <button class="deny-preset" onclick="addDenyPreset(this)">초특가</button>
+                    <button class="deny-preset" onclick="addDenyPreset(this)">국내1위</button>
+                    <button class="deny-preset" onclick="addDenyPreset(this)">100%효과</button>
+                  </div>
+                </div>
+                <input type="text" class="inp" id="denyInput" placeholder="직접 입력 후 Enter" onkeydown="addDenyEnter(event)" style="margin-top:6px"/>
                 <div id="denyList" class="deny-list"></div>
               </div>
             </div>
             <div class="enhance-col" style="border-top:2px solid rgba(51,200,170,.4)">
-              <div class="enhance-head"><span class="enhance-num">07</span><div><div class="enhance-title">시즌 · 이벤트<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">시즌 키워드를 선택하면 관련 문구가 반영돼요<br><span style="color:rgba(3,199,90,.8)">직접 입력도 가능합니다</span></span></span> <span class="badge-opt">선택</span></div></div></div>
+              <div class="enhance-head"><span class="enhance-num enhance-num-06">06</span><div><div class="enhance-title">시즌 · 이벤트<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">시즌 키워드를 선택하면 관련 문구가 반영돼요<br><span style="color:rgba(3,199,90,.8)">직접 입력도 가능합니다</span></span></span> <span class="badge-opt">선택</span></div></div></div>
               <div class="enhance-inner">
                 <div class="season-chips" id="seasonChips">
-                  <button class="schip" onclick="toggleSeason(this)">봄 시즌</button>
-                  <button class="schip" onclick="toggleSeason(this)">여름 세일</button>
-                  <button class="schip" onclick="toggleSeason(this)">추석</button>
-                  <button class="schip" onclick="toggleSeason(this)">연말</button>
-                  <button class="schip" onclick="toggleSeason(this)">설날</button>
-                  <button class="schip" onclick="toggleSeason(this)">밸런타인</button>
-                  <button class="schip" onclick="toggleSeason(this)">어버이날</button>
+                  <button class="schip schip-spring" onclick="toggleSeason(this)">🌸 봄 시즌</button>
+                  <button class="schip schip-summer" onclick="toggleSeason(this)">☀️ 여름 세일</button>
+                  <button class="schip schip-fall" onclick="toggleSeason(this)">🍂 추석</button>
+                  <button class="schip schip-winter" onclick="toggleSeason(this)">❄️ 연말</button>
+                  <button class="schip schip-new" onclick="toggleSeason(this)">🎉 설날</button>
+                  <button class="schip schip-love" onclick="toggleSeason(this)">💝 밸런타인</button>
+                  <button class="schip schip-family" onclick="toggleSeason(this)">👪 어버이날</button>
+                  <button class="schip schip-summer" onclick="toggleSeason(this)">⛱️ 여름 휴가</button>
+                  <button class="schip schip-fall" onclick="toggleSeason(this)">🎃 핼러윈</button>
+                  <button class="schip schip-winter" onclick="toggleSeason(this)">🎄 크리스마스</button>
                 </div>
                 <input type="text" class="inp" id="eventInput" placeholder="" style="margin-top:5px" />
               </div>
             </div>
             <div class="enhance-col" style="border-top:2px solid rgba(150,100,255,.4)">
-              <div class="enhance-head"><span class="enhance-num">08</span><div><div class="enhance-title">광고 어조<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">광고의 감성 방향을 설정해요<br><span style="color:rgba(3,199,90,.8)">최대 2개 선택 가능</span><br><span style="color:rgba(220,232,248,.4)">선택할수록 타겟에 맞는 문구가 생성돼요</span></span></span> <span class="badge-opt">선택</span></div></div></div>
+              <div class="enhance-head"><span class="enhance-num enhance-num-07">07</span><div><div class="enhance-title">광고 어조<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">광고의 감성 방향을 설정해요<br><span style="color:rgba(3,199,90,.8)">최대 2개 선택 가능</span><br><span style="color:rgba(220,232,248,.4)">선택할수록 타겟에 맞는 문구가 생성돼요</span></span></span> <span class="badge-opt">선택</span></div></div></div>
               <div class="enhance-inner">
                 <div class="tone-grid" id="toneGrid">
-                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="긴급·희소성">⚡ 긴급·희소성</button>
-                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="신뢰·전문성">🏆 신뢰·전문성</button>
-                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="혜택·절약">💰 혜택·절약</button>
-                  <button class="tone-btn" onclick="toggleTone(this)" data-tone="감성·공감">💝 감성·공감</button>
+                  <button class="tone-btn tone-urgent" onclick="toggleTone(this)" data-tone="긴급·희소성">⚡ 긴급·희소성</button>
+                  <button class="tone-btn tone-trust" onclick="toggleTone(this)" data-tone="신뢰·전문성">🏆 신뢰·전문성</button>
+                  <button class="tone-btn tone-benefit" onclick="toggleTone(this)" data-tone="혜택·절약">💰 혜택·절약</button>
+                  <button class="tone-btn tone-emotion" onclick="toggleTone(this)" data-tone="감성·공감">💝 감성·공감</button>
+                  <button class="tone-btn tone-number" onclick="toggleTone(this)" data-tone="수치·증거">📊 수치·증거</button>
+                  <button class="tone-btn tone-action" onclick="toggleTone(this)" data-tone="행동유도">🎯 행동유도</button>
                 </div>
               </div>
             </div>
@@ -3291,12 +3348,29 @@ p, span, div, label, li {
         <div class="pv-new-col">
           <div class="pv-new-label">📱 모바일 네이버 앱</div>
           <div class="pv-mob-frame">
-            <div class="pv-mob-notch"><div class="pv-mob-pill"></div></div>
             <div class="pv-mob-screen">
-              <div class="pv-mob-status"><span>9:41</span><span>🔋</span></div>
-              <div class="pv-mob-searchbar">
-                <div class="pv-mob-input">검색어</div>
-                <span style="color:#03C75A;font-size:15px">🔍</span>
+              <!-- 네이버 앱 상단 바 -->
+              <div class="pv-mob-appbar">
+                <div class="pv-mob-appbar-inner">
+                  <div class="pv-mob-naver-logo">
+                    <svg width="54" height="16" viewBox="0 0 54 16" fill="none">
+                      <path d="M6.56 0H0v16h6.56V8.96L10.72 16H17.28V0H10.72v7.04L6.56 0Z" fill="#03C75A"/>
+                      <path d="M20 0h6v16h-6V0Z" fill="#999"/>
+                      <path d="M28 0h6v7l4-7h6v16h-6V9l-4 7h-6V0Z" fill="#999"/>
+                      <path d="M46 0h8v4h-4v2h4v4h-4v2h4v4h-8V0Z" fill="#999"/>
+                    </svg>
+                  </div>
+                  <div class="pv-mob-appbar-icons">
+                    <span style="font-size:14px">🔔</span>
+                    <span style="font-size:14px">☰</span>
+                  </div>
+                </div>
+                <div class="pv-mob-appbar-search">
+                  <div class="pv-mob-appbar-searchbar">
+                    <span style="font-size:11px;color:#888">검색어 입력</span>
+                    <span style="color:#03C75A;font-size:14px">🔍</span>
+                  </div>
+                </div>
               </div>
               <div class="pv-mob-result-label">파워링크 · 광고</div>
               <div class="pv-mob-card">
@@ -3784,6 +3858,7 @@ function renderPipeLog() {
           ${s.ms ? `<span class="pipe-step-time">${(s.ms/1000).toFixed(1)}초</span>` : ''}
         </div>
         <div class="pipe-step-detail">${s.detail}</div>
+        ${s.status==='done' && s.name.includes('마케터 분석 리포트') ? `<button onclick="openAnalysisNewWindow()" style="margin-top:8px;padding:7px 14px;background:linear-gradient(135deg,rgba(3,199,90,.15),rgba(0,102,255,.08));border:1px solid rgba(3,199,90,.4);border-radius:7px;color:#03C75A;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:-.1px;">📄 마케터 리포트 새 창으로 보기</button>` : ''}
       </div>
     </div>
     ${i < _pipeLog.length-1 ? '<div class="pipe-connector"></div>' : ''}
@@ -4376,16 +4451,20 @@ ${inputLines.join('\n')}
 
 ⚠️ 절대 금지: 입력되지 않은 정보 추측, 상품명에 없는 특성 언급, 임의 소재 생성
 
-아래 5개 섹션을 <section title="섹션제목">내용</section> 형태로 작성하세요.
-마크다운 금지. 중요 키워드/수치는 <b>태그. 마케터 판단은 <em>태그.
+아래 8개 섹션을 <section title="섹션제목">내용</section> 형태로 작성하세요.
+마크다운 금지. 중요 키워드는 <b>태그. 마케터 판단은 <em>태그.
+각 섹션은 입력값이 있을 때만 작성하고, 없으면 해당 섹션 생략.
 
-1. 📦 상품명 분석 → 소재 반영 — 상품명의 어떤 키워드를 왜 제목/설명에 썼는지 구체적으로 (예: "업소용냉장고"→검색량·구매의도 높은 핵심어로 1위 제목에 배치)
-2. 🎯 타겟 고객 분석 → 소재 반영 — 타겟의 언어·심리·니즈를 어떻게 소재에 반영했는지 (예: 소규모 사업자→비용절감 키워드, 건강관심층→무방부제 강조)
-3. 🖼 이미지·광고포인트 → 소재 반영 — 이미지에서 발견한 요소 또는 입력된 광고포인트를 어떻게 소재에 녹였는지
-4. ⚡ 클릭률 TOP3 추천 — 실제 생성된 소재 중 3개 직접 인용 + 이유 (왜 이 소재가 클릭률이 높을지)
-5. 💡 개선 권고 — A/B 테스트 2개 제안 (수정 전→수정 후 형태)
+1. [입력01] 📦 상품명 분석 → 소재 반영 — 상품명의 어떤 키워드를 제목/설명 어느 위치에 왜 배치했는지 (예: "업소용냉장고"→검색의도 직결 키워드로 제목 1번 앞부분 배치)
+2. [입력02] 🎯 타겟 고객 분석 → 소재 반영 — 타겟의 언어·심리를 어떤 표현으로 소재에 녹였는지 (예: "소상공인"→비용절감·신뢰 키워드 강조, 설명에 공감 표현 삽입)
+3. [입력04] 🖼 이미지 분석 → 소재 반영 — 이미지에서 발견한 구체적 특징(색상·형태·텍스트 등)이 소재의 어느 부분에 반영됐는지
+4. [입력05] 🚫 금지어 설정 반영 — 설정된 금지어를 어떻게 회피하고 대체 표현을 사용했는지 (예: "특가"금지→"한정수량 할인가"로 대체)
+5. [입력06] 📅 시즌/이벤트 반영 — 선택한 시즌 키워드가 소재의 어느 위치에 어떻게 자연스럽게 녹아들었는지
+6. [입력07] 🎨 광고 어조 반영 — 선택 어조가 어떤 표현 선택에 영향을 줬는지 (예: "신뢰·전문성"→수치/경력 강조 표현 삽입)
+7. ⚡ 클릭률 TOP3 추천 — 실제 생성된 소재 중 3개 직접 인용 + 이유
+8. 💡 개선 권고 — A/B 테스트 2개 제안 (수정 전→수정 후)
 
-규칙: 섹션마다 반드시 실제 생성된 제목/설명을 직접 인용하며 근거 설명. 추측 금지.`;
+규칙: 섹션마다 실제 생성된 제목/설명 직접 인용 필수. 입력되지 않은 항목은 추측 금지.`;
 
   // 실제 입력 데이터를 userContent에 포함
   const userContent = analysisPrompt;
@@ -4551,6 +4630,18 @@ function toggleTone(btn) {
 }
 // feat 힌트 제거됨 (선택 항목)
 
+function addDenyPreset(btn) {
+  if (btn.classList.contains('added')) return;
+  const word = btn.textContent.trim().replace(/^[^\w가-힣]+/, '').trim();
+  if (!S_DENY.has(word)) {
+    S_DENY.add(word);
+    renderDenyList();
+    btn.classList.add('added');
+    btn.style.opacity = '.35';
+    btn.style.textDecoration = 'line-through';
+  }
+}
+
 function addDenyEnter(e) {
   if (e.key !== 'Enter') return;
   e.preventDefault();
@@ -4682,6 +4773,34 @@ function copySelItem(btn, text) {
 })();
 
 // ── 분석 모달 열기
+function openAnalysisNewWindow(){
+  const badge = document.getElementById('apStatusBadge');
+  if (badge && badge.textContent.includes('분석 중')) {
+    alert('⏳ 마케터 AI가 아직 분석 중이에요.\n완료 후 리포트를 확인할 수 있습니다.');
+    return;
+  }
+  const b = document.getElementById('analysisBody');
+  const html = b ? b.innerHTML : '';
+  if(!html || html.trim() === '') {
+    alert('📋 리포트가 아직 생성되지 않았어요.\n소재 생성 후 자동으로 분석이 시작됩니다.');
+    return;
+  }
+  const w = window.open('','_blank','width=860,height=720,scrollbars=yes,resizable=yes');
+  const styles = [
+    '*{box-sizing:border-box;margin:0;padding:0}',
+    'body{background:#060d17;color:#e8f0fe;font-family:Apple SD Gothic Neo,Malgun Gothic,sans-serif;padding:32px;line-height:1.7}',
+    'h2{font-size:18px;font-weight:900;color:#03C75A;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.1)}',
+    '.analysis-section{margin-bottom:24px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:16px 18px}',
+    '.analysis-section-title{font-size:14px;font-weight:800;color:#03C75A;margin-bottom:10px}',
+    '.analysis-section-content{font-size:13px;color:rgba(232,240,254,.85);line-height:1.9}',
+    'b{color:#e8f0fe;font-weight:800} em{color:#f59e0b;font-style:normal;font-weight:700}',
+    '::-webkit-scrollbar{width:4px} ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}'
+  ].join('\n');
+  const docHtml = '<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><title>마케터 분석 리포트</title><style>' + styles + '</style></head><body><h2>💎 마케터 분석 리포트</h2>' + html + '</body></html>';
+  w.document.write(docHtml);
+  w.document.close();
+}
+
 function openAnalysisModal(){
   const m=document.getElementById('analysisModal');
   const b=document.getElementById('analysisBody');
@@ -5056,11 +5175,15 @@ function sync(){
   const _mobD1 = document.getElementById('pvMobDesc1');
   const _mobTh1 = document.getElementById('pvMobThumb1');
   if(_mobT1){
-    if(allSlots.length){ _mobT1.textContent=allSlots[0]; _mobT1.classList.remove('empty'); }
-    else { _mobT1.textContent='제목을 선택하면 표시됩니다'; _mobT1.classList.add('empty'); }
+    if(allSlots.length){
+      // PC와 동일하게 · 로 연결해서 표시
+      _mobT1.textContent = allSlots.join(' · ');
+      _mobT1.classList.remove('empty');
+    } else { _mobT1.textContent='제목을 선택하면 표시됩니다'; _mobT1.classList.add('empty'); }
   }
   if(_mobD1){
-    if(_descAll){ _mobD1.textContent=_descAll; _mobD1.classList.remove('empty'); }
+    const _allDesc = [pvDTxt1, pvDTxt2].filter(Boolean).join(' ');
+    if(_allDesc){ _mobD1.textContent=_allDesc; _mobD1.classList.remove('empty'); }
     else { _mobD1.textContent='설명을 선택하면 표시됩니다'; _mobD1.classList.add('empty'); }
   }
   if(_mobTh1){
