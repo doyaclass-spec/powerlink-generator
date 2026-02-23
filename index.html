@@ -310,7 +310,7 @@ body{
 .analysis-panel-tall > .analysis-status{padding:3px 12px}
 .analysis-panel-tall > #analysisProgress{padding:4px 12px 0}
 .analysis-panel-tall > .analysis-preview{padding:6px 12px;flex:1;overflow-y:auto}
-.analysis-panel-tall > .analysis-btn{margin:auto 12px 10px;width:calc(100% - 24px)}
+.analysis-panel-tall > 
 
 /* Gemini 심사숙고 박스 */
 .ap-thinking-box{
@@ -414,9 +414,9 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .analysis-preview::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px}
 .analysis-btn{
   background:linear-gradient(135deg,var(--g-dim),rgba(0,102,255,.08));
-  border:1px solid rgba(3,199,90,.25);color:var(--g);border-radius:6px;
-  padding:8px 12px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;
-  width:100%;transition:all .2s;
+  border:1px solid rgba(3,199,90,.25);color:var(--g);border-radius:8px;
+  padding:10px 14px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;
+  width:100%;transition:all .2s;margin:8px 14px;width:calc(100% - 28px);
 }
 .analysis-btn:hover{background:rgba(3,199,90,.15);box-shadow:0 0 12px rgba(3,199,90,.15)}
 .analysis-btn:disabled{background:var(--glass);border-color:var(--border);color:var(--text3);cursor:not-allowed;box-shadow:none}
@@ -1241,10 +1241,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .hero-sub strong{color:var(--text2)}
 
 /* ── 마케터 분석 리포트 전체 보기 버튼 */
-.analysis-btn{
-  margin:10px 16px 12px;
-  width:calc(100% - 32px);
-}
+
 
 /* ── enhance-col 내부 패딩 */
 .enhance-col > .deny-list{ padding:6px 14px 2px;width:100%;box-sizing:border-box }
@@ -1420,7 +1417,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .analysis-panel-tall > .analysis-status{padding:0 14px 4px}
 .analysis-panel-tall > #analysisProgress{padding:0 14px 0;overflow-y:auto;flex:1}
 .analysis-panel-tall > .analysis-preview{padding:8px 14px;flex:1;overflow-y:auto;font-size:12px;line-height:1.6;color:var(--text2)}
-.analysis-panel-tall > .analysis-btn{margin:8px 14px 12px;width:calc(100% - 28px)}
+.analysis-panel-tall > 
 /* 마케터 분석 실시간 내용 표시 */
 .ap-live-log{
   margin-top:8px;padding:8px 10px;
@@ -2635,9 +2632,11 @@ p, span, div, label, li {
   cursor:pointer;transition:all .2s;letter-spacing:-.1px;
 }
 .log-unified-btn{
-  background:rgba(255,255,255,.04) !important;
-  border-color:rgba(255,255,255,.12) !important;
-  color:rgba(220,232,248,.6) !important;
+  background:rgba(255,255,255,.05) !important;
+  border-color:rgba(255,255,255,.15) !important;
+  color:rgba(220,232,248,.65) !important;
+  padding:10px 14px !important;
+  border-radius:8px !important;
 }
 .log-unified-btn:hover{
   background:rgba(255,255,255,.08) !important;
@@ -2823,9 +2822,9 @@ p, span, div, label, li {
 /* ═══ 새 광고 미리보기 디자인 ═══ */
 .pv-new-grid{
   display:grid;grid-template-columns:1fr 1fr;
-  gap:12px;padding:8px 12px 10px;align-items:start;
+  gap:12px;padding:8px 12px 10px;align-items:stretch;
 }
-.pv-new-col{display:flex;flex-direction:column;gap:7px}
+.pv-new-col{display:flex;flex-direction:column;gap:7px;height:100%}
 .pv-new-label{
   font-size:9.5px;font-weight:800;color:rgba(220,232,248,.35);
   letter-spacing:.8px;text-transform:uppercase;
@@ -2834,8 +2833,8 @@ p, span, div, label, li {
 /* PC 브라우저 프레임 */
 .pv-pc-wrap{
   background:#fff;border-radius:10px;
-  box-shadow:0 2px 16px rgba(0,0,0,.18);
-  overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,.15);
+  overflow:hidden;display:flex;flex-direction:column;flex:1;
 }
 .pv-pc-browser{
   background:#f1f3f4;padding:7px 12px;
@@ -2852,7 +2851,7 @@ p, span, div, label, li {
   border-radius:20px;padding:3px 12px;
   font-size:10px;color:#888;
 }
-.pv-pc-body{padding:10px 12px;min-height:160px;display:flex;flex-direction:column}
+.pv-pc-body{padding:10px 12px;display:flex;flex-direction:column;flex:1}
 .pv-pc-result-label{font-size:10px;color:#999;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #f0f0f0}
 
 /* 파워링크 카드 */
@@ -2860,8 +2859,7 @@ p, span, div, label, li {
   border:1.5px solid #d0d4db;border-radius:7px;
   padding:10px 12px;margin-bottom:0;
   transition:border-color .2s,box-shadow .2s;
-  cursor:default;min-height:110px;
-  display:flex;flex-direction:column;justify-content:space-between;
+  cursor:default;display:flex;flex-direction:column;flex:1;
 }
 .pv-pl-card:not(.pv-competitor):hover{border-color:#03C75A;box-shadow:0 2px 12px rgba(3,199,90,.12)}
 .pv-pl-card.pv-competitor{opacity:.35;pointer-events:none}
@@ -2869,7 +2867,10 @@ p, span, div, label, li {
 .pv-pl-logo{width:17px;height:17px;border-radius:3px;background:#03C75A;color:#fff;font-size:9px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .pv-pl-store{font-size:11px;font-weight:700;color:#1a1a1a}
 .pv-pl-url{font-size:10px;color:#888}
-.pv-pl-badge{font-size:8.5px;color:#888;border:1px solid #ccc;border-radius:2px;padding:0 3px;margin-left:auto;flex-shrink:0}
+.pv-pl-badge{font-size:8.5px;color:#888;border:1px solid #ccc;border-radius:2px;padding:0 3px;flex-shrink:0}
+.pv-mob-badge{font-size:8.5px;color:#888;border:1px solid #ccc;border-radius:2px;padding:0 3px;flex-shrink:0}
+.pv-ad-badge{font-size:8px;color:#555;border:1px solid #bbb;border-radius:3px;padding:1px 4px;flex-shrink:0;background:#f5f5f5;font-weight:600;letter-spacing:.2px}
+.pv-npay-badge{display:inline-flex;align-items:center;flex-shrink:0;margin-left:2px}
 .pv-pl-row{display:flex;gap:10px;align-items:flex-start;width:100%;flex:1}
 .pv-pl-body{flex:1;min-width:0;display:flex;flex-direction:column}
 .pv-pl-title{font-size:14px;font-weight:900;color:#0068c3;line-height:1.35;margin-bottom:6px;word-break:keep-all;letter-spacing:-.3px}
@@ -2888,10 +2889,10 @@ p, span, div, label, li {
 
 /* 모바일 폰 프레임 */
 .pv-mob-frame{
-  background:#222;border-radius:16px;
-  box-shadow:0 4px 20px rgba(0,0,0,.4);
-  overflow:hidden;border:4px solid #222;
-  width:100%;
+  background:#fff;border-radius:10px;
+  box-shadow:0 2px 12px rgba(0,0,0,.15);
+  overflow:hidden;border:1.5px solid #e8e8e8;
+  width:100%;display:flex;flex-direction:column;flex:1;
 }
 .pv-mob-appbar{background:#fff;border-bottom:1px solid #e8e8e8}
 .pv-mob-appbar-inner{display:flex;align-items:center;justify-content:space-between;padding:8px 12px 4px}
@@ -2901,15 +2902,15 @@ p, span, div, label, li {
 .pv-mob-appbar-searchbar{background:#f2f3f5;border-radius:20px;padding:6px 12px;display:flex;align-items:center;justify-content:space-between}
 .pv-mob-notch{background:#222;height:24px;display:flex;align-items:center;justify-content:center}
 .pv-mob-pill{width:60px;height:5px;background:#444;border-radius:3px}
-.pv-mob-screen{background:#f9fafb;overflow:hidden}
+.pv-mob-screen{background:#fff;overflow:hidden;display:flex;flex-direction:column;flex:1;padding:10px 12px}
 .pv-mob-status{background:#fff;padding:4px 14px;display:flex;justify-content:space-between;font-size:9px;color:#888;border-bottom:1px solid #f0f0f0}
 .pv-mob-searchbar{background:#fff;padding:7px 10px;display:flex;align-items:center;gap:7px;border-bottom:1px solid #eee}
 .pv-mob-input{flex:1;background:#f0f0f0;border-radius:16px;padding:5px 10px;font-size:11px;color:#aaa}
 .pv-mob-result-label{font-size:9.5px;color:#999;padding:7px 12px 4px;border-bottom:1px solid #f0f0f0}
 .pv-mob-card{
-  background:#fff;border-bottom:1px solid #f0f0f0;
-  padding:10px 12px;min-height:110px;
-  display:flex;flex-direction:column;justify-content:space-between;
+  background:#fff;
+  padding:10px 12px;
+  display:flex;flex-direction:column;flex:1;
 }
 .pv-mob-card.pv-competitor{opacity:.3;pointer-events:none}
 .pv-mob-meta{display:flex;align-items:center;gap:5px;margin-bottom:5px}
@@ -3049,7 +3050,7 @@ p, span, div, label, li {
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v2.8</span>
+    <span class="h-version">v3.0</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -3316,19 +3317,16 @@ p, span, div, label, li {
         <div class="pv-new-col">
           <div class="pv-new-label">🖥 PC 검색결과</div>
           <div class="pv-pc-wrap">
-            <div class="pv-pc-browser">
-              <div class="pv-pc-dots"><span></span><span></span><span></span></div>
-              <div class="pv-pc-urlbar">search.naver.com/search.naver</div>
-            </div>
-            <div class="pv-pc-body">
+            <div class="pv-pc-body" style="padding-top:10px">
               <div class="pv-pc-result-label">파워링크 · 광고</div>
               <div class="pv-pl-card">
                 <div class="pv-pl-header">
-                  <div class="pv-pl-logo">S</div>
-                  <span class="pv-pl-store">스마트스토어</span>
-                  <span style="color:#ccc;font-size:9px">·</span>
-                  <span class="pv-pl-url">smartstore.naver.com</span>
-                  <span class="pv-pl-badge">광고</span>
+                  <div class="pv-pl-logo" id="pvPcLogo">S</div>
+                  <span class="pv-pl-store" id="pvPcStoreName">스토어명</span>
+                  <span style="color:#ddd;font-size:9px">·</span>
+                  <span class="pv-pl-url" id="pvPcStoreUrl">smartstore.naver.com</span>
+                  <span class="pv-ad-badge">광고</span>
+                  <span class="pv-npay-badge"><svg width="32" height="12" viewBox="0 0 32 12"><rect width="32" height="12" rx="3" fill="#03C75A"/><text x="3" y="9" font-size="7.5" font-weight="800" fill="white" font-family="Arial">N</text><text x="10" y="9" font-size="7" fill="white" font-family="Arial">pay +</text></svg></span>
                 </div>
                 <div class="pv-pl-row">
                   <div class="pv-pl-body">
@@ -3349,42 +3347,22 @@ p, span, div, label, li {
           <div class="pv-new-label">📱 모바일 네이버 앱</div>
           <div class="pv-mob-frame">
             <div class="pv-mob-screen">
-              <!-- 네이버 앱 상단 바 -->
-              <div class="pv-mob-appbar">
-                <div class="pv-mob-appbar-inner">
-                  <div class="pv-mob-naver-logo">
-                    <svg width="54" height="16" viewBox="0 0 54 16" fill="none">
-                      <path d="M6.56 0H0v16h6.56V8.96L10.72 16H17.28V0H10.72v7.04L6.56 0Z" fill="#03C75A"/>
-                      <path d="M20 0h6v16h-6V0Z" fill="#999"/>
-                      <path d="M28 0h6v7l4-7h6v16h-6V9l-4 7h-6V0Z" fill="#999"/>
-                      <path d="M46 0h8v4h-4v2h4v4h-4v2h4v4h-8V0Z" fill="#999"/>
-                    </svg>
-                  </div>
-                  <div class="pv-mob-appbar-icons">
-                    <span style="font-size:14px">🔔</span>
-                    <span style="font-size:14px">☰</span>
-                  </div>
+              <div class="pv-pc-result-label" style="margin:10px 12px 8px">파워링크 · 광고</div>
+              <div class="pv-pl-card">
+                <div class="pv-pl-header">
+                  <div class="pv-pl-logo" id="pvMobLogo">S</div>
+                  <span class="pv-pl-store" id="pvMobStoreName">스토어명</span>
+                  <span style="color:#ddd;font-size:9px">·</span>
+                  <span class="pv-pl-url">smartstore.naver.com</span>
+                  <span class="pv-ad-badge">광고</span>
+                  <span class="pv-npay-badge"><svg width="32" height="12" viewBox="0 0 32 12"><rect width="32" height="12" rx="3" fill="#03C75A"/><text x="3" y="9" font-size="7.5" font-weight="800" fill="white" font-family="Arial">N</text><text x="10" y="9" font-size="7" fill="white" font-family="Arial">pay +</text></svg></span>
                 </div>
-                <div class="pv-mob-appbar-search">
-                  <div class="pv-mob-appbar-searchbar">
-                    <span style="font-size:11px;color:#888">검색어 입력</span>
-                    <span style="color:#03C75A;font-size:14px">🔍</span>
-                  </div>
-                </div>
-              </div>
-              <div class="pv-mob-result-label">파워링크 · 광고</div>
-              <div class="pv-mob-card">
-                <div class="pv-mob-meta">
-                  <div class="pv-mob-logo">S</div>
-                  <span class="pv-mob-store">스마트스토어</span>
-                  <span class="pv-mob-badge">광고</span>
-                </div>
-                <div class="pv-mob-inner">
-                  <div class="pv-mob-body">
+                <div class="pv-pl-row">
+                  <div class="pv-pl-body">
                     <div class="pv-mob-title empty" id="pvMobTitle1">제목을 선택하면 표시됩니다</div>
                     <div class="pv-mob-desc empty" id="pvMobDesc1">설명을 선택하면 표시됩니다</div>
                   </div>
-                  <div class="pv-mob-thumb" id="pvMobThumb1">🏪</div>
+                  <div class="pv-pl-thumb" id="pvMobThumb1">🏪</div>
                 </div>
               </div>
               
@@ -3502,7 +3480,7 @@ p, span, div, label, li {
         <div class="naver-ad-inner">
           <div class="naver-ad-header">
             <div class="naver-ad-logo">S</div>
-            <span class="naver-ad-store">스마트스토어</span>
+            <span class="naver-ad-store">스토어명</span>
             <span style="color:#ccc;font-size:9px">·</span>
             <span class="naver-ad-url">smartstore.naver.com</span>
             <span class="naver-ad-badge">광고</span>
@@ -3526,7 +3504,7 @@ p, span, div, label, li {
         <div class="naver-mob-ad-inner">
           <div class="naver-mob-meta">
             <div class="naver-mob-logo">S</div>
-            <span class="naver-mob-store">스마트스토어</span>
+            <span class="naver-mob-store">스토어명</span>
             <span class="naver-mob-badge">광고</span>
           </div>
           <div class="naver-mob-title empty" id="rlMobTitle">제목을 선택하면 표시됩니다</div>
@@ -5105,7 +5083,7 @@ function sync(){
   if(pvPcT){
     if(allSlots.length){
       pvPcT.className='naver-ad-title';
-      pvPcT.innerHTML=allSlots.map(t=>`<div class="pv-pl-title" style="color:#1a1a1a">${esc(t)}</div>`).join('');
+      pvPcT.innerHTML=`<div class="pv-pl-title" style="color:#0068c3;font-weight:900">${allSlots.map(t=>esc(t)).join(' · ')}</div>`;
     } else {
       pvPcT.className='naver-ad-title empty';
       pvPcT.textContent='제목을 선택하면 표시됩니다';
@@ -5147,7 +5125,7 @@ function sync(){
         <div class="mob-ad-card">
           <div class="naver-mob-meta">
             <div class="naver-mob-logo">S</div>
-            <span class="naver-mob-store">스마트스토어</span>
+            <span class="naver-mob-store">스토어명</span>
             <span style="color:#ccc;font-size:9px;margin:0 2px">·</span>
             <span class="naver-mob-url">smartstore.naver.com</span>
             <span class="naver-mob-badge">광고</span>
@@ -5162,7 +5140,7 @@ function sync(){
         </div>`;
     } else {
       mobContainer.innerHTML=`<div class="mob-ad-empty">
-        <div class="naver-mob-meta"><div class="naver-mob-logo">S</div><span class="naver-mob-store">스마트스토어</span><span class="naver-mob-badge">광고</span></div>
+        <div class="naver-mob-meta"><div class="naver-mob-logo">S</div><span class="naver-mob-store">스토어명</span><span class="naver-mob-badge">광고</span></div>
         <div class="naver-mob-title empty">제목을 선택하면 표시됩니다</div>
         <div class="naver-mob-desc empty">설명을 선택하면 표시됩니다</div>
       </div>`;
