@@ -2603,7 +2603,11 @@ p, span, div, label, li {
               <svg class="eye-off" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
             </button>
           </div>
-          <div class="mk-link-row"><a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a> → Create API Key</div>
+          <div class="mk-test-row">
+            <div class="mk-link-row" style="flex:1"><a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a> → Create API Key</div>
+            <button class="mk-test-btn" id="testBtnGemini" onclick="testApiKey('gemini')" type="button">연결 테스트</button>
+            <span class="mk-test-result" id="testResultGemini"></span>
+          </div>
         </div>
 
         <!-- Claude (권장) -->
@@ -3295,9 +3299,9 @@ function showToast(msg, type) {
 
 // ── API 키 연결 테스트
 async function testApiKey(type) {
-  const inputId = type === 'claude' ? 'modalKeyClaude' : 'modalKeyOpenai';
-  const btnId   = type === 'claude' ? 'testBtnClaude'  : 'testBtnOpenai';
-  const resId   = type === 'claude' ? 'testResultClaude' : 'testResultOpenai';
+  const inputId = type === 'claude' ? 'modalKeyClaude' : type === 'gemini' ? 'modalKeyGemini' : 'modalKeyOpenai';
+  const btnId   = type === 'claude' ? 'testBtnClaude'  : type === 'gemini' ? 'testBtnGemini'  : 'testBtnOpenai';
+  const resId   = type === 'claude' ? 'testResultClaude': type === 'gemini' ? 'testResultGemini': 'testResultOpenai';
 
   const key = (document.getElementById(inputId)?.value || '').trim();
   const btn = document.getElementById(btnId);
@@ -3312,14 +3316,32 @@ async function testApiKey(type) {
   if(res) { res.textContent = '테스트 중...'; res.className = 'mk-test-result testing'; }
 
   try {
-    if (type === 'claude') {
-      // Claude — 최소 요청으로 키 + 과금 확인
+    if (type === 'gemini') {
+      // Gemini — 최소 요청으로 키 확인
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ role:'user', parts:[{text:'hi'}] }], generationConfig:{ maxOutputTokens:5 } })
+      });
+      if (r.ok) {
+        if(res) { res.textContent = '✅ 정상'; res.className = 'mk-test-result ok'; }
+        showToast('✅ Gemini 키 정상 — 무료 사용 가능', 'success');
+      } else {
+        const e = await r.json();
+        const msg = e.error?.message || '';
+        if (r.status === 400 && msg.includes('API key')) throw new Error('키가 유효하지 않아요');
+        if (r.status === 429) throw new Error('무료 한도 초과 — 내일 재시도');
+        throw new Error(msg || '오류 ' + r.status);
+      }
+    } else if (type === 'claude') {
+      // Claude — CORS 헤더 필수 (브라우저 직접 호출)
       const r = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'x-api-key': key,
-          'anthropic-version': '2023-06-01'
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
         },
         body: JSON.stringify({
           model: 'claude-haiku-4-5-20251001',
@@ -3338,7 +3360,7 @@ async function testApiKey(type) {
         if (r.status === 429) throw new Error('한도 초과 — 키는 유효해요');
         throw new Error(msg || '오류 ' + r.status);
       }
-    } else {
+    } else if (type === 'openai') {
       // GPT-4o — 최소 요청
       const r = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
@@ -3627,7 +3649,7 @@ async function callClaude(sys, userContent, onChunk, maxTokens) {
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST', signal:ctrl.signal,
-      headers:{'Content-Type':'application/json','x-api-key':CLAUDE_KEY,'anthropic-version':'2023-06-01'},
+      headers:{'Content-Type':'application/json','x-api-key':CLAUDE_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
       body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:tokens,system:sys||'',messages})
     });
     clearTimeout(tid);
