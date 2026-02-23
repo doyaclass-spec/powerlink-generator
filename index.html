@@ -464,7 +464,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .section-div{flex:1;height:1px;background:var(--border)}
 
 /* ══ 광고 미리보기 ══ */
-.preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;align-items:start}
 /* 미리보기 + 소재 모니터 컨테이너 */
 #previewMonitorWrap{
   position:relative;
@@ -876,9 +876,9 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 
 
 /* ── 결과 + 미리보기 통합 레이아웃 ── */
-.result-layout{display:grid;grid-template-columns:1fr 340px;gap:12px;align-items:start}
+
 .rl-left{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;min-height:200px}
-.rl-right{display:flex;flex-direction:column;gap:10px;position:sticky;top:calc(var(--hh) + 12px);max-height:calc(100vh - var(--hh) - 24px);overflow-y:auto}
+
 .rl-section-label{
   padding:9px 14px;background:rgba(0,0,0,.2);border-bottom:1px solid var(--border);
   font-size:13px;font-weight:800;color:var(--text2);display:flex;align-items:center;gap:8px;
@@ -1069,10 +1069,11 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 
 /* ── 헤더 행 */
 .rc-head{
-  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
-  padding:10px 16px;background:rgba(0,0,0,.25);
+  display:flex;align-items:center;gap:6px;
+  padding:10px 14px;background:rgba(0,0,0,.25);
   border-bottom:1px solid var(--border);
   position:sticky;top:0;z-index:5;
+  overflow:hidden;min-height:0;
 }
 .rc-head-label{font-size:13px;font-weight:800;color:#fff}
 .rc-sel-count{
@@ -1865,7 +1866,9 @@ body {
 
 /* ── 21. 광고 소재 결과 카드 ── */
 .rc-head {
-  padding:11px 18px !important;
+  padding:9px 14px !important;
+  flex-wrap:nowrap !important;
+  overflow:hidden !important;
 }
 .rc-head-label {
   font-size:13.5px !important;
@@ -1873,8 +1876,12 @@ body {
   letter-spacing:-.25px !important;
 }
 .tg-sub {
-  font-size:10.5px !important;
+  font-size:9.5px !important;
   font-weight:500 !important;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  flex-shrink:1;
 }
 .grp-badge {
   font-size:10px !important;
@@ -2639,6 +2646,245 @@ p, span, div, label, li {
 .writing-bars span:nth-child(3){height:5px;animation-delay:.3s}
 .writing-bars span:nth-child(4){height:10px;animation-delay:.1s}
 @keyframes writingBar{0%,100%{transform:scaleY(.5);opacity:.5}50%{transform:scaleY(1);opacity:1}}
+
+/* ─── 리포트 작성 중 도트 애니메이션 ─── */
+.writing-dots-wrap{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11.5px;font-weight:600;color:rgba(220,232,248,.7);
+  padding:5px 14px 3px;
+}
+.writing-dots-text{color:rgba(3,199,90,.9);font-weight:700}
+.writing-dots{display:inline-flex;gap:3px;align-items:flex-end}
+.writing-dots span{
+  display:inline-block;width:4px;height:4px;border-radius:50%;
+  background:#03C75A;
+  animation:dotBounce .9s ease infinite;
+}
+.writing-dots span:nth-child(1){animation-delay:0s}
+.writing-dots span:nth-child(2){animation-delay:.2s}
+.writing-dots span:nth-child(3){animation-delay:.4s}
+@keyframes dotBounce{
+  0%,80%,100%{transform:translateY(0);opacity:.4}
+  40%{transform:translateY(-5px);opacity:1}
+}
+
+/* ═══ 미리보기 완전 재디자인 ═══ */
+.preview-grid{align-items:stretch !important}
+.pv-card{display:flex;flex-direction:column}
+.pv-body{flex:1;padding:10px 10px 12px !important}
+
+/* PC 미리보기 — 실제 네이버 파워링크 스타일 */
+.naver-ad{
+  background:#fff;border:1px solid #e0e4ea;
+  border-radius:10px;overflow:hidden;
+  box-shadow:0 1px 8px rgba(0,0,0,.08);
+  min-height:110px;
+}
+.naver-ad-inner{padding:12px 14px !important;min-height:100px !important}
+.naver-ad-header{
+  display:flex;align-items:center;gap:5px;
+  margin-bottom:8px;
+}
+.naver-ad-logo{
+  width:18px;height:18px;border-radius:4px;
+  background:#03C75A;color:#fff;
+  font-size:10px;font-weight:900;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.naver-ad-store{font-size:11px;font-weight:700;color:#1a1a1a}
+.naver-ad-url{font-size:10px;color:#888}
+.naver-ad-badge{
+  font-size:9px;font-weight:700;color:#888;
+  border:1px solid #ccc;border-radius:2px;
+  padding:0px 3px;margin-left:auto;
+}
+.naver-ad-row{display:flex;gap:10px;align-items:flex-start}
+.naver-ad-body{flex:1;min-width:0}
+.naver-ad-title{
+  font-size:14px !important;font-weight:700 !important;
+  color:#1a1a1a;line-height:1.4;margin-bottom:5px;
+}
+.naver-ad-title.empty{color:#ccc;font-weight:400 !important;font-size:13px !important}
+.naver-ad-desc{
+  font-size:11.5px !important;color:#555;line-height:1.55 !important;
+}
+.naver-ad-desc.empty{color:#ccc}
+.naver-ad-thumb{
+  width:56px !important;height:56px !important;
+  border-radius:8px;background:#f5f5f5;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px !important;flex-shrink:0;
+  border:1px solid #eee;overflow:hidden;
+}
+.naver-ad-chips{margin-top:6px;display:flex;flex-wrap:wrap;gap:4px}
+
+/* 모바일 미리보기 — 실제 네이버 모바일 스타일 */
+.naver-mob-ad{
+  background:#fff;border:1px solid #e0e4ea;
+  border-radius:10px;overflow:hidden;
+  box-shadow:0 1px 8px rgba(0,0,0,.08);
+  min-height:110px;
+}
+.naver-mob-ad-inner{padding:12px 14px !important;min-height:100px !important}
+.naver-mob-meta{display:flex;align-items:center;gap:5px;margin-bottom:8px}
+.naver-mob-logo{
+  width:16px;height:16px;border-radius:3px;
+  background:#03C75A;color:#fff;
+  font-size:9px;font-weight:900;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.naver-mob-store{font-size:11px;font-weight:700;color:#1a1a1a}
+.naver-mob-badge{
+  font-size:9px;font-weight:700;color:#888;
+  border:1px solid #ccc;border-radius:2px;
+  padding:0px 3px;margin-left:4px;
+}
+.naver-mob-title{
+  font-size:13px !important;font-weight:700 !important;
+  color:#1a1a1a;line-height:1.4;margin-bottom:5px;
+}
+.naver-mob-title.empty{color:#ccc;font-weight:400 !important}
+.naver-mob-desc{
+  font-size:11px !important;color:#555;line-height:1.55 !important;
+}
+.naver-mob-desc.empty{color:#ccc}
+.mob-ad-empty{
+  min-height:80px;padding:0 !important;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.mob-ad-card{
+  background:#fff;border-radius:8px;
+  padding:12px 14px;
+}
+
+/* ─── 결과 레이아웃 우측 미리보기 패널 ─── */
+.result-layout{display:block}
+.rl-left{border-right:1px solid var(--border)}
+.rl-right{display:none}
+.rl-pv-card{
+  background:var(--glass);border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;
+}
+.rl-pv-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;border-bottom:1px solid var(--border);
+  background:rgba(0,0,0,.2);
+}
+.rl-pv-title{font-size:12px;font-weight:800;color:rgba(220,232,248,.8)}
+.rl-pv-live{
+  font-size:9px;font-weight:700;color:#03C75A;
+  background:rgba(3,199,90,.1);border:1px solid rgba(3,199,90,.25);
+  border-radius:4px;padding:1px 6px;
+  animation:pvLivePulse 2s ease infinite;
+}
+@keyframes pvLivePulse{0%,100%{opacity:1}50%{opacity:.5}}
+.rl-pv-section{padding:10px 12px 0}
+.rl-pv-label{font-size:9.5px;font-weight:700;color:rgba(220,232,248,.35);letter-spacing:.5px;margin-bottom:6px}
+.rl-pv-summary{
+  margin:10px 12px 12px;padding:10px 12px;
+  background:rgba(0,0,0,.2);border-radius:8px;
+  border:1px solid rgba(255,255,255,.06);
+}
+.rl-sum-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px}
+.rl-sum-row:last-child{margin-bottom:0}
+.rl-sum-label{font-size:9px;font-weight:700;color:rgba(220,232,248,.3);min-width:24px;padding-top:1px}
+.rl-sum-val{font-size:10.5px;color:rgba(220,232,248,.7);line-height:1.5;flex:1;word-break:keep-all}
+
+/* ═══ 새 광고 미리보기 디자인 ═══ */
+.pv-new-grid{
+  display:grid;grid-template-columns:1fr 240px;
+  gap:14px;padding:10px 14px 14px;align-items:start;
+}
+.pv-new-col{display:flex;flex-direction:column;gap:7px}
+.pv-new-label{
+  font-size:9.5px;font-weight:800;color:rgba(220,232,248,.35);
+  letter-spacing:.8px;text-transform:uppercase;
+}
+
+/* PC 브라우저 프레임 */
+.pv-pc-wrap{
+  background:#fff;border-radius:10px;
+  box-shadow:0 2px 16px rgba(0,0,0,.18);
+  overflow:hidden;
+}
+.pv-pc-browser{
+  background:#f1f3f4;padding:7px 12px;
+  display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid #e0e0e0;
+}
+.pv-pc-dots{display:flex;gap:4px}
+.pv-pc-dots span{width:9px;height:9px;border-radius:50%}
+.pv-pc-dots span:nth-child(1){background:#ff5f57}
+.pv-pc-dots span:nth-child(2){background:#febc2e}
+.pv-pc-dots span:nth-child(3){background:#28c840}
+.pv-pc-urlbar{
+  flex:1;background:#fff;border:1px solid #ddd;
+  border-radius:20px;padding:3px 12px;
+  font-size:10px;color:#888;
+}
+.pv-pc-body{padding:12px 14px}
+.pv-pc-result-label{font-size:10px;color:#999;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #f0f0f0}
+
+/* 파워링크 카드 */
+.pv-pl-card{
+  border:1.5px solid #e5e8ec;border-radius:8px;
+  padding:12px 14px;margin-bottom:7px;
+  transition:border-color .2s,box-shadow .2s;
+  cursor:default;
+}
+.pv-pl-card:not(.pv-competitor):hover{border-color:#03C75A;box-shadow:0 2px 12px rgba(3,199,90,.12)}
+.pv-pl-card.pv-competitor{opacity:.35;pointer-events:none}
+.pv-pl-header{display:flex;align-items:center;gap:5px;margin-bottom:7px}
+.pv-pl-logo{width:17px;height:17px;border-radius:3px;background:#03C75A;color:#fff;font-size:9px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pv-pl-store{font-size:11px;font-weight:700;color:#1a1a1a}
+.pv-pl-url{font-size:10px;color:#888}
+.pv-pl-badge{font-size:8.5px;color:#888;border:1px solid #ccc;border-radius:2px;padding:0 3px;margin-left:auto;flex-shrink:0}
+.pv-pl-row{display:flex;gap:10px;align-items:flex-start}
+.pv-pl-body{flex:1;min-width:0}
+.pv-pl-title{font-size:14px;font-weight:700;color:#1a1a1a;line-height:1.4;margin-bottom:4px;word-break:keep-all}
+.pv-pl-title.empty{color:#ccc;font-weight:400;font-size:12px}
+.pv-pl-desc{font-size:11.5px;color:#555;line-height:1.5}
+.pv-pl-desc.empty{color:#ccc;font-size:11px}
+.pv-pl-thumb{
+  width:60px;height:60px;border-radius:8px;
+  background:#f5f5f5;border:1px solid #eee;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex-shrink:0;overflow:hidden;
+}
+.pv-pl-thumb img{width:100%;height:100%;object-fit:cover}
+.pv-pl-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.pv-pl-chip{background:#f7f8fa;border:1px solid #e5e8ec;border-radius:4px;padding:2px 7px;font-size:10.5px;color:#555}
+
+/* 모바일 폰 프레임 */
+.pv-mob-frame{
+  background:#222;border-radius:24px;
+  box-shadow:0 4px 20px rgba(0,0,0,.4);
+  overflow:hidden;border:5px solid #222;
+}
+.pv-mob-notch{background:#222;height:24px;display:flex;align-items:center;justify-content:center}
+.pv-mob-pill{width:60px;height:5px;background:#444;border-radius:3px}
+.pv-mob-screen{background:#f9fafb;overflow:hidden}
+.pv-mob-status{background:#fff;padding:4px 14px;display:flex;justify-content:space-between;font-size:9px;color:#888;border-bottom:1px solid #f0f0f0}
+.pv-mob-searchbar{background:#fff;padding:7px 10px;display:flex;align-items:center;gap:7px;border-bottom:1px solid #eee}
+.pv-mob-input{flex:1;background:#f0f0f0;border-radius:16px;padding:5px 10px;font-size:11px;color:#aaa}
+.pv-mob-result-label{font-size:9.5px;color:#999;padding:7px 12px 4px;border-bottom:1px solid #f0f0f0}
+.pv-mob-card{
+  background:#fff;border-bottom:1px solid #f0f0f0;
+  padding:10px 12px;
+}
+.pv-mob-card.pv-competitor{opacity:.3;pointer-events:none}
+.pv-mob-meta{display:flex;align-items:center;gap:5px;margin-bottom:5px}
+.pv-mob-logo{width:15px;height:15px;border-radius:3px;background:#03C75A;color:#fff;font-size:8.5px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pv-mob-store{font-size:10.5px;font-weight:700;color:#1a1a1a}
+.pv-mob-badge{font-size:8.5px;color:#888;border:1px solid #ccc;border-radius:2px;padding:0 3px;margin-left:3px}
+.pv-mob-inner{display:flex;gap:8px;align-items:flex-start}
+.pv-mob-body{flex:1;min-width:0}
+.pv-mob-title{font-size:13px;font-weight:700;color:#1a1a1a;line-height:1.4;margin-bottom:3px;word-break:keep-all}
+.pv-mob-title.empty{color:#ccc;font-weight:400;font-size:11.5px}
+.pv-mob-desc{font-size:11px;color:#555;line-height:1.5}
+.pv-mob-desc.empty{color:#ccc}
+.pv-mob-thumb{width:50px;height:50px;border-radius:6px;background:#f5f5f5;border:1px solid #eee;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;overflow:hidden}
+.pv-mob-thumb img{width:100%;height:100%;object-fit:cover}
 </style>
 </head>
 <body>
@@ -2764,7 +3010,7 @@ p, span, div, label, li {
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v1.6</span>
+    <span class="h-version">v2.2</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -3004,51 +3250,88 @@ p, span, div, label, li {
           <span class="pin-icon">📌</span> 고정하기
         </button>
       </div>
-      <div class="preview-grid">
-        <!-- PC -->
-        <div class="pv-card">
-          <div class="pv-head"><h4>🖥 PC 미리보기</h4></div>
-          <div class="pv-body">
-            <div class="naver-ad">
-              <div class="naver-ad-inner">
-                <div class="naver-ad-header">
-                  <div class="naver-ad-logo">S</div>
-                  <span class="naver-ad-store">스마트스토어</span>
-                  <span style="color:#ddd;font-size:9px">·</span>
-                  <span class="naver-ad-url">smartstore.naver.com</span>
-                  <span class="naver-ad-badge">광고</span>
+
+      <!-- 새 디자인: PC 브라우저 + 모바일 폰 프레임 -->
+      <div class="pv-new-grid">
+
+        <!-- PC 미리보기 -->
+        <div class="pv-new-col">
+          <div class="pv-new-label">🖥 PC 검색결과</div>
+          <div class="pv-pc-wrap">
+            <div class="pv-pc-browser">
+              <div class="pv-pc-dots"><span></span><span></span><span></span></div>
+              <div class="pv-pc-urlbar">search.naver.com/search.naver</div>
+            </div>
+            <div class="pv-pc-body">
+              <div class="pv-pc-result-label">파워링크 · 광고</div>
+              <div class="pv-pl-card">
+                <div class="pv-pl-header">
+                  <div class="pv-pl-logo">S</div>
+                  <span class="pv-pl-store">스마트스토어</span>
+                  <span style="color:#ccc;font-size:9px">·</span>
+                  <span class="pv-pl-url">smartstore.naver.com</span>
+                  <span class="pv-pl-badge">광고</span>
                 </div>
-                <div class="naver-ad-row">
-                  <div class="naver-ad-body">
-                    <div class="naver-ad-title empty" id="pvPcTitles">제목을 선택하면 표시됩니다</div>
-                    <div class="naver-ad-desc empty" id="pvPcDesc">설명을 선택하면 표시됩니다</div>
-                    <div class="naver-ad-chips" id="pvPcChips"></div>
+                <div class="pv-pl-row">
+                  <div class="pv-pl-body">
+                    <div class="pv-pl-title empty" id="pvPcTitles">제목을 선택하면 표시됩니다</div>
+                    <div class="pv-pl-desc empty" id="pvPcDesc">설명을 선택하면 표시됩니다</div>
+                    <div id="pvPcChips" class="pv-pl-chips"></div>
                   </div>
-                  <div class="naver-ad-thumb" id="pvPcThumb">🏪</div>
+                  <div class="pv-pl-thumb" id="pvPcThumb">🏪</div>
                 </div>
               </div>
-            </div>
-
-          </div>
-        </div>
-        <!-- 모바일 -->
-        <div class="pv-card">
-          <div class="pv-head"><h4>📱 모바일 미리보기</h4></div>
-          <div class="pv-body">
-            <div class="naver-mob-ad">
-              <div class="naver-mob-ad-inner" style="padding:0;min-height:32px">
-                <div id="pvMobTitleList">
-                  <div class="mob-ad-empty">
-                    <div class="naver-mob-meta"><div class="naver-mob-logo">S</div><span class="naver-mob-store">스마트스토어</span><span class="naver-mob-badge">광고</span></div>
-                    <div class="naver-mob-title empty">제목을 선택하면 표시됩니다</div>
-                    <div class="naver-mob-desc empty">설명을 선택하면 표시됩니다</div>
-                  </div>
+              <div class="pv-pl-card pv-competitor">
+                <div class="pv-pl-header">
+                  <div class="pv-pl-logo" style="background:#bbb">L</div>
+                  <span class="pv-pl-store" style="color:#bbb">경쟁사 광고</span>
+                  <span class="pv-pl-badge">광고</span>
                 </div>
+                <div style="color:#ccc;font-size:11px;padding:2px 0">다른 광고주 광고가 이 자리에 노출됩니다</div>
               </div>
             </div>
-
           </div>
         </div>
+
+        <!-- 모바일 미리보기 -->
+        <div class="pv-new-col">
+          <div class="pv-new-label">📱 모바일 네이버 앱</div>
+          <div class="pv-mob-frame">
+            <div class="pv-mob-notch"><div class="pv-mob-pill"></div></div>
+            <div class="pv-mob-screen">
+              <div class="pv-mob-status"><span>9:41</span><span>🔋</span></div>
+              <div class="pv-mob-searchbar">
+                <div class="pv-mob-input">검색어</div>
+                <span style="color:#03C75A;font-size:15px">🔍</span>
+              </div>
+              <div class="pv-mob-result-label">파워링크 · 광고</div>
+              <div class="pv-mob-card">
+                <div class="pv-mob-meta">
+                  <div class="pv-mob-logo">S</div>
+                  <span class="pv-mob-store">스마트스토어</span>
+                  <span class="pv-mob-badge">광고</span>
+                </div>
+                <div class="pv-mob-inner">
+                  <div class="pv-mob-body">
+                    <div class="pv-mob-title empty" id="pvMobTitle1">제목을 선택하면 표시됩니다</div>
+                    <div class="pv-mob-desc empty" id="pvMobDesc1">설명을 선택하면 표시됩니다</div>
+                  </div>
+                  <div class="pv-mob-thumb" id="pvMobThumb1">🏪</div>
+                </div>
+              </div>
+              <div class="pv-mob-card pv-competitor">
+                <div class="pv-mob-meta">
+                  <div class="pv-mob-logo" style="background:#bbb">L</div>
+                  <span class="pv-mob-store" style="color:#bbb">경쟁사</span>
+                  <span class="pv-mob-badge">광고</span>
+                </div>
+                <div style="color:#ccc;font-size:11.5px">다른 광고주 자리</div>
+              </div>
+              <div id="pvMobTitleList" style="display:none"></div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -3153,7 +3436,7 @@ p, span, div, label, li {
     <!-- analysisBody: hidden buffer for modal (not shown in main UI) -->
     <div id="analysisBody" style="display:none"></div>
     <!-- ── AI 파이프라인 로그 -->
-<div id="aiPipeLog">
+<div id="aiPipeLog" style="display:none">
   <div class="pipe-title">⚡ AI 파이프라인 실행 기록</div>
   <div class="pipe-steps" id="pipeSteps">
     <!-- JS로 동적 생성 -->
@@ -3161,6 +3444,8 @@ p, span, div, label, li {
 </div>
 
 <div id="resultWrap" style="display:none">
+<div class="result-layout">
+<div class="rl-left">
       <!-- 제목 3컬럼 가로 나열 -->
       <div class="result-titles-3col">
         <!-- 그룹 1 -->
@@ -3216,11 +3501,71 @@ p, span, div, label, li {
           <div class="rc-desc-area" id="descGroup2"></div>
         </div>
       </div>
+
       <!-- badge hidden spans -->
       <span id="tBadge" style="display:none">0</span>
       <span id="dBadge" style="display:none">0</span>
+    </div><!-- /result-titles + desc -->
+</div><!-- /rl-left -->
+
+<!-- ── 우측 미리보기 sticky 패널 ── -->
+<div class="rl-right">
+  <div class="rl-pv-card">
+    <div class="rl-pv-header">
+      <span class="rl-pv-title">👁 광고 미리보기</span>
+      <span class="rl-pv-live">실시간</span>
+    </div>
+
+    <!-- PC 미리보기 -->
+    <div class="rl-pv-section">
+      <div class="rl-pv-label">🖥 PC</div>
+      <div class="naver-ad" style="margin:0">
+        <div class="naver-ad-inner">
+          <div class="naver-ad-header">
+            <div class="naver-ad-logo">S</div>
+            <span class="naver-ad-store">스마트스토어</span>
+            <span style="color:#ccc;font-size:9px">·</span>
+            <span class="naver-ad-url">smartstore.naver.com</span>
+            <span class="naver-ad-badge">광고</span>
+          </div>
+          <div class="naver-ad-row">
+            <div class="naver-ad-body">
+              <div class="naver-ad-title empty" id="rlPcTitle1">제목1</div>
+              <div style="font-size:10px;color:#999;margin:1px 0" id="rlPcTitle23Wrap"><span id="rlPcTitle2" style="display:none"></span><span id="rlPcTitle3" style="display:none"></span></div>
+              <div class="naver-ad-desc empty" id="rlPcDesc">설명을 선택하면 표시됩니다</div>
+            </div>
+            <div class="naver-ad-thumb" id="rlPcThumb">🏪</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 모바일 미리보기 -->
+    <div class="rl-pv-section" style="margin-top:10px">
+      <div class="rl-pv-label">📱 모바일</div>
+      <div class="naver-mob-ad" style="margin:0">
+        <div class="naver-mob-ad-inner">
+          <div class="naver-mob-meta">
+            <div class="naver-mob-logo">S</div>
+            <span class="naver-mob-store">스마트스토어</span>
+            <span class="naver-mob-badge">광고</span>
+          </div>
+          <div class="naver-mob-title empty" id="rlMobTitle">제목을 선택하면 표시됩니다</div>
+          <div class="naver-mob-desc empty" id="rlMobDesc">설명을 선택하면 표시됩니다</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 선택 현황 요약 -->
+    <div class="rl-pv-summary" id="rlSummary">
+      <div class="rl-sum-row"><span class="rl-sum-label">제목</span><span class="rl-sum-val" id="rlSumTitle">선택 없음</span></div>
+      <div class="rl-sum-row"><span class="rl-sum-label">설명</span><span class="rl-sum-val" id="rlSumDesc">선택 없음</span></div>
     </div>
   </div>
+</div><!-- /rl-right -->
+
+</div><!-- /result-layout -->
+  </div><!-- /resultWrap -->
 
 
 
@@ -3489,6 +3834,17 @@ async function testApiKey(type) {
 // ── AI 파이프라인 로그
 let _pipeLog = [];
 
+// ── 생성 버튼 옆 로그 텍스트 업데이트 (전역)
+function setGenLog(msg) {
+  const el = document.getElementById('genLogTxt');
+  if(!el) return;
+  el.style.opacity='0';
+  setTimeout(()=>{ el.textContent=msg; el.style.opacity='1'; }, 200);
+  // 실시간 로그창에도 기록
+  _addApiLog({ type: 'info', msg });
+}
+
+
 function _pipeReset() {
   _pipeLog = [];
 }
@@ -3496,6 +3852,15 @@ function _pipeReset() {
 function _pipeAdd(step) {
   // step: { icon, name, status('done'|'skip'|'err'), statusLabel, detail, ms }
   _pipeLog.push(step);
+  // 실시간 로그창에도 연동
+  const type = step.status === 'err' ? 'err' : step.status === 'skip' ? 'skip' : 'res';
+  const timeStr = step.ms ? ` (${(step.ms/1000).toFixed(1)}초)` : '';
+  _addApiLog({ type, msg: `[${step.name}] ${step.statusLabel}${timeStr}` });
+  if (step.detail) {
+    // detail에서 HTML 태그 제거 후 로그
+    const plainDetail = step.detail.replace(/<[^>]+>/g,'').trim();
+    if (plainDetail) _addApiLog({ type: 'detail', msg: plainDetail });
+  }
 }
 
 function renderPipeLog() {
@@ -3531,32 +3896,76 @@ function _addApiLog(entry) {
 
 // ── 실시간 로그 창 열기
 function openLogWindow() {
-  const logs = _apiLogs.length ? _apiLogs : [{ time: '-', type: 'info', msg: '로그가 없습니다. 소재를 먼저 생성해주세요.' }];
-  const rows = logs.map(l => {
-    const col = l.type === 'req' ? '#ff9800' : l.type === 'res' ? '#03C75A' : l.type === 'err' ? '#ff4d6d' : '#aaa';
-    const icon = l.type === 'req' ? '→' : l.type === 'res' ? '←' : l.type === 'err' ? '✕' : '·';
-    return `<tr><td style="color:#666;white-space:nowrap;padding-right:12px">${l.time.slice(11,19)}</td><td style="color:${col};width:20px;text-align:center">${icon}</td><td style="color:#ccc;padding-left:8px">${escHtml(l.msg)}</td></tr>`;
-  }).join('');
+  const allLogs = _apiLogs.length ? _apiLogs : [{ time: '-', type: 'info', msg: '로그가 없습니다. 소재를 먼저 생성해주세요.' }];
+
+  // 파이프라인 단계별 섹션 구성
+  let pipeHTML = '';
+  if (_pipeLog.length) {
+    pipeHTML = '<div style="margin-bottom:20px">' +
+      '<div style="color:#03C75A;font-size:11px;font-weight:800;letter-spacing:1px;margin-bottom:10px">⚡ AI 파이프라인 실행 단계</div>' +
+      _pipeLog.map((s, i) => {
+        const col = s.status === 'err' ? '#ff4d6d' : s.status === 'skip' ? '#888' : '#03C75A';
+        const bg  = s.status === 'err' ? 'rgba(255,77,109,.08)' : s.status === 'skip' ? 'rgba(255,255,255,.03)' : 'rgba(3,199,90,.05)';
+        const plain = s.detail ? s.detail.replace(/<[^>]+>/g,'').trim() : '';
+        return '<div style="background:'+bg+';border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:12px 14px;margin-bottom:8px">' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:'+(plain?'6px':'0')+'">' +
+          '<span style="font-size:14px">'+s.icon+'</span>' +
+          '<span style="color:#dce8f8;font-weight:700;font-size:12px;flex:1">'+escHtml(s.name)+'</span>' +
+          '<span style="color:'+col+';font-size:11px;font-weight:700">'+escHtml(s.statusLabel)+'</span>' +
+          (s.ms ? '<span style="color:#555;font-size:10px;margin-left:8px">'+(s.ms/1000).toFixed(1)+'초</span>' : '') +
+          '</div>' +
+          (plain ? '<div style="color:#aaa;font-size:11px;line-height:1.65;white-space:pre-wrap;word-break:break-word">'+escHtml(plain)+'</div>' : '') +
+          '</div>';
+      }).join('') +
+    '</div>';
+  }
+
+  // API 로그 (실제 요청/응답)
+  const apiOnlyLogs = allLogs.filter(l => l.type !== 'detail');
+  const apiHTML = '<div>' +
+    '<div style="color:#3385ff;font-size:11px;font-weight:800;letter-spacing:1px;margin-bottom:10px">📡 API 호출 상세 로그</div>' +
+    '<table style="width:100%;border-collapse:collapse">' +
+    apiOnlyLogs.map(l => {
+      const col  = l.type==='req'?'#ff9800': l.type==='res'?'#03C75A': l.type==='err'?'#ff4d6d': l.type==='skip'?'#888':'#aaa';
+      const icon = l.type==='req'?'→': l.type==='res'?'←': l.type==='err'?'✕': l.type==='skip'?'⏭':'·';
+      return '<tr style="border-bottom:1px solid rgba(255,255,255,.04)">' +
+        '<td style="color:#444;white-space:nowrap;padding:5px 10px 5px 0;font-size:10px">'+escHtml(l.time?l.time.slice(11,19):'-')+'</td>' +
+        '<td style="color:'+col+';text-align:center;width:16px;font-size:12px">'+icon+'</td>' +
+        '<td style="color:#c8d8f0;padding:5px 0 5px 10px;font-size:11px;word-break:break-all">'+escHtml(l.msg)+'</td>' +
+        '</tr>';
+    }).join('') +
+    '</table></div>';
+
+  const bodyHTML = [
+    '<'+'script>',
+    'document.getElementById("searchBox").addEventListener("input",function(){',
+    '  var q=this.value.toLowerCase();',
+    '  document.querySelectorAll(".log-searchable").forEach(function(r){',
+    '    r.style.display=r.textContent.toLowerCase().includes(q)?"":"none";',
+    '  });',
+    '});',
+    '<'+'/scri'+'pt>'
+  ].join('\n');
 
   const html = [
     '<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">',
-    '<title>API 실시간 로그<\/title>',
+    '<title>실시간 API 실행 로그</title>',
     '<style>',
     '*{box-sizing:border-box;margin:0;padding:0}',
-    'body{background:#0a0f1a;color:#d0e0f8;font-family:monospace;font-size:12px;padding:20px}',
-    'h2{font-size:14px;font-weight:800;color:#03C75A;margin-bottom:16px}',
-    'table{width:100%;border-collapse:collapse}',
-    'tr{border-bottom:1px solid rgba(255,255,255,.05)}',
-    'tr:hover{background:rgba(255,255,255,.03)}',
-    'td{padding:6px 4px;vertical-align:top}',
-    '<\/style><\/head><body>',
-    '<h2>⚡ API 실시간 로그 <span style="color:#666;font-size:10px">('+logs.length+'건)<\/span><\/h2>',
-    '<table>'+rows+'<\/table>',
-    '<'+'script>window.onload=function(){window.scrollTo(0,document.body.scrollHeight);}<'+'/scri'+'pt>',
-    '<\/body><\/html>'
-  ].join('');
+    'body{background:#080d18;color:#d0e0f8;font-family:"D2Coding",monospace,sans-serif;font-size:12px}',
+    'header{position:sticky;top:0;background:#080d18;border-bottom:1px solid rgba(255,255,255,.08);padding:14px 20px;display:flex;align-items:center;gap:10px;z-index:10}',
+    'h1{font-size:14px;font-weight:800;color:#03C75A;flex:1}',
+    'input{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#d0e0f8;padding:5px 10px;font-size:11px;outline:none;width:200px}',
+    'main{padding:20px}',
+    '</style></head><body>',
+    '<header><h1>⚡ 실시간 API 실행 로그</h1>',
+    '<input id="searchBox" placeholder="로그 검색...">',
+    '</header>',
+    '<main>'+pipeHTML+apiHTML+'</main>',
+    '</body></html>'
+  ].join('\n');
 
-  const w = window.open('', '_blank', 'width=820,height=560,scrollbars=yes,resizable=yes');
+  const w = window.open('', '_blank', 'width=860,height=620,scrollbars=yes,resizable=yes');
   if (w) { w.document.write(html); w.document.close(); }
 }
 
@@ -3566,11 +3975,56 @@ function escHtml(s) {
 
 // ── 작성 중 인디케이터 HTML
 function _writingIndicatorHTML(text) {
-  return `<div class="writing-indicator">
-    <div class="writing-bars"><span></span><span></span><span></span><span></span></div>
-    <span>${text || '리포트 작성 중'}</span>
-    <div class="writing-dot"></div>
-  </div>`;
+  return `<div class="writing-dots-wrap"><span class="writing-dots-text">${text||'리포트 작성 중'}</span><div class="writing-dots"><span></span><span></span><span></span></div></div>`;
+}
+
+
+// ── 우측 결과 미리보기 실시간 업데이트
+function updateRlPreview() {
+  // 선택된 제목 목록
+  const t1 = S.selectedTitles.filter(t=>t.group===1).map(t=>t.text);
+  const t2 = S.selectedTitles.filter(t=>t.group===2).map(t=>t.text);
+  const t3 = S.selectedTitles.filter(t=>t.group===3).map(t=>t.text);
+  const d1 = S.selectedDescs.filter(d=>d.group===1).map(d=>d.text);
+  const d2 = S.selectedDescs.filter(d=>d.group===2).map(d=>d.text);
+
+  const pcT1 = document.getElementById('rlPcTitle1');
+  const pcDesc = document.getElementById('rlPcDesc');
+  const mobT = document.getElementById('rlMobTitle');
+  const mobD = document.getElementById('rlMobDesc');
+  const sumT = document.getElementById('rlSumTitle');
+  const sumD = document.getElementById('rlSumDesc');
+
+  if(pcT1) {
+    if(t1.length) { pcT1.textContent = t1[0]; pcT1.classList.remove('empty'); }
+    else { pcT1.textContent = '제목1'; pcT1.classList.add('empty'); }
+  }
+  // 제목2, 제목3 작게 표시
+  const t23w = document.getElementById('rlPcTitle23Wrap');
+  const pt2 = document.getElementById('rlPcTitle2');
+  const pt3 = document.getElementById('rlPcTitle3');
+  if(pt2) { if(t2.length){pt2.textContent=t2[0];pt2.style.display='';} else pt2.style.display='none'; }
+  if(pt3) { if(t3.length){pt3.textContent=(t2.length?' | ':'')+t3[0];pt3.style.display='';} else pt3.style.display='none'; }
+
+  const descTxt = d1.length ? d1[0] : (d2.length ? d2[0] : '');
+  if(pcDesc) {
+    if(descTxt){ pcDesc.textContent=descTxt; pcDesc.classList.remove('empty'); }
+    else { pcDesc.textContent='설명을 선택하면 표시됩니다'; pcDesc.classList.add('empty'); }
+  }
+  if(mobT) {
+    const mt = t1.length ? t1[0] : '';
+    if(mt){ mobT.textContent=mt; mobT.classList.remove('empty'); }
+    else { mobT.textContent='제목을 선택하면 표시됩니다'; mobT.classList.add('empty'); }
+  }
+  if(mobD) {
+    if(descTxt){ mobD.textContent=descTxt; mobD.classList.remove('empty'); }
+    else { mobD.textContent='설명을 선택하면 표시됩니다'; mobD.classList.add('empty'); }
+  }
+  // 요약
+  const allT = [...t1,...t2,...t3];
+  const allD = [...d1,...d2];
+  if(sumT) sumT.textContent = allT.length ? allT.slice(0,2).join(' / ')+(allT.length>2?` 외 ${allT.length-2}개`:'') : '선택 없음';
+  if(sumD) sumD.textContent = allD.length ? allD[0].slice(0,30)+(allD[0].length>30?'…':'') : '선택 없음';
 }
 
 // ── 모달 눈 버튼 토글
@@ -4625,7 +5079,7 @@ function sync(){
   if(pvPcT){
     if(allSlots.length){
       pvPcT.className='naver-ad-title';
-      pvPcT.innerHTML=`<div style="font-size:14px;font-weight:700;color:#0068c3;line-height:1.55;word-break:keep-all">${allSlots.map(t=>esc(t)).join('<span style="color:#aaa;margin:0 3px">·</span>')}</div>`;
+      pvPcT.innerHTML=allSlots.map(t=>`<div class="pv-pl-title" style="color:#1a1a1a">${esc(t)}</div>`).join('');
     } else {
       pvPcT.className='naver-ad-title empty';
       pvPcT.textContent='제목을 선택하면 표시됩니다';
@@ -4688,6 +5142,27 @@ function sync(){
       </div>`;
     }
   }
+
+  // ── 새 모바일 미리보기 동기화
+  const _descAll = [pvDTxt1, pvDTxt2].filter(Boolean).join(' ');
+  const _mobT1 = document.getElementById('pvMobTitle1');
+  const _mobD1 = document.getElementById('pvMobDesc1');
+  const _mobTh1 = document.getElementById('pvMobThumb1');
+  if(_mobT1){
+    if(allSlots.length){ _mobT1.textContent=allSlots[0]; _mobT1.classList.remove('empty'); }
+    else { _mobT1.textContent='제목을 선택하면 표시됩니다'; _mobT1.classList.add('empty'); }
+  }
+  if(_mobD1){
+    if(_descAll){ _mobD1.textContent=_descAll; _mobD1.classList.remove('empty'); }
+    else { _mobD1.textContent='설명을 선택하면 표시됩니다'; _mobD1.classList.add('empty'); }
+  }
+  if(_mobTh1){
+    const _pcTh = document.getElementById('pvPcThumb');
+    if(_pcTh) _mobTh1.innerHTML = _pcTh.innerHTML || '🏪';
+  }
+  const pvPcTEl = document.getElementById('pvPcTitles');
+  if(pvPcTEl && allSlots.length) pvPcTEl.style.color='#0068c3';
+
 }
 
 // ── 메인 생성 함수
@@ -4730,6 +5205,7 @@ async function generate(){
 
   const btn=document.getElementById('genBtn');
   btn.disabled=true;
+  const _logBtn=document.getElementById('logOpenBtn'); if(_logBtn) _logBtn.disabled=false;
   document.getElementById('genTxt').innerHTML='<span class="spin"></span> 분석 중...';
   document.getElementById('pbarFill').style.width='0%';
   document.getElementById('emptyState').style.display='none';
@@ -4812,11 +5288,7 @@ async function generate(){
   const genLogTxt = document.getElementById('genLogTxt');
   if(genLogWrap) genLogWrap.style.display='block';
 
-  function setGenLog(msg) {
-    if(!genLogTxt) return;
-    genLogTxt.style.opacity='0';
-    setTimeout(()=>{ genLogTxt.textContent=msg; genLogTxt.style.opacity='1'; }, 200);
-  }
+  // setGenLog는 전역 함수 사용
   const sideStatus = document.getElementById('analysisSideStatus');
   const apHeaderSub = document.getElementById('apHeaderSub');
   const apPanel = document.getElementById('apPanel');
@@ -5056,6 +5528,7 @@ async function generate(){
     pg(4,'active');
     document.getElementById('pbarFill').style.width='100%';
     setTimeout(()=>document.getElementById('resultWrap').scrollIntoView({behavior:'smooth',block:'start'}),300);
+    updateRlPreview();
     document.getElementById('genTxt').innerHTML='<span class="spin"></span> 리포트 분석 중...';
     if(sideStatus) sideStatus.textContent='리포트 분석 중...';
     if(stepEl) { stepEl.style.opacity='0'; setTimeout(()=>{ stepEl.textContent='리포트 분석 중...'; stepEl.style.opacity='1'; },160); }
