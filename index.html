@@ -523,7 +523,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .naver-ad-row{display:flex;gap:7px;align-items:flex-start}
 .naver-ad-body{flex:1;min-width:0}
 .naver-ad-title{font-size:12px;font-weight:700;color:#1a73e8;line-height:1.4;margin-bottom:2px;word-break:keep-all;white-space:normal;overflow:visible}
-.naver-ad-title.empty{color:#ccc;font-weight:400;font-size:10px}
+.naver-ad-title.empty{color:#ccc;font-weight:400;font-size:10px;display:flex;align-items:center;justify-content:center;padding:20px 0}
 .naver-ad-desc{font-size:10px;color:#444;line-height:1.5;word-break:keep-all;white-space:normal;overflow:visible}
 .naver-ad-desc.empty{color:#ccc;font-size:9px}
 .naver-ad-thumb{width:36px;height:36px;border-radius:4px;background:#f8f8f8;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;overflow:hidden;border:1px solid #eee}
@@ -542,7 +542,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .naver-mob-row{display:flex;gap:7px;align-items:flex-start;margin-bottom:4px}
 .naver-mob-body{flex:1;min-width:0}
 .naver-mob-title{font-size:12px;font-weight:700;color:#1a73e8;line-height:1.4;margin-bottom:2px;word-break:keep-all;white-space:normal;overflow:visible}
-.naver-mob-title.empty{color:#ccc;font-weight:400;font-size:10px}
+.naver-mob-title.empty{color:#ccc;font-weight:400;font-size:10px;display:flex;align-items:center;justify-content:center;padding:20px 0}
 .naver-mob-desc{font-size:10px;color:#444;line-height:1.5;word-break:keep-all;white-space:normal;overflow:visible}
 .naver-mob-desc.empty{color:#ccc;font-size:10px}
 .naver-mob-thumb{width:44px;height:44px;border-radius:5px;background:#f8f8f8;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;overflow:hidden;border:1px solid #eee}
@@ -3011,7 +3011,7 @@ p, span, div, label, li {
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v2.3</span>
+    <span class="h-version">v2.4</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -3413,12 +3413,11 @@ p, span, div, label, li {
     <div class="section-label">광고 소재</div>
     <div class="section-div"></div>
     <button id="clearAllBtn" class="clear-all-btn" onclick="clearAllSelection()">✕ 전체 취소</button>
-    <button onclick="generate()" class="refresh-btn">🔄 새로고침</button>
+    <button onclick="generate()" class="refresh-btn">🔄 소재 다시 만들기</button>
   </div>
   <div class="result-card">
-    <div id="emptyState" class="empty">
+    <div id="emptyState" class="empty" style="display:none">
       <div class="empty-icon">✦</div>
-
     </div>
     <!-- analysisBody: hidden buffer for modal (not shown in main UI) -->
     <div id="analysisBody" style="display:none"></div>
@@ -3588,7 +3587,7 @@ p, span, div, label, li {
 
 
 // ── 상태
-const S = { titles:[], descs:[], kws:[], selT:new Set(), selD:new Set(), imgs:[] };
+const S = { titles:[], descs:[], kws:[], selT:new Set(), selD:new Set(), imgs:[], selectedTitles:[], selectedDescs:[] };
 // 핀 저장소 (render() 재실행 시 값 유지)
 const pinData = {};    // {titleIdx: '1'|'2'|'3'|''}
 const descPinData = {}; // {descIdx: '1'|'2'|''}
@@ -3968,6 +3967,7 @@ function _writingIndicatorHTML(text) {
 
 // ── 우측 결과 미리보기 실시간 업데이트
 function updateRlPreview() {
+  if (!S.selectedTitles || !S.selectedDescs) return;
   // 선택된 제목 목록
   const t1 = S.selectedTitles.filter(t=>t.group===1).map(t=>t.text);
   const t2 = S.selectedTitles.filter(t=>t.group===2).map(t=>t.text);
@@ -5197,6 +5197,12 @@ async function generate(){
   document.getElementById('pbarFill').style.width='0%';
   document.getElementById('emptyState').style.display='none';
   document.getElementById('resultWrap').style.display='none';
+  document.getElementById('emptyState').style.display='none';
+  // ── 그리드/타이틀 초기화
+  [1,2,3].forEach(g=>{ const el=document.getElementById('titleGroup'+g); if(el) el.innerHTML=''; });
+  [1,2].forEach(g=>{ const el=document.getElementById('descGroup'+g); if(el) el.innerHTML=''; });
+  const apProg2 = document.getElementById('apProgress');
+  if(apProg2) apProg2.style.display='none';
 
   // ── 입력 전체 잠금
   function lockInputs(lock){
