@@ -402,8 +402,8 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .col-analysis{background:linear-gradient(160deg,rgba(3,199,90,.04),rgba(0,102,255,.03))}
 
 
-.analysis-status{font-size:11px;color:var(--text3);padding:3px 10px;background:rgba(0,0,0,.2);border-radius:4px;border:1px solid var(--border);display:inline-block;margin:4px 16px 6px;transition:all .3s}
-.analysis-status.running{color:var(--g);background:rgba(3,199,90,.08);border-color:rgba(3,199,90,.25);animation:statusPulse 2s ease infinite}
+.analysis-status{display:none}
+/* analysisSideStatus는 패널 내 타이핑 뱃지로 대체 — 직접 숨김 */
 @keyframes statusPulse{0%,100%{opacity:1}50%{opacity:.7}}
 .analysis-preview{
   font-size:13px;color:var(--text2);line-height:1.8;
@@ -471,6 +471,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   z-index:10;
   background:var(--bg);
   padding-bottom:6px;
+  overflow:visible;
 }
 
 /* ── 각 섹션 독립 sticky ── */
@@ -531,7 +532,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .naver-ad-chip{background:#f3f3f3;border:1px solid #e5e5e5;border-radius:2px;padding:1px 4px;font-size:8px;color:#555}
 
 /* 네이버 모바일 — 45자 전체 표시 */
-.naver-mob-ad{background:#fff;border:1px solid #e2e8f0;border-radius:6px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+.naver-mob-ad{background:#fff;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.1);min-height:80px}
 .naver-mob-ad-inner{padding:8px 10px}
 .naver-mob-meta{display:flex;align-items:center;gap:3px;margin-bottom:4px;flex-wrap:wrap}
 .naver-mob-logo{width:13px;height:13px;border-radius:50%;background:#03C75A;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:900;color:#fff;flex-shrink:0}
@@ -822,7 +823,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .mob-ad-card{background:#fff;border:1px solid #e5e8ec;border-radius:8px;padding:12px 14px;margin-bottom:6px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
 .mob-ad-card--sub{background:#fafafa;border-color:#ebebeb}
 .mob-ad-card--sub .naver-mob-title{font-size:14px}
-.mob-ad-empty{background:#fff;border:1px solid #e5e8ec;border-radius:8px;padding:12px 14px}
+.mob-ad-empty{background:#fff;border:1px solid #e5e8ec;border-radius:8px;padding:10px 12px;min-height:70px;display:flex;flex-direction:column;justify-content:center}
 #pvMobTitleList{max-height:120px;overflow-y:auto}
 #pvMobTitleList::-webkit-scrollbar{width:3px}
 #pvMobTitleList::-webkit-scrollbar-thumb{background:#e0e0e0;border-radius:2px}
@@ -2291,8 +2292,11 @@ p, span, div, label, li {
 
 
 /* ── 미리보기 PC/모바일 크기 통일 */
-.naver-ad,.naver-mob-ad{
+.naver-ad{
   min-height:40px;
+}
+.naver-mob-ad{
+  min-height:80px;
 }
 .naver-ad-inner,.naver-mob-ad-inner{
   min-height:32px;
@@ -2323,8 +2327,9 @@ p, span, div, label, li {
 }
 /* mob-ad-empty도 동일 높이 */
 .mob-ad-empty{
-  min-height:32px;
-  padding:5px 8px!important;
+  min-height:70px;
+  padding:10px 12px!important;
+  display:flex;flex-direction:column;justify-content:center;
 }
 
 
@@ -2570,6 +2575,70 @@ p, span, div, label, li {
 .toast.success{border-color:rgba(3,199,90,.35);background:#061a10}
 @keyframes toastIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
 @keyframes toastOut{from{opacity:1;transform:none}to{opacity:0;transform:translateX(30px)}}
+
+/* ─── AI 파이프라인 로그 패널 ─── */
+#aiPipeLog{display:none;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px 18px;margin-bottom:16px}
+.pipe-title{font-size:11px;font-weight:800;color:rgba(220,232,248,.4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.pipe-steps{display:flex;flex-direction:column;gap:8px}
+.pipe-step{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);transition:all .3s}
+.pipe-step.done{border-color:rgba(3,199,90,.2);background:rgba(3,199,90,.05)}
+.pipe-step.skip{border-color:rgba(255,255,255,.05);opacity:.5}
+.pipe-step.err{border-color:rgba(255,77,109,.2);background:rgba(255,77,109,.05)}
+.pipe-step-icon{font-size:18px;flex-shrink:0;width:28px;text-align:center;margin-top:1px}
+.pipe-step-body{flex:1;min-width:0}
+.pipe-step-header{display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.pipe-step-name{font-size:12px;font-weight:800;color:rgba(220,232,248,.85)}
+.pipe-step-status{font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px}
+.pipe-step.done .pipe-step-status{background:rgba(3,199,90,.15);color:#03C75A}
+.pipe-step.skip .pipe-step-status{background:rgba(255,255,255,.07);color:rgba(220,232,248,.3)}
+.pipe-step.err  .pipe-step-status{background:rgba(255,77,109,.15);color:#ff4d6d}
+.pipe-step-time{font-size:10px;color:rgba(220,232,248,.3);margin-left:auto;flex-shrink:0}
+.pipe-step-detail{font-size:11px;color:rgba(220,232,248,.5);line-height:1.6;word-break:break-all}
+.pipe-step-detail b{color:rgba(220,232,248,.8);font-weight:700}
+.pipe-connector{width:1px;height:10px;background:rgba(255,255,255,.08);margin:0 auto 0 27px}
+
+/* ─── 실시간 로그 버튼 ─── */
+.log-open-btn{
+  width:100%;padding:8px 14px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;color:rgba(220,232,248,.5);
+  font-size:11.5px;font-weight:700;font-family:inherit;
+  cursor:pointer;transition:all .2s;letter-spacing:-.1px;
+}
+.log-open-btn:not(:disabled):hover{
+  background:rgba(255,152,0,.08);border-color:rgba(255,152,0,.3);color:#ff9800;
+}
+.log-open-btn:disabled{opacity:.35;cursor:not-allowed}
+.log-open-btn.active{border-color:rgba(255,152,0,.4);color:#ff9800;background:rgba(255,152,0,.07)}
+
+/* ─── 리포트 작성 중 타이핑 텍스트 ─── */
+@keyframes writingBlink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes writingDot{0%,20%{content:'작성 중 .'}40%{content:'작성 중 ..'}60%,100%{content:'작성 중 ...'}}
+.writing-indicator{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:600;color:var(--g);
+  background:rgba(3,199,90,.07);border:1px solid rgba(3,199,90,.2);
+  border-radius:5px;padding:4px 10px;margin:4px 14px 6px;
+  animation:writingFade 1.5s ease infinite alternate;
+}
+@keyframes writingFade{from{opacity:.7}to{opacity:1}}
+.writing-dot{
+  display:inline-block;width:8px;height:8px;border-radius:50%;
+  background:var(--g);
+  animation:writingPulse .9s ease infinite;
+}
+@keyframes writingPulse{0%,100%{transform:scale(.6);opacity:.4}50%{transform:scale(1);opacity:1}}
+.writing-bars{display:inline-flex;gap:2px;align-items:flex-end;height:12px}
+.writing-bars span{
+  display:inline-block;width:2.5px;border-radius:2px;background:var(--g);
+  animation:writingBar .8s ease infinite;
+}
+.writing-bars span:nth-child(1){height:4px;animation-delay:0s}
+.writing-bars span:nth-child(2){height:8px;animation-delay:.15s}
+.writing-bars span:nth-child(3){height:5px;animation-delay:.3s}
+.writing-bars span:nth-child(4){height:10px;animation-delay:.1s}
+@keyframes writingBar{0%,100%{transform:scaleY(.5);opacity:.5}50%{transform:scaleY(1);opacity:1}}
 </style>
 </head>
 <body>
@@ -2695,7 +2764,7 @@ p, span, div, label, li {
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v1.3</span>
+    <span class="h-version">v1.6</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -2848,8 +2917,9 @@ p, span, div, label, li {
               <div class="analysis-preview" id="analysisSidePreview" style="display:none;margin:0 14px 8px;padding:10px 12px;background:rgba(3,199,90,.05);border:1px solid rgba(3,199,90,.12);border-radius:8px;font-size:12px;line-height:1.8;color:var(--text2)"></div>
 
               <!-- 전체 리포트 보기 버튼 (아래) -->
-              <div style="padding:0 14px 14px">
+              <div style="padding:0 14px 14px;display:flex;flex-direction:column;gap:7px">
                 <button class="analysis-btn" id="analysisOpenBtn" onclick="openAnalysisModal()" disabled>📄 전체 리포트 보기</button>
+                <button class="log-open-btn" id="logOpenBtn" onclick="openLogWindow()" disabled>🔍 실시간 로그 보기</button>
               </div>
             </div>
 
@@ -3082,7 +3152,15 @@ p, span, div, label, li {
     </div>
     <!-- analysisBody: hidden buffer for modal (not shown in main UI) -->
     <div id="analysisBody" style="display:none"></div>
-    <div id="resultWrap" style="display:none">
+    <!-- ── AI 파이프라인 로그 -->
+<div id="aiPipeLog">
+  <div class="pipe-title">⚡ AI 파이프라인 실행 기록</div>
+  <div class="pipe-steps" id="pipeSteps">
+    <!-- JS로 동적 생성 -->
+  </div>
+</div>
+
+<div id="resultWrap" style="display:none">
       <!-- 제목 3컬럼 가로 나열 -->
       <div class="result-titles-3col">
         <!-- 그룹 1 -->
@@ -3405,6 +3483,94 @@ async function testApiKey(type) {
   } finally {
     if(btn) btn.disabled = false;
   }
+}
+
+
+// ── AI 파이프라인 로그
+let _pipeLog = [];
+
+function _pipeReset() {
+  _pipeLog = [];
+}
+
+function _pipeAdd(step) {
+  // step: { icon, name, status('done'|'skip'|'err'), statusLabel, detail, ms }
+  _pipeLog.push(step);
+}
+
+function renderPipeLog() {
+  const wrap = document.getElementById('aiPipeLog');
+  const steps = document.getElementById('pipeSteps');
+  if (!wrap || !steps || !_pipeLog.length) return;
+  wrap.style.display = 'block';
+
+  steps.innerHTML = _pipeLog.map((s, i) => `
+    <div class="pipe-step ${s.status}">
+      <div class="pipe-step-icon">${s.icon}</div>
+      <div class="pipe-step-body">
+        <div class="pipe-step-header">
+          <span class="pipe-step-name">${s.name}</span>
+          <span class="pipe-step-status">${s.statusLabel}</span>
+          ${s.ms ? `<span class="pipe-step-time">${(s.ms/1000).toFixed(1)}초</span>` : ''}
+        </div>
+        <div class="pipe-step-detail">${s.detail}</div>
+      </div>
+    </div>
+    ${i < _pipeLog.length-1 ? '<div class="pipe-connector"></div>' : ''}
+  `).join('');
+}
+
+
+// ── API 로그 수집
+const _apiLogs = [];
+function _addApiLog(entry) {
+  _apiLogs.push({ time: new Date().toISOString(), ...entry });
+  const logBtn = document.getElementById('logOpenBtn');
+  if (logBtn && !logBtn.disabled) logBtn.classList.add('active');
+}
+
+// ── 실시간 로그 창 열기
+function openLogWindow() {
+  const logs = _apiLogs.length ? _apiLogs : [{ time: '-', type: 'info', msg: '로그가 없습니다. 소재를 먼저 생성해주세요.' }];
+  const rows = logs.map(l => {
+    const col = l.type === 'req' ? '#ff9800' : l.type === 'res' ? '#03C75A' : l.type === 'err' ? '#ff4d6d' : '#aaa';
+    const icon = l.type === 'req' ? '→' : l.type === 'res' ? '←' : l.type === 'err' ? '✕' : '·';
+    return `<tr><td style="color:#666;white-space:nowrap;padding-right:12px">${l.time.slice(11,19)}</td><td style="color:${col};width:20px;text-align:center">${icon}</td><td style="color:#ccc;padding-left:8px">${escHtml(l.msg)}</td></tr>`;
+  }).join('');
+
+  const html = [
+    '<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">',
+    '<title>API 실시간 로그<\/title>',
+    '<style>',
+    '*{box-sizing:border-box;margin:0;padding:0}',
+    'body{background:#0a0f1a;color:#d0e0f8;font-family:monospace;font-size:12px;padding:20px}',
+    'h2{font-size:14px;font-weight:800;color:#03C75A;margin-bottom:16px}',
+    'table{width:100%;border-collapse:collapse}',
+    'tr{border-bottom:1px solid rgba(255,255,255,.05)}',
+    'tr:hover{background:rgba(255,255,255,.03)}',
+    'td{padding:6px 4px;vertical-align:top}',
+    '<\/style><\/head><body>',
+    '<h2>⚡ API 실시간 로그 <span style="color:#666;font-size:10px">('+logs.length+'건)<\/span><\/h2>',
+    '<table>'+rows+'<\/table>',
+    '<'+'script>window.onload=function(){window.scrollTo(0,document.body.scrollHeight);}<'+'/scri'+'pt>',
+    '<\/body><\/html>'
+  ].join('');
+
+  const w = window.open('', '_blank', 'width=820,height=560,scrollbars=yes,resizable=yes');
+  if (w) { w.document.write(html); w.document.close(); }
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── 작성 중 인디케이터 HTML
+function _writingIndicatorHTML(text) {
+  return `<div class="writing-indicator">
+    <div class="writing-bars"><span></span><span></span><span></span><span></span></div>
+    <span>${text || '리포트 작성 중'}</span>
+    <div class="writing-dot"></div>
+  </div>`;
 }
 
 // ── 모달 눈 버튼 토글
@@ -3735,6 +3901,7 @@ async function callGemini(sys, userContent, onChunk, maxTokens) {
   const timeoutId = setTimeout(() => controller.abort(), tokens > 1000 ? 120000 : 90000);
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
 
+  _addApiLog({type:'req', msg:`[Gemini] ${url.substring(0,80)}... max_tokens:${tokens}`});
   try {
     const res = await fetch(url, {
       method: 'POST',
@@ -4651,11 +4818,15 @@ async function generate(){
     setTimeout(()=>{ genLogTxt.textContent=msg; genLogTxt.style.opacity='1'; }, 200);
   }
   const sideStatus = document.getElementById('analysisSideStatus');
+  const apHeaderSub = document.getElementById('apHeaderSub');
+  const apPanel = document.getElementById('apPanel');
   const sidePreview=document.getElementById('analysisSidePreview');
   const sideBtn=document.getElementById('analysisOpenBtn');
   const apProg=document.getElementById('apPanel');
   if(sideStatus){ sideStatus.style.display='block'; sideStatus.textContent='분석 시작...'; sideStatus.classList.add('running'); }
   setGenLog('Gemini AI 연결 중...');
+  _pipeReset();
+  document.getElementById('aiPipeLog').style.display='none';
   if(sidePreview) sidePreview.style.display='none';
   if(sideBtn) sideBtn.disabled=true;
   if(apProg) apProg.style.display='block';
@@ -4751,16 +4922,43 @@ async function generate(){
     // ── STEP 0: GPT-4o 이미지 분석
     let gpt4oAnalysis = null;
     if (S.imgs.length > 0 && OPENAI_KEY) {
+      const _t0 = Date.now();
       updateStatus('🔍 GPT-4o 이미지 분석 중...');
       setGenLog('GPT-4o 이미지 분석 중...');
-      gpt4oAnalysis = await analyzeWithGPT4o(S.imgs);
-      if (gpt4oAnalysis) updateStatus('✅ 이미지 분석 완료 → 광고 포인트 추출됨');
+      try {
+        gpt4oAnalysis = await analyzeWithGPT4o(S.imgs);
+        const _t0ms = Date.now() - _t0;
+        if (gpt4oAnalysis) {
+          updateStatus('✅ 이미지 분석 완료 → 광고 포인트 추출됨');
+          _pipeAdd({
+            icon:'🔵', name:'GPT-4o Vision — 이미지 분석',
+            status:'done', statusLabel:'✅ 완료',
+            detail:`<b>${S.imgs.length}장</b> 이미지를 분석하여 상품 특징·소재 포인트를 추출했어요.<br>` +
+                   `추출 결과: <b>${gpt4oAnalysis.slice(0,120).replace(/\n/g,' ')}${gpt4oAnalysis.length>120?'…':''}</b>`,
+            ms: _t0ms
+          });
+        }
+      } catch(e) {
+        _pipeAdd({icon:'🔵', name:'GPT-4o Vision — 이미지 분석', status:'err', statusLabel:'❌ 오류',
+          detail:`오류: ${e.message}`, ms: Date.now()-_t0});
+      }
+    } else if (S.imgs.length > 0 && !OPENAI_KEY) {
+      _pipeAdd({icon:'🔵', name:'GPT-4o Vision — 이미지 분석', status:'skip', statusLabel:'⏭ 건너뜀',
+        detail:`GPT-4o API 키가 없어서 건너뛰었어요. 키를 입력하면 이미지에서 광고 포인트를 자동 추출할 수 있어요.`});
+    } else {
+      _pipeAdd({icon:'🔵', name:'GPT-4o Vision — 이미지 분석', status:'skip', statusLabel:'⏭ 건너뜀',
+        detail:`이미지 없음 — 이미지를 업로드하면 GPT-4o가 상품을 직접 분석해줘요.`});
     }
 
     // Claude 키 있으면 Claude, 없으면 Gemini fallback
     const useClaudeForCopy = !!CLAUDE_KEY;
     const copyFn     = useClaudeForCopy ? callClaude : callGemini;
     const copyApiName = useClaudeForCopy ? 'Claude Haiku' : 'Gemini';
+    // 미사용 API 로그
+    if (!useClaudeForCopy) {
+      _pipeAdd({icon:'🟠', name:'Claude Haiku — 광고 소재 생성', status:'skip', statusLabel:'⏭ 건너뜀',
+        detail:'Claude API 키가 없어서 Gemini로 대체했어요. 키를 입력하면 Claude가 소재를 더 정교하게 작성해줘요.'});
+    }
 
     const promptParts=[`상품명: ${name}`];
     if (gpt4oAnalysis) promptParts.push(`[GPT-4o 이미지 분석]\n${gpt4oAnalysis}`);
@@ -4800,6 +4998,7 @@ async function generate(){
 
     const sysCopy = `당신은 네이버 파워링크 광고 전문가입니다.
 반드시 순수 JSON만 응답하세요. 코드블록·설명·다른 텍스트 절대 금지.
+[글자수 최우선] 제목: 10~15자, 설명: 40~45자. 단어 끊김 절대 금지.
 금지 표현: 최고·최저·1위·최상·특가·최대·최저가·압도적·완벽·탁월·보장·무조건 등 최상급 표현.`;
 
     const promptBase = promptParts.join('\n');
@@ -4808,9 +5007,10 @@ async function generate(){
     // 이미지가 있으면 제목 생성에만 이미지 첨부 (설명엔 불필요)
     const titlesContent = S.imgs.length > 0
       ? [...S.imgs.map(img=>({type:'image',source:{type:'base64',media_type:img.type||'image/jpeg',data:img.b64}})),
-         {type:'text', text: promptBase + '\n\n제목 30개를 생성하세요. 규칙: 15자 이내, 숫자·혜택·타겟 활용. 제목1위치추천 10개, 제목2위치추천 10개, 제목3위치추천 10개 순서로.\n형식: {"titles":["..."]}'}]
-      : promptBase + '\n\n제목 30개를 생성하세요. 규칙: 15자 이내, 숫자·혜택·타겟 활용. 제목1위치추천 10개, 제목2위치추천 10개, 제목3위치추천 10개 순서로.\n형식: {"titles":["..."]}';
+         {type:'text', text: promptBase + '\n\n제목 30개를 생성하세요.\n규칙(반드시):\n- 10자 이상 15자 이하 (공백 포함, 미달·초과 금지)\n- 단어 끊김 절대 금지, 문장이 완전히 끝나야 함\n- 나쁜 예: "냉장고 1도조절 45박"(끊김) / 좋은 예: "업소용 냉장고 지금 특가"\n- 제목1위치 10개, 제목2위치 10개, 제목3위치 10개 순서\n형식: {"titles":["..."]}'}]
+      : promptBase + '\n\n제목 30개를 생성하세요.\n규칙(반드시):\n- 10자 이상 15자 이하 (공백 포함, 미달·초과 금지)\n- 단어 끊김 절대 금지, 문장이 완전히 끝나야 함\n- 나쁜 예: "냉장고 1도조절 45박"(끊김) / 좋은 예: "업소용 냉장고 지금 특가"\n- 제목1위치 10개, 제목2위치 10개, 제목3위치 10개 순서\n형식: {"titles":["..."]}';
 
+    const _t1 = Date.now();
     const [titlesRaw, descsRaw] = await Promise.all([
       copyFn(sysCopy,
         titlesContent,
@@ -4823,7 +5023,7 @@ async function generate(){
         }
       ),
       copyFn(sysCopy,
-        promptBase + '\n\n설명 10개를 생성하세요.\n⚠️ 아래 규칙을 반드시 모두 지키세요:\n- 글자 수: 정확히 40~45자 (한글 1자=1자, 공백 포함, 미달·초과 모두 금지)\n- 완결성: 단어 중간에 절대 끊으면 안 됨. 문장이 완전히 끝나야 함\n- 끝맺음: 마지막 글자가 조사·명사·동사 어미로 자연스럽게 마무리\n- 생성 후 반드시 글자 수를 직접 세어 40~45자인지 확인하고 틀리면 수정할 것\n- 나쁜 예(끊김): "소상공인을 위한 간냉식 45박스 냉장고, 지금 구" → 단어 끊김\n- 좋은 예(완결): "소상공인을 위한 간냉식 냉장고, 지금 바로 확인해보세요" (44자)\n형식: {"descs":["..."]}',
+        promptBase + '\n\n설명 10개를 생성하세요.\n⚠️ 규칙(반드시 지킬 것):\n- 글자 수: 반드시 40자 이상 45자 이하 (공백 포함. 30자대 절대 금지)\n- 짧으면 혜택·수치·행동유도를 추가해 반드시 40자 이상으로 늘릴 것\n- 단어 끊김 절대 금지, 문장이 완전히 끝나야 함\n- 생성 후 글자 수 직접 세어 확인, 틀리면 반드시 수정\n- 나쁜 예(26자 너무 짧음): "간냉식 냉장고, 지금 구매하세요" → 재작성\n- 좋은 예(41자): "소상공인을 위한 간냉식 냉장고, 지금 바로 확인해보세요!"\n- 좋은 예(44자): "업소용 간냉식 45박스 냉장고, 특가로 지금 바로 만나보세요"\n형식: {"descs":["..."]}',
         null
       )
     ]);
@@ -4835,6 +5035,16 @@ async function generate(){
     S.titles = (parsedTitles.titles || []).map(t=>[...t].slice(0,15).join(''));
     S.descs  = (parsedDescs.descs   || []).map(d=>[...d].slice(0,45).join(''));
     S.kws = [];
+    const _t1ms = Date.now() - _t1;
+    _pipeAdd({
+      icon: useClaudeForCopy ? '🟠' : '🟢',
+      name: `${copyApiName} — 광고 소재 생성`,
+      status:'done', statusLabel:'✅ 완료',
+      detail: `제목 <b>${S.titles.length}개</b> + 설명 <b>${S.descs.length}개</b> 생성 완료<br>` +
+              `제목 예시: <b>"${S.titles[0]||''}"</b>, <b>"${S.titles[1]||''}"</b>, <b>"${S.titles[2]||''}"</b><br>` +
+              `설명 예시: <b>"${(S.descs[0]||'').slice(0,40)}"</b>`,
+      ms: _t1ms
+    });
 
     pg(2,'done');
     // ★ 소재 생성 완료 즉시 결과 표시 (리포트 기다리지 않음)
@@ -4869,6 +5079,7 @@ async function generate(){
     const aBody=document.getElementById('analysisBody');aBody.style.display='none';
     if(sideStatus) sideStatus.textContent='리포트 작성 중...';
 
+    const _t2 = Date.now();
     generateAnalysis(name, feat, target, S.titles, S.descs, S.imgs).then(html=>{
       document.getElementById('analysisBody').innerHTML=html;
       document.getElementById('analysisBody').style.display='none';
@@ -4896,6 +5107,15 @@ async function generate(){
       }
 
       // 리포트 완료 - 결과는 이미 표시됨, 패널만 업데이트
+      const _t2ms = Date.now() - _t2;
+      _pipeAdd({
+        icon:'🟢', name:'Gemini 2.5 Flash — 마케터 분석 리포트',
+        status:'done', statusLabel:'✅ 완료',
+        detail:'클릭률·전략·개선안 심층 분석 완료<br>' +
+               `제목 <b>${S.titles.length}개</b>, 설명 <b>${S.descs.length}개</b> 기반으로 마케팅 전략을 생성했어요`,
+        ms: _t2ms
+      });
+      renderPipeLog();
       pg(3,'done');pg(4,'done');
       // fieldRows 다시 표시
       document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
@@ -4907,7 +5127,11 @@ async function generate(){
       if(status){ status.textContent='✓ 분석 완료'; status.classList.remove('running'); }
       if(openBtn){openBtn.disabled=false;openBtn.classList.add('done');setTimeout(()=>openBtn.classList.remove('done'),5000);}
       const lb=document.getElementById('apLogBox'); if(lb) lb.classList.remove('analyzing');
-    }).catch(()=>{
+      const logBtn2=document.getElementById('logOpenBtn'); if(logBtn2) { logBtn2.disabled=false; }
+    }).catch((e)=>{
+      _pipeAdd({icon:'🟢', name:'Gemini 2.5 Flash — 마케터 분석 리포트', status:'err', statusLabel:'❌ 오류',
+        detail:`리포트 생성 실패: ${e?.message||'알 수 없는 오류'}`});
+      renderPipeLog();
       document.getElementById('analysisBody').innerHTML='<div>분석을 불러오지 못했어요.</div>';
       pg(3,'done');pg(4,'done');
       document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
@@ -4969,8 +5193,8 @@ function _recalcStickyTops() {
   // 모니터: 미리보기도 고정이면 그 아래, 아니면 헤더 바로 아래
   if (monitor) {
     if (_pinState.monitor) {
-      if (_pinState.preview) {
-        const previewH = preview.getBoundingClientRect().height;
+      if (_pinState.preview && preview) {
+        const previewH = preview.offsetHeight;
         monitor.style.top = (hh + gap + previewH + 4) + 'px';
       } else {
         monitor.style.top = (hh + gap) + 'px';
