@@ -2792,8 +2792,9 @@ p, span, div, label, li {
 
 /* ═══ 새 광고 미리보기 디자인 ═══ */
 .pv-new-grid{
-  display:grid;grid-template-columns:1fr 240px;
-  gap:14px;padding:10px 14px 14px;align-items:start;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:10px;padding:8px 12px 10px;align-items:start;
+  max-width:700px;
 }
 .pv-new-col{display:flex;flex-direction:column;gap:7px}
 .pv-new-label{
@@ -2822,13 +2823,13 @@ p, span, div, label, li {
   border-radius:20px;padding:3px 12px;
   font-size:10px;color:#888;
 }
-.pv-pc-body{padding:12px 14px}
+.pv-pc-body{padding:8px 10px}
 .pv-pc-result-label{font-size:10px;color:#999;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #f0f0f0}
 
 /* 파워링크 카드 */
 .pv-pl-card{
-  border:1.5px solid #e5e8ec;border-radius:8px;
-  padding:12px 14px;margin-bottom:7px;
+  border:1.5px solid #e5e8ec;border-radius:7px;
+  padding:8px 10px;margin-bottom:5px;
   transition:border-color .2s,box-shadow .2s;
   cursor:default;
 }
@@ -2843,13 +2844,13 @@ p, span, div, label, li {
 .pv-pl-body{flex:1;min-width:0}
 .pv-pl-title{font-size:14px;font-weight:700;color:#1a1a1a;line-height:1.4;margin-bottom:4px;word-break:keep-all}
 .pv-pl-title.empty{color:#ccc;font-weight:400;font-size:12px}
-.pv-pl-desc{font-size:11.5px;color:#555;line-height:1.5}
+.pv-pl-desc{font-size:10.5px;color:#555;line-height:1.5}
 .pv-pl-desc.empty{color:#ccc;font-size:11px}
 .pv-pl-thumb{
-  width:60px;height:60px;border-radius:8px;
+  width:44px;height:44px;border-radius:6px;
   background:#f5f5f5;border:1px solid #eee;
   display:flex;align-items:center;justify-content:center;
-  font-size:22px;flex-shrink:0;overflow:hidden;
+  font-size:18px;flex-shrink:0;overflow:hidden;
 }
 .pv-pl-thumb img{width:100%;height:100%;object-fit:cover}
 .pv-pl-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
@@ -2870,7 +2871,7 @@ p, span, div, label, li {
 .pv-mob-result-label{font-size:9.5px;color:#999;padding:7px 12px 4px;border-bottom:1px solid #f0f0f0}
 .pv-mob-card{
   background:#fff;border-bottom:1px solid #f0f0f0;
-  padding:10px 12px;
+  padding:7px 10px;
 }
 .pv-mob-card.pv-competitor{opacity:.3;pointer-events:none}
 .pv-mob-meta{display:flex;align-items:center;gap:5px;margin-bottom:5px}
@@ -2881,9 +2882,9 @@ p, span, div, label, li {
 .pv-mob-body{flex:1;min-width:0}
 .pv-mob-title{font-size:13px;font-weight:700;color:#1a1a1a;line-height:1.4;margin-bottom:3px;word-break:keep-all}
 .pv-mob-title.empty{color:#ccc;font-weight:400;font-size:11.5px}
-.pv-mob-desc{font-size:11px;color:#555;line-height:1.5}
+.pv-mob-desc{font-size:10px;color:#555;line-height:1.45}
 .pv-mob-desc.empty{color:#ccc}
-.pv-mob-thumb{width:50px;height:50px;border-radius:6px;background:#f5f5f5;border:1px solid #eee;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;overflow:hidden}
+.pv-mob-thumb{width:38px;height:38px;border-radius:5px;background:#f5f5f5;border:1px solid #eee;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;overflow:hidden}
 .pv-mob-thumb img{width:100%;height:100%;object-fit:cover}
 </style>
 </head>
@@ -3010,7 +3011,7 @@ p, span, div, label, li {
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v2.2</span>
+    <span class="h-version">v2.3</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -3281,14 +3282,7 @@ p, span, div, label, li {
                   <div class="pv-pl-thumb" id="pvPcThumb">🏪</div>
                 </div>
               </div>
-              <div class="pv-pl-card pv-competitor">
-                <div class="pv-pl-header">
-                  <div class="pv-pl-logo" style="background:#bbb">L</div>
-                  <span class="pv-pl-store" style="color:#bbb">경쟁사 광고</span>
-                  <span class="pv-pl-badge">광고</span>
-                </div>
-                <div style="color:#ccc;font-size:11px;padding:2px 0">다른 광고주 광고가 이 자리에 노출됩니다</div>
-              </div>
+
             </div>
           </div>
         </div>
@@ -3319,14 +3313,7 @@ p, span, div, label, li {
                   <div class="pv-mob-thumb" id="pvMobThumb1">🏪</div>
                 </div>
               </div>
-              <div class="pv-mob-card pv-competitor">
-                <div class="pv-mob-meta">
-                  <div class="pv-mob-logo" style="background:#bbb">L</div>
-                  <span class="pv-mob-store" style="color:#bbb">경쟁사</span>
-                  <span class="pv-mob-badge">광고</span>
-                </div>
-                <div style="color:#ccc;font-size:11.5px">다른 광고주 자리</div>
-              </div>
+              
               <div id="pvMobTitleList" style="display:none"></div>
             </div>
           </div>
@@ -5553,6 +5540,8 @@ async function generate(){
     if(sideStatus) sideStatus.textContent='리포트 작성 중...';
 
     const _t2 = Date.now();
+  _pipeAdd({icon:'🟢', name:'Gemini 2.5 Flash — 마케터 분석 리포트', status:'run', statusLabel:'⏳ 진행 중...', detail:'마케터 AI가 광고 소재를 분석하고 리포트를 작성 중입니다', ms:0});
+  renderPipeLog();
     generateAnalysis(name, feat, target, S.titles, S.descs, S.imgs).then(html=>{
       document.getElementById('analysisBody').innerHTML=html;
       document.getElementById('analysisBody').style.display='none';
