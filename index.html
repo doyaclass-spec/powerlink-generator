@@ -2938,6 +2938,54 @@ p, span, div, label, li {
 .pv-mob-desc.empty{color:#ccc}
 .pv-mob-thumb{width:38px;height:38px;border-radius:5px;background:#f5f5f5;border:1px solid #eee;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;overflow:hidden}
 .pv-mob-thumb img{width:100%;height:100%;object-fit:cover}
+
+/* ── 실시간 로그 인라인 모달 ── */
+.log-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);z-index:1100;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s}
+.log-modal-overlay.open{opacity:1;pointer-events:all}
+.log-modal{background:linear-gradient(160deg,#080f1e,#0d1a2d);border:1px solid rgba(255,255,255,.12);border-radius:16px;width:100%;max-width:680px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,.7);transform:scale(.96) translateY(16px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.log-modal-overlay.open .log-modal{transform:scale(1) translateY(0)}
+.log-modal-head{padding:18px 20px 14px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px}
+.log-modal-title{font-size:14px;font-weight:800;color:#fff}
+.log-modal-sub{font-size:11px;color:rgba(220,232,248,.4);flex:1}
+.log-modal-close{background:none;border:none;color:rgba(220,232,248,.4);font-size:16px;cursor:pointer;padding:0 4px;transition:color .15s;font-family:inherit}
+.log-modal-close:hover{color:#fff}
+.log-modal-body{flex:1;overflow-y:auto;padding:12px 0}
+.log-modal-body::-webkit-scrollbar{width:4px}
+.log-modal-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px}
+.log-modal-empty{padding:20px;text-align:center;color:rgba(220,232,248,.3);font-size:12px;font-style:italic}
+.log-entry{display:flex;gap:10px;align-items:flex-start;padding:7px 20px;border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s}
+.log-entry:hover{background:rgba(255,255,255,.02)}
+.log-entry:last-child{border-bottom:none}
+.log-entry-time{font-size:10px;color:rgba(220,232,248,.3);white-space:nowrap;min-width:60px;padding-top:1px}
+.log-entry-badge{font-size:9px;font-weight:800;letter-spacing:.5px;padding:2px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:1px}
+.log-entry-badge.info{background:rgba(3,199,90,.15);color:#03C75A}
+.log-entry-badge.err{background:rgba(255,77,109,.15);color:#ff4d6d}
+.log-entry-badge.warn{background:rgba(245,158,11,.15);color:#f59e0b}
+.log-entry-badge.res{background:rgba(0,102,255,.15);color:#3385ff}
+.log-entry-badge.skip{background:rgba(220,232,248,.08);color:rgba(220,232,248,.4)}
+.log-entry-badge.detail{background:rgba(180,60,255,.1);color:#b45cff}
+.log-entry-msg{font-size:12px;color:rgba(220,232,248,.85);line-height:1.6;flex:1;word-break:break-all}
+.log-modal-footer{padding:12px 20px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between}
+.log-modal-clear-btn{background:none;border:1px solid rgba(255,255,255,.1);color:rgba(220,232,248,.4);font-size:11px;padding:5px 12px;border-radius:6px;cursor:pointer;font-family:inherit;transition:all .15s}
+.log-modal-clear-btn:hover{border-color:rgba(255,77,109,.4);color:#ff4d6d}
+.log-modal-count{font-size:11px;color:rgba(220,232,248,.3)}
+
+/* ── 복사 버튼 on chips ── */
+.item-copy-btn,.item-desc-copy-btn{background:none;border:none;font-size:11px;cursor:pointer;padding:2px 5px;border-radius:4px;color:rgba(220,232,248,.3);transition:all .15s;flex-shrink:0}
+.item-copy-btn:hover,.item-desc-copy-btn:hover{color:#03C75A;background:rgba(3,199,90,.1)}
+.item-copy-btn.copied,.item-desc-copy-btn.copied{color:#03C75A}
+
+/* ── CTR 등급 배지 ── */
+.ctr-grade{font-size:9px;font-weight:800;padding:1px 5px;border-radius:3px;letter-spacing:.3px}
+.ctr-grade.A{background:rgba(3,199,90,.18);color:#03C75A;border:1px solid rgba(3,199,90,.3)}
+.ctr-grade.B{background:rgba(0,102,255,.15);color:#3385ff;border:1px solid rgba(0,102,255,.25)}
+.ctr-grade.C{background:rgba(245,158,11,.12);color:#f59e0b;border:1px solid rgba(245,158,11,.2)}
+
+/* ── 네이버 광고 내보내기 버튼 ── */
+.export-naver-btn{display:flex;align-items:center;gap:7px;background:linear-gradient(135deg,#029e48,#03C75A);border:none;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;transition:all .2s;box-shadow:0 4px 16px rgba(3,199,90,.3)}
+.export-naver-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 24px rgba(3,199,90,.4)}
+.export-naver-btn:disabled{opacity:.4;cursor:not-allowed}
+.export-naver-btn .n-logo{width:18px;height:18px;background:#fff;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#03C75A}
 </style>
 </head>
 <body>
@@ -3063,7 +3111,7 @@ p, span, div, label, li {
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v3.2</span>
+    <span class="h-version">v1.0</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -3091,8 +3139,8 @@ p, span, div, label, li {
 <!-- 히어로 -->
 <section class="hero">
   <div class="hero-eyebrow">✦ Naver Powerlink · AI Copy Generator · Powered by Claude × Gemini × GPT-4o</div>
-  <h1><em>AI가 클릭률 높은 파워링크 소재</em>를 자동으로 만들어 드립니다</h1>
-  <p class="hero-sub"><strong>제목 30개 · 설명 10개</strong> 자동 생성 &nbsp;·&nbsp; 마케터 AI 분석 리포트 &nbsp;·&nbsp; 실시간 네이버 미리보기</p>
+  <h1><em>10년 경력 마케터 수준의</em> 네이버 파워링크 소재를 AI로 즉시</h1>
+  <p class="hero-sub"><strong>제목 30개 · 설명 10개</strong> 자동 생성 &nbsp;·&nbsp; 마케터 AI 분석 리포트 &nbsp;·&nbsp; 실시간 네이버 미리보기 &nbsp;·&nbsp; CTR 등급 자동 분석</p>
 </section>
 
 <div id="apiKeyBanner">
@@ -3144,9 +3192,9 @@ p, span, div, label, li {
             <!-- 01+02: 상품명 + 타겟 -->
             <div class="input-col" style="border-top:2px solid rgba(3,199,90,.55)">
               <div class="icol-head"><span class="icol-num icol-num-1">01</span><div><div class="icol-title">상품명<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">네이버 검색에 노출되는 핵심 키워드를 포함하세요<br><span style="color:rgba(3,199,90,.8)">예) 국산 냉장 블루베리 1kg 당일수확</span></span></span> <span class="badge-req">필수</span></div></div></div>
-              <textarea class="inp inp-ta" id="productName" rows="3" oninput="this.classList.remove('empty-req');this.closest('.input-col')?.classList.remove('req-error');checkFilled(this)" placeholder=""></textarea>
+              <textarea class="inp inp-ta" id="productName" rows="3" oninput="this.classList.remove('empty-req');this.closest('.input-col')?.classList.remove('req-error');checkFilled(this)" placeholder="예) 업소용 냉장고 45박스 간냉식, 국산 블루베리 1kg 당일수확"></textarea>
               <div class="icol-head" style="margin-top:8px"><span class="icol-num icol-num-2">02</span><div><div class="icol-title">타겟 고객<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">광고를 보여줄 주요 고객층을 입력하세요<br><span style="color:rgba(3,199,90,.8)">예) 30대 직장인 여성, 소상공인</span></span></span> <span class="badge-opt">선택</span></div></div></div>
-              <input type="text" class="inp" id="target" placeholder="" />
+              <input type="text" class="inp" id="target" placeholder="예) 식당·카페 사장님, 30대 직장인 여성" />
             </div>
 
             <!-- 03: 광고 내용 -->
@@ -3157,9 +3205,9 @@ p, span, div, label, li {
                 <div class="feat-suggest" id="featSuggest"></div>
               </div>
               <div class="feat-slots" id="featSlots">
-                <div class="feat-slot"><span class="feat-slot-num">1</span><input type="text" placeholder="" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
-                <div class="feat-slot"><span class="feat-slot-num">2</span><input type="text" placeholder="" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
-                <div class="feat-slot"><span class="feat-slot-num">3</span><input type="text" placeholder="" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
+                <div class="feat-slot"><span class="feat-slot-num">1</span><input type="text" placeholder="예) 무료배송·무료설치" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
+                <div class="feat-slot"><span class="feat-slot-num">2</span><input type="text" placeholder="예) 1년 AS 보장" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
+                <div class="feat-slot"><span class="feat-slot-num">3</span><input type="text" placeholder="예) 당일 출발 가능" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
               </div>
               <button class="feat-add-btn" id="featAddBtn" onclick="addSlot()">+ 항목 추가</button>
             </div>
@@ -3259,7 +3307,7 @@ p, span, div, label, li {
                   <button class="schip schip-fall" onclick="toggleSeason(this)">🎃 핼러윈</button>
                   <button class="schip schip-winter" onclick="toggleSeason(this)">🎄 크리스마스</button>
                 </div>
-                <input type="text" class="inp" id="eventInput" placeholder="" style="margin-top:5px" />
+                <input type="text" class="inp" id="eventInput" placeholder="예) 봄 시즌 특가, 개업 축하 이벤트" style="margin-top:5px" />
               </div>
             </div>
             <div class="enhance-col" style="border-top:2px solid rgba(150,100,255,.4)">
@@ -3413,6 +3461,14 @@ p, span, div, label, li {
 <div id="resultWrap" style="display:none">
 <div class="result-layout">
 <div class="rl-left">
+      <!-- 결과 액션 바 -->
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+        <div style="font-size:12px;font-weight:700;color:var(--text3)">✦ 생성 결과</div>
+        <div style="flex:1"></div>
+        <button onclick="exportNaverFormat()" style="display:flex;align-items:center;gap:5px;background:rgba(3,199,90,.1);border:1px solid rgba(3,199,90,.35);border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;color:#03C75A;cursor:pointer;font-family:inherit;transition:all .2s" onmouseover="this.style.background='rgba(3,199,90,.18)'" onmouseout="this.style.background='rgba(3,199,90,.1)'">
+          <span>📤</span> 네이버 광고 복사
+        </button>
+      </div>
       <!-- 제목 3컬럼 가로 나열 -->
       <div class="result-titles-3col">
         <!-- 그룹 1 -->
@@ -3557,6 +3613,25 @@ p, span, div, label, li {
     <div class="sel-modal-footer">
       <span class="sel-modal-footer-info" id="selModalFooterInfo">제목과 설명을 선택하면 여기서 한눈에 볼 수 있어요</span>
       <button class="sel-modal-copy-all" onclick="copyAllSelected()">📋 전체 복사</button>
+      <button class="sel-modal-copy-all" onclick="exportNaverFormat()" style="background:rgba(3,199,90,.08);border-color:rgba(3,199,90,.35);color:#03C75A;margin-left:6px">📤 네이버 형식 복사</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── 실시간 로그 모달 (인라인) ── -->
+<div class="log-modal-overlay" id="logModalOverlay" onclick="closeLogModal(event)">
+  <div class="log-modal" id="logModalBox">
+    <div class="log-modal-head">
+      <span class="log-modal-title">🔍 실시간 실행 로그</span>
+      <span class="log-modal-sub" id="logModalSub">API 호출 기록</span>
+      <button class="log-modal-close" onclick="closeLogModal()">✕</button>
+    </div>
+    <div class="log-modal-body" id="logModalBody">
+      <div class="log-modal-empty">로그가 없습니다. 소재를 먼저 생성해주세요.</div>
+    </div>
+    <div class="log-modal-footer">
+      <button class="log-modal-clear-btn" onclick="clearLogModal()">🗑 로그 초기화</button>
+      <span class="log-modal-count" id="logModalCount">0개</span>
     </div>
   </div>
 </div>
@@ -3724,7 +3799,7 @@ async function testApiKey(type) {
 
   try {
     if (type === 'gemini') {
-      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contents: [{ role:'user', parts:[{text:'hi'}] }], generationConfig:{ maxOutputTokens:5 } })
@@ -3863,30 +3938,47 @@ function _addApiLog(entry) {
   if (logBtn && !logBtn.disabled) logBtn.classList.add('active');
 }
 
-// ── 실시간 로그 창 열기
+// ── 실시간 로그 인라인 모달
 function openLogWindow() {
+  const overlay = document.getElementById('logModalOverlay');
+  const body = document.getElementById('logModalBody');
+  const count = document.getElementById('logModalCount');
+  const sub = document.getElementById('logModalSub');
+  if (!overlay || !body) return;
+  
   const allLogs = _apiLogs.length ? _apiLogs : [{ time: '-', type: 'info', msg: '로그가 없습니다. 소재를 먼저 생성해주세요.' }];
-
-  const apiHTML = allLogs.map(l => {
-    const col = l.type === 'error' ? '#ff4d6d' : l.type === 'warn' ? '#f59e0b' : '#03C75A';
-    return '<div style="padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.05);font-size:12px;line-height:1.6">' +
-      '<span style="color:#888;font-size:10px;margin-right:8px">' + (l.time||'-') + '</span>' +
-      '<span style="color:' + col + ';font-size:10px;margin-right:8px;font-weight:700">[' + (l.type||'info').toUpperCase() + ']</span>' +
-      '<span style="color:#e8f0fe">' + (l.msg||'') + '</span></div>';
+  
+  body.innerHTML = allLogs.map(l => {
+    const t = l.time && l.time !== '-' ? new Date(l.time).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}) : '-';
+    const tp = l.type || 'info';
+    return `<div class="log-entry">
+      <span class="log-entry-time">${t}</span>
+      <span class="log-entry-badge ${tp}">${tp.toUpperCase()}</span>
+      <span class="log-entry-msg">${escHtml(l.msg||'')}</span>
+    </div>`;
   }).join('');
+  
+  if (count) count.textContent = `${allLogs.length}개`;
+  if (sub) sub.textContent = `API 호출 기록 · ${allLogs.length}건`;
+  overlay.classList.add('open');
+  // 맨 아래 스크롤
+  setTimeout(() => { body.scrollTop = body.scrollHeight; }, 50);
+}
 
-  const html = [
-    '<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">',
-    '<title>실시간 실행 로그</title>',
-    '<style>*{box-sizing:border-box;margin:0;padding:0}body{background:#060d17;color:#e8f0fe;font-family:Apple SD Gothic Neo,Malgun Gothic,sans-serif;padding:24px;line-height:1.6}h2{font-size:15px;font-weight:900;color:#03C75A;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.1)}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}.log-wrap{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.08);border-radius:8px;overflow:hidden}</style>',
-    '</head><body>',
-    '<h2>🔍 실시간 실행 로그</h2>',
-    '<div class="log-wrap">' + apiHTML + '</div>',
-    '</body></html>'
-  ].join('\n');
+function closeLogModal(e) {
+  if (e && e.target !== document.getElementById('logModalOverlay')) return;
+  const overlay = document.getElementById('logModalOverlay');
+  if (overlay) overlay.classList.remove('open');
+}
 
-  const w = window.open('', '_blank', 'width=860,height=620,scrollbars=yes,resizable=yes');
-  if (w) { w.document.write(html); w.document.close(); }
+function clearLogModal() {
+  _apiLogs.length = 0;
+  const body = document.getElementById('logModalBody');
+  if (body) body.innerHTML = '<div class="log-modal-empty">로그가 초기화됐습니다.</div>';
+  const count = document.getElementById('logModalCount');
+  if (count) count.textContent = '0개';
+  const logBtn = document.getElementById('logOpenBtn');
+  if (logBtn) logBtn.classList.remove('active');
 }
 
 function escHtml(s) {
@@ -4002,8 +4094,8 @@ function updateKeyHeader(ok) {
 
 // ── 이미지 업로드 (최대 10장, 자동 압축)
 const MAX_IMGS = 3;
-const IMG_MAX_PX = 800;   // 최대 가로/세로
-const IMG_QUALITY = 0.65; // JPEG 품질 (65%)
+const IMG_MAX_PX = 512;   // 최대 가로/세로 (API 전송 최적화)
+const IMG_QUALITY = 0.60; // JPEG 품질 (60%)
 
 function compressImage(file) {
   return new Promise((resolve) => {
@@ -4181,7 +4273,7 @@ async function callClaude(sys, userContent, onChunk, maxTokens) {
   if (!CLAUDE_KEY) return callGemini(sys, userContent, onChunk, maxTokens); // fallback
   const tokens = maxTokens || 1200;
   const ctrl = new AbortController();
-  const tid  = setTimeout(() => ctrl.abort(), 90000);
+  const tid  = setTimeout(() => ctrl.abort(), 170000);
   let messages;
   if (typeof userContent === 'string') {
     messages = [{ role:'user', content: userContent }];
@@ -4224,17 +4316,21 @@ async function callClaude(sys, userContent, onChunk, maxTokens) {
 async function analyzeWithGPT4o(imgs) {
   if (!OPENAI_KEY || !imgs || !imgs.length) return null;
   const ctrl = new AbortController();
-  const tid  = setTimeout(() => ctrl.abort(), 60000);
+  const tid  = setTimeout(() => ctrl.abort(), 25000);
   const imgContent = imgs.slice(0,5).map(img=>({
     type:'image_url',
     image_url:{url:`data:${img.type||'image/jpeg'};base64,${img.b64}`,detail:'low'}
   }));
-  const prompt = `이 상품 이미지를 분석해서 네이버 파워링크 광고에 쓸 정보를 추출해주세요.
-1. 상품 종류/카테고리
-2. 주요 특징 3~5가지 (소재·색상·기능·디자인 등)
-3. 광고 핵심 셀링포인트 2~3개
-4. 추정 타겟 고객층
-간결하게 한국어로 (총 200자 이내)`;
+  const prompt = `당신은 네이버 파워링크 광고 전문 카피라이터입니다. 이 상품 이미지를 분석해서 광고 소재 작성에 직접 활용할 수 있는 구체적인 정보를 추출하세요.
+
+[추출 항목]
+1. 상품명/카테고리 (정확한 제품 종류)
+2. 핵심 스펙·수치 (크기·용량·모델·색상·소재 등 숫자/수치 포함 시 반드시 포함)
+3. 광고 셀링포인트 3가지 (클릭률 높은 광고에 직접 쓸 수 있는 표현으로)
+4. 타겟 고객 (직업·상황·니즈 구체적으로)
+5. 이미지에서 발견한 특별한 점 (경쟁 제품과 다른 특이사항)
+
+한국어로 간결하게. 총 300자 이내. 수치는 반드시 정확하게 기재.`;
   try {
     const res = await fetch('https://api.openai.com/v1/chat/completions',{
       method:'POST', signal:ctrl.signal,
@@ -4273,8 +4369,8 @@ async function callGemini(sys, userContent, onChunk, maxTokens) {
 
   const tokens = maxTokens || 900;
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), tokens > 1000 ? 120000 : 90000);
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+  const timeoutId = setTimeout(() => controller.abort(), tokens > 1000 ? 170000 : 90000);
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
   _addApiLog({type:'req', msg:`[Gemini] ${url.substring(0,80)}... max_tokens:${tokens}`});
   try {
@@ -4386,27 +4482,29 @@ ${toneUsed.includes('emotion') || toneUsed.includes('감성') ? '- 감성·공�
 ${toneUsed.includes('proof') || toneUsed.includes('수치') ? '- 수치·증거 어조: 구체적 숫자·통계·비교 데이터가 소재의 신뢰도와 클릭률에 어떻게 기여하는지 분석하세요.' : ''}
 ${toneUsed.includes('action') || toneUsed.includes('행동') ? '- 행동유도·직접 어조: 명령형·행동 촉구 표현이 소재에서 얼마나 직접적으로 클릭을 유도하는지 분석하세요.' : ''}`.trim() : '';
 
-  const analysisPrompt = `당신은 네이버 파워링크 광고 전문 마케터입니다.${contextStr}${toneGuide}
+  const analysisPrompt = `당신은 네이버 파워링크 10년 경력의 광고 전략가입니다. 아래 데이터만 근거로 분석하세요. 추측 금지. 없는 정보 언급 금지.${contextStr}
 
-[분석 대상 — 아래 데이터만 사용, 없는 정보는 절대 추측 금지]
+[입력 데이터]
 ${inputLines.join('\n')}
 
-⚠️ 절대 금지: 입력되지 않은 정보 추측, 상품명에 없는 특성 언급, 임의 소재 생성
+[응답 형식] <section title="섹션제목">내용</section> 형식만 사용. 마크다운 금지. 핵심 키워드는 <b>태그. 강조 판단은 <em>태그.
 
-아래 8개 섹션을 <section title="섹션제목">내용</section> 형태로 작성하세요.
-마크다운 금지. 중요 키워드는 <b>태그. 마케터 판단은 <em>태그.
-각 섹션은 입력값이 있을 때만 작성하고, 없으면 해당 섹션 생략.
+1.📦 상품·소재 분석
+생성된 제목과 설명에서 상품의 핵심 특징이 어떻게 반영됐는지 구체적으로 (2~3문장). 잘 반영된 점과 아쉬운 점 모두 언급.
 
-1. [입력01] 📦 상품명 분석 → 소재 반영 — 상품명의 어떤 키워드를 제목/설명 어느 위치에 왜 배치했는지 (예: "업소용냉장고"→검색의도 직결 키워드로 제목 1번 앞부분 배치)
-2. [입력02] 🎯 타겟 고객 분석 → 소재 반영 — 타겟의 언어·심리를 어떤 표현으로 소재에 녹였는지 (예: "소상공인"→비용절감·신뢰 키워드 강조, 설명에 공감 표현 삽입)
-3. [입력04] 🖼 이미지 분석 → 소재 반영 — 이미지에서 발견한 구체적 특징(색상·형태·텍스트 등)이 소재의 어느 부분에 반영됐는지
-4. [입력05] 🚫 금지어 설정 반영 — 설정된 금지어를 어떻게 회피하고 대체 표현을 사용했는지 (예: "특가"금지→"한정수량 할인가"로 대체)
-5. [입력06] 📅 시즌/이벤트 반영 — 선택한 시즌 키워드가 소재의 어느 위치에 어떻게 자연스럽게 녹아들었는지
-6. [입력07] 🎨 광고 어조 반영 — 선택 어조가 어떤 표현 선택에 영향을 줬는지 (예: "신뢰·전문성"→수치/경력 강조 표현 삽입)
-7. ⚡ 클릭률 TOP3 추천 — 실제 생성된 소재 중 3개 직접 인용 + 이유
-8. 💡 개선 권고 — A/B 테스트 2개 제안 (수정 전→수정 후)
+2.🎯 타겟 심리 & 구매 동기
+이 광고 소재가 타겟의 어떤 심리를 자극하는지, 구매 결정에 어떻게 영향을 미칠지 분석 (2문장).
 
-규칙: 섹션마다 실제 생성된 제목/설명 직접 인용 필수. 입력되지 않은 항목은 추측 금지.`;
+3.⚡ 클릭 예상 TOP 3 소재
+생성된 제목/설명 중 실제로 클릭률 높을 것 3개를 직접 인용하고 그 이유를 1줄씩 설명. 형식: "소재" → 이유
+
+4.💡 즉시 개선 가능한 A/B 테스트 제안  
+현재 소재에서 한 단어·표현만 바꿔도 성과 올릴 수 있는 구체적 수정안 2개. 형식: 기존 → 개선안 + 이유 1줄
+
+5.🔧 네이버 광고 세팅 팁
+이 상품/타겟에 맞는 키워드 입찰 전략, 시간대, 확장 소재 활용 팁 등 즉시 적용 가능한 액션 2가지.
+
+각 섹션 2~4문장 이내. 없는 정보는 절대 추측하지 말 것.`;
 
   // 실제 입력 데이터를 userContent에 포함
   const userContent = analysisPrompt;
@@ -4508,7 +4606,7 @@ ${inputLines.join('\n')}
     }
   }
 
-  const raw = await callGemini('', userContent, onAnalysisChunk, 2500);
+  const raw = await callGemini('', userContent, onAnalysisChunk, 900);
   logDone = true;
   clearInterval(logTimer);
 
@@ -4757,6 +4855,86 @@ function openAnalysisModal(){
 }
 
 // ── 렌더링
+// ── CTR 등급 계산 (A: 높은클릭 예상, B: 보통, C: 낮음)
+function calcCtrGrade(text, len) {
+  let score = 0;
+  // 글자 수 체크 (11~14자가 최적)
+  if (len >= 11 && len <= 14) score += 3;
+  else if (len >= 10 && len <= 15) score += 1;
+  else score -= 3;
+  // 숫자 포함 여부 (수치 = 신뢰도)
+  if (/\d/.test(text)) score += 2;
+  // 특정 키워드 (강력한 클릭 유도)
+  if (/무료|당일|지금|바로|한정|특가|직접|공장직|AS/.test(text)) score += 2;
+  // 행동유도 동사
+  if (/확인|구매|주문|문의|상담|신청|받[으아]/.test(text)) score += 1;
+  // 타겟 명시
+  if (/사장님|업소용|가정용|전문|식당|카페|소상/.test(text)) score += 1;
+  // 부정 요소: 너무 일반적
+  if (/좋[은아]|훌륭|우수|뛰어/.test(text)) score -= 1;
+  
+  if (score >= 5) return 'A';
+  if (score >= 2) return 'B';
+  return 'C';
+}
+
+// ── 개별 chip 복사
+function copyChip(btn, text) {
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋'; btn.classList.remove('copied'); }, 1500);
+  }).catch(() => {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const orig = btn.textContent;
+    btn.textContent = '✓';
+    setTimeout(() => { btn.textContent = '📋'; }, 1500);
+  });
+}
+
+// ── 네이버 광고 형식으로 내보내기
+function exportNaverFormat() {
+  const ts = [...S.selT].sort((a,b)=>a-b).map(i=>S.titles[i]);
+  const ds = [...S.selD].sort((a,b)=>a-b).map(i=>S.descs[i]);
+  if (!ts.length && !ds.length) {
+    showLimitToast('⚠️ 먼저 제목과 설명을 선택해주세요');
+    return;
+  }
+  
+  let out = '═══ 네이버 파워링크 광고 소재 ═══\n\n';
+  out += '【 제목 소재 】\n';
+  ts.forEach((t, i) => {
+    const len = [...t].length;
+    out += `제목${i+1}: ${t}  (${len}자)\n`;
+  });
+  out += '\n【 설명 소재 】\n';
+  ds.forEach((d, i) => {
+    const len = [...d].length;
+    out += `설명${i+1}: ${d}  (${len}자)\n`;
+  });
+  out += '\n생성: AI마케팅전략연구소 파워링크 소재 생성기';
+  
+  navigator.clipboard.writeText(out).then(() => {
+    showLimitToast('✅ 네이버 광고 소재가 클립보드에 복사됐습니다!');
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = out;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showLimitToast('✅ 클립보드에 복사됐습니다!');
+  });
+}
+
 function render(){
   // 제목 3그룹 렌더 (각 10개씩, 총 30개)
   [1,2,3].forEach(g=>{
@@ -4768,8 +4946,9 @@ function render(){
     const end=Math.min(g*size, S.titles.length);
     S.titles.slice(start,end).forEach((t,li)=>{
       const i=start+li, on=S.selT.has(i);
-      const len=[...t].length, over=len>15;
+      const len=[...t].length, over=len>15, under=len<10;
       const pin=pinData[i]||'';
+      const ctrGrade = calcCtrGrade(t, len);
       let itemCls='item';
       if(pin) itemCls+=' pin'+pin;
       else if(on) itemCls+=' on';
@@ -4779,10 +4958,12 @@ function render(){
           <div class="txt">${esc(t)}</div>
           <div class="meta" style="display:flex;align-items:center;gap:6px;margin-top:3px;flex-wrap:wrap">
             <span class="grp-badge g${g}">${g}번 추천</span>
-            <span class="cc${over?' over':''}">${len}/15자${over?' ⚠️':''}</span>
+            <span class="cc${over||under?' over':''}"> ${len}/15자${over||under?' ⚠️':''}</span>
+            <span class="ctr-grade ${ctrGrade}">${ctrGrade}급</span>
             ${pin?`<span class="badge-tag" style="font-size:10px;background:${pin==='1'?'rgba(3,199,90,.2)':pin==='2'?'rgba(51,133,255,.2)':'rgba(255,152,0,.2)'};color:${pin==='1'?'#03C75A':pin==='2'?'#3385ff':'#ff9800'}">제목${pin} 고정</span>`:''}
           </div>
         </div>
+        <button class="item-copy-btn" onclick="copyChip(this,t)" title="클립보드 복사">📋</button>
         <select class="pin-sel${pin?' pin'+pin:''}" id="pin${i}" onchange="onPinChange(${i},this)">
           <option value=""${!pin?' selected':''}>위치 고정</option>
           <option value="1"${pin==='1'?' selected':''}>제목 1</option>
@@ -4814,7 +4995,7 @@ function render(){
     const dTotal = S.descs.length;
     const dHalf = Math.ceil(dTotal/2);
     S.descs.forEach((d,i)=>{
-      const len=[...d].length, over=len>45;
+      const len=[...d].length, over=len>45, under=len<40;
       const on=S.selD.has(i);
       const pinVal=descPinData[i]||'';
       const dg = i < dHalf ? 1 : 2;
@@ -4826,10 +5007,11 @@ function render(){
         <div class="txt-wrap">
           <div class="txt" contenteditable="true" oninput="onDescEdit(${i},this)" onblur="onDescEdit(${i},this)">${esc(d)}</div>
           <div class="meta" style="flex-wrap:wrap">
-            <span class="cc${over?' over':''}" style="font-size:12px">${len}/45자${over?' ⚠️':''}</span>
+            <span class="cc${over||under?' over':''}" style="font-size:12px">${len}/45자${over||under?' ⚠️':''}</span>
             ${pinVal?`<span class="badge-tag" style="font-size:11px;background:${pinVal==='1'?'rgba(3,199,90,.2)':'rgba(51,133,255,.2)'};color:${pinVal==='1'?'#03C75A':'#3385ff'}">설명${pinVal} 고정</span>`:''}
           </div>
         </div>
+        <button class="item-desc-copy-btn" onclick="copyChip(this,d)" title="클립보드 복사">📋</button>
         <select class="pin-sel${pinVal?' pin'+pinVal:''}" id="dpin${i}" onchange="onDescPinChange(${i},this)">
           <option value=""${!pinVal?' selected':''}>위치 고정</option>
           <option value="1"${pinVal==='1'?' selected':''}>설명 1</option>
@@ -5199,8 +5381,7 @@ async function generate(){
   const btn=document.getElementById('genBtn');
   btn.disabled=true;
   const _logBtn=document.getElementById('logOpenBtn'); if(_logBtn) _logBtn.disabled=false;
-  // 소재 생성 시작 즉시 실시간 로그 창 자동 열기
-  openLogWindow();
+  // 생성 시작 - 로그 버튼만 활성화 (자동으로 창 열지 않음)
   document.getElementById('genTxt').innerHTML='<span class="spin"></span> 분석 중...';
   document.getElementById('pbarFill').style.width='0%';
   document.getElementById('emptyState').style.display='none';
@@ -5469,19 +5650,35 @@ async function generate(){
     updateStatus(`✍️ ${copyApiName}로 광고 소재 생성 중...`);
     setGenLog(`${copyApiName} AI 연결 중...`);
 
-    const sysCopy = `당신은 네이버 파워링크 광고 전문가입니다.
-반드시 순수 JSON만 응답하세요. 코드블록·설명·다른 텍스트 절대 금지.
-[글자수 최우선] 제목: 10~15자, 설명: 40~45자. 단어 끊김 절대 금지.
-금지 표현: 최고·최저·1위·최상·특가·최대·최저가·압도적·완벽·탁월·보장·무조건 등 최상급 표현.`;
+    const sysCopy = `당신은 네이버 파워링크 광고 10년 경력의 전문 카피라이터입니다. 수천 개의 고성능 광고 소재를 작성하고 A/B 테스트로 검증한 전문가입니다. 반드시 순수 JSON만 응답하세요. 코드블록과 설명 텍스트 절대 금지.
+
+[철대 규칙 — 위반 시 무효]
+- 제목: 정확히 10~15자(공백 포함). 9자 이하·16자 이상 금지.
+- 설명: 정확히 40~45자(공백 포함). 39자 이하·46자 이상 금지.
+- 단어 중간 끊김 절대 금지. 문장이 완전히 끝나야 함.
+- 네이버 반려 표현 금지: 최고·최저·1위·최상급·압도적·완벽·보장·무조건·최대·최저가·초특가·탁월·혁신적
+- 생성 후 반드시 글자 수를 직접 세어 확인하고 틀리면 즉시 수정할 것.
+
+[제목 1 그룹 — 핵심 스펙·기능 중심]
+검색어와 직접 매칭되는 스펙·수치·모델명·크기·용량·소재 포함. 구체적 숫자가 들어가면 클릭률 급상승.
+
+[제목 2 그룹 — 혜택·편의·차별화 중심]
+배송·AS·설치·무료혜택·인증·사용편의 등 경쟁 상품과 차별되는 실질 혜택.
+
+[제목 3 그룹 — 타겟 공감·상황·행동유도 중심]
+구매자의 직업·상황·고민에 공감하거나 클릭 유인 긴급성 부여.
+
+[설명 전략]
+구체 수치+혜택 조합, 타겟 공감, 차별화+행동유도, 신뢰+수치 등 다양한 각도로 10개 구성. 40자 미만 절대 금지.`;
 
     const promptBase = promptParts.join('\n');
 
     // ★ 제목과 설명을 병렬로 동시에 생성 — 속도 2배
     // 이미지가 있으면 제목 생성에만 이미지 첨부 (설명엔 불필요)
     const titlesContent = S.imgs.length > 0
-      ? [...S.imgs.map(img=>({type:'image',source:{type:'base64',media_type:img.type||'image/jpeg',data:img.b64}})),
-         {type:'text', text: promptBase + '\n\n제목 30개를 생성하세요.\n규칙(반드시):\n- 10자 이상 15자 이하 (공백 포함, 미달·초과 금지)\n- 단어 끊김 절대 금지, 문장이 완전히 끝나야 함\n- 나쁜 예: "냉장고 1도조절 45박"(끊김) / 좋은 예: "업소용 냉장고 지금 특가"\n- 제목1위치 10개, 제목2위치 10개, 제목3위치 10개 순서\n형식: {"titles":["..."]}'}]
-      : promptBase + '\n\n제목 30개를 생성하세요.\n규칙(반드시):\n- 10자 이상 15자 이하 (공백 포함, 미달·초과 금지)\n- 단어 끊김 절대 금지, 문장이 완전히 끝나야 함\n- 나쁜 예: "냉장고 1도조절 45박"(끊김) / 좋은 예: "업소용 냉장고 지금 특가"\n- 제목1위치 10개, 제목2위치 10개, 제목3위치 10개 순서\n형식: {"titles":["..."]}';
+      ? [{type:'image',source:{type:'base64',media_type:S.imgs[0].type||'image/jpeg',data:S.imgs[0].b64}},
+         {type:'text', text: promptBase + '\n\n제목 30개를 생성하세요.\n\n[필수 규칙]\n- 글자 수: 반드시 10~15자(공백 포함). 9자 이하 16자 이상 금지.\n- 단어 끊김 절대 금지. 문장이 자연스럽게 완전히 끝나야 함.\n- 생성 후 글자 수 직접 세어 틀리면 즉시 수정.\n\n[30개 구성 전략]\n0~9번 (제목1 위치): 핵심 스펙·수치·모델·용량 중심. 검색어와 직접 매칭.\n10~19번 (제목2 위치): 무료혜택·배송·AS·편의 차별화 중심.\n20~29번 (제목3 위치): 타겟공감·상황·행동유도·긴급성 중심.\n\n형식: {"titles":["..."]}  (정확히 30개)'}]
+      : promptBase + '\n\n제목 30개를 생성하세요.\n\n[필수 규칙]\n- 글자 수: 반드시 10~15자(공백 포함). 9자 이하 16자 이상 금지.\n- 단어 끊김 절대 금지. 문장이 자연스럽게 완전히 끝나야 함.\n- 생성 후 글자 수 직접 세어 틀리면 즉시 수정.\n\n[30개 구성 전략]\n0~9번 (제목1 위치): 핵심 스펙·수치·모델·용량 중심. 검색어와 직접 매칭.\n10~19번 (제목2 위치): 무료혜택·배송·AS·편의 차별화 중심.\n20~29번 (제목3 위치): 타겟공감·상황·행동유도·긴급성 중심.\n\n형식: {"titles":["..."]}  (정확히 30개)';
 
     const _t1 = Date.now();
     const [titlesRaw, descsRaw] = await Promise.all([
@@ -5493,11 +5690,13 @@ async function generate(){
             streamElCopy.innerHTML = `✍️ 제목 생성 중... ${Math.min(n,30)}/30개<span class="ap-stream-cursor"></span>`;
           }
           updateStatus(`✍️ 제목 ${Math.min((full.match(/"[^"]{1,15}"/g)||[]).length,30)}/30개 생성 중...`);
-        }
+        },
+        800
       ),
       copyFn(sysCopy,
-        promptBase + '\n\n설명 10개를 생성하세요.\n⚠️ 규칙(반드시 지킬 것):\n- 글자 수: 반드시 40자 이상 45자 이하 (공백 포함. 30자대 절대 금지)\n- 짧으면 혜택·수치·행동유도를 추가해 반드시 40자 이상으로 늘릴 것\n- 단어 끊김 절대 금지, 문장이 완전히 끝나야 함\n- 생성 후 글자 수 직접 세어 확인, 틀리면 반드시 수정\n- 나쁜 예(26자 너무 짧음): "간냉식 냉장고, 지금 구매하세요" → 재작성\n- 좋은 예(41자): "소상공인을 위한 간냉식 냉장고, 지금 바로 확인해보세요!"\n- 좋은 예(44자): "업소용 간냉식 45박스 냉장고, 특가로 지금 바로 만나보세요"\n형식: {"descs":["..."]}',
-        null
+        promptBase + '\n\n설명 10개를 생성하세요.\n\n[필수 규칙]\n- 글자 수: 반드시 40자 이상 45자 이하(공백 포함). 39자 이하 46자 이상 절대 금지.\n- 단어 끊김 금지: 문장이 자연스럽게 끝나야 함.\n- 생성 후 글자 수 직접 세어 기준 미달 시 즉시 수정.\n\n[10개 작성 전략 — 반드시 다양한 각도로]\n- 핵심 스펙+행동유도형, 무료혜택+긴급성형, 타겟공감+혜택형, 차별화+신뢰형 등\n- 유사한 문장 반복 금지. 각 설명이 독립적으로 다른 가치를 전달해야 함.\n- 구체적 수치(용량·박수·연수·배송시간)가 포함될수록 클릭률 상승.\n\n형식: {"descs":["..."]}  (정확히 10개)',
+        null,
+        600
       )
     ]);
 
@@ -5508,14 +5707,22 @@ async function generate(){
     S.titles = (parsedTitles.titles || []).map(t=>[...t].slice(0,15).join(''));
     S.descs  = (parsedDescs.descs   || []).map(d=>[...d].slice(0,45).join(''));
     S.kws = [];
+    
+    // ── 품질 검증 통계
+    const titleOk = S.titles.filter(t=>{ const l=[...t].length; return l>=10&&l<=15; }).length;
+    const descOk  = S.descs.filter(d=>{ const l=[...d].length; return l>=40&&l<=45; }).length;
+    const qualityNote = titleOk < S.titles.length || descOk < S.descs.length
+      ? `⚠️ 글자 수 기준 미달 소재: 제목 ${S.titles.length-titleOk}개, 설명 ${S.descs.length-descOk}개 (빨간 ⚠️ 표시)`
+      : `✅ 모든 소재 글자 수 기준 통과`;
+    
     const _t1ms = Date.now() - _t1;
     _pipeAdd({
       icon: useClaudeForCopy ? '🟠' : '🟢',
       name: `${copyApiName} — 광고 소재 생성`,
       status:'done', statusLabel:'✅ 완료',
-      detail: `제목 <b>${S.titles.length}개</b> + 설명 <b>${S.descs.length}개</b> 생성 완료<br>` +
-              `제목 예시: <b>"${S.titles[0]||''}"</b>, <b>"${S.titles[1]||''}"</b>, <b>"${S.titles[2]||''}"</b><br>` +
-              `설명 예시: <b>"${(S.descs[0]||'').slice(0,40)}"</b>`,
+      detail: `제목 <b>${S.titles.length}개</b> (기준 통과: ${titleOk}개) + 설명 <b>${S.descs.length}개</b> (기준 통과: ${descOk}개)<br>` +
+              `${qualityNote}<br>` +
+              `제목 예시: <b>"${S.titles[0]||''}"</b>, <b>"${S.titles[1]||''}"</b>`,
       ms: _t1ms
     });
 
@@ -5557,9 +5764,14 @@ async function generate(){
     document.getElementById('pbarFill').style.width='75%';
     const _t2 = Date.now();
   document.getElementById('pbarFill')?.classList.add('analyzing');
-  _pipeAdd({icon:'🟢', name:'Gemini 2.5 Flash — 마케터 분석 리포트', status:'run', statusLabel:'⏳ 진행 중...', detail:'마케터 AI가 광고 소재를 분석하고 리포트를 작성 중입니다', ms:0});
+  _pipeAdd({icon:'🟢', name:'Gemini 2.0 Flash — 마케터 분석 리포트', status:'run', statusLabel:'⏳ 진행 중...', detail:'마케터 AI가 광고 소재를 분석하고 리포트를 작성 중입니다', ms:0});
   renderPipeLog();
-    generateAnalysis(name, feat, target, S.titles, S.descs, S.imgs).then(html=>{
+    // 3분(170초) 하드 타임아웃
+    const _gaTimeout = new Promise((_, rej) => setTimeout(() => rej(new Error('TIMEOUT_3MIN')), 170000));
+    Promise.race([
+      generateAnalysis(name, feat, target, S.titles, S.descs, S.imgs),
+      _gaTimeout
+    ]).then(html=>{
       document.getElementById('analysisBody').innerHTML=html;
       document.getElementById('analysisBody').style.display='none';
       if(apProg) apProg.style.display='none';
@@ -5589,7 +5801,7 @@ async function generate(){
       const _t2ms = Date.now() - _t2;
       document.getElementById('pbarFill')?.classList.remove('analyzing');
       _pipeAdd({
-        icon:'🟢', name:'Gemini 2.5 Flash — 마케터 분석 리포트',
+        icon:'🟢', name:'Gemini 2.0 Flash — 마케터 분석 리포트',
         status:'done', statusLabel:'✅ 완료',
         detail:'클릭률·전략·개선안 심층 분석 완료<br>' +
                `제목 <b>${S.titles.length}개</b>, 설명 <b>${S.descs.length}개</b> 기반으로 마케팅 전략을 생성했어요`,
@@ -5598,8 +5810,7 @@ async function generate(){
       renderPipeLog();
       pg(4,'done');
       document.getElementById('pbarFill').style.width='100%';
-      // 보고서 완료 후 로그창 자동 닫기
-      setTimeout(()=>{ const lw=document.getElementById('logWin'); if(lw) lw.style.display='none'; }, 2000);
+      // 리포트 완료
       // fieldRows 다시 표시
       document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
       btn.disabled=false;
@@ -5613,7 +5824,17 @@ async function generate(){
       const logBtn2=document.getElementById('logOpenBtn'); if(logBtn2) { logBtn2.disabled=false; }
     }).catch((e)=>{
       document.getElementById('pbarFill')?.classList.remove('analyzing');
-      _pipeAdd({icon:'🟢', name:'Gemini 2.5 Flash — 마케터 분석 리포트', status:'err', statusLabel:'❌ 오류',
+      const isTimeout = e?.message === 'TIMEOUT_3MIN';
+      if(isTimeout){
+        // 3분 초과 시 부분 완료 처리
+        document.getElementById('analysisBody').innerHTML = '<div class="analysis-section"><div class="analysis-section-title">⏱️ 분석 시간 초과</div><div class="analysis-section-content">리포트 생성이 3분을 초과했어요.<br>소재 생성은 완료됐으니 제목과 설명을 활용해주세요.<br><em>잠시 후 다시 시도하거나 API 키 플랜을 확인해주세요.</em></div></div>';
+        document.getElementById('analysisBody').style.display='block';
+        pg(3,'done'); pg(4,'done');
+        document.getElementById('pbarFill').style.width='100%';
+        renderPipeLog();
+        return;
+      }
+      _pipeAdd({icon:'🟢', name:'Gemini 2.0 Flash — 마케터 분석 리포트', status:'err', statusLabel:'❌ 오류',
         detail:`리포트 생성 실패: ${e?.message||'알 수 없는 오류'}`});
       renderPipeLog();
       document.getElementById('analysisBody').innerHTML='<div>분석을 불러오지 못했어요.</div>';
