@@ -290,24 +290,36 @@ body{
   border-radius:10px;
   background:rgba(5,12,22,.7);
   overflow:hidden;
-  transition:border-color .3s,box-shadow .3s;
+  transition:border-color .35s,box-shadow .35s;
 }
 .input-col.filled{
-  border-color:rgba(3,199,90,.45);
-  box-shadow:0 0 0 2px rgba(3,199,90,.08),0 0 14px rgba(3,199,90,.06);
+  border-color:rgba(3,199,90,.55);
+  box-shadow:0 0 0 2px rgba(3,199,90,.1),0 0 20px rgba(3,199,90,.12),inset 0 0 0 1px rgba(3,199,90,.06);
+  animation:colFillGlow 2.5s ease-in-out infinite alternate;
+}
+@keyframes colFillGlow{
+  from{box-shadow:0 0 0 2px rgba(3,199,90,.08),0 0 14px rgba(3,199,90,.08)}
+  to{box-shadow:0 0 0 2px rgba(3,199,90,.15),0 0 28px rgba(3,199,90,.18)}
 }
 .input-col.filled .icol-num{
   background:rgba(3,199,90,.2);
-  border-color:rgba(3,199,90,.5);
+  border-color:rgba(3,199,90,.55);
   color:#03C75A;
-  box-shadow:0 0 6px rgba(3,199,90,.3);
+  box-shadow:0 0 8px rgba(3,199,90,.4);
+  animation:numPop .4s cubic-bezier(.34,1.56,.64,1) forwards;
 }
-.input-col:hover{border-color:rgba(255,255,255,.18)}
+@keyframes numPop{from{transform:scale(.85)}to{transform:scale(1)}}
+.input-col:hover:not(.filled){border-color:rgba(255,255,255,.18)}
 /* 컬럼 상단 컬러 라인 */
 .input-col:nth-child(1){border-top:2px solid rgba(3,199,90,.55)}
 .input-col:nth-child(2){border-top:2px solid rgba(51,133,255,.55)}
 .input-col:nth-child(3){border-top:2px solid rgba(180,60,255,.55)}
 .input-col:nth-child(4){border-top:2px solid rgba(255,150,0,.55)}
+/* filled 상태에서도 상단 컬러 라인 강화 */
+.input-col:nth-child(1).filled{border-top:2px solid rgba(3,199,90,.9)}
+.input-col:nth-child(2).filled{border-top:2px solid rgba(51,133,255,.9)}
+.input-col:nth-child(3).filled{border-top:2px solid rgba(180,60,255,.9)}
+.input-col:nth-child(4).filled{border-top:2px solid rgba(255,150,0,.9)}
 /* icol-head 패딩 */
 .input-col > .icol-head{padding:10px 12px 0}
 .icol-inner{padding:8px 12px;display:flex;flex-direction:column;gap:6px;flex:1}
@@ -2970,7 +2982,27 @@ p, span, div, label, li {
 .log-modal-clear-btn:hover{border-color:rgba(255,77,109,.4);color:#ff4d6d}
 .log-modal-count{font-size:11px;color:rgba(220,232,248,.3)}
 
-/* ── 복사 버튼 on chips ── */
+/* 새 로그 엔트리 애니메이션 */
+.log-entry-new{animation:logEntryIn .25s ease forwards}
+@keyframes logEntryIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+
+/* ── 소재 생성 타이머 ── */
+.gen-timer-wrap{display:none;align-items:center;gap:8px;padding:8px 14px;background:rgba(3,199,90,.05);border:1px solid rgba(3,199,90,.15);border-radius:8px;margin:8px 0}
+.gen-timer-wrap.running{display:flex}
+.gen-timer-icon{font-size:14px;animation:timerSpin 2s linear infinite}
+@keyframes timerSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.gen-timer-label{font-size:11px;color:var(--text3);flex:1}
+.gen-timer-val{font-size:13px;font-weight:800;color:var(--g);font-variant-numeric:tabular-nums;min-width:48px;text-align:right}
+.gen-timer-bar-wrap{width:100%;height:3px;background:rgba(255,255,255,.07);border-radius:2px;margin-top:4px}
+.gen-timer-bar{height:100%;background:linear-gradient(90deg,var(--g),var(--b2));border-radius:2px;transition:width 1s linear}
+
+/* ── 로그 모달 라이브 연결 표시 ── */
+.log-live-dot{width:7px;height:7px;border-radius:50%;background:#03C75A;flex-shrink:0;animation:logLivePulse .8s ease infinite}
+@keyframes logLivePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.log-live-dot.idle{background:rgba(255,255,255,.2);animation:none}
+.log-modal-live-badge{display:flex;align-items:center;gap:5px;font-size:10px;color:rgba(220,232,248,.5);padding:3px 8px;background:rgba(3,199,90,.06);border:1px solid rgba(3,199,90,.15);border-radius:10px}
+.log-modal-live-badge.active .log-live-dot{background:#03C75A}
+.log-modal-live-badge.active{color:var(--g);border-color:rgba(3,199,90,.3);background:rgba(3,199,90,.08)}
 .item-copy-btn,.item-desc-copy-btn{background:none;border:none;font-size:11px;cursor:pointer;padding:2px 5px;border-radius:4px;color:rgba(220,232,248,.3);transition:all .15s;flex-shrink:0}
 .item-copy-btn:hover,.item-desc-copy-btn:hover{color:#03C75A;background:rgba(3,199,90,.1)}
 .item-copy-btn.copied,.item-desc-copy-btn.copied{color:#03C75A}
@@ -3111,7 +3143,7 @@ p, span, div, label, li {
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v1.0</span>
+    <span class="h-version">v1.1</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -3623,6 +3655,10 @@ p, span, div, label, li {
   <div class="log-modal" id="logModalBox">
     <div class="log-modal-head">
       <span class="log-modal-title">🔍 실시간 실행 로그</span>
+      <div class="log-modal-live-badge" id="logLiveBadge">
+        <span class="log-live-dot idle"></span>
+        <span class="log-live-label">대기</span>
+      </div>
       <span class="log-modal-sub" id="logModalSub">API 호출 기록</span>
       <button class="log-modal-close" onclick="closeLogModal()">✕</button>
     </div>
@@ -3936,6 +3972,29 @@ function _addApiLog(entry) {
   _apiLogs.push({ time: new Date().toISOString(), ...entry });
   const logBtn = document.getElementById('logOpenBtn');
   if (logBtn && !logBtn.disabled) logBtn.classList.add('active');
+  // ── 모달이 열려 있으면 실시간으로 엔트리 추가
+  _pushLogEntryToModal(entry);
+}
+
+// 모달 DOM에 실시간으로 로그 엔트리 추가
+function _pushLogEntryToModal(entry) {
+  const body = document.getElementById('logModalBody');
+  const count = document.getElementById('logModalCount');
+  const sub = document.getElementById('logModalSub');
+  if (!body) return;
+  // 빈 상태 메시지 제거
+  const emptyEl = body.querySelector('.log-modal-empty');
+  if (emptyEl) emptyEl.remove();
+  
+  const t = entry.time && entry.time !== '-' ? new Date(entry.time).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}) : new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const tp = entry.type || 'info';
+  const div = document.createElement('div');
+  div.className = 'log-entry log-entry-new';
+  div.innerHTML = `<span class="log-entry-time">${t}</span><span class="log-entry-badge ${tp}">${tp.toUpperCase()}</span><span class="log-entry-msg">${escHtml(entry.msg||'')}</span>`;
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+  if (count) count.textContent = `${_apiLogs.length}개`;
+  if (sub) sub.textContent = `API 실행 로그 · ${_apiLogs.length}건`;
 }
 
 // ── 실시간 로그 인라인 모달
@@ -3946,9 +4005,10 @@ function openLogWindow() {
   const sub = document.getElementById('logModalSub');
   if (!overlay || !body) return;
   
-  const allLogs = _apiLogs.length ? _apiLogs : [{ time: '-', type: 'info', msg: '로그가 없습니다. 소재를 먼저 생성해주세요.' }];
+  // 전체 로그로 새로 그리기
+  const allLogs = _apiLogs.length ? _apiLogs : [];
   
-  body.innerHTML = allLogs.map(l => {
+  body.innerHTML = allLogs.length ? allLogs.map(l => {
     const t = l.time && l.time !== '-' ? new Date(l.time).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}) : '-';
     const tp = l.type || 'info';
     return `<div class="log-entry">
@@ -3956,13 +4016,32 @@ function openLogWindow() {
       <span class="log-entry-badge ${tp}">${tp.toUpperCase()}</span>
       <span class="log-entry-msg">${escHtml(l.msg||'')}</span>
     </div>`;
-  }).join('');
+  }).join('') : '<div class="log-modal-empty">소재 생성 중 로그가 여기에 실시간으로 표시됩니다.</div>';
   
   if (count) count.textContent = `${allLogs.length}개`;
-  if (sub) sub.textContent = `API 호출 기록 · ${allLogs.length}건`;
+  if (sub) sub.textContent = `API 실행 로그 · ${allLogs.length}건`;
   overlay.classList.add('open');
-  // 맨 아래 스크롤
+  // 라이브 상태 업데이트
+  _updateLogLiveBadge();
   setTimeout(() => { body.scrollTop = body.scrollHeight; }, 50);
+}
+
+// LIVE 배지 상태 업데이트
+function _updateLogLiveBadge() {
+  const badge = document.getElementById('logLiveBadge');
+  const dot = badge?.querySelector('.log-live-dot');
+  const label = badge?.querySelector('.log-live-label');
+  const isGenerating = document.getElementById('genBtn')?.disabled === true;
+  if (!badge) return;
+  if (isGenerating) {
+    badge.classList.add('active');
+    if (dot) dot.className = 'log-live-dot';
+    if (label) label.textContent = 'LIVE';
+  } else {
+    badge.classList.remove('active');
+    if (dot) dot.className = 'log-live-dot idle';
+    if (label) label.textContent = '완료';
+  }
 }
 
 function closeLogModal(e) {
@@ -4271,9 +4350,9 @@ function addSlot() {
 // ═══════════════════════════════════════════════════════════
 async function callClaude(sys, userContent, onChunk, maxTokens) {
   if (!CLAUDE_KEY) return callGemini(sys, userContent, onChunk, maxTokens); // fallback
-  const tokens = maxTokens || 1200;
+  const tokens = maxTokens || 800;
   const ctrl = new AbortController();
-  const tid  = setTimeout(() => ctrl.abort(), 170000);
+  const tid  = setTimeout(() => ctrl.abort(), 45000); // 45초 - Claude Haiku는 빠름
   let messages;
   if (typeof userContent === 'string') {
     messages = [{ role:'user', content: userContent }];
@@ -4335,7 +4414,7 @@ async function analyzeWithGPT4o(imgs) {
     const res = await fetch('https://api.openai.com/v1/chat/completions',{
       method:'POST', signal:ctrl.signal,
       headers:{'Content-Type':'application/json','Authorization':`Bearer ${OPENAI_KEY}`},
-      body:JSON.stringify({model:'gpt-4o',max_tokens:400,
+      body:JSON.stringify({model:'gpt-4o',max_tokens:180,
         messages:[{role:'user',content:[...imgContent,{type:'text',text:prompt}]}]})
     });
     clearTimeout(tid);
@@ -4367,9 +4446,9 @@ async function callGemini(sys, userContent, onChunk, maxTokens) {
     ];
   }
 
-  const tokens = maxTokens || 900;
+  const tokens = maxTokens || 650;
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), tokens > 1000 ? 170000 : 90000);
+  const timeoutId = setTimeout(() => controller.abort(), tokens > 800 ? 120000 : 60000);
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
   _addApiLog({type:'req', msg:`[Gemini] ${url.substring(0,80)}... max_tokens:${tokens}`});
@@ -5381,7 +5460,10 @@ async function generate(){
   const btn=document.getElementById('genBtn');
   btn.disabled=true;
   const _logBtn=document.getElementById('logOpenBtn'); if(_logBtn) _logBtn.disabled=false;
-  // 생성 시작 - 로그 버튼만 활성화 (자동으로 창 열지 않음)
+  // 소재 생성 시작 시 로그 초기화 후 모달 자동 오픈
+  _apiLogs.length = 0;
+  openLogWindow();
+  _updateLogLiveBadge();
   document.getElementById('genTxt').innerHTML='<span class="spin"></span> 분석 중...';
   document.getElementById('pbarFill').style.width='0%';
   document.getElementById('emptyState').style.display='none';
@@ -5478,30 +5560,49 @@ async function generate(){
   const sideBtn=document.getElementById('analysisOpenBtn');
   const apProg=document.getElementById('apPanel');
   if(sideStatus){ sideStatus.style.display='block'; sideStatus.textContent='분석 시작...'; sideStatus.classList.add('running'); }
-  setGenLog('Gemini AI 연결 중...');
+  setGenLog('AI 연결 중...');
   _pipeReset();
   document.getElementById('aiPipeLog').style.display='none';
   if(sidePreview) sidePreview.style.display='none';
   if(sideBtn) sideBtn.disabled=true;
   if(apProg) apProg.style.display='block';
 
-  // ── 3분 카운트다운 타이머
-  const TOTAL_SEC = 180; // 3분
-  let remain = TOTAL_SEC;
+  // ── 현실적인 예상 시간 계산 (API 키 상태에 따라)
+  const hasImg = S.imgs.length > 0;
+  const useClaudeKey = !!CLAUDE_KEY;
+  // 예상 시간: 이미지 있으면 +10초, Claude 사용 시 +5초, Gemini만이면 +5초 (분석 포함)
+  const EST_COPY_SEC = useClaudeKey ? 20 : 25;  // 소재 생성 예상
+  const EST_REPORT_SEC = 35;                     // 리포트 분석 예상
+  const EST_IMG_SEC = hasImg ? 12 : 0;           // 이미지 분석 예상
+  const EST_TOTAL = EST_IMG_SEC + EST_COPY_SEC + EST_REPORT_SEC;
+
+  // ── 단계별 타이머 (3단계)
+  let genStartTime = Date.now();
   let timerDone = false;
   let phase2Started = false;
+  let currentPhaseLabel = '① 이미지 분석 + 소재 준비 중';
+  let phaseStartSec = 0;
 
   function fmtRemain(s){
     s = Math.max(0, Math.round(s));
-    return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+    if (s === 0) return '완료!';
+    if (s < 60) return `${s}초`;
+    return `${Math.floor(s/60)}분 ${String(s%60).padStart(2,'0')}초`;
+  }
+  function fmtElapsed(s){
+    s = Math.max(0, Math.round(s));
+    if (s < 60) return `${s}초`;
+    return `${Math.floor(s/60)}분 ${String(s%60).padStart(2,'0')}초`;
   }
 
   function setTimerDisplay(text, subText, warn){
-    if(remainEl){
-      remainEl.textContent = text;
-      remainEl.style.color = warn ? '#ff9800' : '';
+    const remainEl2 = document.getElementById('analyzingRemain');
+    const lblEl2 = document.getElementById('analyzingTimerLbl');
+    if(remainEl2){
+      remainEl2.textContent = text;
+      remainEl2.style.color = warn ? '#ff9800' : '';
     }
-    if(lblEl) lblEl.textContent = subText || '남음';
+    if(lblEl2) lblEl2.textContent = subText || '남음';
     const cd = document.querySelector('#genBtn .btn-countdown');
     if(cd){
       cd.textContent = text;
@@ -5509,56 +5610,44 @@ async function generate(){
     }
   }
 
-  // 초기 표시
-  setTimerDisplay(fmtRemain(TOTAL_SEC), '남음', false);
-  document.getElementById('genTxt').innerHTML = `<span class="spin"></span> 분석 중... <span class="btn-countdown">${fmtRemain(TOTAL_SEC)}</span>`;
+  // 버튼 카운트다운 초기화
+  document.getElementById('genTxt').innerHTML = `<span class="spin"></span> AI 작업 중... <span class="btn-countdown">${fmtRemain(EST_TOTAL)}</span>`;
+  setTimerDisplay(fmtRemain(EST_TOTAL), '예상 소요', false);
 
   // 패널 타이머 행 업데이트
   const apTimerRowEl = document.getElementById('apTimerRow');
-  if(apTimerRowEl) { apTimerRowEl.style.display='block'; apTimerRowEl.innerHTML = `예상 완료까지: <b id="apElapsedVal">${fmtRemain(TOTAL_SEC)}</b>`; }
+  if(apTimerRowEl) { apTimerRowEl.style.display='block'; apTimerRowEl.innerHTML = `⏱ 예상: <b id="apElapsedVal">${fmtRemain(EST_TOTAL)}</b> 남음`; }
   function updatePanelTimer(text){ const el=document.getElementById('apElapsedVal'); if(el) el.textContent=text; }
 
   const countdownInterval = setInterval(()=>{
     if(timerDone) return;
-    remain--;
-    if(remain > 0){
-      setTimerDisplay(fmtRemain(remain), '남음', false);
-      updatePanelTimer(fmtRemain(remain));
+    const elapsedSec = (Date.now() - genStartTime) / 1000;
+    const remaining = Math.max(0, EST_TOTAL - elapsedSec);
+    
+    if (remaining > 0) {
+      setTimerDisplay(fmtRemain(remaining), '남음', false);
+      updatePanelTimer(fmtRemain(remaining));
+      // 버튼 텍스트 업데이트
+      const cd = document.querySelector('#genBtn .btn-countdown');
+      if(cd) cd.textContent = fmtRemain(remaining);
     } else {
-      // 3분 초과 → 초과 경고
-      const over = Math.abs(remain);
-      const overSec = over + 1;
-      setTimerDisplay(`+${overSec}초`, '조금만 더', true);
-      updatePanelTimer(`+${overSec}초 초과`);
-      const status = document.getElementById('analysisSideStatus');
-      if(status && status.textContent !== '⚠️ 조금 더 기다려주세요'){
-        status.textContent = '⚠️ 조금 더 기다려주세요';
-      }
+      // 예상 초과
+      const over = Math.round(elapsedSec - EST_TOTAL);
+      setTimerDisplay(`+${over}초`, '거의 완료', true);
+      updatePanelTimer(`예상보다 ${over}초 추가 소요`);
     }
   }, 1000);
 
   window._stopCountdown = ()=>{
     timerDone = true;
     clearInterval(countdownInterval);
-    const elapsed = TOTAL_SEC - remain;
-    if(remain > 30){
-      // 2분 30초 이전 완료 → 빠르게 완료
-      setTimerDisplay('빠름!', '✓ 완료', false);
-      updatePanelTimer('예정보다 빨리 완료!');
-    } else if(remain >= 0){
-      // 3분 이내 완료
-      setTimerDisplay(fmtRemain(TOTAL_SEC - remain), '✓ 완료', false);
-      updatePanelTimer(`${fmtRemain(TOTAL_SEC - remain)} 소요`);
-    } else {
-      // 3분 초과 완료
-      setTimerDisplay(fmtRemain(elapsed), '✓ 완료', false);
-      updatePanelTimer(`${fmtRemain(elapsed)} 소요`);
-    }
+    const elapsed = (Date.now() - genStartTime) / 1000;
+    setTimerDisplay(fmtElapsed(elapsed), '소요', false);
+    updatePanelTimer(`${fmtElapsed(elapsed)} 소요`);
     const cd = document.querySelector('#genBtn .btn-countdown');
-    if(cd) cd.style.color = '';
+    if(cd) { cd.textContent = `${fmtElapsed(elapsed)} 완료`; cd.style.color = '#03C75A'; }
+    setTimeout(()=>{ const cd2=document.querySelector('#genBtn .btn-countdown'); if(cd2) cd2.remove(); }, 2500);
   };
-
-  window._startPhase2Timer = ()=>{ phase2Started = true; };
 
   // sideStatus 업데이트
   function updateStatus(msg) {
@@ -5650,26 +5739,8 @@ async function generate(){
     updateStatus(`✍️ ${copyApiName}로 광고 소재 생성 중...`);
     setGenLog(`${copyApiName} AI 연결 중...`);
 
-    const sysCopy = `당신은 네이버 파워링크 광고 10년 경력의 전문 카피라이터입니다. 수천 개의 고성능 광고 소재를 작성하고 A/B 테스트로 검증한 전문가입니다. 반드시 순수 JSON만 응답하세요. 코드블록과 설명 텍스트 절대 금지.
-
-[철대 규칙 — 위반 시 무효]
-- 제목: 정확히 10~15자(공백 포함). 9자 이하·16자 이상 금지.
-- 설명: 정확히 40~45자(공백 포함). 39자 이하·46자 이상 금지.
-- 단어 중간 끊김 절대 금지. 문장이 완전히 끝나야 함.
-- 네이버 반려 표현 금지: 최고·최저·1위·최상급·압도적·완벽·보장·무조건·최대·최저가·초특가·탁월·혁신적
-- 생성 후 반드시 글자 수를 직접 세어 확인하고 틀리면 즉시 수정할 것.
-
-[제목 1 그룹 — 핵심 스펙·기능 중심]
-검색어와 직접 매칭되는 스펙·수치·모델명·크기·용량·소재 포함. 구체적 숫자가 들어가면 클릭률 급상승.
-
-[제목 2 그룹 — 혜택·편의·차별화 중심]
-배송·AS·설치·무료혜택·인증·사용편의 등 경쟁 상품과 차별되는 실질 혜택.
-
-[제목 3 그룹 — 타겟 공감·상황·행동유도 중심]
-구매자의 직업·상황·고민에 공감하거나 클릭 유인 긴급성 부여.
-
-[설명 전략]
-구체 수치+혜택 조합, 타겟 공감, 차별화+행동유도, 신뢰+수치 등 다양한 각도로 10개 구성. 40자 미만 절대 금지.`;
+    const sysCopy = `당신은 네이버 파워링크 10년 경력 카피라이터입니다. 순수 JSON만 응답. 코드블록 금지.
+규칙: 제목 10~15자(공백포함), 설명 40~45자(공백포함). 단어끊김금지. 최상급표현(최고·최저·1위·압도적·완벽·보장·무조건) 금지. 글자수 틀리면 즉시 재작성.`;
 
     const promptBase = promptParts.join('\n');
 
@@ -5677,8 +5748,8 @@ async function generate(){
     // 이미지가 있으면 제목 생성에만 이미지 첨부 (설명엔 불필요)
     const titlesContent = S.imgs.length > 0
       ? [{type:'image',source:{type:'base64',media_type:S.imgs[0].type||'image/jpeg',data:S.imgs[0].b64}},
-         {type:'text', text: promptBase + '\n\n제목 30개를 생성하세요.\n\n[필수 규칙]\n- 글자 수: 반드시 10~15자(공백 포함). 9자 이하 16자 이상 금지.\n- 단어 끊김 절대 금지. 문장이 자연스럽게 완전히 끝나야 함.\n- 생성 후 글자 수 직접 세어 틀리면 즉시 수정.\n\n[30개 구성 전략]\n0~9번 (제목1 위치): 핵심 스펙·수치·모델·용량 중심. 검색어와 직접 매칭.\n10~19번 (제목2 위치): 무료혜택·배송·AS·편의 차별화 중심.\n20~29번 (제목3 위치): 타겟공감·상황·행동유도·긴급성 중심.\n\n형식: {"titles":["..."]}  (정확히 30개)'}]
-      : promptBase + '\n\n제목 30개를 생성하세요.\n\n[필수 규칙]\n- 글자 수: 반드시 10~15자(공백 포함). 9자 이하 16자 이상 금지.\n- 단어 끊김 절대 금지. 문장이 자연스럽게 완전히 끝나야 함.\n- 생성 후 글자 수 직접 세어 틀리면 즉시 수정.\n\n[30개 구성 전략]\n0~9번 (제목1 위치): 핵심 스펙·수치·모델·용량 중심. 검색어와 직접 매칭.\n10~19번 (제목2 위치): 무료혜택·배송·AS·편의 차별화 중심.\n20~29번 (제목3 위치): 타겟공감·상황·행동유도·긴급성 중심.\n\n형식: {"titles":["..."]}  (정확히 30개)';
+         {type:'text', text: promptBase + '\n\n제목 30개 JSON만. 규칙:10~15자(공백포함),단어끊김금지,최상급금지. 0~9번=스펙수치, 10~19번=혜택차별화, 20~29번=타겟행동유도. 형식:{"titles":["..."]} 정확히30개'}]
+      : promptBase + '\n\n제목 30개 JSON만. 규칙:10~15자(공백포함),단어끊김금지,최상급금지. 0~9번=스펙수치, 10~19번=혜택차별화, 20~29번=타겟행동유도. 형식:{"titles":["..."]} 정확히30개';
 
     const _t1 = Date.now();
     const [titlesRaw, descsRaw] = await Promise.all([
@@ -5691,12 +5762,12 @@ async function generate(){
           }
           updateStatus(`✍️ 제목 ${Math.min((full.match(/"[^"]{1,15}"/g)||[]).length,30)}/30개 생성 중...`);
         },
-        800
+        480
       ),
       copyFn(sysCopy,
-        promptBase + '\n\n설명 10개를 생성하세요.\n\n[필수 규칙]\n- 글자 수: 반드시 40자 이상 45자 이하(공백 포함). 39자 이하 46자 이상 절대 금지.\n- 단어 끊김 금지: 문장이 자연스럽게 끝나야 함.\n- 생성 후 글자 수 직접 세어 기준 미달 시 즉시 수정.\n\n[10개 작성 전략 — 반드시 다양한 각도로]\n- 핵심 스펙+행동유도형, 무료혜택+긴급성형, 타겟공감+혜택형, 차별화+신뢰형 등\n- 유사한 문장 반복 금지. 각 설명이 독립적으로 다른 가치를 전달해야 함.\n- 구체적 수치(용량·박수·연수·배송시간)가 포함될수록 클릭률 상승.\n\n형식: {"descs":["..."]}  (정확히 10개)',
+        promptBase + '\n\n설명 10개 JSON만. 규칙:40~45자(공백포함),단어끊김금지,최상급금지. 다양하게:스펙+행동형/혜택+긴급형/타겟공감형/신뢰+수치형. 형식:{"descs":["..."]} 정확히10개',
         null,
-        600
+        380
       )
     ]);
 
@@ -5811,6 +5882,7 @@ async function generate(){
       pg(4,'done');
       document.getElementById('pbarFill').style.width='100%';
       // 리포트 완료
+      setTimeout(() => { _updateLogLiveBadge(); }, 200);
       // fieldRows 다시 표시
       document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
       btn.disabled=false;
