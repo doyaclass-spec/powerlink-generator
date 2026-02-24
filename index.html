@@ -135,7 +135,8 @@ body{
   box-shadow:0 2px 10px var(--g-glow);
 }
 .h-title{font-family:'Pretendard Variable','Pretendard',sans-serif;font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.3px}
-.h-version{font-size:11px;background:var(--g-dim);color:var(--g);border:1px solid rgba(3,199,90,.2);border-radius:4px;padding:2px 7px;font-weight:700;letter-spacing:.3px}
+.h-version{font-size:11px;background:var(--g-dim);color:var(--g);border:1px solid rgba(3,199,90,.2);border-radius:4px;padding:2px 7px;font-weight:700;letter-spacing:.3px;transition:all .3s}
+.h-version.changed{background:rgba(255,136,0,.12);color:#ffaa33;border-color:rgba(255,136,0,.4);box-shadow:0 0 8px rgba(255,136,0,.2)}
 .header-right{display:flex;align-items:center;gap:12px}
 .h-clock{display:flex;flex-direction:column;align-items:flex-end;line-height:1.2}
 .h-clock-time{font-family:'Pretendard Variable','Pretendard',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;color:var(--g);font-variant-numeric:tabular-nums;filter:drop-shadow(0 0 8px var(--g-glow))}
@@ -290,43 +291,34 @@ body{
   border-radius:10px;
   background:rgba(5,12,22,.7);
   overflow:hidden;
-  transition:border-color .35s,box-shadow .35s;
+  transition:border-color .3s,box-shadow .3s;
 }
-.input-col.filled{
-  border-color:rgba(3,199,90,.55);
-  box-shadow:0 0 0 2px rgba(3,199,90,.1),0 0 20px rgba(3,199,90,.12),inset 0 0 0 1px rgba(3,199,90,.06);
-  animation:colFillGlow 2.5s ease-in-out infinite alternate;
+/* 입력 완료 시 각 섹션 고유 색상으로 테두리 발광 — 빨주노초 */
+.input-col:nth-child(1).filled{
+  border-color:rgba(255,68,68,.75);
+  box-shadow:0 0 0 3px rgba(255,68,68,.14),0 0 18px rgba(255,68,68,.25);
 }
-@keyframes colFillGlow{
-  from{box-shadow:0 0 0 2px rgba(3,199,90,.08),0 0 14px rgba(3,199,90,.08)}
-  to{box-shadow:0 0 0 2px rgba(3,199,90,.15),0 0 28px rgba(3,199,90,.18)}
+.input-col:nth-child(2).filled{
+  border-color:rgba(255,136,0,.75);
+  box-shadow:0 0 0 3px rgba(255,136,0,.14),0 0 18px rgba(255,136,0,.25);
 }
-.input-col.filled .icol-num{
-  background:rgba(3,199,90,.2);
-  border-color:rgba(3,199,90,.55);
-  color:#03C75A;
-  box-shadow:0 0 8px rgba(3,199,90,.4);
-  animation:numPop .4s cubic-bezier(.34,1.56,.64,1) forwards;
+.input-col:nth-child(3).filled{
+  border-color:rgba(245,196,0,.75);
+  box-shadow:0 0 0 3px rgba(245,196,0,.14),0 0 18px rgba(245,196,0,.25);
 }
-@keyframes numPop{from{transform:scale(.85)}to{transform:scale(1)}}
-.input-col:hover:not(.filled){border-color:rgba(255,255,255,.18)}
-/* 컬럼 상단 컬러 라인 */
-.input-col:nth-child(1){border-top:2px solid rgba(3,199,90,.55)}
-.input-col:nth-child(2){border-top:2px solid rgba(51,133,255,.55)}
-.input-col:nth-child(3){border-top:2px solid rgba(180,60,255,.55)}
-.input-col:nth-child(4){border-top:2px solid rgba(255,150,0,.55)}
-/* filled 상태에서도 상단 컬러 라인 강화 */
-.input-col:nth-child(1).filled{border-top:2px solid rgba(3,199,90,.9)}
-.input-col:nth-child(2).filled{border-top:2px solid rgba(51,133,255,.9)}
-.input-col:nth-child(3).filled{border-top:2px solid rgba(180,60,255,.9)}
-.input-col:nth-child(4).filled{border-top:2px solid rgba(255,150,0,.9)}
+/* 08번 분석패널 — 금색 */
+.input-col:nth-child(4).filled{
+  border-color:rgba(212,160,23,.75);
+  box-shadow:0 0 0 3px rgba(212,160,23,.14),0 0 18px rgba(212,160,23,.25);
+}
+.input-col:hover{border-color:rgba(255,255,255,.18)}
+/* 컬럼 상단 컬러 라인 — 삭제됨 */
 /* icol-head 패딩 */
 .input-col > .icol-head{padding:10px 12px 0}
 .icol-inner{padding:8px 12px;display:flex;flex-direction:column;gap:6px;flex:1}
 
 /* 05 분석 패널 tall */
 .analysis-panel-tall{
-  border-top:2px solid rgba(255,150,0,.6) !important;
   display:flex;flex-direction:column;
   min-height:100%;
 }
@@ -791,13 +783,16 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 
 /* 입력 컬럼 헤더 */
 .icol-head{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
+/* 초기화 버튼 */
+.clear-btn{margin-left:auto;padding:2px 7px;font-size:9.5px;font-weight:700;color:rgba(220,232,248,.35);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:4px;cursor:pointer;font-family:inherit;transition:all .15s;flex-shrink:0}
+.clear-btn:hover{color:rgba(255,100,100,.85);border-color:rgba(255,100,100,.3);background:rgba(255,60,60,.07)}
 .icol-num{font-size:9px;font-weight:900;color:var(--g);background:var(--g-dim);border:1px solid rgba(3,199,90,.25);border-radius:4px;padding:2px 5px;flex-shrink:0;margin-top:1px;letter-spacing:.5px;min-width:22px;text-align:center}
-/* 컬럼별 번호 뱃지 색상 */
-.icol-num-1{color:var(--g);background:rgba(3,199,90,.12);border-color:rgba(3,199,90,.3)}
-.icol-num-2{color:#3385ff;background:rgba(51,133,255,.12);border-color:rgba(51,133,255,.3)}
-.icol-num-3{color:#b43cff;background:rgba(180,60,255,.12);border-color:rgba(180,60,255,.3)}
-.icol-num-4{color:#ff9800;background:rgba(255,150,0,.12);border-color:rgba(255,150,0,.3)}
-.icol-num-8{color:#03C75A;background:rgba(3,199,90,.12);border-color:rgba(3,199,90,.35)}
+/* 컬럼별 번호 뱃지 색상 — 빨주노초파남보 */
+.icol-num-1{color:#ff4444;background:rgba(255,68,68,.12);border-color:rgba(255,68,68,.3)}
+.icol-num-2{color:#ff8800;background:rgba(255,136,0,.12);border-color:rgba(255,136,0,.3)}
+.icol-num-3{color:#f5c400;background:rgba(245,196,0,.12);border-color:rgba(245,196,0,.3)}
+.icol-num-4{color:#22cc66;background:rgba(34,204,102,.12);border-color:rgba(34,204,102,.3)}
+.icol-num-8{color:#d4a017;background:rgba(212,160,23,.13);border-color:rgba(212,160,23,.35)}
 .icol-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:1px;line-height:1.3;word-break:keep-all}
 .icol-desc{font-size:10px;color:var(--text3);line-height:1.35;word-break:keep-all}
 .inp-ta{resize:none;line-height:1.5;min-height:72px;font-size:13px}
@@ -868,9 +863,22 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
   transition:border-color .2s;
 }
 .enhance-col:hover{border-color:rgba(255,255,255,.15)}
-.enhance-col:nth-child(1){border-top:2px solid rgba(255,77,109,.4)}
-.enhance-col:nth-child(2){border-top:2px solid rgba(51,200,170,.4)}
-.enhance-col:nth-child(3){border-top:2px solid rgba(150,100,255,.4)}
+/* enhance-col 입력 완료 발광 — 파남보 (고유 클래스로 정확히 지정) */
+.enhance-col.ec-05.filled{
+  border-color:rgba(51,133,255,.8) !important;
+  box-shadow:0 0 0 3px rgba(51,133,255,.16),0 0 20px rgba(51,133,255,.28) !important;
+}
+.enhance-col.ec-06.filled{
+  border-color:rgba(60,80,255,.8) !important;
+  box-shadow:0 0 0 3px rgba(60,80,255,.16),0 0 20px rgba(60,80,255,.28) !important;
+}
+.enhance-col.ec-07.filled{
+  border-color:rgba(168,85,247,.8) !important;
+  box-shadow:0 0 0 3px rgba(168,85,247,.16),0 0 20px rgba(168,85,247,.28) !important;
+}
+.enhance-col.ec-05{/* border-top 제거 */}
+.enhance-col.ec-06{/* border-top 제거 */}
+.enhance-col.ec-07{/* border-top 제거 */}
 .enhance-inner{padding:8px 12px;display:flex;flex-direction:column;gap:6px;flex:1}
 .enhance-head{
   display:flex;align-items:center;gap:6px;
@@ -882,18 +890,18 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 
 /* 금지어 */
 .deny-list{display:flex;flex-wrap:wrap;gap:4px;min-height:10px}
-.deny-tag{display:inline-flex;align-items:center;gap:4px;background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.2);border-radius:5px;padding:4px 10px;font-size:13px;color:#ff6b85}
+.deny-tag{display:inline-flex;align-items:center;gap:4px;background:rgba(51,133,255,.08);border:1px solid rgba(51,133,255,.25);border-radius:5px;padding:4px 10px;font-size:13px;color:#5b9aff}
 .deny-warn-box{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:8px 10px;margin-bottom:2px}
 .deny-preset-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
 .deny-preset{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:4px;color:rgba(220,232,248,.7);font-size:10.5px;font-weight:700;padding:3px 8px;cursor:pointer;font-family:inherit;transition:all .15s}
 .deny-preset:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:rgba(220,232,248,1)}
 .deny-preset.added{opacity:.35;text-decoration:line-through;cursor:default}
-.deny-tag-x{background:none;border:none;color:rgba(255,77,109,.5);cursor:pointer;font-size:10px;padding:0;line-height:1;transition:color .15s}
-.deny-tag-x:hover{color:#ff4d6d}
+.deny-tag-x{background:none;border:none;color:rgba(51,133,255,.5);cursor:pointer;font-size:10px;padding:0;line-height:1;transition:color .15s}
+.deny-tag-x:hover{color:#3385ff}
 .deny-input-row{margin-top:2px}
 
 /* 시즌 칩 */
-.season-chips{display:flex;flex-wrap:wrap;gap:3px}
+.season-chips{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
 .schip{font-size:10px;padding:3px 8px;border-radius:12px;border:1px solid var(--border);color:var(--text3);cursor:pointer;background:none;font-family:inherit;transition:all .15s}
 .schip-spring.on,.schip-spring:hover{background:rgba(255,150,150,.12);border-color:rgba(255,150,150,.45);color:#ffaaaa}
 .schip-summer.on,.schip-summer:hover{background:rgba(255,200,50,.12);border-color:rgba(255,200,50,.45);color:#ffd050}
@@ -902,20 +910,19 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .schip-new.on,.schip-new:hover{background:rgba(255,100,200,.12);border-color:rgba(255,100,200,.45);color:#ff64c8}
 .schip-love.on,.schip-love:hover{background:rgba(255,100,150,.12);border-color:rgba(255,100,150,.45);color:#ff6496}
 .schip-family.on,.schip-family:hover{background:rgba(100,200,150,.12);border-color:rgba(100,200,150,.45);color:#64c896}
-.schip:hover{border-color:rgba(3,199,90,.3);color:var(--g)}
-.schip.on{background:var(--g-dim);border-color:rgba(3,199,90,.35);color:var(--g);font-weight:700}
+/* 시즌칩 선택 — 06번 남색 통일 */
+.schip:hover{border-color:rgba(60,80,255,.4);color:#7b8fff}
+.schip.on{background:rgba(60,80,255,.15);border-color:rgba(60,80,255,.65);color:#7b8fff;font-weight:700}
 
 /* 어조 */
 .tone-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px}
 .tone-btn{padding:5px 6px;background:rgba(0,0,0,.2);border:1px solid var(--border);border-radius:5px;font-size:10px;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .15s;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tone-btn:hover{border-color:rgba(3,199,90,.3);color:var(--g)}
-.tone-btn.on{background:var(--g-dim);border-color:rgba(3,199,90,.35);color:var(--g);font-weight:700}
-.tone-urgent.on{background:rgba(255,100,50,.1);border-color:rgba(255,100,50,.4);color:#ff6432}
-.tone-trust.on{background:rgba(51,133,255,.1);border-color:rgba(51,133,255,.4);color:#3385ff}
-.tone-benefit.on{background:rgba(255,200,50,.1);border-color:rgba(255,200,50,.4);color:#ffc832}
-.tone-emotion.on{background:rgba(255,100,180,.1);border-color:rgba(255,100,180,.4);color:#ff64b4}
-.tone-number.on{background:rgba(100,220,255,.1);border-color:rgba(100,220,255,.4);color:#64dcff}
-.tone-action.on{background:rgba(150,100,255,.1);border-color:rgba(150,100,255,.4);color:#a06bff}
+.tone-btn:hover{border-color:rgba(168,85,247,.4);color:#c97fff}
+/* 어조 선택 — 07번 보라색 통일 */
+.tone-btn.on{background:rgba(168,85,247,.15);border-color:rgba(168,85,247,.65);color:#c97fff;font-weight:700}
+.tone-urgent.on,.tone-trust.on,.tone-benefit.on,.tone-emotion.on,.tone-number.on,.tone-action.on{
+  background:rgba(168,85,247,.15);border-color:rgba(168,85,247,.65);color:#c97fff;
+}
 
 
 /* ── 결과 + 미리보기 통합 레이아웃 ── */
@@ -1275,7 +1282,7 @@ textarea.inp{resize:none;line-height:1.5;font-size:13px}
 .enhance-col > input.inp{ margin:4px 14px 8px;width:calc(100% - 28px) }
 .enhance-col > .tone-grid{ padding:6px 14px 10px;width:100%;box-sizing:border-box }
 
-.col-analysis{ border-top:2px solid rgba(255,150,0,.55) }
+.col-analysis{ /* border-top 제거 */ }
 
 
 /* ── 필수/선택/자동 뱃지 */
@@ -1777,10 +1784,15 @@ body {
 }
 .schip.on {
   font-weight:700 !important;
-  box-shadow:0 0 10px rgba(3,199,90,.15) !important;
+  background:rgba(60,80,255,.15) !important;
+  border-color:rgba(60,80,255,.65) !important;
+  color:#7b8fff !important;
+  box-shadow:0 0 8px rgba(60,80,255,.2) !important;
 }
 .schip:hover {
-  background:rgba(3,199,90,.06) !important;
+  background:rgba(60,80,255,.07) !important;
+  border-color:rgba(60,80,255,.35) !important;
+  color:#7b8fff !important;
 }
 
 /* ── 13. 어조 버튼 ── */
@@ -1799,7 +1811,10 @@ body {
   white-space:nowrap !important;
 }
 .tone-btn.on {
-  box-shadow:0 0 12px rgba(3,199,90,.15) !important;
+  background:rgba(168,85,247,.15) !important;
+  border-color:rgba(168,85,247,.65) !important;
+  color:#c97fff !important;
+  box-shadow:0 0 8px rgba(168,85,247,.2) !important;
 }
 
 /* ── 14. 금지어 태그 ── */
@@ -2125,13 +2140,8 @@ body {
 }
 
 /* ── 31. 상태 카드 테두리 강화 ── */
-.input-col:nth-child(1) { border-top:2px solid rgba(3,199,90,.6) !important; }
-.input-col:nth-child(2) { border-top:2px solid rgba(180,60,255,.55) !important; }
-.input-col:nth-child(3) { border-top:2px solid rgba(255,150,0,.55) !important; }
-.col-analysis { border-top:2px solid rgba(255,150,0,.55) !important; }
-.enhance-col:nth-child(1) { border-top:2px solid rgba(255,77,109,.45) !important; }
-.enhance-col:nth-child(2) { border-top:2px solid rgba(51,200,170,.45) !important; }
-.enhance-col:nth-child(3) { border-top:2px solid rgba(150,100,255,.45) !important; }
+/* input-col border-top 색상 제거됨 */
+/* enhance-col border-top — 고유 클래스(.ec-05~07)로 대체됨 */
 
 /* ── 32. 글로벌 스크롤바 정제 ── */
 ::-webkit-scrollbar { width:4px; height:4px; }
@@ -2581,9 +2591,9 @@ p, span, div, label, li {
 
 /* ─── enhance-num (06~08 번호) ─── */
 .enhance-num{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:5px;background:rgba(255,255,255,.07);color:rgba(220,232,248,.45);font-size:9.5px;font-weight:800;flex-shrink:0;font-family:'Pretendard Variable','Pretendard',sans-serif}
-.enhance-num-05{background:rgba(255,77,109,.12);color:#ff6b85;border:1px solid rgba(255,77,109,.25)}
-.enhance-num-06{background:rgba(51,200,170,.12);color:#33c8aa;border:1px solid rgba(51,200,170,.25)}
-.enhance-num-07{background:rgba(150,100,255,.12);color:#a06bff;border:1px solid rgba(150,100,255,.25)}
+.enhance-num-05{background:rgba(51,133,255,.12);color:#3385ff;border:1px solid rgba(51,133,255,.25)}
+.enhance-num-06{background:rgba(60,80,255,.12);color:#5569ff;border:1px solid rgba(60,80,255,.25)}
+.enhance-num-07{background:rgba(168,85,247,.12);color:#c97fff;border:1px solid rgba(168,85,247,.25)}
 
 /* ─── 모달 입력 눈 버튼 ─── */
 .mk-input-wrap{position:relative;display:flex;align-items:center;margin-top:6px}
@@ -2950,74 +2960,6 @@ p, span, div, label, li {
 .pv-mob-desc.empty{color:#ccc}
 .pv-mob-thumb{width:38px;height:38px;border-radius:5px;background:#f5f5f5;border:1px solid #eee;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;overflow:hidden}
 .pv-mob-thumb img{width:100%;height:100%;object-fit:cover}
-
-/* ── 실시간 로그 인라인 모달 ── */
-.log-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);z-index:1100;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s}
-.log-modal-overlay.open{opacity:1;pointer-events:all}
-.log-modal{background:linear-gradient(160deg,#080f1e,#0d1a2d);border:1px solid rgba(255,255,255,.12);border-radius:16px;width:100%;max-width:680px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,.7);transform:scale(.96) translateY(16px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
-.log-modal-overlay.open .log-modal{transform:scale(1) translateY(0)}
-.log-modal-head{padding:18px 20px 14px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px}
-.log-modal-title{font-size:14px;font-weight:800;color:#fff}
-.log-modal-sub{font-size:11px;color:rgba(220,232,248,.4);flex:1}
-.log-modal-close{background:none;border:none;color:rgba(220,232,248,.4);font-size:16px;cursor:pointer;padding:0 4px;transition:color .15s;font-family:inherit}
-.log-modal-close:hover{color:#fff}
-.log-modal-body{flex:1;overflow-y:auto;padding:12px 0}
-.log-modal-body::-webkit-scrollbar{width:4px}
-.log-modal-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px}
-.log-modal-empty{padding:20px;text-align:center;color:rgba(220,232,248,.3);font-size:12px;font-style:italic}
-.log-entry{display:flex;gap:10px;align-items:flex-start;padding:7px 20px;border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s}
-.log-entry:hover{background:rgba(255,255,255,.02)}
-.log-entry:last-child{border-bottom:none}
-.log-entry-time{font-size:10px;color:rgba(220,232,248,.3);white-space:nowrap;min-width:60px;padding-top:1px}
-.log-entry-badge{font-size:9px;font-weight:800;letter-spacing:.5px;padding:2px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:1px}
-.log-entry-badge.info{background:rgba(3,199,90,.15);color:#03C75A}
-.log-entry-badge.err{background:rgba(255,77,109,.15);color:#ff4d6d}
-.log-entry-badge.warn{background:rgba(245,158,11,.15);color:#f59e0b}
-.log-entry-badge.res{background:rgba(0,102,255,.15);color:#3385ff}
-.log-entry-badge.skip{background:rgba(220,232,248,.08);color:rgba(220,232,248,.4)}
-.log-entry-badge.detail{background:rgba(180,60,255,.1);color:#b45cff}
-.log-entry-msg{font-size:12px;color:rgba(220,232,248,.85);line-height:1.6;flex:1;word-break:break-all}
-.log-modal-footer{padding:12px 20px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between}
-.log-modal-clear-btn{background:none;border:1px solid rgba(255,255,255,.1);color:rgba(220,232,248,.4);font-size:11px;padding:5px 12px;border-radius:6px;cursor:pointer;font-family:inherit;transition:all .15s}
-.log-modal-clear-btn:hover{border-color:rgba(255,77,109,.4);color:#ff4d6d}
-.log-modal-count{font-size:11px;color:rgba(220,232,248,.3)}
-
-/* 새 로그 엔트리 애니메이션 */
-.log-entry-new{animation:logEntryIn .25s ease forwards}
-@keyframes logEntryIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
-
-/* ── 소재 생성 타이머 ── */
-.gen-timer-wrap{display:none;align-items:center;gap:8px;padding:8px 14px;background:rgba(3,199,90,.05);border:1px solid rgba(3,199,90,.15);border-radius:8px;margin:8px 0}
-.gen-timer-wrap.running{display:flex}
-.gen-timer-icon{font-size:14px;animation:timerSpin 2s linear infinite}
-@keyframes timerSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-.gen-timer-label{font-size:11px;color:var(--text3);flex:1}
-.gen-timer-val{font-size:13px;font-weight:800;color:var(--g);font-variant-numeric:tabular-nums;min-width:48px;text-align:right}
-.gen-timer-bar-wrap{width:100%;height:3px;background:rgba(255,255,255,.07);border-radius:2px;margin-top:4px}
-.gen-timer-bar{height:100%;background:linear-gradient(90deg,var(--g),var(--b2));border-radius:2px;transition:width 1s linear}
-
-/* ── 로그 모달 라이브 연결 표시 ── */
-.log-live-dot{width:7px;height:7px;border-radius:50%;background:#03C75A;flex-shrink:0;animation:logLivePulse .8s ease infinite}
-@keyframes logLivePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
-.log-live-dot.idle{background:rgba(255,255,255,.2);animation:none}
-.log-modal-live-badge{display:flex;align-items:center;gap:5px;font-size:10px;color:rgba(220,232,248,.5);padding:3px 8px;background:rgba(3,199,90,.06);border:1px solid rgba(3,199,90,.15);border-radius:10px}
-.log-modal-live-badge.active .log-live-dot{background:#03C75A}
-.log-modal-live-badge.active{color:var(--g);border-color:rgba(3,199,90,.3);background:rgba(3,199,90,.08)}
-.item-copy-btn,.item-desc-copy-btn{background:none;border:none;font-size:11px;cursor:pointer;padding:2px 5px;border-radius:4px;color:rgba(220,232,248,.3);transition:all .15s;flex-shrink:0}
-.item-copy-btn:hover,.item-desc-copy-btn:hover{color:#03C75A;background:rgba(3,199,90,.1)}
-.item-copy-btn.copied,.item-desc-copy-btn.copied{color:#03C75A}
-
-/* ── CTR 등급 배지 ── */
-.ctr-grade{font-size:9px;font-weight:800;padding:1px 5px;border-radius:3px;letter-spacing:.3px}
-.ctr-grade.A{background:rgba(3,199,90,.18);color:#03C75A;border:1px solid rgba(3,199,90,.3)}
-.ctr-grade.B{background:rgba(0,102,255,.15);color:#3385ff;border:1px solid rgba(0,102,255,.25)}
-.ctr-grade.C{background:rgba(245,158,11,.12);color:#f59e0b;border:1px solid rgba(245,158,11,.2)}
-
-/* ── 네이버 광고 내보내기 버튼 ── */
-.export-naver-btn{display:flex;align-items:center;gap:7px;background:linear-gradient(135deg,#029e48,#03C75A);border:none;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;transition:all .2s;box-shadow:0 4px 16px rgba(3,199,90,.3)}
-.export-naver-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 24px rgba(3,199,90,.4)}
-.export-naver-btn:disabled{opacity:.4;cursor:not-allowed}
-.export-naver-btn .n-logo{width:18px;height:18px;background:#fff;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#03C75A}
 </style>
 </head>
 <body>
@@ -3143,7 +3085,7 @@ p, span, div, label, li {
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v1.1</span>
+    <span class="h-version">v3.2</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -3171,8 +3113,8 @@ p, span, div, label, li {
 <!-- 히어로 -->
 <section class="hero">
   <div class="hero-eyebrow">✦ Naver Powerlink · AI Copy Generator · Powered by Claude × Gemini × GPT-4o</div>
-  <h1><em>10년 경력 마케터 수준의</em> 네이버 파워링크 소재를 AI로 즉시</h1>
-  <p class="hero-sub"><strong>제목 30개 · 설명 10개</strong> 자동 생성 &nbsp;·&nbsp; 마케터 AI 분석 리포트 &nbsp;·&nbsp; 실시간 네이버 미리보기 &nbsp;·&nbsp; CTR 등급 자동 분석</p>
+  <h1><em>AI가 클릭률 높은 파워링크 소재</em>를 자동으로 만들어 드립니다</h1>
+  <p class="hero-sub"><strong>제목 30개 · 설명 10개</strong> 자동 생성 &nbsp;·&nbsp; 마케터 AI 분석 리포트 &nbsp;·&nbsp; 실시간 네이버 미리보기</p>
 </section>
 
 <div id="apiKeyBanner">
@@ -3222,31 +3164,31 @@ p, span, div, label, li {
           <div class="input-grid-b">
 
             <!-- 01+02: 상품명 + 타겟 -->
-            <div class="input-col" style="border-top:2px solid rgba(3,199,90,.55)">
-              <div class="icol-head"><span class="icol-num icol-num-1">01</span><div><div class="icol-title">상품명<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">네이버 검색에 노출되는 핵심 키워드를 포함하세요<br><span style="color:rgba(3,199,90,.8)">예) 국산 냉장 블루베리 1kg 당일수확</span></span></span> <span class="badge-req">필수</span></div></div></div>
-              <textarea class="inp inp-ta" id="productName" rows="3" oninput="this.classList.remove('empty-req');this.closest('.input-col')?.classList.remove('req-error');checkFilled(this)" placeholder="예) 업소용 냉장고 45박스 간냉식, 국산 블루베리 1kg 당일수확"></textarea>
-              <div class="icol-head" style="margin-top:8px"><span class="icol-num icol-num-2">02</span><div><div class="icol-title">타겟 고객<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">광고를 보여줄 주요 고객층을 입력하세요<br><span style="color:rgba(3,199,90,.8)">예) 30대 직장인 여성, 소상공인</span></span></span> <span class="badge-opt">선택</span></div></div></div>
-              <input type="text" class="inp" id="target" placeholder="예) 식당·카페 사장님, 30대 직장인 여성" />
+            <div class="input-col">
+              <div class="icol-head"><span class="icol-num icol-num-1">01</span><div><div class="icol-title">상품명<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">네이버 검색에 노출되는 핵심 키워드를 포함하세요<br><span style="color:rgba(3,199,90,.8)">예) 국산 냉장 블루베리 1kg 당일수확</span></span></span> <span class="badge-req">필수</span></div></div><button class="clear-btn" onclick="clearSection01()">초기화</button></div>
+              <textarea class="inp inp-ta" id="productName" rows="3" oninput="this.classList.remove('empty-req');this.closest('.input-col')?.classList.remove('req-error');checkFilled(this)" placeholder=""></textarea>
+              <div class="icol-head" style="margin-top:8px"><span class="icol-num icol-num-2">02</span><div><div class="icol-title">타겟 고객<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">광고를 보여줄 주요 고객층을 입력하세요<br><span style="color:rgba(3,199,90,.8)">예) 30대 직장인 여성, 소상공인</span></span></span> <span class="badge-opt">선택</span></div></div><button class="clear-btn" onclick="clearSection02()">초기화</button></div>
+              <input type="text" class="inp" id="target" placeholder="" />
             </div>
 
             <!-- 03: 광고 내용 -->
-            <div class="input-col" style="border-top:2px solid rgba(180,60,255,.55)">
-              <div class="icol-head"><span class="icol-num icol-num-3">03</span><div><div class="icol-title">광고에 넣고 싶은 내용<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">강조하고 싶은 특징·혜택·가격 포인트<br><span style="color:rgba(3,199,90,.8)">예) 당일배송, 무료 증정품, 10년 AS 보장</span></span></span> <span class="badge-opt">선택</span></div></div></div>
+            <div class="input-col">
+              <div class="icol-head"><span class="icol-num icol-num-3">03</span><div><div class="icol-title">광고에 넣고 싶은 내용<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">강조하고 싶은 특징·혜택·가격 포인트<br><span style="color:rgba(3,199,90,.8)">예) 당일배송, 무료 증정품, 10년 AS 보장</span></span></span> <span class="badge-opt">선택</span></div></div><button class="clear-btn" onclick="clearSection03()">초기화</button></div>
               <div id="featSuggestWrap" style="display:none">
                 <div class="feat-suggest-lbl" id="featSuggestLbl">💡 AI 추천</div>
                 <div class="feat-suggest" id="featSuggest"></div>
               </div>
               <div class="feat-slots" id="featSlots">
-                <div class="feat-slot"><span class="feat-slot-num">1</span><input type="text" placeholder="예) 무료배송·무료설치" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
-                <div class="feat-slot"><span class="feat-slot-num">2</span><input type="text" placeholder="예) 1년 AS 보장" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
-                <div class="feat-slot"><span class="feat-slot-num">3</span><input type="text" placeholder="예) 당일 출발 가능" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
+                <div class="feat-slot"><span class="feat-slot-num">1</span><input type="text" placeholder="" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
+                <div class="feat-slot"><span class="feat-slot-num">2</span><input type="text" placeholder="" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
+                <div class="feat-slot"><span class="feat-slot-num">3</span><input type="text" placeholder="" /><button class="feat-slot-del" onclick="removeSlot(this)">✕</button></div>
               </div>
               <button class="feat-add-btn" id="featAddBtn" onclick="addSlot()">+ 항목 추가</button>
             </div>
 
             <!-- 04: 이미지 -->
-            <div class="input-col" style="border-top:2px solid rgba(255,150,0,.55)">
-              <div class="icol-head"><span class="icol-num icol-num-4">04</span><div><div class="icol-title">상세페이지 이미지<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">AI가 이미지를 직접 보고 광고 포인트를 추출해요<br><span style="color:rgba(3,199,90,.8)">GPT-4o가 상품 특징을 자동 분석합니다</span></span></span> <span class="badge-opt">선택</span></div></div></div>
+            <div class="input-col">
+              <div class="icol-head"><span class="icol-num icol-num-4">04</span><div><div class="icol-title">상세페이지 이미지<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">AI가 이미지를 직접 보고 광고 포인트를 추출해요<br><span style="color:rgba(3,199,90,.8)">GPT-4o가 상품 특징을 자동 분석합니다</span></span></span> <span class="badge-opt">선택</span></div></div><button class="clear-btn" onclick="clearSection04()">초기화</button></div>
               <div class="upload-zone" id="uploadZone">
                 <input type="file" id="fileInput" accept="image/*" multiple onchange="onFile(event)" />
                 <div class="upl-icon">🖼️</div>
@@ -3303,8 +3245,8 @@ p, span, div, label, li {
             </div>
 
             <!-- 하단 Row2: 금지어 / 시즌 / 어조 -->
-            <div class="enhance-col" style="border-top:2px solid rgba(255,77,109,.4)">
-              <div class="enhance-head"><span class="enhance-num enhance-num-05">05</span><div><div class="enhance-title">금지어 설정<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">광고에 절대 쓰지 않을 단어를 지정해요<br><span style="color:rgba(3,199,90,.8)">예) 최고, 1위, 최저가</span><br><span style="color:rgba(220,232,248,.4)">입력 후 Enter로 추가</span></span></span> <span class="badge-opt">선택</span></div></div></div>
+            <div class="enhance-col ec-05">
+              <div class="enhance-head"><span class="enhance-num enhance-num-05">05</span><div><div class="enhance-title">금지어 설정<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">광고에 절대 쓰지 않을 단어를 지정해요<br><span style="color:rgba(3,199,90,.8)">예) 최고, 1위, 최저가</span><br><span style="color:rgba(220,232,248,.4)">입력 후 Enter로 추가</span></span></span> <span class="badge-opt">선택</span></div></div><button class="clear-btn" onclick="clearSection05()">초기화</button></div>
               <div class="enhance-inner">
                 <div class="deny-warn-box">
                   <span style="font-size:10px;font-weight:700;color:rgba(220,232,248,.5)">⚠️ 네이버 반려 주의 표현 — 클릭해서 추가</span>
@@ -3324,26 +3266,22 @@ p, span, div, label, li {
                 <div id="denyList" class="deny-list"></div>
               </div>
             </div>
-            <div class="enhance-col" style="border-top:2px solid rgba(51,200,170,.4)">
-              <div class="enhance-head"><span class="enhance-num enhance-num-06">06</span><div><div class="enhance-title">시즌 · 이벤트<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">시즌 키워드를 선택하면 관련 문구가 반영돼요<br><span style="color:rgba(3,199,90,.8)">직접 입력도 가능합니다</span></span></span> <span class="badge-opt">선택</span></div></div></div>
+            <div class="enhance-col ec-06">
+              <div class="enhance-head"><span class="enhance-num enhance-num-06">06</span><div><div class="enhance-title">시즌 · 이벤트<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">시즌·이벤트 키워드를 선택하면 관련 문구가 반영돼요<br><span style="color:rgba(3,199,90,.8)">최대 3개 선택 가능</span><br><span style="color:rgba(220,232,248,.4)">직접 입력도 가능합니다</span></span></span> <span class="badge-opt">선택</span></div></div><button class="clear-btn" onclick="clearSection06()">초기화</button></div>
               <div class="enhance-inner">
                 <div class="season-chips" id="seasonChips">
                   <button class="schip schip-spring" onclick="toggleSeason(this)">🌸 봄 시즌</button>
-                  <button class="schip schip-summer" onclick="toggleSeason(this)">☀️ 여름 세일</button>
-                  <button class="schip schip-fall" onclick="toggleSeason(this)">🍂 추석</button>
-                  <button class="schip schip-winter" onclick="toggleSeason(this)">❄️ 연말</button>
+                  <button class="schip schip-summer" onclick="toggleSeason(this)">☀️ 여름 시즌</button>
+                  <button class="schip schip-winter" onclick="toggleSeason(this)">❄️ 겨울 시즌</button>
                   <button class="schip schip-new" onclick="toggleSeason(this)">🎉 설날</button>
-                  <button class="schip schip-love" onclick="toggleSeason(this)">💝 밸런타인</button>
-                  <button class="schip schip-family" onclick="toggleSeason(this)">👪 어버이날</button>
-                  <button class="schip schip-summer" onclick="toggleSeason(this)">⛱️ 여름 휴가</button>
-                  <button class="schip schip-fall" onclick="toggleSeason(this)">🎃 핼러윈</button>
                   <button class="schip schip-winter" onclick="toggleSeason(this)">🎄 크리스마스</button>
+                  <button class="schip schip-family" onclick="toggleSeason(this)">👪 어버이날</button>
                 </div>
-                <input type="text" class="inp" id="eventInput" placeholder="예) 봄 시즌 특가, 개업 축하 이벤트" style="margin-top:5px" />
+                <input type="text" class="inp" id="eventInput" placeholder="직접 입력하기" style="margin-top:5px" />
               </div>
             </div>
-            <div class="enhance-col" style="border-top:2px solid rgba(150,100,255,.4)">
-              <div class="enhance-head"><span class="enhance-num enhance-num-07">07</span><div><div class="enhance-title">광고 어조<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">광고의 감성 방향을 설정해요<br><span style="color:rgba(3,199,90,.8)">최대 2개 선택 가능</span><br><span style="color:rgba(220,232,248,.4)">선택할수록 타겟에 맞는 문구가 생성돼요</span></span></span> <span class="badge-opt">선택</span></div></div></div>
+            <div class="enhance-col ec-07">
+              <div class="enhance-head"><span class="enhance-num enhance-num-07">07</span><div><div class="enhance-title">광고 어조<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">광고의 감성 방향을 설정해요<br><span style="color:rgba(3,199,90,.8)">최대 3개 선택 가능</span><br><span style="color:rgba(220,232,248,.4)">선택할수록 타겟에 맞는 문구가 생성돼요</span></span></span> <span class="badge-opt">선택</span></div></div><button class="clear-btn" onclick="clearSection07()">초기화</button></div>
               <div class="enhance-inner">
                 <div class="tone-grid" id="toneGrid">
                   <button class="tone-btn tone-urgent" onclick="toggleTone(this)" data-tone="긴급·희소성">⚡ 긴급·희소성</button>
@@ -3353,6 +3291,7 @@ p, span, div, label, li {
                   <button class="tone-btn tone-number" onclick="toggleTone(this)" data-tone="수치·증거">📊 수치·증거</button>
                   <button class="tone-btn tone-action" onclick="toggleTone(this)" data-tone="행동유도">🎯 행동유도</button>
                 </div>
+                <input type="text" class="inp" id="toneCustomInput" placeholder="직접 입력하기" style="margin-top:6px" />
               </div>
             </div>
 
@@ -3493,14 +3432,6 @@ p, span, div, label, li {
 <div id="resultWrap" style="display:none">
 <div class="result-layout">
 <div class="rl-left">
-      <!-- 결과 액션 바 -->
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-        <div style="font-size:12px;font-weight:700;color:var(--text3)">✦ 생성 결과</div>
-        <div style="flex:1"></div>
-        <button onclick="exportNaverFormat()" style="display:flex;align-items:center;gap:5px;background:rgba(3,199,90,.1);border:1px solid rgba(3,199,90,.35);border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;color:#03C75A;cursor:pointer;font-family:inherit;transition:all .2s" onmouseover="this.style.background='rgba(3,199,90,.18)'" onmouseout="this.style.background='rgba(3,199,90,.1)'">
-          <span>📤</span> 네이버 광고 복사
-        </button>
-      </div>
       <!-- 제목 3컬럼 가로 나열 -->
       <div class="result-titles-3col">
         <!-- 그룹 1 -->
@@ -3645,29 +3576,6 @@ p, span, div, label, li {
     <div class="sel-modal-footer">
       <span class="sel-modal-footer-info" id="selModalFooterInfo">제목과 설명을 선택하면 여기서 한눈에 볼 수 있어요</span>
       <button class="sel-modal-copy-all" onclick="copyAllSelected()">📋 전체 복사</button>
-      <button class="sel-modal-copy-all" onclick="exportNaverFormat()" style="background:rgba(3,199,90,.08);border-color:rgba(3,199,90,.35);color:#03C75A;margin-left:6px">📤 네이버 형식 복사</button>
-    </div>
-  </div>
-</div>
-
-<!-- ── 실시간 로그 모달 (인라인) ── -->
-<div class="log-modal-overlay" id="logModalOverlay" onclick="closeLogModal(event)">
-  <div class="log-modal" id="logModalBox">
-    <div class="log-modal-head">
-      <span class="log-modal-title">🔍 실시간 실행 로그</span>
-      <div class="log-modal-live-badge" id="logLiveBadge">
-        <span class="log-live-dot idle"></span>
-        <span class="log-live-label">대기</span>
-      </div>
-      <span class="log-modal-sub" id="logModalSub">API 호출 기록</span>
-      <button class="log-modal-close" onclick="closeLogModal()">✕</button>
-    </div>
-    <div class="log-modal-body" id="logModalBody">
-      <div class="log-modal-empty">로그가 없습니다. 소재를 먼저 생성해주세요.</div>
-    </div>
-    <div class="log-modal-footer">
-      <button class="log-modal-clear-btn" onclick="clearLogModal()">🗑 로그 초기화</button>
-      <span class="log-modal-count" id="logModalCount">0개</span>
     </div>
   </div>
 </div>
@@ -3711,6 +3619,14 @@ function updateApiDots() {
 
 window.addEventListener('DOMContentLoaded', () => {
   bindFilledEvents();
+  // 저장된 버전 불러오기
+  try {
+    const savedVer = localStorage.getItem('adgen_version');
+    if(savedVer) {
+      const vEl = document.querySelector('.h-version');
+      if(vEl) vEl.textContent = savedVer;
+    }
+  } catch(e) {}
   if (API_KEY && API_KEY.length > 5) {
     updateKeyHeader(true);
   } else {
@@ -3972,92 +3888,32 @@ function _addApiLog(entry) {
   _apiLogs.push({ time: new Date().toISOString(), ...entry });
   const logBtn = document.getElementById('logOpenBtn');
   if (logBtn && !logBtn.disabled) logBtn.classList.add('active');
-  // ── 모달이 열려 있으면 실시간으로 엔트리 추가
-  _pushLogEntryToModal(entry);
 }
 
-// 모달 DOM에 실시간으로 로그 엔트리 추가
-function _pushLogEntryToModal(entry) {
-  const body = document.getElementById('logModalBody');
-  const count = document.getElementById('logModalCount');
-  const sub = document.getElementById('logModalSub');
-  if (!body) return;
-  // 빈 상태 메시지 제거
-  const emptyEl = body.querySelector('.log-modal-empty');
-  if (emptyEl) emptyEl.remove();
-  
-  const t = entry.time && entry.time !== '-' ? new Date(entry.time).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}) : new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  const tp = entry.type || 'info';
-  const div = document.createElement('div');
-  div.className = 'log-entry log-entry-new';
-  div.innerHTML = `<span class="log-entry-time">${t}</span><span class="log-entry-badge ${tp}">${tp.toUpperCase()}</span><span class="log-entry-msg">${escHtml(entry.msg||'')}</span>`;
-  body.appendChild(div);
-  body.scrollTop = body.scrollHeight;
-  if (count) count.textContent = `${_apiLogs.length}개`;
-  if (sub) sub.textContent = `API 실행 로그 · ${_apiLogs.length}건`;
-}
-
-// ── 실시간 로그 인라인 모달
+// ── 실시간 로그 창 열기
 function openLogWindow() {
-  const overlay = document.getElementById('logModalOverlay');
-  const body = document.getElementById('logModalBody');
-  const count = document.getElementById('logModalCount');
-  const sub = document.getElementById('logModalSub');
-  if (!overlay || !body) return;
-  
-  // 전체 로그로 새로 그리기
-  const allLogs = _apiLogs.length ? _apiLogs : [];
-  
-  body.innerHTML = allLogs.length ? allLogs.map(l => {
-    const t = l.time && l.time !== '-' ? new Date(l.time).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}) : '-';
-    const tp = l.type || 'info';
-    return `<div class="log-entry">
-      <span class="log-entry-time">${t}</span>
-      <span class="log-entry-badge ${tp}">${tp.toUpperCase()}</span>
-      <span class="log-entry-msg">${escHtml(l.msg||'')}</span>
-    </div>`;
-  }).join('') : '<div class="log-modal-empty">소재 생성 중 로그가 여기에 실시간으로 표시됩니다.</div>';
-  
-  if (count) count.textContent = `${allLogs.length}개`;
-  if (sub) sub.textContent = `API 실행 로그 · ${allLogs.length}건`;
-  overlay.classList.add('open');
-  // 라이브 상태 업데이트
-  _updateLogLiveBadge();
-  setTimeout(() => { body.scrollTop = body.scrollHeight; }, 50);
-}
+  const allLogs = _apiLogs.length ? _apiLogs : [{ time: '-', type: 'info', msg: '로그가 없습니다. 소재를 먼저 생성해주세요.' }];
 
-// LIVE 배지 상태 업데이트
-function _updateLogLiveBadge() {
-  const badge = document.getElementById('logLiveBadge');
-  const dot = badge?.querySelector('.log-live-dot');
-  const label = badge?.querySelector('.log-live-label');
-  const isGenerating = document.getElementById('genBtn')?.disabled === true;
-  if (!badge) return;
-  if (isGenerating) {
-    badge.classList.add('active');
-    if (dot) dot.className = 'log-live-dot';
-    if (label) label.textContent = 'LIVE';
-  } else {
-    badge.classList.remove('active');
-    if (dot) dot.className = 'log-live-dot idle';
-    if (label) label.textContent = '완료';
-  }
-}
+  const apiHTML = allLogs.map(l => {
+    const col = l.type === 'error' ? '#ff4d6d' : l.type === 'warn' ? '#f59e0b' : '#03C75A';
+    return '<div style="padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.05);font-size:12px;line-height:1.6">' +
+      '<span style="color:#888;font-size:10px;margin-right:8px">' + (l.time||'-') + '</span>' +
+      '<span style="color:' + col + ';font-size:10px;margin-right:8px;font-weight:700">[' + (l.type||'info').toUpperCase() + ']</span>' +
+      '<span style="color:#e8f0fe">' + (l.msg||'') + '</span></div>';
+  }).join('');
 
-function closeLogModal(e) {
-  if (e && e.target !== document.getElementById('logModalOverlay')) return;
-  const overlay = document.getElementById('logModalOverlay');
-  if (overlay) overlay.classList.remove('open');
-}
+  const html = [
+    '<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">',
+    '<title>실시간 실행 로그</title>',
+    '<style>*{box-sizing:border-box;margin:0;padding:0}body{background:#060d17;color:#e8f0fe;font-family:Apple SD Gothic Neo,Malgun Gothic,sans-serif;padding:24px;line-height:1.6}h2{font-size:15px;font-weight:900;color:#03C75A;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.1)}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}.log-wrap{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.08);border-radius:8px;overflow:hidden}</style>',
+    '</head><body>',
+    '<h2>🔍 실시간 실행 로그</h2>',
+    '<div class="log-wrap">' + apiHTML + '</div>',
+    '</body></html>'
+  ].join('\n');
 
-function clearLogModal() {
-  _apiLogs.length = 0;
-  const body = document.getElementById('logModalBody');
-  if (body) body.innerHTML = '<div class="log-modal-empty">로그가 초기화됐습니다.</div>';
-  const count = document.getElementById('logModalCount');
-  if (count) count.textContent = '0개';
-  const logBtn = document.getElementById('logOpenBtn');
-  if (logBtn) logBtn.classList.remove('active');
+  const w = window.open('', '_blank', 'width=860,height=620,scrollbars=yes,resizable=yes');
+  if (w) { w.document.write(html); w.document.close(); }
 }
 
 function escHtml(s) {
@@ -4350,9 +4206,9 @@ function addSlot() {
 // ═══════════════════════════════════════════════════════════
 async function callClaude(sys, userContent, onChunk, maxTokens) {
   if (!CLAUDE_KEY) return callGemini(sys, userContent, onChunk, maxTokens); // fallback
-  const tokens = maxTokens || 800;
+  const tokens = maxTokens || 1200;
   const ctrl = new AbortController();
-  const tid  = setTimeout(() => ctrl.abort(), 45000); // 45초 - Claude Haiku는 빠름
+  const tid  = setTimeout(() => ctrl.abort(), 170000);
   let messages;
   if (typeof userContent === 'string') {
     messages = [{ role:'user', content: userContent }];
@@ -4400,21 +4256,17 @@ async function analyzeWithGPT4o(imgs) {
     type:'image_url',
     image_url:{url:`data:${img.type||'image/jpeg'};base64,${img.b64}`,detail:'low'}
   }));
-  const prompt = `당신은 네이버 파워링크 광고 전문 카피라이터입니다. 이 상품 이미지를 분석해서 광고 소재 작성에 직접 활용할 수 있는 구체적인 정보를 추출하세요.
-
-[추출 항목]
-1. 상품명/카테고리 (정확한 제품 종류)
-2. 핵심 스펙·수치 (크기·용량·모델·색상·소재 등 숫자/수치 포함 시 반드시 포함)
-3. 광고 셀링포인트 3가지 (클릭률 높은 광고에 직접 쓸 수 있는 표현으로)
-4. 타겟 고객 (직업·상황·니즈 구체적으로)
-5. 이미지에서 발견한 특별한 점 (경쟁 제품과 다른 특이사항)
-
-한국어로 간결하게. 총 300자 이내. 수치는 반드시 정확하게 기재.`;
+  const prompt = `이 상품 이미지를 분석해서 네이버 파워링크 광고에 쓸 정보를 추출해주세요.
+1. 상품 종류/카테고리
+2. 주요 특징 3~5가지 (소재·색상·기능·디자인 등)
+3. 광고 핵심 셀링포인트 2~3개
+4. 추정 타겟 고객층
+간결하게 한국어로 (총 200자 이내)`;
   try {
     const res = await fetch('https://api.openai.com/v1/chat/completions',{
       method:'POST', signal:ctrl.signal,
       headers:{'Content-Type':'application/json','Authorization':`Bearer ${OPENAI_KEY}`},
-      body:JSON.stringify({model:'gpt-4o',max_tokens:180,
+      body:JSON.stringify({model:'gpt-4o',max_tokens:400,
         messages:[{role:'user',content:[...imgContent,{type:'text',text:prompt}]}]})
     });
     clearTimeout(tid);
@@ -4446,9 +4298,9 @@ async function callGemini(sys, userContent, onChunk, maxTokens) {
     ];
   }
 
-  const tokens = maxTokens || 650;
+  const tokens = maxTokens || 900;
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), tokens > 800 ? 120000 : 60000);
+  const timeoutId = setTimeout(() => controller.abort(), tokens > 1000 ? 170000 : 90000);
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
   _addApiLog({type:'req', msg:`[Gemini] ${url.substring(0,80)}... max_tokens:${tokens}`});
@@ -4542,7 +4394,12 @@ async function generateAnalysis(name, feat, target, titles, descs, imgs) {
   // 금지어/시즌/어조 정보 수집
   const denyList = typeof S_DENY !== 'undefined' ? [...S_DENY] : [];
   const seasonUsed = typeof S_SEASON !== 'undefined' ? S_SEASON : '';
-  const toneUsed = typeof S_TONE !== 'undefined' ? S_TONE : '';
+  const toneUsed = (() => {
+    let t = typeof S_TONE !== 'undefined' ? S_TONE : '';
+    const customTone = (document.getElementById('toneCustomInput')?.value||'').trim();
+    if(customTone) t = t ? t + ' + ' + customTone : customTone;
+    return t;
+  })();
   const eventUsed = typeof document !== 'undefined' && document.getElementById('eventInput') ? document.getElementById('eventInput').value.trim() : '';
   
   const contextParts = [];
@@ -4561,29 +4418,20 @@ ${toneUsed.includes('emotion') || toneUsed.includes('감성') ? '- 감성·공�
 ${toneUsed.includes('proof') || toneUsed.includes('수치') ? '- 수치·증거 어조: 구체적 숫자·통계·비교 데이터가 소재의 신뢰도와 클릭률에 어떻게 기여하는지 분석하세요.' : ''}
 ${toneUsed.includes('action') || toneUsed.includes('행동') ? '- 행동유도·직접 어조: 명령형·행동 촉구 표현이 소재에서 얼마나 직접적으로 클릭을 유도하는지 분석하세요.' : ''}`.trim() : '';
 
-  const analysisPrompt = `당신은 네이버 파워링크 10년 경력의 광고 전략가입니다. 아래 데이터만 근거로 분석하세요. 추측 금지. 없는 정보 언급 금지.${contextStr}
+  const analysisPrompt = `파워링크 광고 전문가. 아래 데이터만 사용, 추측금지.${contextStr}
 
-[입력 데이터]
+[입력]
 ${inputLines.join('\n')}
 
-[응답 형식] <section title="섹션제목">내용</section> 형식만 사용. 마크다운 금지. 핵심 키워드는 <b>태그. 강조 판단은 <em>태그.
+<section title="섹션제목">내용</section> 형식으로만 응답. 마크다운금지. 키워드<b>태그. 판단<em>태그.
 
-1.📦 상품·소재 분석
-생성된 제목과 설명에서 상품의 핵심 특징이 어떻게 반영됐는지 구체적으로 (2~3문장). 잘 반영된 점과 아쉬운 점 모두 언급.
+1.📦상품분석 — 상품명·이미지 특징이 소재 어디에 반영됐는지 (2문장)
+2.🎯타겟반영 — 타겟심리·광고포인트가 어떻게 녹았는지 (2문장)
+3.⚡TOP3 — 생성소재 중 3개 직접인용+이유 (각1줄)
+4.💡A/B테스트 — 전→후 2개 (각1줄)
+5.🔧개선팁 — 즉시적용 2가지 (각1줄)
 
-2.🎯 타겟 심리 & 구매 동기
-이 광고 소재가 타겟의 어떤 심리를 자극하는지, 구매 결정에 어떻게 영향을 미칠지 분석 (2문장).
-
-3.⚡ 클릭 예상 TOP 3 소재
-생성된 제목/설명 중 실제로 클릭률 높을 것 3개를 직접 인용하고 그 이유를 1줄씩 설명. 형식: "소재" → 이유
-
-4.💡 즉시 개선 가능한 A/B 테스트 제안  
-현재 소재에서 한 단어·표현만 바꿔도 성과 올릴 수 있는 구체적 수정안 2개. 형식: 기존 → 개선안 + 이유 1줄
-
-5.🔧 네이버 광고 세팅 팁
-이 상품/타겟에 맞는 키워드 입찰 전략, 시간대, 확장 소재 활용 팁 등 즉시 적용 가능한 액션 2가지.
-
-각 섹션 2~4문장 이내. 없는 정보는 절대 추측하지 말 것.`;
+각 섹션 2-3문장 이내. 없는정보 추측금지.`;
 
   // 실제 입력 데이터를 userContent에 포함
   const userContent = analysisPrompt;
@@ -4725,6 +4573,7 @@ ${inputLines.join('\n')}
 // ── 입력 강화 기능 ──
 const S_DENY = new Set(); // 금지어
 let S_SEASON = ''; // 선택 시즌
+let S_SEASON_ARR = []; // 선택된 시즌 배열 (최대 3개)
 let S_EVENT = '';  // 이벤트
 let S_TONE = '';        // 어조 (최대 2개, 쉼표 구분)
 let S_TONE_ARR = [];   // 선택된 어조 배열
@@ -4736,7 +4585,7 @@ function toggleTone(btn) {
     S_TONE_ARR.splice(idx,1);
     btn.classList.remove('on');
   } else {
-    if(S_TONE_ARR.length >= 2){
+    if(S_TONE_ARR.length >= 3){
       const first = S_TONE_ARR.shift();
       document.querySelectorAll('#toneGrid .tone-btn').forEach(b=>{
         if((b.dataset.tone||b.textContent.trim())===first) b.classList.remove('on');
@@ -4779,21 +4628,87 @@ function renderDenyList() {
   el.innerHTML = [...S_DENY].map(w =>
     `<span class="deny-tag">${esc(w)}<button class="deny-tag-x" onclick="removeDeny('${w}')">✕</button></span>`
   ).join('');
+  // enhance-col filled 상태 업데이트
+  const ecol = el.closest('.enhance-col');
+  if(ecol) {
+    ecol.classList.toggle('filled', S_DENY.size > 0);
+  }
 }
+// ── 초기화 함수 (01~07번)
+function clearSection01() {
+  const pn = document.getElementById('productName');
+  if(pn) { pn.value=''; checkFilled(pn); }
+}
+function clearSection02() {
+  const tg = document.getElementById('target');
+  if(tg) { tg.value=''; checkFilled(tg); }
+}
+function clearSection03() {
+  document.querySelectorAll('#featSlots input').forEach(i => { i.value=''; checkFilled(i); });
+}
+function clearSection04() {
+  S.imgs = []; // 이미지 배열 초기화 (S.imgs가 실제 사용 배열)
+  const grid = document.getElementById('imgGrid');
+  const zone = document.getElementById('uploadZone');
+  const cnt = document.getElementById('uplCount');
+  const cost = document.getElementById('costCurrent');
+  if(grid) grid.innerHTML='';
+  if(zone) zone.classList.remove('filled');
+  if(cnt) { cnt.textContent=''; cnt.style.display='none'; }
+  if(cost) cost.style.display='none';
+  const fi = document.getElementById('fileInput');
+  if(fi) fi.value='';
+  // :has() 대신 closest() 사용 (크로스브라우저 안전)
+  const col = zone ? zone.closest('.input-col') : null;
+  if(col) col.classList.remove('filled');
+  renderImgGrid && renderImgGrid();
+}
+function clearSection05() {
+  S_DENY.clear();
+  renderDenyList();
+  document.getElementById('denyInput').value='';
+  document.querySelectorAll('.deny-preset').forEach(b=>{ b.classList.remove('added'); b.style.opacity=''; b.style.textDecoration=''; });
+  const ecol = document.getElementById('denyInput').closest('.enhance-col');
+  if(ecol) ecol.classList.remove('filled');
+}
+function clearSection06() {
+  S_SEASON_ARR = []; S_SEASON = '';
+  document.querySelectorAll('#seasonChips .schip').forEach(b => b.classList.remove('on'));
+  const ei = document.getElementById('eventInput');
+  if(ei) ei.value='';
+  const ecol = ei?.closest('.enhance-col');
+  if(ecol) ecol.classList.remove('filled');
+}
+function clearSection07() {
+  S_TONE_ARR = []; S_TONE = '';
+  document.querySelectorAll('#toneGrid .tone-btn').forEach(b => b.classList.remove('on'));
+  const ti = document.getElementById('toneCustomInput');
+  if(ti) ti.value='';
+  const ecol = document.getElementById('toneGrid')?.closest('.enhance-col');
+  if(ecol) ecol.classList.remove('filled');
+}
+
 function removeDeny(w) { S_DENY.delete(w); renderDenyList(); }
 
 function toggleSeason(btn) {
-  const already = btn.classList.contains('on');
-  document.querySelectorAll('#seasonChips .schip').forEach(b => b.classList.remove('on'));
+  const val = btn.textContent.trim();
+  const idx = S_SEASON_ARR.indexOf(val);
   const eventInp = document.getElementById('eventInput');
-  if (!already) {
-    btn.classList.add('on');
-    S_SEASON = btn.textContent.trim();
-    if(eventInp) eventInp.value = S_SEASON;
+  if(idx >= 0) {
+    S_SEASON_ARR.splice(idx, 1);
+    btn.classList.remove('on');
   } else {
-    S_SEASON = '';
-    if(eventInp) eventInp.value = '';
+    if(S_SEASON_ARR.length >= 3) {
+      const first = S_SEASON_ARR.shift();
+      document.querySelectorAll('#seasonChips .schip').forEach(b => {
+        if(b.textContent.trim() === first) b.classList.remove('on');
+      });
+    }
+    S_SEASON_ARR.push(val);
+    btn.classList.add('on');
   }
+  S_SEASON = S_SEASON_ARR.join(' + ');
+  if(eventInp && !eventInp.value.trim()) eventInp.value = '';
   checkFilled(btn);
 }
 
@@ -4934,86 +4849,6 @@ function openAnalysisModal(){
 }
 
 // ── 렌더링
-// ── CTR 등급 계산 (A: 높은클릭 예상, B: 보통, C: 낮음)
-function calcCtrGrade(text, len) {
-  let score = 0;
-  // 글자 수 체크 (11~14자가 최적)
-  if (len >= 11 && len <= 14) score += 3;
-  else if (len >= 10 && len <= 15) score += 1;
-  else score -= 3;
-  // 숫자 포함 여부 (수치 = 신뢰도)
-  if (/\d/.test(text)) score += 2;
-  // 특정 키워드 (강력한 클릭 유도)
-  if (/무료|당일|지금|바로|한정|특가|직접|공장직|AS/.test(text)) score += 2;
-  // 행동유도 동사
-  if (/확인|구매|주문|문의|상담|신청|받[으아]/.test(text)) score += 1;
-  // 타겟 명시
-  if (/사장님|업소용|가정용|전문|식당|카페|소상/.test(text)) score += 1;
-  // 부정 요소: 너무 일반적
-  if (/좋[은아]|훌륭|우수|뛰어/.test(text)) score -= 1;
-  
-  if (score >= 5) return 'A';
-  if (score >= 2) return 'B';
-  return 'C';
-}
-
-// ── 개별 chip 복사
-function copyChip(btn, text) {
-  if (!text) return;
-  navigator.clipboard.writeText(text).then(() => {
-    const orig = btn.textContent;
-    btn.textContent = '✓';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = '📋'; btn.classList.remove('copied'); }, 1500);
-  }).catch(() => {
-    // fallback
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    const orig = btn.textContent;
-    btn.textContent = '✓';
-    setTimeout(() => { btn.textContent = '📋'; }, 1500);
-  });
-}
-
-// ── 네이버 광고 형식으로 내보내기
-function exportNaverFormat() {
-  const ts = [...S.selT].sort((a,b)=>a-b).map(i=>S.titles[i]);
-  const ds = [...S.selD].sort((a,b)=>a-b).map(i=>S.descs[i]);
-  if (!ts.length && !ds.length) {
-    showLimitToast('⚠️ 먼저 제목과 설명을 선택해주세요');
-    return;
-  }
-  
-  let out = '═══ 네이버 파워링크 광고 소재 ═══\n\n';
-  out += '【 제목 소재 】\n';
-  ts.forEach((t, i) => {
-    const len = [...t].length;
-    out += `제목${i+1}: ${t}  (${len}자)\n`;
-  });
-  out += '\n【 설명 소재 】\n';
-  ds.forEach((d, i) => {
-    const len = [...d].length;
-    out += `설명${i+1}: ${d}  (${len}자)\n`;
-  });
-  out += '\n생성: AI마케팅전략연구소 파워링크 소재 생성기';
-  
-  navigator.clipboard.writeText(out).then(() => {
-    showLimitToast('✅ 네이버 광고 소재가 클립보드에 복사됐습니다!');
-  }).catch(() => {
-    const ta = document.createElement('textarea');
-    ta.value = out;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    showLimitToast('✅ 클립보드에 복사됐습니다!');
-  });
-}
-
 function render(){
   // 제목 3그룹 렌더 (각 10개씩, 총 30개)
   [1,2,3].forEach(g=>{
@@ -5025,9 +4860,8 @@ function render(){
     const end=Math.min(g*size, S.titles.length);
     S.titles.slice(start,end).forEach((t,li)=>{
       const i=start+li, on=S.selT.has(i);
-      const len=[...t].length, over=len>15, under=len<10;
+      const len=[...t].length, over=len>15;
       const pin=pinData[i]||'';
-      const ctrGrade = calcCtrGrade(t, len);
       let itemCls='item';
       if(pin) itemCls+=' pin'+pin;
       else if(on) itemCls+=' on';
@@ -5037,12 +4871,10 @@ function render(){
           <div class="txt">${esc(t)}</div>
           <div class="meta" style="display:flex;align-items:center;gap:6px;margin-top:3px;flex-wrap:wrap">
             <span class="grp-badge g${g}">${g}번 추천</span>
-            <span class="cc${over||under?' over':''}"> ${len}/15자${over||under?' ⚠️':''}</span>
-            <span class="ctr-grade ${ctrGrade}">${ctrGrade}급</span>
+            <span class="cc${over?' over':''}">${len}/15자${over?' ⚠️':''}</span>
             ${pin?`<span class="badge-tag" style="font-size:10px;background:${pin==='1'?'rgba(3,199,90,.2)':pin==='2'?'rgba(51,133,255,.2)':'rgba(255,152,0,.2)'};color:${pin==='1'?'#03C75A':pin==='2'?'#3385ff':'#ff9800'}">제목${pin} 고정</span>`:''}
           </div>
         </div>
-        <button class="item-copy-btn" onclick="copyChip(this,t)" title="클립보드 복사">📋</button>
         <select class="pin-sel${pin?' pin'+pin:''}" id="pin${i}" onchange="onPinChange(${i},this)">
           <option value=""${!pin?' selected':''}>위치 고정</option>
           <option value="1"${pin==='1'?' selected':''}>제목 1</option>
@@ -5074,7 +4906,7 @@ function render(){
     const dTotal = S.descs.length;
     const dHalf = Math.ceil(dTotal/2);
     S.descs.forEach((d,i)=>{
-      const len=[...d].length, over=len>45, under=len<40;
+      const len=[...d].length, over=len>45;
       const on=S.selD.has(i);
       const pinVal=descPinData[i]||'';
       const dg = i < dHalf ? 1 : 2;
@@ -5086,11 +4918,10 @@ function render(){
         <div class="txt-wrap">
           <div class="txt" contenteditable="true" oninput="onDescEdit(${i},this)" onblur="onDescEdit(${i},this)">${esc(d)}</div>
           <div class="meta" style="flex-wrap:wrap">
-            <span class="cc${over||under?' over':''}" style="font-size:12px">${len}/45자${over||under?' ⚠️':''}</span>
+            <span class="cc${over?' over':''}" style="font-size:12px">${len}/45자${over?' ⚠️':''}</span>
             ${pinVal?`<span class="badge-tag" style="font-size:11px;background:${pinVal==='1'?'rgba(3,199,90,.2)':'rgba(51,133,255,.2)'};color:${pinVal==='1'?'#03C75A':'#3385ff'}">설명${pinVal} 고정</span>`:''}
           </div>
         </div>
-        <button class="item-desc-copy-btn" onclick="copyChip(this,d)" title="클립보드 복사">📋</button>
         <select class="pin-sel${pinVal?' pin'+pinVal:''}" id="dpin${i}" onchange="onDescPinChange(${i},this)">
           <option value=""${!pinVal?' selected':''}>위치 고정</option>
           <option value="1"${pinVal==='1'?' selected':''}>설명 1</option>
@@ -5400,15 +5231,47 @@ function sync(){
 
 }
 
+// ── 버전 자동 증가
+let _versionChanged = false;
+
+function _parseVersion(text) {
+  const m = text.match(/v(\d+)\.(\d+)/);
+  return m ? [parseInt(m[1]), parseInt(m[2])] : [3, 2];
+}
+
+function markVersionChanged() {
+  if(_versionChanged) return;
+  _versionChanged = true;
+  const vEl = document.querySelector('.h-version');
+  if(!vEl) return;
+  // 현재 버전 파싱 후 minor 증가
+  const [major, minor] = _parseVersion(vEl.textContent);
+  const newVer = `v${major}.${minor + 1}`;
+  // localStorage에 저장
+  try { localStorage.setItem('adgen_version', newVer); } catch(e) {}
+  vEl.textContent = newVer;
+  vEl.classList.add('changed');
+  vEl.title = `변경사항이 생겼습니다 — ${newVer}`;
+}
+
 // ── 메인 생성 함수
 function checkFilled(el){
+  markVersionChanged();
+  // input-col 처리
   const col = el.closest('.input-col');
-  if(!col) return;
-  const hasVal = [...col.querySelectorAll('input,textarea,select')]
-    .some(i => i.value.trim().length > 0)
-    || [...col.querySelectorAll('.deny-tag,.schip.on,.tone-btn.on')]
-      .length > 0;
-  col.classList.toggle('filled', hasVal);
+  if(col) {
+    const hasVal = [...col.querySelectorAll('input,textarea,select')]
+      .some(i => i.value.trim().length > 0)
+      || [...col.querySelectorAll('.deny-tag,.schip.on,.tone-btn.on')].length > 0;
+    col.classList.toggle('filled', hasVal);
+  }
+  // enhance-col 처리 (번호 효과 없이 전체 테두리 효과)
+  const ecol = el.closest('.enhance-col');
+  if(ecol) {
+    const hasVal = [...ecol.querySelectorAll('input,textarea')].some(i => i.value.trim().length > 0)
+      || [...ecol.querySelectorAll('.deny-tag,.schip.on,.tone-btn.on')].length > 0;
+    ecol.classList.toggle('filled', hasVal);
+  }
 }
 
 // 모든 inp에 checkFilled 이벤트 바인딩
@@ -5422,6 +5285,10 @@ function bindFilledEvents(){
 
 async function generate(){
   if(!API_KEY){openKeyModal();return;}
+  // 버전 .changed 효과 제거 (숫자는 유지)
+  _versionChanged = false;
+  const vEl = document.querySelector('.h-version');
+  if(vEl) { vEl.classList.remove('changed'); }
 
   // ── 유효성 검사 ──
   const name=document.getElementById('productName').value.trim();
@@ -5460,10 +5327,8 @@ async function generate(){
   const btn=document.getElementById('genBtn');
   btn.disabled=true;
   const _logBtn=document.getElementById('logOpenBtn'); if(_logBtn) _logBtn.disabled=false;
-  // 소재 생성 시작 시 로그 초기화 후 모달 자동 오픈
-  _apiLogs.length = 0;
+  // 소재 생성 시작 즉시 실시간 로그 창 자동 열기
   openLogWindow();
-  _updateLogLiveBadge();
   document.getElementById('genTxt').innerHTML='<span class="spin"></span> 분석 중...';
   document.getElementById('pbarFill').style.width='0%';
   document.getElementById('emptyState').style.display='none';
@@ -5560,49 +5425,30 @@ async function generate(){
   const sideBtn=document.getElementById('analysisOpenBtn');
   const apProg=document.getElementById('apPanel');
   if(sideStatus){ sideStatus.style.display='block'; sideStatus.textContent='분석 시작...'; sideStatus.classList.add('running'); }
-  setGenLog('AI 연결 중...');
+  setGenLog('Gemini AI 연결 중...');
   _pipeReset();
   document.getElementById('aiPipeLog').style.display='none';
   if(sidePreview) sidePreview.style.display='none';
   if(sideBtn) sideBtn.disabled=true;
   if(apProg) apProg.style.display='block';
 
-  // ── 현실적인 예상 시간 계산 (API 키 상태에 따라)
-  const hasImg = S.imgs.length > 0;
-  const useClaudeKey = !!CLAUDE_KEY;
-  // 예상 시간: 이미지 있으면 +10초, Claude 사용 시 +5초, Gemini만이면 +5초 (분석 포함)
-  const EST_COPY_SEC = useClaudeKey ? 20 : 25;  // 소재 생성 예상
-  const EST_REPORT_SEC = 35;                     // 리포트 분석 예상
-  const EST_IMG_SEC = hasImg ? 12 : 0;           // 이미지 분석 예상
-  const EST_TOTAL = EST_IMG_SEC + EST_COPY_SEC + EST_REPORT_SEC;
-
-  // ── 단계별 타이머 (3단계)
-  let genStartTime = Date.now();
+  // ── 3분 카운트다운 타이머
+  const TOTAL_SEC = 180; // 3분
+  let remain = TOTAL_SEC;
   let timerDone = false;
   let phase2Started = false;
-  let currentPhaseLabel = '① 이미지 분석 + 소재 준비 중';
-  let phaseStartSec = 0;
 
   function fmtRemain(s){
     s = Math.max(0, Math.round(s));
-    if (s === 0) return '완료!';
-    if (s < 60) return `${s}초`;
-    return `${Math.floor(s/60)}분 ${String(s%60).padStart(2,'0')}초`;
-  }
-  function fmtElapsed(s){
-    s = Math.max(0, Math.round(s));
-    if (s < 60) return `${s}초`;
-    return `${Math.floor(s/60)}분 ${String(s%60).padStart(2,'0')}초`;
+    return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
   }
 
   function setTimerDisplay(text, subText, warn){
-    const remainEl2 = document.getElementById('analyzingRemain');
-    const lblEl2 = document.getElementById('analyzingTimerLbl');
-    if(remainEl2){
-      remainEl2.textContent = text;
-      remainEl2.style.color = warn ? '#ff9800' : '';
+    if(remainEl){
+      remainEl.textContent = text;
+      remainEl.style.color = warn ? '#ff9800' : '';
     }
-    if(lblEl2) lblEl2.textContent = subText || '남음';
+    if(lblEl) lblEl.textContent = subText || '남음';
     const cd = document.querySelector('#genBtn .btn-countdown');
     if(cd){
       cd.textContent = text;
@@ -5610,44 +5456,56 @@ async function generate(){
     }
   }
 
-  // 버튼 카운트다운 초기화
-  document.getElementById('genTxt').innerHTML = `<span class="spin"></span> AI 작업 중... <span class="btn-countdown">${fmtRemain(EST_TOTAL)}</span>`;
-  setTimerDisplay(fmtRemain(EST_TOTAL), '예상 소요', false);
+  // 초기 표시
+  setTimerDisplay(fmtRemain(TOTAL_SEC), '남음', false);
+  document.getElementById('genTxt').innerHTML = `<span class="spin"></span> 분석 중... <span class="btn-countdown">${fmtRemain(TOTAL_SEC)}</span>`;
 
   // 패널 타이머 행 업데이트
   const apTimerRowEl = document.getElementById('apTimerRow');
-  if(apTimerRowEl) { apTimerRowEl.style.display='block'; apTimerRowEl.innerHTML = `⏱ 예상: <b id="apElapsedVal">${fmtRemain(EST_TOTAL)}</b> 남음`; }
+  if(apTimerRowEl) { apTimerRowEl.style.display='block'; apTimerRowEl.innerHTML = `예상 완료까지: <b id="apElapsedVal">${fmtRemain(TOTAL_SEC)}</b>`; }
   function updatePanelTimer(text){ const el=document.getElementById('apElapsedVal'); if(el) el.textContent=text; }
 
   const countdownInterval = setInterval(()=>{
     if(timerDone) return;
-    const elapsedSec = (Date.now() - genStartTime) / 1000;
-    const remaining = Math.max(0, EST_TOTAL - elapsedSec);
-    
-    if (remaining > 0) {
-      setTimerDisplay(fmtRemain(remaining), '남음', false);
-      updatePanelTimer(fmtRemain(remaining));
-      // 버튼 텍스트 업데이트
-      const cd = document.querySelector('#genBtn .btn-countdown');
-      if(cd) cd.textContent = fmtRemain(remaining);
+    remain--;
+    if(remain > 0){
+      setTimerDisplay(fmtRemain(remain), '남음', false);
+      updatePanelTimer(fmtRemain(remain));
     } else {
-      // 예상 초과
-      const over = Math.round(elapsedSec - EST_TOTAL);
-      setTimerDisplay(`+${over}초`, '거의 완료', true);
-      updatePanelTimer(`예상보다 ${over}초 추가 소요`);
+      // 3분 초과 → 초과 경고
+      const over = Math.abs(remain);
+      const overSec = over + 1;
+      setTimerDisplay(`+${overSec}초`, '조금만 더', true);
+      updatePanelTimer(`+${overSec}초 초과`);
+      const status = document.getElementById('analysisSideStatus');
+      if(status && status.textContent !== '⚠️ 조금 더 기다려주세요'){
+        status.textContent = '⚠️ 조금 더 기다려주세요';
+      }
     }
   }, 1000);
 
   window._stopCountdown = ()=>{
     timerDone = true;
     clearInterval(countdownInterval);
-    const elapsed = (Date.now() - genStartTime) / 1000;
-    setTimerDisplay(fmtElapsed(elapsed), '소요', false);
-    updatePanelTimer(`${fmtElapsed(elapsed)} 소요`);
+    const elapsed = TOTAL_SEC - remain;
+    if(remain > 30){
+      // 2분 30초 이전 완료 → 빠르게 완료
+      setTimerDisplay('빠름!', '✓ 완료', false);
+      updatePanelTimer('예정보다 빨리 완료!');
+    } else if(remain >= 0){
+      // 3분 이내 완료
+      setTimerDisplay(fmtRemain(TOTAL_SEC - remain), '✓ 완료', false);
+      updatePanelTimer(`${fmtRemain(TOTAL_SEC - remain)} 소요`);
+    } else {
+      // 3분 초과 완료
+      setTimerDisplay(fmtRemain(elapsed), '✓ 완료', false);
+      updatePanelTimer(`${fmtRemain(elapsed)} 소요`);
+    }
     const cd = document.querySelector('#genBtn .btn-countdown');
-    if(cd) { cd.textContent = `${fmtElapsed(elapsed)} 완료`; cd.style.color = '#03C75A'; }
-    setTimeout(()=>{ const cd2=document.querySelector('#genBtn .btn-countdown'); if(cd2) cd2.remove(); }, 2500);
+    if(cd) cd.style.color = '';
   };
+
+  window._startPhase2Timer = ()=>{ phase2Started = true; };
 
   // sideStatus 업데이트
   function updateStatus(msg) {
@@ -5739,8 +5597,10 @@ async function generate(){
     updateStatus(`✍️ ${copyApiName}로 광고 소재 생성 중...`);
     setGenLog(`${copyApiName} AI 연결 중...`);
 
-    const sysCopy = `당신은 네이버 파워링크 10년 경력 카피라이터입니다. 순수 JSON만 응답. 코드블록 금지.
-규칙: 제목 10~15자(공백포함), 설명 40~45자(공백포함). 단어끊김금지. 최상급표현(최고·최저·1위·압도적·완벽·보장·무조건) 금지. 글자수 틀리면 즉시 재작성.`;
+    const sysCopy = `당신은 네이버 파워링크 광고 전문가입니다.
+반드시 순수 JSON만 응답하세요. 코드블록·설명·다른 텍스트 절대 금지.
+[글자수 최우선] 제목: 10~15자, 설명: 40~45자. 단어 끊김 절대 금지.
+금지 표현: 최고·최저·1위·최상·특가·최대·최저가·압도적·완벽·탁월·보장·무조건 등 최상급 표현.`;
 
     const promptBase = promptParts.join('\n');
 
@@ -5748,8 +5608,8 @@ async function generate(){
     // 이미지가 있으면 제목 생성에만 이미지 첨부 (설명엔 불필요)
     const titlesContent = S.imgs.length > 0
       ? [{type:'image',source:{type:'base64',media_type:S.imgs[0].type||'image/jpeg',data:S.imgs[0].b64}},
-         {type:'text', text: promptBase + '\n\n제목 30개 JSON만. 규칙:10~15자(공백포함),단어끊김금지,최상급금지. 0~9번=스펙수치, 10~19번=혜택차별화, 20~29번=타겟행동유도. 형식:{"titles":["..."]} 정확히30개'}]
-      : promptBase + '\n\n제목 30개 JSON만. 규칙:10~15자(공백포함),단어끊김금지,최상급금지. 0~9번=스펙수치, 10~19번=혜택차별화, 20~29번=타겟행동유도. 형식:{"titles":["..."]} 정확히30개';
+         {type:'text', text: promptBase + '\n\n제목 30개를 생성하세요.\n규칙(반드시):\n- 10자 이상 15자 이하 (공백 포함, 미달·초과 금지)\n- 단어 끊김 절대 금지, 문장이 완전히 끝나야 함\n- 나쁜 예: "냉장고 1도조절 45박"(끊김) / 좋은 예: "업소용 냉장고 지금 특가"\n- 제목1위치 10개, 제목2위치 10개, 제목3위치 10개 순서\n형식: {"titles":["..."]}'}]
+      : promptBase + '\n\n제목 30개를 생성하세요.\n규칙(반드시):\n- 10자 이상 15자 이하 (공백 포함, 미달·초과 금지)\n- 단어 끊김 절대 금지, 문장이 완전히 끝나야 함\n- 나쁜 예: "냉장고 1도조절 45박"(끊김) / 좋은 예: "업소용 냉장고 지금 특가"\n- 제목1위치 10개, 제목2위치 10개, 제목3위치 10개 순서\n형식: {"titles":["..."]}';
 
     const _t1 = Date.now();
     const [titlesRaw, descsRaw] = await Promise.all([
@@ -5762,12 +5622,12 @@ async function generate(){
           }
           updateStatus(`✍️ 제목 ${Math.min((full.match(/"[^"]{1,15}"/g)||[]).length,30)}/30개 생성 중...`);
         },
-        480
+        800
       ),
       copyFn(sysCopy,
-        promptBase + '\n\n설명 10개 JSON만. 규칙:40~45자(공백포함),단어끊김금지,최상급금지. 다양하게:스펙+행동형/혜택+긴급형/타겟공감형/신뢰+수치형. 형식:{"descs":["..."]} 정확히10개',
+        promptBase + '\n\n설명 10개를 생성하세요.\n⚠️ 규칙(반드시 지킬 것):\n- 글자 수: 반드시 40자 이상 45자 이하 (공백 포함. 30자대 절대 금지)\n- 짧으면 혜택·수치·행동유도를 추가해 반드시 40자 이상으로 늘릴 것\n- 단어 끊김 절대 금지, 문장이 완전히 끝나야 함\n- 생성 후 글자 수 직접 세어 확인, 틀리면 반드시 수정\n- 나쁜 예(26자 너무 짧음): "간냉식 냉장고, 지금 구매하세요" → 재작성\n- 좋은 예(41자): "소상공인을 위한 간냉식 냉장고, 지금 바로 확인해보세요!"\n- 좋은 예(44자): "업소용 간냉식 45박스 냉장고, 특가로 지금 바로 만나보세요"\n형식: {"descs":["..."]}',
         null,
-        380
+        600
       )
     ]);
 
@@ -5778,22 +5638,14 @@ async function generate(){
     S.titles = (parsedTitles.titles || []).map(t=>[...t].slice(0,15).join(''));
     S.descs  = (parsedDescs.descs   || []).map(d=>[...d].slice(0,45).join(''));
     S.kws = [];
-    
-    // ── 품질 검증 통계
-    const titleOk = S.titles.filter(t=>{ const l=[...t].length; return l>=10&&l<=15; }).length;
-    const descOk  = S.descs.filter(d=>{ const l=[...d].length; return l>=40&&l<=45; }).length;
-    const qualityNote = titleOk < S.titles.length || descOk < S.descs.length
-      ? `⚠️ 글자 수 기준 미달 소재: 제목 ${S.titles.length-titleOk}개, 설명 ${S.descs.length-descOk}개 (빨간 ⚠️ 표시)`
-      : `✅ 모든 소재 글자 수 기준 통과`;
-    
     const _t1ms = Date.now() - _t1;
     _pipeAdd({
       icon: useClaudeForCopy ? '🟠' : '🟢',
       name: `${copyApiName} — 광고 소재 생성`,
       status:'done', statusLabel:'✅ 완료',
-      detail: `제목 <b>${S.titles.length}개</b> (기준 통과: ${titleOk}개) + 설명 <b>${S.descs.length}개</b> (기준 통과: ${descOk}개)<br>` +
-              `${qualityNote}<br>` +
-              `제목 예시: <b>"${S.titles[0]||''}"</b>, <b>"${S.titles[1]||''}"</b>`,
+      detail: `제목 <b>${S.titles.length}개</b> + 설명 <b>${S.descs.length}개</b> 생성 완료<br>` +
+              `제목 예시: <b>"${S.titles[0]||''}"</b>, <b>"${S.titles[1]||''}"</b>, <b>"${S.titles[2]||''}"</b><br>` +
+              `설명 예시: <b>"${(S.descs[0]||'').slice(0,40)}"</b>`,
       ms: _t1ms
     });
 
@@ -5881,8 +5733,8 @@ async function generate(){
       renderPipeLog();
       pg(4,'done');
       document.getElementById('pbarFill').style.width='100%';
-      // 리포트 완료
-      setTimeout(() => { _updateLogLiveBadge(); }, 200);
+      // 보고서 완료 후 로그창 자동 닫기
+      setTimeout(()=>{ const lw=document.getElementById('logWin'); if(lw) lw.style.display='none'; }, 2000);
       // fieldRows 다시 표시
       document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
       btn.disabled=false;
