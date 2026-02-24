@@ -2613,8 +2613,7 @@ p, span, div, label, li {
 @keyframes toastIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
 @keyframes toastOut{from{opacity:1;transform:none}to{opacity:0;transform:translateX(30px)}}
 
-/* ─── AI 파이프라인 로그 패널 ─── */
-#aiPipeLog{display:none;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px 18px;margin-bottom:16px}
+
 .pipe-title{font-size:11px;font-weight:800;color:rgba(220,232,248,.4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
 .pipe-steps{display:flex;flex-direction:column;gap:8px}
 .pipe-step{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);transition:all .3s}
@@ -2834,7 +2833,7 @@ p, span, div, label, li {
 /* ═══ 새 광고 미리보기 디자인 ═══ */
 .pv-new-grid{
   display:grid;grid-template-columns:1fr 1fr;
-  gap:12px;padding:8px 12px 10px;align-items:stretch;
+  gap:10px;padding:4px 12px 6px;align-items:stretch;
 }
 .pv-new-col{display:flex;flex-direction:column;gap:7px;height:100%}
 .pv-new-label{
@@ -2847,6 +2846,7 @@ p, span, div, label, li {
   background:#fff;border-radius:10px;
   box-shadow:0 2px 12px rgba(0,0,0,.15);
   overflow:hidden;display:flex;flex-direction:column;flex:1;
+  max-height:160px;
 }
 .pv-pc-browser{
   background:#f1f3f4;padding:7px 12px;
@@ -2863,19 +2863,19 @@ p, span, div, label, li {
   border-radius:20px;padding:3px 12px;
   font-size:10px;color:#888;
 }
-.pv-pc-body{padding:10px 12px;display:flex;flex-direction:column;flex:1}
+.pv-pc-body{padding:6px 10px;display:flex;flex-direction:column;flex:1;overflow:hidden}
 .pv-pc-result-label{font-size:10px;color:#999;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #f0f0f0}
 
 /* 파워링크 카드 */
 .pv-pl-card{
   border:1.5px solid #d0d4db;border-radius:7px;
-  padding:10px 12px;margin-bottom:0;
+  padding:6px 10px;margin-bottom:0;
   transition:border-color .2s,box-shadow .2s;
   cursor:default;display:flex;flex-direction:column;flex:1;
 }
 .pv-pl-card:not(.pv-competitor):hover{border-color:#03C75A;box-shadow:0 2px 12px rgba(3,199,90,.12)}
 .pv-pl-card.pv-competitor{opacity:.35;pointer-events:none}
-.pv-pl-header{display:flex;align-items:center;gap:5px;margin-bottom:7px}
+.pv-pl-header{display:flex;align-items:center;gap:4px;margin-bottom:4px}
 .pv-pl-logo{width:17px;height:17px;border-radius:3px;background:#03C75A;color:#fff;font-size:9px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .pv-pl-store{font-size:11px;font-weight:700;color:#1a1a1a}
 .pv-pl-url{font-size:10px;color:#888}
@@ -2883,14 +2883,14 @@ p, span, div, label, li {
 .pv-mob-badge{font-size:8.5px;color:#888;border:1px solid #ccc;border-radius:2px;padding:0 3px;flex-shrink:0}
 .pv-ad-badge{font-size:8px;color:#555;border:1px solid #bbb;border-radius:3px;padding:1px 4px;flex-shrink:0;background:#f5f5f5;font-weight:600;letter-spacing:.2px}
 .pv-npay-badge{display:inline-flex;align-items:center;flex-shrink:0;margin-left:2px}
-.pv-pl-row{display:flex;gap:10px;align-items:flex-start;width:100%;flex:1}
+.pv-pl-row{display:flex;gap:8px;align-items:flex-start;width:100%;flex:1}
 .pv-pl-body{flex:1;min-width:0;display:flex;flex-direction:column}
-.pv-pl-title{font-size:14px;font-weight:900;color:#0068c3;line-height:1.35;margin-bottom:6px;word-break:keep-all;letter-spacing:-.3px}
+.pv-pl-title{font-size:12.5px;font-weight:900;color:#0068c3;line-height:1.3;margin-bottom:4px;word-break:keep-all;letter-spacing:-.3px}
 .pv-pl-title.empty{color:#ccc;font-weight:400;font-size:11px;text-align:center;width:100%;padding:12px 0;display:block;letter-spacing:0}
 .pv-pl-desc{font-size:11px;color:#555;line-height:1.5;white-space:normal;word-break:keep-all}
 .pv-pl-desc.empty{color:#ccc;font-size:10px;text-align:center;width:100%;padding:4px 0;display:block}
 .pv-pl-thumb{
-  width:52px;height:52px;border-radius:6px;
+  width:38px;height:38px;border-radius:5px;
   background:#f5f5f5;border:1px solid #eee;
   display:flex;align-items:center;justify-content:center;
   font-size:20px;flex-shrink:0;overflow:hidden;
@@ -2905,6 +2905,7 @@ p, span, div, label, li {
   box-shadow:0 2px 12px rgba(0,0,0,.15);
   overflow:hidden;border:none;
   width:100%;display:flex;flex-direction:column;flex:1;
+  max-height:160px;
 }
 .pv-mob-appbar{background:#fff;border-bottom:1px solid #e8e8e8}
 .pv-mob-appbar-inner{display:flex;align-items:center;justify-content:space-between;padding:8px 12px 4px}
@@ -2914,7 +2915,7 @@ p, span, div, label, li {
 .pv-mob-appbar-searchbar{background:#f2f3f5;border-radius:20px;padding:6px 12px;display:flex;align-items:center;justify-content:space-between}
 .pv-mob-notch{background:#222;height:24px;display:flex;align-items:center;justify-content:center}
 .pv-mob-pill{width:60px;height:5px;background:#444;border-radius:3px}
-.pv-mob-screen{background:#fff;overflow:hidden;display:flex;flex-direction:column;flex:1}
+.pv-mob-screen{background:#fff;overflow:hidden;display:flex;flex-direction:column;flex:1;padding:0}
 .pv-mob-status{background:#fff;padding:4px 14px;display:flex;justify-content:space-between;font-size:9px;color:#888;border-bottom:1px solid #f0f0f0}
 .pv-mob-searchbar{background:#fff;padding:7px 10px;display:flex;align-items:center;gap:7px;border-bottom:1px solid #eee}
 .pv-mob-input{flex:1;background:#f0f0f0;border-radius:16px;padding:5px 10px;font-size:11px;color:#aaa}
@@ -2931,7 +2932,7 @@ p, span, div, label, li {
 .pv-mob-badge{font-size:8.5px;color:#888;border:1px solid #ccc;border-radius:2px;padding:0 3px;margin-left:3px}
 .pv-mob-inner{display:flex;gap:8px;align-items:flex-start;flex:1}
 .pv-mob-body{flex:1;min-width:0;display:flex;flex-direction:column}
-.pv-mob-title{font-size:14px;font-weight:900;color:#0068c3;line-height:1.35;margin-bottom:5px;word-break:keep-all;letter-spacing:-.3px}
+.pv-mob-title{font-size:12.5px;font-weight:900;color:#0068c3;line-height:1.3;margin-bottom:3px;word-break:keep-all;letter-spacing:-.3px}
 .pv-mob-title.empty{color:#ccc;font-weight:400;font-size:11.5px}
 .pv-mob-desc{font-size:11px;color:#555;line-height:1.5;white-space:normal;word-break:keep-all}
 .pv-mob-desc.empty{color:#ccc}
@@ -3327,7 +3328,7 @@ p, span, div, label, li {
 
         <!-- PC 미리보기 -->
         <div class="pv-new-col">
-          <div class="pv-new-label">🖥 PC 검색결과</div>
+          <div class="pv-new-label">🖥 PC 광고 모습</div>
           <div class="pv-pc-wrap">
             <div class="pv-pc-body" style="padding-top:10px">
               <div class="pv-pc-result-label">파워링크 · 광고</div>
@@ -3342,8 +3343,8 @@ p, span, div, label, li {
                 </div>
                 <div class="pv-pl-row">
                   <div class="pv-pl-body">
-                    <div class="pv-pl-title empty" id="pvPcTitles">제목을 선택하면 표시됩니다</div>
-                    <div class="pv-pl-desc empty" id="pvPcDesc">설명을 선택하면 표시됩니다</div>
+                    <div class="pv-pl-title empty" id="pvPcTitles"></div>
+                    <div class="pv-pl-desc empty" id="pvPcDesc"></div>
                     <div id="pvPcChips" class="pv-pl-chips"></div>
                   </div>
                   <div class="pv-pl-thumb" id="pvPcThumb">🏪</div>
@@ -3356,7 +3357,7 @@ p, span, div, label, li {
 
         <!-- 모바일 미리보기 -->
         <div class="pv-new-col">
-          <div class="pv-new-label">📱 모바일 네이버 앱</div>
+          <div class="pv-new-label">📱 모바일 광고 모습</div>
           <div class="pv-mob-frame">
             <div class="pv-mob-screen">
               <div class="pv-pc-body" style="padding-top:10px">
@@ -3372,8 +3373,8 @@ p, span, div, label, li {
                 </div>
                 <div class="pv-pl-row">
                   <div class="pv-pl-body">
-                    <div class="pv-pl-title empty" id="pvMobTitle1">제목을 선택하면 표시됩니다</div>
-                    <div class="pv-pl-desc empty" id="pvMobDesc1">설명을 선택하면 표시됩니다</div>
+                    <div class="pv-pl-title empty" id="pvMobTitle1"></div>
+                    <div class="pv-pl-desc empty" id="pvMobDesc1"></div>
                   </div>
                   <div class="pv-pl-thumb" id="pvMobThumb1">🏪</div>
                 </div>
@@ -3407,12 +3408,7 @@ p, span, div, label, li {
     <!-- analysisBody: hidden buffer for modal (not shown in main UI) -->
     <div id="analysisBody" style="display:none"></div>
     <!-- ── AI 파이프라인 로그 -->
-<div id="aiPipeLog" style="display:none">
-  <div class="pipe-title">⚡ AI 파이프라인 실행 기록</div>
-  <div class="pipe-steps" id="pipeSteps">
-    <!-- JS로 동적 생성 -->
-  </div>
-</div>
+
 
 <div id="resultWrap" style="display:none">
 <div class="result-layout">
@@ -3425,7 +3421,7 @@ p, span, div, label, li {
             <span class="tg-dot tg1"></span>
             <span class="rc-head-label" style="color:#03C75A">제목 1 위치 추천</span>
             <span class="rc-sel-count" id="tSelBadge" style="display:none"><span id="tSelNum">0</span>개 선택</span>
-            <span class="sel-limit-badge" id="tLimitBadge">0/15</span>
+            
             <span class="tg-sub" style="margin-left:auto">광고 첫 번째 제목에 최적</span>
           </div>
           <div id="titleGroup1"></div>
@@ -3457,7 +3453,7 @@ p, span, div, label, li {
             <span class="tg-dot tg1" style="background:#03C75A"></span>
             <span class="rc-head-label" style="color:#03C75A">설명 1번 추천</span>
             <span class="rc-sel-count" id="dSelBadge" style="display:none"><span id="dSelNum">0</span>개 선택</span>
-            <span class="sel-limit-badge" id="dLimitBadge">0/4</span>
+            
             <span class="tg-sub" style="margin-left:auto">설명 첫 번째 자리</span>
           </div>
           <div class="rc-desc-area" id="descGroup1"></div>
@@ -3503,7 +3499,7 @@ p, span, div, label, li {
             <div class="naver-ad-body">
               <div class="naver-ad-title empty" id="rlPcTitle1">제목1</div>
               <div style="font-size:10px;color:#999;margin:1px 0" id="rlPcTitle23Wrap"><span id="rlPcTitle2" style="display:none"></span><span id="rlPcTitle3" style="display:none"></span></div>
-              <div class="naver-ad-desc empty" id="rlPcDesc">설명을 선택하면 표시됩니다</div>
+              <div class="naver-ad-desc empty" id="rlPcDesc"></div>
             </div>
             <div class="naver-ad-thumb" id="rlPcThumb">🏪</div>
           </div>
@@ -3521,8 +3517,8 @@ p, span, div, label, li {
             <span class="naver-mob-store">스토어명</span>
             <span class="naver-mob-badge">광고</span>
           </div>
-          <div class="naver-mob-title empty" id="rlMobTitle">제목을 선택하면 표시됩니다</div>
-          <div class="naver-mob-desc empty" id="rlMobDesc">설명을 선택하면 표시됩니다</div>
+          <div class="naver-mob-title empty" id="rlMobTitle"></div>
+          <div class="naver-mob-desc empty" id="rlMobDesc"></div>
         </div>
       </div>
     </div>
@@ -3871,70 +3867,21 @@ function _addApiLog(entry) {
 function openLogWindow() {
   const allLogs = _apiLogs.length ? _apiLogs : [{ time: '-', type: 'info', msg: '로그가 없습니다. 소재를 먼저 생성해주세요.' }];
 
-  // 파이프라인 단계별 섹션 구성
-  let pipeHTML = '';
-  if (_pipeLog.length) {
-    pipeHTML = '<div style="margin-bottom:20px">' +
-      '<div style="color:#03C75A;font-size:11px;font-weight:800;letter-spacing:1px;margin-bottom:10px">⚡ AI 파이프라인 실행 단계</div>' +
-      _pipeLog.map((s, i) => {
-        const col = s.status === 'err' ? '#ff4d6d' : s.status === 'skip' ? '#888' : '#03C75A';
-        const bg  = s.status === 'err' ? 'rgba(255,77,109,.08)' : s.status === 'skip' ? 'rgba(255,255,255,.03)' : 'rgba(3,199,90,.05)';
-        const plain = s.detail ? s.detail.replace(/<[^>]+>/g,'').trim() : '';
-        return '<div style="background:'+bg+';border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:12px 14px;margin-bottom:8px">' +
-          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:'+(plain?'6px':'0')+'">' +
-          '<span style="font-size:14px">'+s.icon+'</span>' +
-          '<span style="color:#dce8f8;font-weight:700;font-size:12px;flex:1">'+escHtml(s.name)+'</span>' +
-          '<span style="color:'+col+';font-size:11px;font-weight:700">'+escHtml(s.statusLabel)+'</span>' +
-          (s.ms ? '<span style="color:#555;font-size:10px;margin-left:8px">'+(s.ms/1000).toFixed(1)+'초</span>' : '') +
-          '</div>' +
-          (plain ? '<div style="color:#aaa;font-size:11px;line-height:1.65;white-space:pre-wrap;word-break:break-word">'+escHtml(plain)+'</div>' : '') +
-          '</div>';
-      }).join('') +
-    '</div>';
-  }
-
-  // API 로그 (실제 요청/응답)
-  const apiOnlyLogs = allLogs.filter(l => l.type !== 'detail');
-  const apiHTML = '<div>' +
-    '<div style="color:#3385ff;font-size:11px;font-weight:800;letter-spacing:1px;margin-bottom:10px">📡 API 호출 상세 로그</div>' +
-    '<table style="width:100%;border-collapse:collapse">' +
-    apiOnlyLogs.map(l => {
-      const col  = l.type==='req'?'#ff9800': l.type==='res'?'#03C75A': l.type==='err'?'#ff4d6d': l.type==='skip'?'#888':'#aaa';
-      const icon = l.type==='req'?'→': l.type==='res'?'←': l.type==='err'?'✕': l.type==='skip'?'⏭':'·';
-      return '<tr style="border-bottom:1px solid rgba(255,255,255,.04)">' +
-        '<td style="color:#444;white-space:nowrap;padding:5px 10px 5px 0;font-size:10px">'+escHtml(l.time?l.time.slice(11,19):'-')+'</td>' +
-        '<td style="color:'+col+';text-align:center;width:16px;font-size:12px">'+icon+'</td>' +
-        '<td style="color:#c8d8f0;padding:5px 0 5px 10px;font-size:11px;word-break:break-all">'+escHtml(l.msg)+'</td>' +
-        '</tr>';
-    }).join('') +
-    '</table></div>';
-
-  const bodyHTML = [
-    '<'+'script>',
-    'document.getElementById("searchBox").addEventListener("input",function(){',
-    '  var q=this.value.toLowerCase();',
-    '  document.querySelectorAll(".log-searchable").forEach(function(r){',
-    '    r.style.display=r.textContent.toLowerCase().includes(q)?"":"none";',
-    '  });',
-    '});',
-    '<'+'/scri'+'pt>'
-  ].join('\n');
+  const apiHTML = allLogs.map(l => {
+    const col = l.type === 'error' ? '#ff4d6d' : l.type === 'warn' ? '#f59e0b' : '#03C75A';
+    return '<div style="padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.05);font-size:12px;line-height:1.6">' +
+      '<span style="color:#888;font-size:10px;margin-right:8px">' + (l.time||'-') + '</span>' +
+      '<span style="color:' + col + ';font-size:10px;margin-right:8px;font-weight:700">[' + (l.type||'info').toUpperCase() + ']</span>' +
+      '<span style="color:#e8f0fe">' + (l.msg||'') + '</span></div>';
+  }).join('');
 
   const html = [
     '<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">',
-    '<title>실시간 API 실행 로그</title>',
-    '<style>',
-    '*{box-sizing:border-box;margin:0;padding:0}',
-    'body{background:#080d18;color:#d0e0f8;font-family:"D2Coding",monospace,sans-serif;font-size:12px}',
-    'header{position:sticky;top:0;background:#080d18;border-bottom:1px solid rgba(255,255,255,.08);padding:14px 20px;display:flex;align-items:center;gap:10px;z-index:10}',
-    'h1{font-size:14px;font-weight:800;color:#03C75A;flex:1}',
-    'input{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#d0e0f8;padding:5px 10px;font-size:11px;outline:none;width:200px}',
-    'main{padding:20px}',
-    '</style></head><body>',
-    '<header><h1>⚡ 실시간 API 실행 로그</h1>',
-    '<input id="searchBox" placeholder="로그 검색...">',
-    '</header>',
-    '<main>'+pipeHTML+apiHTML+'</main>',
+    '<title>실시간 실행 로그</title>',
+    '<style>*{box-sizing:border-box;margin:0;padding:0}body{background:#060d17;color:#e8f0fe;font-family:Apple SD Gothic Neo,Malgun Gothic,sans-serif;padding:24px;line-height:1.6}h2{font-size:15px;font-weight:900;color:#03C75A;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.1)}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}.log-wrap{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.08);border-radius:8px;overflow:hidden}</style>',
+    '</head><body>',
+    '<h2>🔍 실시간 실행 로그</h2>',
+    '<div class="log-wrap">' + apiHTML + '</div>',
     '</body></html>'
   ].join('\n');
 
@@ -3983,16 +3930,16 @@ function updateRlPreview() {
   const descTxt = d1.length ? d1[0] : (d2.length ? d2[0] : '');
   if(pcDesc) {
     if(descTxt){ pcDesc.textContent=descTxt; pcDesc.classList.remove('empty'); }
-    else { pcDesc.textContent='설명을 선택하면 표시됩니다'; pcDesc.classList.add('empty'); }
+    else { pcDesc.textContent=''; pcDesc.classList.add('empty'); }
   }
   if(mobT) {
     const mt = t1.length ? t1[0] : '';
     if(mt){ mobT.textContent=mt; mobT.classList.remove('empty'); }
-    else { mobT.textContent='제목을 선택하면 표시됩니다'; mobT.classList.add('empty'); }
+    else { mobT.textContent=''; mobT.classList.add('empty'); }
   }
   if(mobD) {
     if(descTxt){ mobD.textContent=descTxt; mobD.classList.remove('empty'); }
-    else { mobD.textContent='설명을 선택하면 표시됩니다'; mobD.classList.add('empty'); }
+    else { mobD.textContent=''; mobD.classList.add('empty'); }
   }
   // 요약
   const allT = [...t1,...t2,...t3];
@@ -4365,9 +4312,11 @@ async function callGemini(sys, userContent, onChunk, maxTokens) {
 // 단계별 메시지
 const PG_MSGS = {
   '1-active': 'AI가 상품을 분석하고 있어요...',
-  '2-active': '광고 소재 20개 + 설명 8개 작성 중...',
-  '3-active': '결과를 정리하고 있어요...',
-  '3-done':   '완성! 아래에서 소재를 선택해주세요 ✨'
+  '2-active': '광고 소재 30개 · 설명 10개 작성 중...',
+  '2-done':   '소재 작성 완료! 아래에서 선택해주세요 ✨',
+  '3-active': '마케터 AI가 리포트를 작성 중이에요...',
+  '3-done':   '리포트 분석 완료!',
+  '4-done':   '전체 완료! 리포트를 확인해보세요 🎉'
 };
 const PBAR_WIDTH = {'1-active':5,'1-done':25,'2-active':30,'2-done':50,'3-active':55,'3-done':75,'4-active':80,'4-done':100};
 
@@ -4849,7 +4798,6 @@ function render(){
     tSel.style.display=S.selT.size?'':'none';
     if(tNum) tNum.textContent=S.selT.size;
   }
-  const lb=document.getElementById('tLimitBadge');
   if(lb){
     const isFull=S.selT.size>=MAX_TITLE_SEL;
     lb.textContent=`${S.selT.size}/15`;
@@ -4898,7 +4846,6 @@ function render(){
       dSel.style.display=S.selD.size?'':'none';
       if(dNum) dNum.textContent=S.selD.size;
     }
-    const dlb=document.getElementById('dLimitBadge');
     if(dlb){
       const isFull=S.selD.size>=MAX_DESC_SEL;
       dlb.textContent=S.selD.size+'/4';
@@ -5105,7 +5052,7 @@ function sync(){
       pvPcT.innerHTML=`<div class="pv-pl-title" style="color:#0068c3;font-weight:900">${allSlots.map(t=>esc(t)).join(' · ')}</div>`;
     } else {
       pvPcT.className='naver-ad-title empty';
-      pvPcT.textContent='제목을 선택하면 표시됩니다';
+      pvPcT.textContent='';
     }
   }
   // 설명1 + 설명2 이어서 표시 (실제 네이버 광고처럼 연속 텍스트)
@@ -5117,7 +5064,7 @@ function sync(){
       pvPcD.textContent=combined;
     } else {
       pvPcD.className='naver-ad-desc empty';
-      pvPcD.textContent='설명을 선택하면 표시됩니다';
+      pvPcD.textContent='';
     }
   }
   // 칩(키워드 네모칸) 없음
@@ -5139,7 +5086,7 @@ function sync(){
       const combinedDesc=[pvDTxt1,pvDTxt2].filter(Boolean).join(' ');
       const descHtml=combinedDesc
         ? `<div style="font-size:11px;color:#444;line-height:1.55;word-break:keep-all;margin-top:4px">${esc(combinedDesc)}</div>`
-        : `<div class="naver-mob-desc empty" style="margin-top:4px">설명을 선택하면 표시됩니다</div>`;
+        : `<div class="naver-mob-desc empty" style="margin-top:4px"></div>`;
       mobContainer.innerHTML=`
         <div class="mob-ad-card">
           <div class="naver-mob-meta">
@@ -5160,8 +5107,8 @@ function sync(){
     } else {
       mobContainer.innerHTML=`<div class="mob-ad-empty">
         <div class="naver-mob-meta"><div class="naver-mob-logo">S</div><span class="naver-mob-store">스토어명</span><span class="naver-mob-badge">광고</span></div>
-        <div class="naver-mob-title empty">제목을 선택하면 표시됩니다</div>
-        <div class="naver-mob-desc empty">설명을 선택하면 표시됩니다</div>
+        <div class="naver-mob-title empty"></div>
+        <div class="naver-mob-desc empty"></div>
       </div>`;
     }
   }
@@ -5176,12 +5123,12 @@ function sync(){
       // PC와 동일하게 · 로 연결해서 표시
       _mobT1.textContent = allSlots.join(' · ');
       _mobT1.classList.remove('empty');
-    } else { _mobT1.textContent='제목을 선택하면 표시됩니다'; _mobT1.classList.add('empty'); }
+    } else { _mobT1.textContent=''; _mobT1.classList.add('empty'); }
   }
   if(_mobD1){
     const _allDesc = [pvDTxt1, pvDTxt2].filter(Boolean).join(' ');
     if(_allDesc){ _mobD1.textContent=_allDesc; _mobD1.classList.remove('empty'); }
-    else { _mobD1.textContent='설명을 선택하면 표시됩니다'; _mobD1.classList.add('empty'); }
+    else { _mobD1.textContent=''; _mobD1.classList.add('empty'); }
   }
   if(_mobTh1){
     const _pcTh = document.getElementById('pvPcThumb');
@@ -5252,6 +5199,8 @@ async function generate(){
   const btn=document.getElementById('genBtn');
   btn.disabled=true;
   const _logBtn=document.getElementById('logOpenBtn'); if(_logBtn) _logBtn.disabled=false;
+  // 소재 생성 시작 즉시 실시간 로그 창 자동 열기
+  openLogWindow();
   document.getElementById('genTxt').innerHTML='<span class="spin"></span> 분석 중...';
   document.getElementById('pbarFill').style.width='0%';
   document.getElementById('emptyState').style.display='none';
@@ -5576,9 +5525,8 @@ async function generate(){
     document.getElementById('resultWrap').style.display='block';
     document.getElementById('previewMonitorWrap').style.display='block';
     document.getElementById('emptyState').style.display='none';
-    pg(3,'done');
-    pg(4,'active');
-    document.getElementById('pbarFill').style.width='75%';
+    pg(3,'active');
+    document.getElementById('pbarFill').style.width='55%';
     setTimeout(()=>document.getElementById('resultWrap').scrollIntoView({behavior:'smooth',block:'start'}),300);
     updateRlPreview();
     document.getElementById('genTxt').innerHTML='<span class="spin"></span> 리포트 분석 중...';
@@ -5604,6 +5552,9 @@ async function generate(){
     const aBody=document.getElementById('analysisBody');aBody.style.display='none';
     if(sideStatus) sideStatus.textContent='리포트 작성 중...';
 
+    pg(3,'done');
+    pg(4,'active');
+    document.getElementById('pbarFill').style.width='75%';
     const _t2 = Date.now();
   document.getElementById('pbarFill')?.classList.add('analyzing');
   _pipeAdd({icon:'🟢', name:'Gemini 2.5 Flash — 마케터 분석 리포트', status:'run', statusLabel:'⏳ 진행 중...', detail:'마케터 AI가 광고 소재를 분석하고 리포트를 작성 중입니다', ms:0});
@@ -5647,6 +5598,8 @@ async function generate(){
       renderPipeLog();
       pg(4,'done');
       document.getElementById('pbarFill').style.width='100%';
+      // 보고서 완료 후 로그창 자동 닫기
+      setTimeout(()=>{ const lw=document.getElementById('logWin'); if(lw) lw.style.display='none'; }, 2000);
       // fieldRows 다시 표시
       document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
       btn.disabled=false;
