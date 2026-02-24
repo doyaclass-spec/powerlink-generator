@@ -5327,8 +5327,6 @@ async function generate(){
   const btn=document.getElementById('genBtn');
   btn.disabled=true;
   const _logBtn=document.getElementById('logOpenBtn'); if(_logBtn) _logBtn.disabled=false;
-  // 소재 생성 시작 즉시 실시간 로그 창 자동 열기
-  openLogWindow();
   document.getElementById('genTxt').innerHTML='<span class="spin"></span> 분석 중...';
   document.getElementById('pbarFill').style.width='0%';
   document.getElementById('emptyState').style.display='none';
