@@ -3203,7 +3203,7 @@ p, span, div, label, li {
 
             <!-- 05: 분석 패널 (2행 span) -->
             <div class="input-col col-analysis analysis-panel-tall" style="grid-row:span 2">
-              <div class="icol-head"><span class="icol-num icol-num-8">08</span><div><div class="icol-title">마케터 분석 리포트<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">소재 생성 후 Gemini AI가 자동으로<br>클릭률·전략·개선안을 분석해드려요</span></span> <span class="badge-auto">자동</span></div></div></div>
+              <div class="icol-head"><span class="icol-num icol-num-8">08</span><div><div class="icol-title">마케터 분석 리포트<span class="tip-wrap"><span class="tip-q">?</span><span class="tip-box">소재 생성 후 [리포트 생성하기] 버튼을 눌러<br>클릭률·전략·개선안을 분석해드려요</span></span> <span class="badge-auto">수동</span></div></div></div>
               <div class="analysis-status" id="analysisSideStatus" style="display:none"></div>
 
               <!-- ★ 통합 분석 패널 -->
@@ -4208,7 +4208,7 @@ async function callClaude(sys, userContent, onChunk, maxTokens) {
   if (!CLAUDE_KEY) return callGemini(sys, userContent, onChunk, maxTokens); // fallback
   const tokens = maxTokens || 1200;
   const ctrl = new AbortController();
-  const tid  = setTimeout(() => ctrl.abort(), 170000);
+  const tid  = setTimeout(() => ctrl.abort(), 60000);
   let messages;
   if (typeof userContent === 'string') {
     messages = [{ role:'user', content: userContent }];
@@ -4300,7 +4300,7 @@ async function callGemini(sys, userContent, onChunk, maxTokens) {
 
   const tokens = maxTokens || 900;
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), tokens > 1000 ? 170000 : 90000);
+  const timeoutId = setTimeout(() => controller.abort(), 60000);
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
   _addApiLog({type:'req', msg:`[Gemini] ${url.substring(0,80)}... max_tokens:${tokens}`});
@@ -5677,97 +5677,83 @@ async function generate(){
     ];
     setPhase('② 마케터 리포트 분석', phase2Steps, 2500);
 
-    const aBody=document.getElementById('analysisBody');aBody.style.display='none';
-    if(sideStatus) sideStatus.textContent='리포트 작성 중...';
-
     pg(3,'done');
-    pg(4,'active');
-    document.getElementById('pbarFill').style.width='75%';
-    const _t2 = Date.now();
-  document.getElementById('pbarFill')?.classList.add('analyzing');
-  _pipeAdd({icon:'🟢', name:'Gemini 2.0 Flash — 마케터 분석 리포트', status:'run', statusLabel:'⏳ 진행 중...', detail:'마케터 AI가 광고 소재를 분석하고 리포트를 작성 중입니다', ms:0});
-  renderPipeLog();
-    // 3분(170초) 하드 타임아웃
-    const _gaTimeout = new Promise((_, rej) => setTimeout(() => rej(new Error('TIMEOUT_3MIN')), 170000));
-    Promise.race([
-      generateAnalysis(name, feat, target, S.titles, S.descs, S.imgs),
-      _gaTimeout
-    ]).then(html=>{
-      document.getElementById('analysisBody').innerHTML=html;
-      document.getElementById('analysisBody').style.display='none';
-      if(apProg) apProg.style.display='none';
-      const thinkEl = document.getElementById('apPanel_noop');
-      if(thinkEl) thinkEl.style.display='none';
-      clearInterval(fieldTimer);
-      
-      // 3줄 요약 표시
-      const preview=document.getElementById('analysisSidePreview');
-      if(preview){
-        preview.style.display='block';
-        const tmp=document.createElement('div'); tmp.innerHTML=html;
-        let rawLines=[];
-        tmp.querySelectorAll('.analysis-section-content').forEach(el=>{
-          el.textContent.split(/[.。]\s+/).map(s=>s.trim()).filter(s=>s.length>10).forEach(s=>{
-            if(rawLines.length<3) rawLines.push(s);
-          });
-        });
-        const bullets=['●','●','●'];
-        const colors=['#03C75A','#3385ff','#ff9800'];
-        preview.innerHTML = rawLines.slice(0,3).map((l,i)=>
-          `<div style="display:flex;gap:6px;margin-bottom:5px"><span style="color:${colors[i]};flex-shrink:0;font-size:11px;margin-top:2px">${bullets[i]}</span><span>${l.slice(0,60)}${l.length>60?'...':''}</span></div>`
-        ).join('');
-      }
+    pg(4,'done');
+    document.getElementById('pbarFill').style.width='100%';
+    document.getElementById('pbarFill')?.classList.remove('analyzing');
 
-      // 리포트 완료 - 결과는 이미 표시됨, 패널만 업데이트
-      const _t2ms = Date.now() - _t2;
-      document.getElementById('pbarFill')?.classList.remove('analyzing');
-      _pipeAdd({
-        icon:'🟢', name:'Gemini 2.0 Flash — 마케터 분석 리포트',
-        status:'done', statusLabel:'✅ 완료',
-        detail:'클릭률·전략·개선안 심층 분석 완료<br>' +
-               `제목 <b>${S.titles.length}개</b>, 설명 <b>${S.descs.length}개</b> 기반으로 마케팅 전략을 생성했어요`,
-        ms: _t2ms
-      });
-      renderPipeLog();
-      pg(4,'done');
-      document.getElementById('pbarFill').style.width='100%';
-      // 보고서 완료 후 로그창 자동 닫기
-      setTimeout(()=>{ const lw=document.getElementById('logWin'); if(lw) lw.style.display='none'; }, 2000);
-      // fieldRows 다시 표시
-      document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
-      btn.disabled=false;
-      stopAnalyzingUI();
-      if(window._stopCountdown) window._stopCountdown();
-      const status=document.getElementById('analysisSideStatus');
-      const openBtn=document.getElementById('analysisOpenBtn');
-      if(status){ status.textContent='✓ 분석 완료'; status.classList.remove('running'); }
-      if(openBtn){openBtn.disabled=false;openBtn.classList.add('done');setTimeout(()=>openBtn.classList.remove('done'),5000);}
-      const lb=document.getElementById('apLogBox'); if(lb) lb.classList.remove('analyzing');
-      const logBtn2=document.getElementById('logOpenBtn'); if(logBtn2) { logBtn2.disabled=false; }
-    }).catch((e)=>{
-      document.getElementById('pbarFill')?.classList.remove('analyzing');
-      const isTimeout = e?.message === 'TIMEOUT_3MIN';
-      if(isTimeout){
-        // 3분 초과 시 부분 완료 처리
-        document.getElementById('analysisBody').innerHTML = '<div class="analysis-section"><div class="analysis-section-title">⏱️ 분석 시간 초과</div><div class="analysis-section-content">리포트 생성이 3분을 초과했어요.<br>소재 생성은 완료됐으니 제목과 설명을 활용해주세요.<br><em>잠시 후 다시 시도하거나 API 키 플랜을 확인해주세요.</em></div></div>';
-        document.getElementById('analysisBody').style.display='block';
-        pg(3,'done'); pg(4,'done');
-        document.getElementById('pbarFill').style.width='100%';
+    // 소재 생성 완료 처리
+    document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
+    btn.disabled=false;
+    stopAnalyzingUI();
+    if(window._stopCountdown) window._stopCountdown();
+
+    // 분석 리포트 버튼 활성화 — 클릭 시에만 생성
+    const openBtn=document.getElementById('analysisOpenBtn');
+    if(openBtn){ openBtn.disabled=false; openBtn.textContent='📄 리포트 생성하기'; }
+    const sideStatus2=document.getElementById('analysisSideStatus');
+    if(sideStatus2){ sideStatus2.textContent='✨ 소재 생성 완료 — 리포트 버튼을 눌러주세요'; }
+    const aBody=document.getElementById('analysisBody');
+    if(aBody){ aBody.style.display='block'; aBody.innerHTML='<div style="padding:12px;color:rgba(220,232,248,.4);font-size:12px;text-align:center">📄 위 [리포트 생성하기] 버튼을 눌러<br>마케터 AI 분석을 시작하세요</div>'; }
+    if(apProg) apProg.style.display='none';
+    clearInterval(fieldTimer);
+    _pipeAdd({icon:'🟢', name:'Gemini 2.0 Flash — 마케터 분석 리포트', status:'skip', statusLabel:'⏸ 대기 중', detail:'소재 생성 완료. [리포트 생성하기] 버튼을 눌러 분석을 시작하세요.'});
+    renderPipeLog();
+
+    // 리포트 버튼 클릭 시 분석 실행
+    if(openBtn){
+      openBtn.onclick = async () => {
+        openBtn.disabled=true;
+        openBtn.textContent='📄 분석 중...';
+        if(sideStatus2) sideStatus2.textContent='리포트 작성 중...';
+        if(aBody){ aBody.innerHTML=''; aBody.style.display='none'; }
+        if(apProg) apProg.style.display='block';
+        _pipeAdd({icon:'🟢', name:'Gemini 2.0 Flash — 마케터 분석 리포트', status:'run', statusLabel:'⏳ 진행 중...', detail:'마케터 AI가 광고 소재를 분석 중입니다', ms:0});
         renderPipeLog();
-        return;
-      }
-      _pipeAdd({icon:'🟢', name:'Gemini 2.0 Flash — 마케터 분석 리포트', status:'err', statusLabel:'❌ 오류',
-        detail:`리포트 생성 실패: ${e?.message||'알 수 없는 오류'}`});
-      renderPipeLog();
-      document.getElementById('analysisBody').innerHTML='<div>분석을 불러오지 못했어요.</div>';
-      pg(3,'done');pg(4,'done');
-      document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
-      btn.disabled=false;
-      stopAnalyzingUI();
-      if(window._stopCountdown) window._stopCountdown();
-      if(apProg) apProg.style.display='none';
-      clearInterval(fieldTimer);
-    });
+        const _t2 = Date.now();
+        const _gaTimeout = new Promise((_, rej) => setTimeout(() => rej(new Error('TIMEOUT_60S')), 60000));
+        Promise.race([
+          generateAnalysis(name, feat, target, S.titles, S.descs, S.imgs),
+          _gaTimeout
+        ]).then(html=>{
+          if(aBody){ aBody.innerHTML=html; aBody.style.display='block'; }
+          if(apProg) apProg.style.display='none';
+          const preview=document.getElementById('analysisSidePreview');
+          if(preview){
+            preview.style.display='block';
+            const tmp=document.createElement('div'); tmp.innerHTML=html;
+            let rawLines=[];
+            tmp.querySelectorAll('.analysis-section-content').forEach(el=>{
+              el.textContent.split(/[.。]\s+/).map(s=>s.trim()).filter(s=>s.length>10).forEach(s=>{
+                if(rawLines.length<3) rawLines.push(s);
+              });
+            });
+            const bullets=['●','●','●'];
+            const colors=['#03C75A','#3385ff','#ff9800'];
+            preview.innerHTML = rawLines.slice(0,3).map((l,i)=>
+              `<div style="display:flex;gap:6px;margin-bottom:5px"><span style="color:${colors[i]};flex-shrink:0;font-size:11px;margin-top:2px">${bullets[i]}</span><span>${l.slice(0,60)}${l.length>60?'...':''}</span></div>`
+            ).join('');
+          }
+          const _t2ms = Date.now() - _t2;
+          _pipeAdd({icon:'🟢', name:'Gemini 2.0 Flash — 마케터 분석 리포트', status:'done', statusLabel:'✅ 완료',
+            detail:`분석 완료 (${(_t2ms/1000).toFixed(1)}초)`, ms:_t2ms});
+          renderPipeLog();
+          if(sideStatus2) sideStatus2.textContent='✓ 분석 완료';
+          openBtn.disabled=false; openBtn.textContent='📄 전체 리포트 보기';
+          openBtn.onclick = openAnalysisNewWindow;
+        }).catch(e=>{
+          if(apProg) apProg.style.display='none';
+          const isTimeout = e?.message==='TIMEOUT_60S';
+          if(aBody){ aBody.style.display='block';
+            aBody.innerHTML=`<div class="analysis-section"><div class="analysis-section-title">${isTimeout?'⏱️ 시간 초과':'❌ 오류'}</div><div class="analysis-section-content">${isTimeout?'60초 초과. API 서버가 혼잡합니다.<br>잠시 후 다시 눌러주세요.':e?.message||'알 수 없는 오류'}</div></div>`; }
+          _pipeAdd({icon:'🟢', name:'Gemini 2.0 Flash — 마케터 분석 리포트', status:'err', statusLabel:'❌ 오류',
+            detail: isTimeout ? '60초 타임아웃' : e?.message});
+          renderPipeLog();
+          openBtn.disabled=false; openBtn.textContent='📄 리포트 다시 생성';
+          if(sideStatus2) sideStatus2.textContent='⚠️ 오류 — 다시 시도해주세요';
+        });
+      };
+    }
 
   } catch(e){
     document.getElementById('emptyState').style.display='';
