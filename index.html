@@ -3751,7 +3751,7 @@ async function testApiKey(type) {
 
   try {
     if (type === 'gemini') {
-      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent?key=${key}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contents: [{ role:'user', parts:[{text:'hi'}] }], generationConfig:{ maxOutputTokens:5 } })
@@ -4301,7 +4301,7 @@ async function callGemini(sys, userContent, onChunk, maxTokens) {
   const tokens = maxTokens || 900;
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 60000);
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent?key=${API_KEY}`;
 
   _addApiLog({type:'req', msg:`[Gemini] ${url.substring(0,80)}... max_tokens:${tokens}`});
   try {
