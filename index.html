@@ -3799,7 +3799,7 @@ async function testApiKey(type) {
 
   try {
     if (type === 'gemini') {
-      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${key}`, {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contents: [{ role:'user', parts:[{text:'hi'}] }], generationConfig:{ maxOutputTokens:5 } })
@@ -4349,7 +4349,7 @@ async function callGemini(sys, userContent, onChunk, maxTokens) {
   const tokens = maxTokens || 900;
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 60000);
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
 
   _addApiLog({type:'req', msg:`[Gemini] ${url.substring(0,80)}... max_tokens:${tokens}`});
   try {
@@ -5746,7 +5746,7 @@ async function generate(){
     if(aBody){ aBody.style.display='block'; aBody.innerHTML='<div style="padding:12px;color:rgba(220,232,248,.4);font-size:12px;text-align:center">📄 위 [리포트 생성하기] 버튼을 눌러<br>마케터 AI 분석을 시작하세요</div>'; }
     if(apProg) apProg.style.display='none';
     clearInterval(fieldTimer);
-    _pipeAdd({icon:'🟢', name:'Gemini 2.0 Flash — 마케터 분석 리포트', status:'skip', statusLabel:'⏸ 대기 중', detail:'소재 생성 완료. [리포트 생성하기] 버튼을 눌러 분석을 시작하세요.'});
+    _pipeAdd({icon:'🟢', name:'Gemini 2.5 Flash — 마케터 분석 리포트', status:'skip', statusLabel:'⏸ 대기 중', detail:'소재 생성 완료. [리포트 생성하기] 버튼을 눌러 분석을 시작하세요.'});
     renderPipeLog();
 
     // 리포트 버튼 클릭 시 분석 실행
@@ -5757,7 +5757,7 @@ async function generate(){
         if(sideStatus2) sideStatus2.textContent='리포트 작성 중...';
         if(aBody){ aBody.innerHTML=''; aBody.style.display='none'; }
         if(apProg) apProg.style.display='block';
-        _pipeAdd({icon:'🟢', name:'Gemini 2.0 Flash — 마케터 분석 리포트', status:'run', statusLabel:'⏳ 진행 중...', detail:'마케터 AI가 광고 소재를 분석 중입니다', ms:0});
+        _pipeAdd({icon:'🟢', name:'Gemini 2.5 Flash — 마케터 분석 리포트', status:'run', statusLabel:'⏳ 진행 중...', detail:'마케터 AI가 광고 소재를 분석 중입니다', ms:0});
         renderPipeLog();
         const _t2 = Date.now();
         const _gaTimeout = new Promise((_, rej) => setTimeout(() => rej(new Error('TIMEOUT_60S')), 60000));
@@ -5784,7 +5784,7 @@ async function generate(){
             ).join('');
           }
           const _t2ms = Date.now() - _t2;
-          _pipeAdd({icon:'🟢', name:'Gemini 2.0 Flash — 마케터 분석 리포트', status:'done', statusLabel:'✅ 완료',
+          _pipeAdd({icon:'🟢', name:'Gemini 2.5 Flash — 마케터 분석 리포트', status:'done', statusLabel:'✅ 완료',
             detail:`분석 완료 (${(_t2ms/1000).toFixed(1)}초)`, ms:_t2ms});
           renderPipeLog();
           if(sideStatus2) sideStatus2.textContent='✓ 분석 완료';
@@ -5795,7 +5795,7 @@ async function generate(){
           const isTimeout = e?.message==='TIMEOUT_60S';
           if(aBody){ aBody.style.display='block';
             aBody.innerHTML=`<div class="analysis-section"><div class="analysis-section-title">${isTimeout?'⏱️ 시간 초과':'❌ 오류'}</div><div class="analysis-section-content">${isTimeout?'60초 초과. API 서버가 혼잡합니다.<br>잠시 후 다시 눌러주세요.':e?.message||'알 수 없는 오류'}</div></div>`; }
-          _pipeAdd({icon:'🟢', name:'Gemini 2.0 Flash — 마케터 분석 리포트', status:'err', statusLabel:'❌ 오류',
+          _pipeAdd({icon:'🟢', name:'Gemini 2.5 Flash — 마케터 분석 리포트', status:'err', statusLabel:'❌ 오류',
             detail: isTimeout ? '60초 타임아웃' : e?.message});
           renderPipeLog();
           openBtn.disabled=false; openBtn.textContent='📄 리포트 다시 생성';
