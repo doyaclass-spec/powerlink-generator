@@ -2664,12 +2664,14 @@ p, span, div, label, li {
   font-size:11.5px;font-weight:700;font-family:inherit;
   cursor:pointer;transition:all .2s;letter-spacing:-.1px;
 }
-.log-unified-btn{
-  background:rgba(255,255,255,.05) !important;
+.log-unified-btn{  background:rgba(255,255,255,.05) !important;
   border-color:rgba(255,255,255,.15) !important;
   color:rgba(220,232,248,.65) !important;
   padding:10px 14px !important;
   border-radius:8px !important;
+  position:relative !important;
+  z-index:20 !important;
+  pointer-events:all !important;
 }
 .log-unified-btn:hover{
   background:rgba(255,255,255,.08) !important;
@@ -3095,7 +3097,7 @@ p, span, div, label, li {
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v3.14</span>
+    <span class="h-version">v3.15</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -5437,7 +5439,8 @@ async function generate(){
 
   const btn=document.getElementById('genBtn');
   btn.disabled=true;
-  const _logBtn=document.getElementById('logOpenBtn'); if(_logBtn) _logBtn.disabled=false;
+  const _logBtn=document.getElementById('logOpenBtn');
+  if(_logBtn){ _logBtn.disabled=false; } // 생성 시작 즉시 로그 버튼 활성화
   document.getElementById('genTxt').innerHTML='<span class="spin"></span> 분석 중...';
   document.getElementById('pbarFill').style.width='0%';
   document.getElementById('emptyState').style.display='none';
