@@ -3097,7 +3097,7 @@ p, span, div, label, li {
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v3.16</span>
+    <span class="h-version">v3.17</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -5635,6 +5635,7 @@ async function generate(){
   pg(1,'active');
 
   try{
+    _addApiLog({type:'info', msg:`[generate 시작] 상품명: "${name.slice(0,20)}" | 이미지: ${S.imgs.length}장 | API키: Gemini=${!!API_KEY} Claude=${!!CLAUDE_KEY}`});
     // ── STEP 0: GPT-4o 이미지 분석
     let gpt4oAnalysis = null;
     if (S.imgs.length > 0 && OPENAI_KEY) {
@@ -5882,6 +5883,7 @@ async function generate(){
     }
 
   } catch(e){
+    _addApiLog({type:'error', msg:`[generate 오류] ${e.message} | stack: ${(e.stack||'').slice(0,200)}`});
     document.getElementById('emptyState').style.display='';
     if(apProg) apProg.style.display='none';
     clearInterval(fieldTimer);
@@ -5889,7 +5891,7 @@ async function generate(){
     if(window._stopCountdown) window._stopCountdown();
     console.error(e);
     showToast('❌ ' + e.message, 'error');
-    showApiBanner(e.message); // ← API 오류 배너 표시
+    showApiBanner(e.message);
     btn.disabled=false;
     document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
   }
