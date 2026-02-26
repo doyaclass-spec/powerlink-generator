@@ -3095,7 +3095,7 @@ p, span, div, label, li {
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v3.12</span>
+    <span class="h-version">v3.14</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -3805,7 +3805,7 @@ async function testApiKey(type) {
 
   try {
     if (type === 'gemini') {
-      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contents: [{ role:'user', parts:[{text:'hi'}] }], generationConfig:{ maxOutputTokens:5 } })
@@ -3941,33 +3941,69 @@ const _apiLogs = [];
 function _addApiLog(entry) {
   _apiLogs.push({ time: new Date().toISOString(), ...entry });
   const logBtn = document.getElementById('logOpenBtn');
-  if (logBtn && !logBtn.disabled) logBtn.classList.add('active');
+  if (logBtn && logBtn.disabled) logBtn.disabled = false;
+  if (logBtn) logBtn.classList.add('active');
+  // 로그창 열려있으면 즉시 갱신
+  if (typeof _refreshLogWin === 'function') _refreshLogWin();
 }
 
-// ── 실시간 로그 창 열기
-function openLogWindow() {
-  const allLogs = _apiLogs.length ? _apiLogs : [{ time: '-', type: 'info', msg: '로그가 없습니다. 소재를 먼저 생성해주세요.' }];
+// ── 실시간 로그 창 열기 (자동 갱신)
+let _logWin = null;
 
-  const apiHTML = allLogs.map(l => {
-    const col = l.type === 'error' ? '#ff4d6d' : l.type === 'warn' ? '#f59e0b' : '#03C75A';
-    return '<div style="padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.05);font-size:12px;line-height:1.6">' +
-      '<span style="color:#888;font-size:10px;margin-right:8px">' + (l.time||'-') + '</span>' +
-      '<span style="color:' + col + ';font-size:10px;margin-right:8px;font-weight:700">[' + (l.type||'info').toUpperCase() + ']</span>' +
-      '<span style="color:#e8f0fe">' + (l.msg||'') + '</span></div>';
+function _renderLogHTML(logs) {
+  const rows = logs.length ? logs : [{ time: '-', type: 'info', msg: '로그가 없습니다. 소재를 먼저 생성해주세요.' }];
+  return rows.map(l => {
+    const col = l.type==='error' ? '#ff4d6d' : l.type==='warn' ? '#f59e0b' : l.type==='res' ? '#03C75A' : l.type==='req' ? '#60a5fa' : '#a0aec0';
+    const tag = l.type==='error' ? '❌ ERROR' : l.type==='warn' ? '⚠️ WARN' : l.type==='res' ? '✅ RES' : l.type==='req' ? '📤 REQ' : 'ℹ️ INFO';
+    const t = l.time ? l.time.slice(11,19) : '-';
+    return `<div style="padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.05);font-size:12px;line-height:1.6;display:flex;gap:10px;align-items:flex-start">` +
+      `<span style="color:#555;font-size:10px;flex-shrink:0;margin-top:2px">${t}</span>` +
+      `<span style="color:${col};font-size:10px;flex-shrink:0;font-weight:700;margin-top:2px;min-width:58px">${tag}</span>` +
+      `<span style="color:#e8f0fe;word-break:break-all">${l.msg||''}</span></div>`;
   }).join('');
+}
 
-  const html = [
-    '<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">',
-    '<title>실시간 실행 로그</title>',
-    '<style>*{box-sizing:border-box;margin:0;padding:0}body{background:#060d17;color:#e8f0fe;font-family:Apple SD Gothic Neo,Malgun Gothic,sans-serif;padding:24px;line-height:1.6}h2{font-size:15px;font-weight:900;color:#03C75A;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.1)}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}.log-wrap{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.08);border-radius:8px;overflow:hidden}</style>',
-    '</head><body>',
-    '<h2>🔍 실시간 실행 로그</h2>',
-    '<div class="log-wrap">' + apiHTML + '</div>',
-    '</body></html>'
-  ].join('\n');
+function _refreshLogWin() {
+  if (!_logWin || _logWin.closed) return;
+  const el = _logWin.document.getElementById('logBody');
+  if (el) {
+    const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 30;
+    el.innerHTML = _renderLogHTML(_apiLogs);
+    if (atBottom) el.scrollTop = el.scrollHeight;
+  }
+  const cnt = _logWin.document.getElementById('logCount');
+  if (cnt) cnt.textContent = `로그 ${_apiLogs.length}개`;
+}
 
-  const w = window.open('', '_blank', 'width=860,height=620,scrollbars=yes,resizable=yes');
-  if (w) { w.document.write(html); w.document.close(); }
+function openLogWindow() {
+  if (_logWin && !_logWin.closed) { _logWin.focus(); _refreshLogWin(); return; }
+
+  const css = `*{box-sizing:border-box;margin:0;padding:0}
+body{background:#060d17;color:#e8f0fe;font-family:'Apple SD Gothic Neo',Malgun Gothic,sans-serif;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+#hd{padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+h2{font-size:14px;font-weight:900;color:#03C75A}
+#logCount{font-size:11px;color:#555}
+#clrBtn{background:rgba(255,80,80,.12);border:1px solid rgba(255,80,80,.25);border-radius:5px;color:#ff6b6b;cursor:pointer;font-size:11px;padding:3px 10px}
+#clrBtn:hover{background:rgba(255,80,80,.22)}
+#logBody{flex:1;overflow-y:auto;background:rgba(0,0,0,.3)}
+#logBody::-webkit-scrollbar{width:4px}
+#logBody::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}
+#ft{padding:8px 18px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;color:#444;flex-shrink:0}`;
+
+  const bodyHTML = `<div id="hd"><h2>🔍 실시간 API 로그</h2><span id="logCount">로그 0개</span><button id="clrBtn" onclick="document.getElementById('logBody').innerHTML='';window.opener&&window.opener._apiLogs&&(window.opener._apiLogs.length=0);document.getElementById('logCount').textContent='로그 0개'">🗑 초기화</button></div>
+<div id="logBody">${_renderLogHTML(_apiLogs)}</div>
+<div id="ft">생성 중 자동 갱신 • 오류는 ❌ 로 표시</div>`;
+
+  _logWin = window.open('', '_blank', 'width=900,height=640,scrollbars=yes,resizable=yes');
+  if (_logWin) {
+    _logWin.document.write(`<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><title>API 로그</title><style>${css}</style></head><body>${bodyHTML}</body></html>`);
+    _logWin.document.close();
+    // 자동 갱신 — 500ms 간격
+    const iv = setInterval(() => {
+      if (!_logWin || _logWin.closed) { clearInterval(iv); return; }
+      _refreshLogWin();
+    }, 500);
+  }
 }
 
 function escHtml(s) {
@@ -4275,6 +4311,8 @@ async function callClaude(sys, userContent, onChunk, maxTokens) {
     if(t) content.push({type:'text',text:t.text});
     messages = [{role:'user',content}];
   }
+  const _cStart = Date.now();
+  _addApiLog({type:'req', msg:`[Claude 요청] 모델: claude-haiku-4-5 | max_tokens: ${tokens}`});
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST', signal:ctrl.signal,
@@ -4284,17 +4322,25 @@ async function callClaude(sys, userContent, onChunk, maxTokens) {
     clearTimeout(tid);
     if(!res.ok){
       const e=await res.json();
+      _addApiLog({type:'error', msg:`[Claude 오류] HTTP ${res.status} | ${e.error?.message||'?'}`});
       if(res.status===401) throw new Error('Claude API 키 오류. console.anthropic.com 확인해주세요.');
       if(res.status===429) throw new Error('Claude 한도 초과. 잠시 후 재시도해주세요.');
       throw new Error(e.error?.message||'Claude API 오류');
     }
     const d = await res.json();
     const text = d.content?.[0]?.text||'';
+    const ms = Date.now() - _cStart;
+    _addApiLog({type:'res', msg:`[Claude 응답] ${ms}ms | 출력: ${text.length}자 | stop: ${d.stop_reason||'?'}`});
     if(typeof onChunk==='function') onChunk(text,text);
     return text;
   } catch(err){
     clearTimeout(tid);
-    if(err.name==='AbortError') throw new Error('Claude 응답 시간 초과.');
+    const ms = Date.now() - _cStart;
+    if(err.name==='AbortError'){
+      _addApiLog({type:'error', msg:`[Claude 타임아웃] ${ms}ms 경과 후 응답 없음`});
+      throw new Error('Claude 응답 시간 초과.');
+    }
+    _addApiLog({type:'error', msg:`[Claude 예외] ${err.message}`});
     throw err;
   }
 }
@@ -4355,9 +4401,10 @@ async function callGemini(sys, userContent, onChunk, maxTokens) {
   const tokens = maxTokens || 900;
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 60000);
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
-  _addApiLog({type:'req', msg:`[Gemini] ${url.substring(0,80)}... max_tokens:${tokens}`});
+  const _gStart = Date.now();
+  _addApiLog({type:'req', msg:`[Gemini 요청] 모델: gemini-1.5-flash | max_tokens: ${tokens} | 입력길이: ${JSON.stringify(parts).length}자`});
   try {
     const res = await fetch(url, {
       method: 'POST',
@@ -4365,27 +4412,36 @@ async function callGemini(sys, userContent, onChunk, maxTokens) {
       signal: controller.signal,
       body: JSON.stringify({
         contents: [{ role: 'user', parts }],
-        generationConfig: { maxOutputTokens: tokens, temperature: 0.2 },
-        thinkingConfig: { thinkingBudget: 0 }
+        generationConfig: { maxOutputTokens: tokens, temperature: 0.3 }
       })
     });
     if (!res.ok) {
       clearTimeout(timeoutId);
       const e = await res.json();
       const msg = e.error?.message || 'API 오류';
+      _addApiLog({type:'error', msg:`[Gemini 오류] HTTP ${res.status} | ${msg}`});
       if (msg.includes('API_KEY_INVALID') || msg.includes('API key')) throw new Error('API Key가 유효하지 않아요. aistudio.google.com에서 다시 발급해주세요.');
       if (msg.includes('quota') || msg.includes('RESOURCE_EXHAUSTED')) throw new Error('오늘 무료 한도를 초과했어요. 내일 다시 시도해주세요.');
+      if (msg.includes('not found') || msg.includes('not supported')) throw new Error('모델을 찾을 수 없어요. 페이지를 새로고침해주세요. | ' + msg);
       throw new Error(msg);
     }
     const d = await res.json();
     clearTimeout(timeoutId);
     const text = d.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    // onChunk가 있으면 완성된 텍스트를 한번에 전달 (UI 업데이트용)
+    const ms = Date.now() - _gStart;
+    const finishReason = d.candidates?.[0]?.finishReason || '?';
+    _addApiLog({type:'res', msg:`[Gemini 응답] ${ms}ms | 출력: ${text.length}자 | 종료이유: ${finishReason}`});
+    if (!text) _addApiLog({type:'warn', msg:`[Gemini 경고] 응답 텍스트가 비어있음. candidates: ${JSON.stringify(d.candidates?.slice(0,1))}`});
     if (typeof onChunk === 'function') onChunk(text, text);
     return text;
   } catch(err) {
     clearTimeout(timeoutId);
-    if(err.name === 'AbortError') throw new Error('응답 시간이 초과됐어요. 다시 시도해주세요.');
+    const ms = Date.now() - _gStart;
+    if(err.name === 'AbortError') {
+      _addApiLog({type:'error', msg:`[Gemini 타임아웃] ${ms}ms 경과 후 응답 없음 (60초 초과)`});
+      throw new Error('응답 시간이 초과됐어요. 다시 시도해주세요.');
+    }
+    _addApiLog({type:'error', msg:`[Gemini 예외] ${err.message}`});
     throw err;
   }
 }
