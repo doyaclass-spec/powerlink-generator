@@ -3095,7 +3095,7 @@ p, span, div, label, li {
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v3.2</span>
+    <span class="h-version">v3.12</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -4359,7 +4359,8 @@ async function callGemini(sys, userContent, onChunk, maxTokens) {
       signal: controller.signal,
       body: JSON.stringify({
         contents: [{ role: 'user', parts }],
-        generationConfig: { maxOutputTokens: tokens, temperature: 0.5 }
+        generationConfig: { maxOutputTokens: tokens, temperature: 0.2 },
+        thinkingConfig: { thinkingBudget: 0 }
       })
     });
     if (!res.ok) {
@@ -5652,34 +5653,32 @@ async function generate(){
 
     // ★ 제목과 설명을 병렬로 동시에 생성 — 속도 2배
     // 이미지가 있으면 제목 생성에만 이미지 첨부 (설명엔 불필요)
-    const titlesContent = S.imgs.length > 0
-      ? [{type:'image',source:{type:'base64',media_type:S.imgs[0].type||'image/jpeg',data:S.imgs[0].b64}},
-         {type:'text', text: promptBase + '\n\n제목 15개를 생성하세요.\n규칙(반드시):\n- 10자 이상 15자 이하 (공백 포함, 미달·초과 금지)\n- 단어 끊김 절대 금지, 문장이 완전히 끝나야 함\n- 나쁜 예: "냉장고 1도조절 45박"(끊김) / 좋은 예: "업소용 냉장고 지금 특가"\n- 제목1위치 5개, 제목2위치 5개, 제목3위치 5개 순서\n형식: {"titles":["..."]}'}]
-      : promptBase + '\n\n제목 15개를 생성하세요.\n규칙(반드시):\n- 10자 이상 15자 이하 (공백 포함, 미달·초과 금지)\n- 단어 끊김 절대 금지, 문장이 완전히 끝나야 함\n- 나쁜 예: "냉장고 1도조절 45박"(끊김) / 좋은 예: "업소용 냉장고 지금 특가"\n- 제목1위치 5개, 제목2위치 5개, 제목3위치 5개 순서\n형식: {"titles":["..."]}';
 
     const _t1 = Date.now();
-    const [titlesRaw, descsRaw] = await Promise.all([
-      copyFn(sysCopy,
-        titlesContent,
-        (full) => {
-          if(streamElCopy) {
-            const n = (full.match(/"[^"]{1,15}"/g)||[]).length;
-            streamElCopy.innerHTML = `✍️ 제목 생성 중... ${Math.min(n,15)}/15개<span class="ap-stream-cursor"></span>`;
-          }
-          updateStatus(`✍️ 제목 ${Math.min((full.match(/"[^"]{1,15}"/g)||[]).length,15)}/15개 생성 중...`);
-        },
-        450
-      ),
-      copyFn(sysCopy,
-        promptBase + '\n\n설명 5개 생성. 규칙: 40~45자, 단어끊김금지, 완전한 문장. 형식: {"descs":["..."]}',
-        null,
-        300
-      )
-    ]);
+
+    // ★ 제목+설명 1번 API 호출 통합 — 속도 2배 단축
+    const combinedPrompt = promptBase + '\n\n아래 형식으로 제목 15개와 설명 5개를 생성하세요.\n제목: 10~15자 단어끊김금지\n설명: 40~45자 단어끊김금지 완전한문장\n형식: {\"titles\":[\"...\"],\"descs\":[\"...\"]}';
+
+    const combinedContent = S.imgs.length > 0
+      ? [{type:'image',source:{type:'base64',media_type:S.imgs[0].type||'image/jpeg',data:S.imgs[0].b64}},
+         {type:'text', text: combinedPrompt}]
+      : combinedPrompt;
+
+    const combinedRaw = await copyFn(sysCopy, combinedContent,
+      (full) => {
+        const nt = (full.match(/"[^"]{5,15}"/g)||[]).length;
+        if(streamElCopy) streamElCopy.innerHTML = `✍️ 생성 중... ${Math.min(nt,15)}/15<span class="ap-stream-cursor"></span>`;
+        updateStatus(`✍️ 소재 생성 중... ${Math.min(nt,15)}/15`);
+      },
+      600
+    );
 
     let parsedTitles, parsedDescs;
-    try { parsedTitles = JSON.parse(titlesRaw.replace(/```json|```/g,'').trim()); } catch(e) { throw new Error('제목 파싱 실패. 다시 시도해주세요.'); }
-    try { parsedDescs  = JSON.parse(descsRaw.replace(/```json|```/g,'').trim()); } catch(e) { throw new Error('설명 파싱 실패. 다시 시도해주세요.'); }
+    try {
+      const parsed = JSON.parse(combinedRaw.replace(/```json|```/g,'').trim());
+      parsedTitles = parsed;
+      parsedDescs  = parsed;
+    } catch(e) { throw new Error('소재 파싱 실패. 다시 시도해주세요.'); }
 
     S.titles = (parsedTitles.titles || []).map(t=>[...t].slice(0,15).join(''));
     S.descs  = (parsedDescs.descs   || []).map(d=>[...d].slice(0,45).join(''));
