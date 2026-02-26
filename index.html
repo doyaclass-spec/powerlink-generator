@@ -3097,7 +3097,7 @@ p, span, div, label, li {
   <div class="header-left">
     <div class="h-logo">N</div>
     <span class="h-title">파워링크 광고 소재 생성기</span>
-    <span class="h-version">v3.15</span>
+    <span class="h-version">v3.16</span>
   </div>
   <div class="header-right">
     <div class="h-clock">
@@ -4392,9 +4392,12 @@ async function callGemini(sys, userContent, onChunk, maxTokens) {
     const textItem = userContent.find(c => c.type === 'text');
     const imgItems = userContent.filter(c => c.type === 'image');
     parts = [
-      { text: sys },
+      ...(sys ? [{ text: sys }] : []),
       ...imgItems.map(c => ({
-        inlineData: { mimeType: c.source.media_type, data: c.source.data }
+        // inlineData 직접 포맷 또는 source 포맷 둘 다 처리
+        inlineData: c.inlineData
+          ? c.inlineData
+          : { mimeType: c.source?.media_type || 'image/jpeg', data: c.source?.data || c.b64 || '' }
       })),
       { text: textItem?.text || '' }
     ];
@@ -5724,11 +5727,16 @@ async function generate(){
     // ★ 제목+설명 1번 API 호출 통합 — 속도 2배 단축
     const combinedPrompt = promptBase + '\n\n아래 형식으로 제목 15개와 설명 5개를 생성하세요.\n제목: 10~15자 단어끊김금지\n설명: 40~45자 단어끊김금지 완전한문장\n형식: {\"titles\":[\"...\"],\"descs\":[\"...\"]}';
 
+    // 이미지 포맷: Claude=source/base64, Gemini=inlineData
     const combinedContent = S.imgs.length > 0
-      ? [{type:'image',source:{type:'base64',media_type:S.imgs[0].type||'image/jpeg',data:S.imgs[0].b64}},
-         {type:'text', text: combinedPrompt}]
+      ? (useClaudeForCopy
+          ? [{type:'image',source:{type:'base64',media_type:S.imgs[0].type||'image/jpeg',data:S.imgs[0].b64}},
+             {type:'text', text: combinedPrompt}]
+          : [{type:'image',inlineData:{mimeType:S.imgs[0].type||'image/jpeg',data:S.imgs[0].b64}},
+             {type:'text', text: combinedPrompt}])
       : combinedPrompt;
 
+    _addApiLog({type:'info', msg:`[소재 생성 시작] 이미지:${S.imgs.length}장 | API:${copyApiName} | 입력길이:${combinedPrompt.length}자`});
     const combinedRaw = await copyFn(sysCopy, combinedContent,
       (full) => {
         const nt = (full.match(/"[^"]{5,15}"/g)||[]).length;
@@ -5738,12 +5746,17 @@ async function generate(){
       600
     );
 
+    _addApiLog({type:'info', msg:`[API 응답 수신] 응답길이: ${combinedRaw.length}자 | 앞부분: ${combinedRaw.slice(0,80).replace(/\n/g,' ')}`});
     let parsedTitles, parsedDescs;
     try {
-      const parsed = JSON.parse(combinedRaw.replace(/```json|```/g,'').trim());
+      const cleaned = combinedRaw.replace(/```json|```/g,'').trim();
+      const parsed = JSON.parse(cleaned);
       parsedTitles = parsed;
       parsedDescs  = parsed;
-    } catch(e) { throw new Error('소재 파싱 실패. 다시 시도해주세요.'); }
+    } catch(e) {
+      _addApiLog({type:'error', msg:`[파싱 실패] 원본응답: ${combinedRaw.slice(0,200).replace(/\n/g,' ')}`});
+      throw new Error('소재 파싱 실패. 다시 시도해주세요.');
+    }
 
     S.titles = (parsedTitles.titles || []).map(t=>[...t].slice(0,15).join(''));
     S.descs  = (parsedDescs.descs   || []).map(d=>[...d].slice(0,45).join(''));
