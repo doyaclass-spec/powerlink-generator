@@ -2960,6 +2960,16 @@ p, span, div, label, li {
 .pv-mob-desc.empty{color:#ccc}
 .pv-mob-thumb{width:38px;height:38px;border-radius:5px;background:#f5f5f5;border:1px solid #eee;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;overflow:hidden}
 .pv-mob-thumb img{width:100%;height:100%;object-fit:cover}
+
+/* ── API 오류 배너 */
+#apiBanner{display:none;align-items:center;gap:10px;background:rgba(255,60,60,.1);border:1px solid rgba(255,60,60,.35);border-radius:10px;padding:10px 14px;margin:0 0 10px;font-size:12.5px;color:#ff6b6b;line-height:1.5;animation:bannerIn .25s ease}
+#apiBanner.show{display:flex}
+#apiBanner .banner-icon{font-size:18px;flex-shrink:0}
+#apiBanner .banner-msg{flex:1}
+#apiBanner .banner-msg b{color:#ff9898;font-weight:700}
+#apiBanner .banner-retry{background:rgba(255,80,80,.15);border:1px solid rgba(255,80,80,.3);border-radius:5px;color:#ff9898;cursor:pointer;font-size:11px;padding:3px 9px;font-family:inherit;flex-shrink:0;transition:background .15s}
+#apiBanner .banner-retry:hover{background:rgba(255,80,80,.25)}
+@keyframes bannerIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
@@ -3126,6 +3136,12 @@ p, span, div, label, li {
 
   <!-- ① 입력 패널 (sticky) -->
   <div class="sticky-panel">
+    <!-- API 오류 배너 -->
+    <div id="apiBanner">
+      <span class="banner-icon">⚠️</span>
+      <span class="banner-msg" id="apiBannerMsg"><b>API 연결 오류</b> — 소재를 생성할 수 없어요.</span>
+      <button class="banner-retry" onclick="openKeyModal()">API 키 확인</button>
+    </div>
     <!-- 상품 정보 입력창 헤더 — input-card 밖 -->
     <div class="section-header">
       <div class="section-label">상품 정보 입력창</div>
@@ -3702,6 +3718,38 @@ function toggleModalKey() {
 
 
 // ── 토스트 알림
+// ── API 오류 배너 표시/숨김
+function showApiBanner(msg) {
+  const banner = document.getElementById('apiBanner');
+  const msgEl  = document.getElementById('apiBannerMsg');
+  if (!banner) return;
+  // 메시지 분류
+  let detail = msg || 'API 연결에 문제가 생겼어요.';
+  let hint = '';
+  if (detail.includes('not found') || detail.includes('not supported') || detail.includes('ListModels')) {
+    hint = 'API 키는 정상이지만 <b>모델 이름 오류</b>입니다. 페이지를 새로고침해주세요.';
+  } else if (detail.includes('API_KEY_INVALID') || detail.includes('키 오류') || detail.includes('유효하지')) {
+    hint = '<b>API 키가 유효하지 않아요.</b> 아래 버튼을 눌러 키를 다시 확인해주세요.';
+  } else if (detail.includes('quota') || detail.includes('한도') || detail.includes('RESOURCE_EXHAUSTED')) {
+    hint = '<b>무료 한도를 초과했어요.</b> 내일 다시 시도하거나 유료 플랜으로 전환해주세요.';
+  } else if (detail.includes('시간 초과') || detail.includes('AbortError') || detail.includes('timeout')) {
+    hint = '<b>응답 시간이 초과됐어요.</b> 잠시 후 다시 생성해주세요. (서버 혼잡)';
+  } else if (detail.includes('429') || detail.includes('Too Many')) {
+    hint = '<b>요청이 너무 많아요.</b> 잠시 기다린 후 다시 시도해주세요.';
+  } else {
+    hint = `<b>오류:</b> ${detail.slice(0, 80)}${detail.length > 80 ? '…' : ''}`;
+  }
+  if (msgEl) msgEl.innerHTML = hint;
+  banner.classList.add('show');
+  // 10초 후 자동 숨김
+  clearTimeout(banner._autoHide);
+  banner._autoHide = setTimeout(() => banner.classList.remove('show'), 10000);
+}
+function hideApiBanner() {
+  const banner = document.getElementById('apiBanner');
+  if (banner) banner.classList.remove('show');
+}
+
 function showToast(msg, type) {
   const wrap = document.getElementById('toastWrap');
   if (!wrap) return;
@@ -3751,7 +3799,7 @@ async function testApiKey(type) {
 
   try {
     if (type === 'gemini') {
-      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent?key=${key}`, {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${key}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contents: [{ role:'user', parts:[{text:'hi'}] }], generationConfig:{ maxOutputTokens:5 } })
@@ -4285,7 +4333,7 @@ async function callGemini(sys, userContent, onChunk, maxTokens) {
   // userContent는 string 또는 array (이미지 포함)
   let parts = [];
   if (typeof userContent === 'string') {
-    parts = [{ text: sys + '\n\n' + userContent }];
+    parts = [{ text: (sys ? sys + '\n\n' : '') + userContent }];
   } else {
     const textItem = userContent.find(c => c.type === 'text');
     const imgItems = userContent.filter(c => c.type === 'image');
@@ -4301,7 +4349,7 @@ async function callGemini(sys, userContent, onChunk, maxTokens) {
   const tokens = maxTokens || 900;
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 60000);
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent?key=${API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${API_KEY}`;
 
   _addApiLog({type:'req', msg:`[Gemini] ${url.substring(0,80)}... max_tokens:${tokens}`});
   try {
@@ -4339,7 +4387,7 @@ async function callGemini(sys, userContent, onChunk, maxTokens) {
 // 단계별 메시지
 const PG_MSGS = {
   '1-active': 'AI가 상품을 분석하고 있어요...',
-  '2-active': '광고 소재 30개 · 설명 10개 작성 중...',
+  '2-active': '광고 소재 15개 · 설명 5개 작성 중...',
   '2-done':   '소재 작성 완료! 아래에서 선택해주세요 ✨',
   '3-active': '마케터 AI가 리포트를 작성 중이에요...',
   '3-done':   '리포트 분석 완료!',
@@ -5606,8 +5654,8 @@ async function generate(){
     // 이미지가 있으면 제목 생성에만 이미지 첨부 (설명엔 불필요)
     const titlesContent = S.imgs.length > 0
       ? [{type:'image',source:{type:'base64',media_type:S.imgs[0].type||'image/jpeg',data:S.imgs[0].b64}},
-         {type:'text', text: promptBase + '\n\n제목 30개를 생성하세요.\n규칙(반드시):\n- 10자 이상 15자 이하 (공백 포함, 미달·초과 금지)\n- 단어 끊김 절대 금지, 문장이 완전히 끝나야 함\n- 나쁜 예: "냉장고 1도조절 45박"(끊김) / 좋은 예: "업소용 냉장고 지금 특가"\n- 제목1위치 10개, 제목2위치 10개, 제목3위치 10개 순서\n형식: {"titles":["..."]}'}]
-      : promptBase + '\n\n제목 30개를 생성하세요.\n규칙(반드시):\n- 10자 이상 15자 이하 (공백 포함, 미달·초과 금지)\n- 단어 끊김 절대 금지, 문장이 완전히 끝나야 함\n- 나쁜 예: "냉장고 1도조절 45박"(끊김) / 좋은 예: "업소용 냉장고 지금 특가"\n- 제목1위치 10개, 제목2위치 10개, 제목3위치 10개 순서\n형식: {"titles":["..."]}';
+         {type:'text', text: promptBase + '\n\n제목 15개를 생성하세요.\n규칙(반드시):\n- 10자 이상 15자 이하 (공백 포함, 미달·초과 금지)\n- 단어 끊김 절대 금지, 문장이 완전히 끝나야 함\n- 나쁜 예: "냉장고 1도조절 45박"(끊김) / 좋은 예: "업소용 냉장고 지금 특가"\n- 제목1위치 5개, 제목2위치 5개, 제목3위치 5개 순서\n형식: {"titles":["..."]}'}]
+      : promptBase + '\n\n제목 15개를 생성하세요.\n규칙(반드시):\n- 10자 이상 15자 이하 (공백 포함, 미달·초과 금지)\n- 단어 끊김 절대 금지, 문장이 완전히 끝나야 함\n- 나쁜 예: "냉장고 1도조절 45박"(끊김) / 좋은 예: "업소용 냉장고 지금 특가"\n- 제목1위치 5개, 제목2위치 5개, 제목3위치 5개 순서\n형식: {"titles":["..."]}';
 
     const _t1 = Date.now();
     const [titlesRaw, descsRaw] = await Promise.all([
@@ -5616,16 +5664,16 @@ async function generate(){
         (full) => {
           if(streamElCopy) {
             const n = (full.match(/"[^"]{1,15}"/g)||[]).length;
-            streamElCopy.innerHTML = `✍️ 제목 생성 중... ${Math.min(n,30)}/30개<span class="ap-stream-cursor"></span>`;
+            streamElCopy.innerHTML = `✍️ 제목 생성 중... ${Math.min(n,15)}/15개<span class="ap-stream-cursor"></span>`;
           }
-          updateStatus(`✍️ 제목 ${Math.min((full.match(/"[^"]{1,15}"/g)||[]).length,30)}/30개 생성 중...`);
+          updateStatus(`✍️ 제목 ${Math.min((full.match(/"[^"]{1,15}"/g)||[]).length,15)}/15개 생성 중...`);
         },
-        800
+        450
       ),
       copyFn(sysCopy,
-        promptBase + '\n\n설명 10개를 생성하세요.\n⚠️ 규칙(반드시 지킬 것):\n- 글자 수: 반드시 40자 이상 45자 이하 (공백 포함. 30자대 절대 금지)\n- 짧으면 혜택·수치·행동유도를 추가해 반드시 40자 이상으로 늘릴 것\n- 단어 끊김 절대 금지, 문장이 완전히 끝나야 함\n- 생성 후 글자 수 직접 세어 확인, 틀리면 반드시 수정\n- 나쁜 예(26자 너무 짧음): "간냉식 냉장고, 지금 구매하세요" → 재작성\n- 좋은 예(41자): "소상공인을 위한 간냉식 냉장고, 지금 바로 확인해보세요!"\n- 좋은 예(44자): "업소용 간냉식 45박스 냉장고, 특가로 지금 바로 만나보세요"\n형식: {"descs":["..."]}',
+        promptBase + '\n\n설명 5개 생성. 규칙: 40~45자, 단어끊김금지, 완전한 문장. 형식: {"descs":["..."]}',
         null,
-        600
+        300
       )
     ]);
 
@@ -5687,6 +5735,7 @@ async function generate(){
     btn.disabled=false;
     stopAnalyzingUI();
     if(window._stopCountdown) window._stopCountdown();
+    hideApiBanner(); // ← 성공 시 오류 배너 숨김
 
     // 분석 리포트 버튼 활성화 — 클릭 시에만 생성
     const openBtn=document.getElementById('analysisOpenBtn');
@@ -5763,6 +5812,7 @@ async function generate(){
     if(window._stopCountdown) window._stopCountdown();
     console.error(e);
     showToast('❌ ' + e.message, 'error');
+    showApiBanner(e.message); // ← API 오류 배너 표시
     btn.disabled=false;
     document.getElementById('genTxt').innerHTML='✨ 광고 소재 생성하기';
   }
