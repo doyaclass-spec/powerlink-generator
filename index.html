@@ -3635,12 +3635,18 @@ function updateApiDots() {
 
 window.addEventListener('DOMContentLoaded', () => {
   bindFilledEvents();
-  // 저장된 버전 불러오기
+  // 버전 처리 — 파일 버전이 더 높으면 파일 버전 우선
   try {
+    const vEl = document.querySelector('.h-version');
+    const fileVer = vEl ? vEl.textContent.trim() : '';
     const savedVer = localStorage.getItem('adgen_version');
-    if(savedVer) {
-      const vEl = document.querySelector('.h-version');
+    const toNum = v => { const m = v.match(/v(\d+)\.(\d+)/); return m ? parseInt(m[1])*1000 + parseInt(m[2]) : 0; };
+    if(savedVer && toNum(savedVer) > toNum(fileVer)) {
+      // 저장된 버전이 더 높을 때만 (사용자가 수정한 경우)
       if(vEl) vEl.textContent = savedVer;
+    } else if(fileVer) {
+      // 파일 버전이 같거나 높으면 파일 버전으로 localStorage 업데이트
+      localStorage.setItem('adgen_version', fileVer);
     }
   } catch(e) {}
   if (API_KEY && API_KEY.length > 5) {
